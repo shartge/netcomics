@@ -7,18 +7,19 @@ sub real {
     my $time = shift @_;
     return undef if $time < mkgmtime(0,0,0,15,10,99);
     my @ltime = gmtime($time);
-    my @m = ("jan", "feb", "mar", "apr", "may", "jun",
-	     "jul", "aug", "sep", "oct", "nov", "dec");
+    my $date = strftime("%Y%m%d", @ltime);
 
     my $rec = {
 	'title'    => "Real Life",
 	'author'   => "Greg Dean",
-	'type'     => 'gif',
 	'main'     => "http://reallifecomics.com/",
 	'archives' => "http://reallifecomics.com/",
-	'base'     => "http://reallifecomics.com",
-	'page' => strftime("/d/%Y%m%d.html",@ltime),
-	'exprs'    => [strftime("SRC=\"(/comics/%Y%m%d.*?gif)",@ltime)],
+	'base'     => "http://reallifecomics.com/",
+	'page' => strftime("d/$date.html",@ltime),
+        'exprs' => {
+            'comic' => ["(comics/.*?$date\\w?\\.(:?(jpg|gif|png)))"],
+            'type' => ["comics/.*?$date\\w?\\.:?(jpg|gif|png)"],
+        },
     };
     return $rec;
 }

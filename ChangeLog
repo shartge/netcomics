@@ -1,5 +1,7 @@
 2001-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/keenspace, lib/reallife (real): Updated thanks to
+	Shawn Oakey.
 	* Makefile (MODULES): Added Help Desk, Life on Forbez, &
 	Lost and Found thanks to Max Zomborszki.
 	* lib/whenigrowup (wigu): Updated thanks to 
