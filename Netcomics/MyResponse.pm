@@ -1,3 +1,4 @@
+#-*-mode: Perl; tab-width: 4 -*-
 package MyResponse;
 
 sub new {

@@ -1,3 +1,4 @@
+#-*-mode: Perl; tab-width: 4 -*-
 package HTML;
 
 use Netcomics::RLI;
@@ -333,7 +334,7 @@ sub create_webpage {
 		unless ($self->{'webpage_on_stdout'}) {
 			file_write("$self->{'comics_dir'}/$filename",$files_mode,
 					   "$head$links$body$links$tail");
-			file_write("$self->{'comics_dir'}/$self->{'webpage_index'}_filename",$files_mode,
+			file_write("$self->{'comics_dir'}/$self->{'webpage_index_filename'}",$files_mode,
 					   "$index$tail");
 		} else {
 			print "$head$links$body$links$tail";
