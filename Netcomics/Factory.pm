@@ -822,7 +822,6 @@ sub get_comic {
 		# Let's get the comics!
 		my @rli = $self->get_comics();
 
-		#yah, bad programming style, but it avoids code duplication:
 		$dont_download = 1;
 	}
 }
