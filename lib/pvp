@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"pvp"} = 2;
+
+#PVP ex: http://www.pvponline.com/pvp/archive/1999/pvp19991010.gif
+#        http://www.pvponline.com/pvp/archive/1998/pvp19980504.html
+# http://205.229.72.81/archive/2000/pvp20000310.gif
+sub pvp  {
+    my $time = shift;
+    return undef if $time < 894240000; #starts on May 4, 1998
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Player Versus Player",
+	'author' => "Scott R. Kurtz",
+	'type' => 'gif',
+	'main' => "http://www.pvponline.com/",
+	'archives' => "http://www.pvponline.com/archive/",
+	'base' => "http://www.pvponline.com/archive/",
+	'page' => strftime("%Y/pvp%Y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0 ? [350,611] : [400,528]),
+    };
+    return $rec;
+}
+
+1;
