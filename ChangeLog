@@ -8,6 +8,9 @@
 	* Netcomics/Config.pm.in: Fixed *really*dumb* spelling errors in
 	the "$seperate_comics" variable that were causing headaches.
 	* netcomics: Modified to use Netcomics/HTML/*
+	* Makefile.PL: Modified to install the HTML/* modules, but to still
+	keep the old html_tmpl.
+	* MANIFEST: (Pretty much the same as Makefile.PL)
 
 2001-08-19  Elliot Glaysher  <eglayshe@umich.edu>
 

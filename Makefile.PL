@@ -32,6 +32,9 @@ ExternalUserAgent.pm
 Factory.pm
 GtkComics.pm
 HTML.pm
+HTML/Page.pm
+HTML/Set.pm
+HTML/Themes/Default.pm
 MyRequest.pm
 MyResponse.pm
 Util.pm

@@ -10,6 +10,9 @@ Netcomics/ExternalUserAgent.pm
 Netcomics/Factory.pm
 Netcomics/GtkComics.pm
 Netcomics/HTML.pm
+Netcomics/HTML/Page.pm
+Netcomics/HTML/Set.pm
+Netcomics/HTML/Themes/Default.pm
 Netcomics/MyRequest.pm
 Netcomics/MyResponse.pm
 Netcomics/RLI.pm
