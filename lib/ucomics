@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb 
+foreach (qw(adam baldo bigp bz bd cathy cth corn cr cs dp fw fusco hc itb 
 	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
 }
@@ -149,10 +149,10 @@ sub cathy {
 }
 
 #Citizen Dog http://www.ucomics.com/citizendog/
-sub cd {
-    return ucomics(shift(@_),"Citizen Dog","Mark O'Hare","citizendog","cd",
-		    [600,275],[600,195],"cd");
-}
+#sub cd {
+#    return ucomics(shift(@_),"Citizen Dog","Mark O'Hare","citizendog","cd",
+#		    [600,275],[600,195],"cd");
+#}
 
 #Close to Home http://www.ucomics.com/closetohome/
 sub cth {

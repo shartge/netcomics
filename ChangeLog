@@ -1,5 +1,7 @@
 2002-02-24  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/ucomics (cd): Removed, since it appears a good deal of archives
+	went down, and the comics has been discontinued.
 	* MANIFEST, Makefile.PL: removed leftover traces of wiley. Thanks
 	goes to Sven.
 
