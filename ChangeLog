@@ -1,3 +1,7 @@
+2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ozy_millie (ozy): Updated for site change thanks to Sizer.
+
 2001-02-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/elf_life (elf): Fixed expr to not assume the file type.
