@@ -20,6 +20,7 @@
 ^debian/files$
 ^debian/netcomics/
 ^debian/netcomics-modules/
+^debian/netcomics-comicpage
 ^debian/.+debhelper$
 ^debian/.+substvars$
 \.orig$

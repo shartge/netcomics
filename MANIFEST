@@ -10,9 +10,11 @@ Netcomics/ExternalUserAgent.pm
 Netcomics/Factory.pm
 Netcomics/GtkComics.pm
 Netcomics/HTML.pm
+Netcomics/HTML/Index.pm
 Netcomics/HTML/Page.pm
 Netcomics/HTML/Set.pm
 Netcomics/HTML/Themes/Default.pm
+Netcomics/HTML/Themes/Output.pm
 Netcomics/MyRequest.pm
 Netcomics/MyResponse.pm
 Netcomics/RLI.pm
@@ -30,6 +32,7 @@ contrib/make_helpdesk_dates
 contrib/make_stuffthis_hash
 contrib/mktime
 contrib/perlreflectiontest
+contrib/show_zero_status.pl
 debian/changelog
 debian/control
 debian/copyright

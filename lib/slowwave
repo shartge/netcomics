@@ -1,0 +1,57 @@
+# -*- Perl -*-
+
+# Netcomics module for Jesse Reklaw's brilliant Slow Wave strip.
+#
+# Roderick Schertler <roderick@argon.org>
+
+# Archive page for a given month is
+#     http://www.slowwave.com/archive.cgi?jul01
+#
+# Archives pages have multiple images of this form:
+#    <IMG SRC="Img/s01/sRZEcem.gif" HEIGHT=479 WIDTH=350 ALT="IMG:cemetery commerc
+
+$hof{"slowwave"} = 0;
+
+sub slowwave {
+    my $time = shift;
+
+    my @gm = gmtime $time;
+    my ($mday, $mon, $year, $wday) = @gm[3 .. 6];
+    $year += 1900;
+
+    # The comic's images aren't dated, they're named by hand and placed
+    # on web pages by month.  The actual upload happens at 0:01 Saturday,
+    # US Pacific time.  I can't lie and wait until Sunday, else I can
+    # look at the wrong page.  So, look only on Saturday, even though
+    # this screws you if you look that day before the upload.
+    return if $wday != 6;
+
+    my @mon = qw(jan feb mar apr may jun jul aug sep oct nov dec);
+
+    my $site = 'http://www.slowwave.com';
+    my $cgi = 'archive.cgi';
+    my $rec = {
+	title		=> 'Slow Wave',
+	author		=> 'Jesse Reklaw',
+	type		=> 'gif',
+	main		=> "$site",
+	archives	=> "$site/$cgi",
+	base		=> "$site/",
+	page		=> sprintf('%s?%s%02d', $cgi, $mon[$mon], $year % 100),
+	func		=> sub {
+	    my ($page) = @_;
+	    # The images are named, not numbered.  First, grep the
+	    # names of all the comics in this month, and reverse them
+	    # so they're in forward chronological order.
+	    my @img = reverse $page =~ m{\b(Img/s\d+/[^/]+\.gif)\b}g;
+	    # Choose the week containing the one I want.
+	    my $n = int($mday / 7);
+	    # Return it (or undef if it isn't there).
+	    return $img[$n];
+	},
+	size		=> [350, 479],
+    };
+    return $rec;
+}
+
+1;

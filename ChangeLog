@@ -1,3 +1,13 @@
+2002-03-20  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/slowwave (slowwave): Added slowwave, thanks to Roderick
+	Schertler
+	* MANIFEST.SKIP: Updated so it ignores the build dir for the
+	netcomics-comicpage debian package.
+	* lib/keenspot (elf): updated Elf Life so that it now follows the new
+	consistent schedule.
+	* contrib/show_zero_status.pl: Added script from my library to contrib
+
 2002-03-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): Updated missing list.
