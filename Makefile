@@ -25,6 +25,7 @@ INSTALL	= install
 ETAGS	= etags
 CVS	= cvs
 CHOWN	= chown
+LN	= ln
 
 BININSTALLFLAGS	= -m 755
 LIBINSTALLFLAGS	= -m 644
@@ -54,7 +55,8 @@ RHSRCS	= $(RHDIR)/SOURCES
 RHRPMS	= $(RHDIR)/RPMS
 RPMSPEC	= $(APPNAME).spec
 RPMFILE	= $(APPNAME)-$(VERSION)-$(PKGVERSION).noarch.rpm
-DEBFILE	= ../$(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
+DEBFILE	= $(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
+DEBFILELINK	= $(APPNAME)-$(VERSION)-$(PKGVERSION)_all.deb
 TARBZ2FILE	= $(APPNAME)-$(VERSION).tar.bz2
 TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
 
@@ -411,7 +413,7 @@ $(RHSOURCES)/$(TARBZ2FILE): ../$(TARBZ2FILE)
 $(RHRPMS)/noarch/$(RPMFILE): $(RHSPECS)/$(RPMSPEC) $(RHSOURCES)/$(TARBZ2FILE)
 	cd $(RHSPECS); $(RPM) $(RPMBUILDFLAGS) $(RPMSPEC)
 
-$(DEBFILE): debian/rules ../$(TARGZFILE)
+../$(DEBFILE): debian/rules ../$(TARGZFILE)
 	cd ..; \
 	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xvf - ; \
 	cd $(APPNAME)-$(VERSION); \
@@ -420,6 +422,12 @@ $(DEBFILE): debian/rules ../$(TARGZFILE)
 	cd ..; \
 	$(RM) -r $(APPNAME)-$(VERSION)"
 
+#This link is made to remind you that you need to upload the file
+#with this name to metalab.unc.edu, not the one the debian packager creates.
+../$(DEBFILELINK): ../$(DEBFILE)
+	@$(RM) $@
+	$(LN) -s $(DEBFILE) $@
+
 #Maintanence targets
 preparchive: distclean all
 
@@ -427,7 +435,7 @@ archives: preparchive ../$(TARBZ2FILE) ../$(TARGZFILE)
 
 rpm:	$(RHRPMS)/noarch/$(RPMFILE)
 
-deb:	$(DEBFILE)
+deb:	../$(DEBFILE) ../$(DEBFILELINK)
 
 dist:	archives rpm deb
 	@echo "Now do the following:"
