@@ -1,3 +1,9 @@
+2001-08-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL (constants): Added replacing the INSTALLMAN*DIR
+	definitions with $(PREFIX) instead of the configured_prefix value
+	to make up for old versions of ExtUtils/MM_Unix.pm.
+
 2001-08-09  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* Netcomics/Factory.pm (new): Have you ever noticed how changing one

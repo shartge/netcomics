@@ -213,15 +213,30 @@ sub manifypods {
     $_;
 }
 
-package disabled;
-#instead of changing it here,
-#installsitelib is changed in netcomics.spec & debian/*
-
 #make it so installed directly under site_lib.
 sub constants {
     my $self = shift;
     local($_) = $self->SUPER::constants(@_);
-    s/^(INSTALLSITELIB.*site_perl).*/$1/m;
+
+	#Before perl 5.005_03, $(PREFIX) isn't included in the installman*dirs,
+	#forcing you to set their values on the make command line when you
+	#simply want to change PREFIX.
+	if (/^PREFIX\s*=\s*(.*)/m) {
+		#Only replace if we successfully find PREFIX first.
+		my $prefix = $1;
+		my $replace_prefix = '$(PREFIX)';
+		s/^(INSTALL\w+\s*=\s*)$prefix/$1$replace_prefix/gm;
+	} else {
+		print STDERR "Warning: couldn't find PREFIX defined in constants.\n";
+	}
+
+	#The following would force installation under site_perl itself and
+	#not under a subdir of it named with perl's version.  However,
+	#instead of forcing the change here, installsitelib is changed in
+	#netcomics.spec & debian/*.  The INSTALL file describes how to
+	#do it on the make commandline, too.
+    #s/^(INSTALLSITELIB.*site_perl).*/$1/m;
+
     $_;
 }
 
