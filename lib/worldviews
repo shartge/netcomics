@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"wv"} = 0;
+
+#Show World Views
+sub wv {
+    my @ltime = gmtime(shift(@_));
+    #only mon-fri
+    return undef if $ltime[6] ==0 || $ltime[6]==6;
+    my $rec = {
+	'title' => "Views of the World",
+	'author' => "Various Artists",
+	'type' => 'gif',
+	'size' => [450,394],
+	'main' => "http://www.cartoonweb.com/features/worldview/main.asp",
+	'archives' => "http://www.cartoonweb.com/features/worldview/main.asp",
+	'base' => "http://www.cartoonweb.com/archive/wv/",
+	'page' => strftime("%m_%y/views%m%d%y.gif",@ltime),
+    };
+    return $rec;
+}
+
+1;
