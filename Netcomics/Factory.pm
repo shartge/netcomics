@@ -105,24 +105,33 @@ sub new {
 					push(@{$self->{'existing_rli_files'}},$file);
 				} elsif ($rli->{'status'} == 1) {
 					#print Data::Dumper->Dump([$rli],[qw(*rli)]);
+
+					# Check to see if it's an old style RLI (0.13.2)
 					my @stuff = split(/\//, $file);
 					my $time = "@stuff";
 					$time--;
 					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[1]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
+						print "new comic\n";
 						foreach (@list_of_files) {
 							print "Getting element of rli: $_\n";
 							my @stuff = split(/\//, $_);
 							my $time = "@stuff";
 							$time--;
+							print "trying to do stuff: @stuff\n";
 							$_ = "$stuff[1]";
 							push(@temporary_file_rebuild_array, $_)
 						}
-						$rli->{'file'} = "@temporary_file_rebuild_array";
-						#print Data::Dumper->Dump([$rli],[qw(*rli)]);
+						$rli->{'file'} = [ ];
+						foreach (@temporary_file_rebuild_array) {
+							push(@{$rli->{'file'}}, $_);
+						}
+						print Data::Dumper->Dump([$rli],[qw(*rli)]);
 						next;
 					}
+
+					# At this point, there's nothing we can do...
 					print STDERR "Warning: $file is missing in $comics_dir\n"
 						if $verbose;
 					#make it so that this one will be retried.
