@@ -1,5 +1,7 @@
 2002-01-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/doodie (doodie): Updated @missing list
+	* lib/doonesbury (doon): Changed to new ucomics system.
 	* lib/ucomics: Changed akamai comics over to direct.
 
 2002-01-22  Elliot Glaysher  <glaysher@umich.edu>
