@@ -21,7 +21,7 @@ sub subname {
 	'type' => 'gif',
 	'main' => "$baseurl/", #optional
 	'archives' => "$baseurl/archives/", #optional
-	'base' => $baseurl
+	'base' => $baseurl,
 	'page' => strftime("%Y%m%d.html",@ltime),
 	'exprs' => ["\\/cartoons\\/(\\d+\\.gif)"],
 	'size' => [$x,$y] #be sure to specify the dimensions (optional)
