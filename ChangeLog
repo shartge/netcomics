@@ -1,3 +1,11 @@
+2002-08-20  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/netcomics-comicpage.menu: Move the actual Debian menu entry
+	for comicpage from the netcomics package to the netcomics-comicpage
+	package, since netcomics doesn't depend on netcomics-comicpage.
+	* debian/netcomics.menu [REMOVED]: This file is no longer needed. 
+	Removing...
+
 2002-08-19  Sven Hartge  <netcomics@ds9.argh.org>
 
         * Netcomics/HTML/Themes/: CleanRound.pm, CleanRoundImbedCaption.pm:
