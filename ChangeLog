@@ -1,7 +1,64 @@
+2001-03-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Updated formatting to reduce number of lines
+	changed.
+	* lib/toonville: Zits, Baby Blues, One Big Happy, and
+	Mother Goose and Grimm, thanks to Shawn Oakey.
+
+2001-03-02  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/kingfeatures, lib/creators_syndicate: removed module
+	functions now in toonville.
+
+2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
+	* Thanks to Shawn Oakey for:
+	** Putting lib/boxjam, lib/fatjesus, lib/fce,
+	lib/heaven_and_earth, lib/rogues, and lib/sketch into the new
+	lib/keenspace module.
+	** Fixing lib/wiley.
+
+2001-02-24  Elliot Glaysher <nuriko.chan@home.com>
+	* netcomics: Fixed behaviour of the -c option. -c now
+	over-rides the rc files, instead of adding the comics to the
+	list of comics to download.
+
+2001-02-22  Elliot Glaysher <nuriko.chan@home.com>
+	* netcomics: Added -P feature which separates comics into their
+	own directories. For archive and organization freaks like
+	myself.
+
+2001-02-21  Elliot Glaysher <nuriko.chan@home.com>
+	* lib/doemain: Added A Doemain of Our Own.
+
+2001-02-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (../$(DEBFILELINK)): Added making a symlink to the deb
+	file with a filename that's acceptable by metalab.unc.edu.
+
+2001-02-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (build_rli_array_helper): Added copying fields
+	from the persistent rli that aren't yet defined.
+	(main) Updating printing of urls so that only those comics the
+	user specified get their urls printed.
+
+2001-02-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec (%post data): Added check for deprecated modules
+	(%files data): Added documentation files
+	* doc/netcomics.lsm (Description): Updated for 0.13.1
+	* Makefile ($(DEBFILE)): Added su-ing to root & chowning the deb pkg.
+	(label): Updated tagging for cvs.
+	(dist): Updated list of things to do after making the distributions.
+
 2001-02-17  Elliot Glaysher <nuriko.chan@home.com>
 	* Split webpage creation into an OO module set in
 	Netcomics/HTML.pm.
 	* Fixed Makefile accordingly.
+
+2001-02-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): Fixed current day retrieval.
 
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

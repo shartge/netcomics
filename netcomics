@@ -9,7 +9,7 @@ netcomics - retrieve comics from the Internet
 
 B<netcomics> [B<-abBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [ B<-R> retries]
   [B<-S,-T,-E> I<date> [B<-A>]] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>]
-  [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
+  [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-P>] [B<-W,-w>[=I<n>]] [B<-nw>]
 
 =head1 DESCRIPTION
 
@@ -76,6 +76,10 @@ directory you have the comics placed.   If a number is given with
 B<-W> or B<-w>, it will be used to determine the number of comics to
 be placed in each html file.  Each file is named "comic#.html", and an
 "index.html" file is created with a table of pointers into these files.
+
+I<netcomics> can also maintain archives of comics for you with the use
+of the B<-P> feature. Using this will separate all comics of a single
+title into their own separate directories.
 
 B<Disclaimer:> Do not put the comics up on the Internet!  You should
 only use them for your own use.  Also, do not redistribute the comics
@@ -222,6 +226,13 @@ per page for B<-W> or B<-w> if you use this option.
 Specify a URL to use as a proxy.  Both HTTP and FTP are supported.
 If you use wget, specify http_proxy = URL or ftp_proxy = URL in your
 .wgetrc file.
+
+=item B<-P>
+
+Turns on comic separation mode, which puts comics into their own 
+subdirectories. This is useful for maintaining an archive of comics.
+B<It is a better idea to set the $separate_comics variable to 1 in the
+netcomicsrc file so that this feature is not intermittently used.>
 
 =item B<-q>
 
@@ -446,6 +457,12 @@ comics and to not create or recreate the webpage.
 
    netcomics -nD -nw
 
+=item 15.
+Tells netcomics to download Kevin & Kell and User Friendly for the last fifteen
+days, place them in separate directories, and then make a webpage with 10
+entries on each page.
+
+	netcomics -n 15 -W=10 -P -c "kk uf"
 
 =back
 
@@ -571,6 +588,7 @@ use vars ('$real_date'); $real_date = 0;
 use vars ('$always_download'); $always_download = 0;
 use vars ('$max_attempts'); $max_attempts = 3;
 use vars ('$show_tasks'); $show_tasks = 0;
+use vars ('$separate_comics'); $separate_comics = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -640,6 +658,7 @@ foreach (@ARGV) {
 load_rcfile($system_rc,$rc_file);
 
 my @newlibdirs = ();
+my $did_c_already = 0;
 
 #parse command line options
 while (@ARGV) 
@@ -650,13 +669,24 @@ while (@ARGV)
 	if (/-(c)$/i) {
 		if (@ARGV > 0) {
 		    my @ids = split(' ',shift(@ARGV));
-		    if ($1 eq 'c') {
-	            $user_specified_comics = 1;
-	            push(@selected_comics,@ids);
-	        } else {
-	            $user_unspecified_comics = 1;
-	            push(@selected_comics,@ids);
-		    }
+			unless ($did_c_already) {
+				if ($1 eq 'c') {
+					$user_specified_comics = 1;
+					@selected_comics = @ids;
+				} else {
+					$user_unspecified_comics = 1;
+					@selected_comics = @ids;
+				}
+			} else {
+				if ($1 eq 'c') {
+					$user_specified_comics = 1;
+					push(@selected_comics, @ids);
+				} else {
+					$user_unspecified_comics = 1;
+					push(@selected_comics, @ids);
+				}
+			}
+			$did_c_already = 1;
 		} else {
 		    print STDERR "Need a space-delimitted list of comic id's.";
 		    print STDERR "  Use -h for usage.\n";
@@ -678,11 +708,11 @@ while (@ARGV)
 	elsif (/-d$/) {
 		if (@ARGV > 0) {
 		    $comics_dir = shift(@ARGV);
-		    $given_options .= " -d $comics_dir"
-			} else {
-				print STDERR "Need a directory name. Use -h for usage.\n";
-				exit 1;
-			}
+			$given_options .= " -d $comics_dir";
+		} else {
+			print STDERR "Need a directory name. Use -h for usage.\n";
+			exit 1;
+		}
 	}
 	
 	#verbosity
@@ -700,6 +730,13 @@ while (@ARGV)
 		$smushopt = 1;
 	}
 	
+    # Seperate comics into their own directories
+    elsif (/-P/) {
+		$separate_comics = 1;
+		$smushopt = 1;
+		$given_options .= " -P";
+    }
+    
 	#Delete the files
 	elsif (/-D/) {
 		$delete_files = 1;
@@ -1287,9 +1324,13 @@ if ($make_webpage) {
 } elsif ($dont_download) {
 	print "\nURLs for images:\n\n" if $verbose;
 	foreach (@rli) {
-		if ($_->{'status'} == 2) {
-			print join("\n",@{$_->{'url'}});
-			print "\n";
+		my $rli = $_;
+		if ($rli->{'status'} == 2 && defined($rli->{'url'})) {
+			unless ($user_specified_comics &&
+					! grep(/^$rli->{'proc'}$/, @selected_comics)) {
+				print join("\n",@{$rli->{'url'}});
+				print "\n";
+			}
 		}
 	}
 }
@@ -1429,7 +1470,7 @@ sub build_rli_array_helper {
 					#specified some comics and this isn't one of them &&
 					#its status is 1.
 					if (! $always_download || 
-						(@selected_comics && 
+						($user_specified_comics && 
 						 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
 						 $rli[$i]->{'status'} == 1)) {
 						#copy info from old one into new one, thus
@@ -1438,6 +1479,12 @@ sub build_rli_array_helper {
 						$rli->{'file'} = $rli[$i]->{'file'};
 						$rli->{'status'} = $rli[$i]->{'status'};
 						$rli->{'tries'} = $rli[$i]->{'tries'};
+						#now, copy in only those fields which don't exist.
+						foreach (keys(%{$rli[$i]})) {
+							$rli->{$_} = $rli[$i]->{$_} if
+								(! defined $rli->{$_} &&
+								 defined $rli[$i]->{$_});
+						}
 					}
 					#remove the old one
 					$rli[$i] = undef;
@@ -1585,6 +1632,16 @@ sub get_comics {
 		my $proc = $rli->{'proc'};
 		my $time = $rli->{'time'};
 		my $name = undef;
+
+		if ($separate_comics) {
+			$rli->{'subdir'} = $rli->{'title'};
+			$rli->{'subdir'} =~ s/\s/_/g;
+			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
+				print "Creating directory $rli->{'subdir'}\n" if $verbose;
+				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
+			}
+		}
+		
 		#first construct the name because this is also used by webpage creation
 		if (defined($rli->{'title'})) {
 			#todo: stick in here, using options to determine how to
@@ -1898,30 +1955,47 @@ sub get_comics {
 						}
 					} else {
 						$mname .= ".$rli->{'type'}";
-						file_write("$comics_dir/$mname",$files_mode,
-								   $response->content);
+						if ($separate_comics) {
+							file_write("$comics_dir/$rli->{'subdir'}/$mname",
+									   $files_mode, $response->content);
+						} else {
+							file_write("$comics_dir/$mname",$files_mode,
+									   $response->content);
+						}
 						push(@images,$mname);
 						$rli->{'file'} = [] unless defined $rli->{'file'};
-						$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
+						if ($separate_comics) {
+							$rli->{'file'}->[@{$rli->{'file'}}] = 
+								$rli->{'subdir'}."/".$mname;
+						} else {
+							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
+						}
 					}
+					$rli->{'url'} = [] unless defined $rli->{'url'};
+					$rli->{'url'}->[@{$rli->{'url'}}] = $url;
+					$i++; #simply keep track for debugging purposes
 				}
-				$rli->{'url'} = [] unless defined $rli->{'url'};
-				$rli->{'url'}->[@{$rli->{'url'}}] = $url;
-				$i++; #simply keep track for debugging purposes
-			}
-			if ($j < 0) {
-				#assume the @relurl returned contained a hash which added
-				#fields to the rli which now need to be reprocessed.
-				goto SETUPDATA;
+				if ($j < 0) {
+					#assume the @relurl returned contained a hash which added
+					#fields to the rli which now need to be reprocessed.
+					goto SETUPDATA;
+				}
 			}
 		} else  {
 			#complete the fields for the rli.
 			#first tack on the file type (it may have been changed thru 'exprs')
 			$name .= "." . $rli->{'type'};
-			$rli->{'file'} = [$name];
 
 			#save the image to its file if it was successfully downloaded.
-			file_write("$comics_dir/$name", $files_mode, $response->content),
+			if ($separate_comics) {
+				$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+				file_write("$comics_dir/$rli->{'subdir'}/$name",
+						   $files_mode, $response->content);
+			} else {
+				$rli->{'file'} = [ "$name" ];
+				file_write("$comics_dir/$name",
+						   $files_mode, $response->content);
+			}
 			push(@images,$name)
 				unless $dont_download || $rli->{'status'} == 2;
 		}
@@ -2160,7 +2234,7 @@ sub list_comics {
 		}
 		print "</TD></TR>\n" if $make_webpage;
 	}
-	print "</TABLE>\n</BODY>\n<HTML>\n" if $make_webpage;
+    print "</TABLE>\n</BODY>\n</HTML>\n" if $make_webpage;
 	exit 0;
 }
 
@@ -2298,6 +2372,7 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -N: retrieve this number of days prior to the currently available date
    -o: write the webpage on standard out
    -p: use the given url as the proxy
+   -P: separate comics into their own subdirectories
    -q: show what comics would be downloaded; don't actually do anything.
    -r: specify the rc filename (default ~/.netcomicsrc)
    -R: specify the max attempts to download a comic between invocations

@@ -22,7 +22,7 @@ sub uf {
 	'base' => "http://www.userfriendly.org",
 	'page' => strftime("/cartoons/archives/%y$b/%Y%m%d.html",
 			   @ltime),
-	'exprs' => [strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\d+\\.gif)",
+	'exprs' => [strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\w+\\.gif)",
 			     @ltime)],
 	'size' => ($ltime[6] == 0 ? [720,529] : [720,274])
 	};

@@ -28,10 +28,12 @@ FIND	= find
 MKDIR	= mkdir -p
 CD      = cd
 POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
-POD2HTML= pod2html
+nPOD2HTML= pod2html
 INSTALL	= install
 ETAGS	= etags
-CT	= cleartool
+CVS	= cvs
+CHOWN	= chown
+LN	= ln
 
 BININSTALLFLAGS	= -m 755
 LIBINSTALLFLAGS	= -m 644
@@ -62,7 +64,8 @@ RHSRCS	= $(RHDIR)/SOURCES
 RHRPMS	= $(RHDIR)/RPMS
 RPMSPEC	= $(APPNAME).spec
 RPMFILE	= $(APPNAME)-$(VERSION)-$(PKGVERSION).noarch.rpm
-DEBFILE	= ../$(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
+DEBFILE	= $(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
+DEBFILELINK	= $(APPNAME)-$(VERSION)-$(PKGVERSION)_all.deb
 TARBZ2FILE	= $(APPNAME)-$(VERSION).tar.bz2
 TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
 
@@ -78,7 +81,6 @@ MODULES = lib/after_y2k \
 	lib/bayside \
 	lib/bigpanda \
 	lib/boatanchor \
-	lib/boxjam \
 	lib/bruno \
 	lib/callahan \
 	lib/cartoonweb \
@@ -90,6 +92,7 @@ MODULES = lib/after_y2k \
 	lib/comiczone \
 	lib/creators_syndicate \
 	lib/curiosities \
+	lib/doemain \
 	lib/doodie \
 	lib/doonesbury \
 	lib/dork_tower \
@@ -101,8 +104,6 @@ MODULES = lib/after_y2k \
 	lib/exploitation \
 	lib/falling_dream \
 	lib/farcus \
-	lib/fatjesus \
-	lib/fce \
 	lib/fika \
 	lib/fordummies \
 	lib/foxtrot \
@@ -113,11 +114,11 @@ MODULES = lib/after_y2k \
 	lib/gpf \
 	lib/greystoneinn \
 	lib/greytown \
-	lib/heaven_and_earth \
 	lib/helen \
 	lib/janesworld \
 	lib/jerkcity \
 	lib/k_chronicles \
+	lib/keenspace \
 	lib/kevin-n-kell \
 	lib/kingfeatures \
 	lib/laughseeds \
@@ -141,7 +142,6 @@ MODULES = lib/after_y2k \
 	lib/red_meat \
 	lib/road_waffles \
 	lib/rocky \
-	lib/rogues \
 	lib/roommates \
 	lib/sempai \
 	lib/soaprope \
@@ -149,7 +149,6 @@ MODULES = lib/after_y2k \
 	lib/shermans_lagoon \
 	lib/shoe \
 	lib/sinfest \
-	lib/sketch \
 	lib/sluggy_freelance \
 	lib/small_grey \
 	lib/small_world \
@@ -162,6 +161,7 @@ MODULES = lib/after_y2k \
 	lib/superosity \
 	lib/this_modern_world \
 	lib/tom_the_dancing_bug \
+	lib/toonville \
 	lib/touche \
 	lib/toytrunk \
 	lib/triangle_robert \
@@ -174,17 +174,23 @@ MODULES = lib/after_y2k \
 	lib/wfc \
 	lib/whenigrowup \
 	lib/wiley \
-	lib/youdamn
+	lib/youdamn \
 
 OLDMODULES = \
 	banditbruno \
 	bobbins \
+	boxjam \
 	calvin-n-hobbes \
 	ctoons \
 	dilbert \
+	fatjesus \
+	fce \
 	glasbergen \
 	goats \
+	heaven_and_earth \
+	rogues \
 	roomies \
+	sketch \
 	uexpress \
 	worldviews 
 
@@ -431,30 +437,40 @@ $(RHSOURCES)/$(TARBZ2FILE): ../$(TARBZ2FILE)
 $(RHRPMS)/noarch/$(RPMFILE): $(RHSPECS)/$(RPMSPEC) $(RHSOURCES)/$(TARBZ2FILE)
 	cd $(RHSPECS); $(RPM) $(RPMBUILDFLAGS) $(RPMSPEC)
 
-$(DEBFILE): debian/rules ../$(TARGZFILE)
+../$(DEBFILE): debian/rules ../$(TARGZFILE)
 	cd ..; \
 	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xvf - ; \
 	cd $(APPNAME)-$(VERSION); \
-	$(MAKE) -f debian/rules binary; \
+	su -c "$(MAKE) -f debian/rules binary; \
+	$(CHOWN) $$LOGNAME $@; \
 	cd ..; \
-	$(RM) -r $(APPNAME)-$(VERSION)
+	$(RM) -r $(APPNAME)-$(VERSION)"
+
+#This link is made to remind you that you need to upload the file
+#with this name to metalab.unc.edu, not the one the debian packager creates.
+../$(DEBFILELINK): ../$(DEBFILE)
+	@$(RM) $@
+	$(LN) -s $(DEBFILE) $@
 
 #Maintanence targets
 preparchive: distclean all
-	$(RM) .cmake.state
 
 archives: preparchive ../$(TARBZ2FILE) ../$(TARGZFILE)
 
 rpm:	$(RHRPMS)/noarch/$(RPMFILE)
 
-deb:	$(DEBFILE)
+deb:	../$(DEBFILE) ../$(DEBFILELINK)
 
 dist:	archives rpm deb
-	echo "Don't forget to clearmake label when you're done."
+	@echo "Now do the following:"
+	@echo "* check in any changes still pending"
+	@echo "* make tag"
+	@echo "* sign the packages."
 
+tag: label
 label:
-	$(CT) mklbtype -nc V$(VERSION)
-	$(CT) mklabel -recurse V$(VERSION) .
+	ver=`echo $(VERSION) | sed 's/\./_/g'`; \
+	cd ..; $(CVS) tag V$$ver
 
 install_local:
 	$(MAKE) install PREFIX=/usr/local PERLLIBROOT=/usr/local/lib/perl5
