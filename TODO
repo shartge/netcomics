@@ -83,6 +83,8 @@ This should probably use CVS revision IDs.
 
 * General Features
 
+** Use Getopt::Mixed for handling of command-line options
+
 ** Support multi-file sizes.
 
 ** Add an option to specify the umask of the files created.
