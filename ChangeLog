@@ -1,3 +1,8 @@
+2001-06-12  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/HTML.pm: Updated so image URLs are absolute.
+	* comicpage: Corrected the about box so names are on different lines.
+	
 2001-06-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* README: Updated to reflect the presence of comicpage in the
