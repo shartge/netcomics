@@ -1,5 +1,4 @@
 #!/usr/bin/perl -w
-#-*- tab-width: 4 -*-
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -518,8 +517,13 @@ WriteMakefile(%opts);
 
 
 # Local Variables:
+# tab-width: 4
 # cperl-indent-level: 4
 # cperl-continued-brace-offset: -4
 # cperl-continued-statement-offset: 4
 # cperl-label-offset: -4
+# perl-indent-level: 4
+# perl-continued-brace-offset: -4
+# perl-continued-statement-offset: 4
+# perl-label-offset: -4
 # End:

@@ -1,4 +1,3 @@
-#-*- tab-width: 4 -*-
 #---------------------------------------------------------------------
 # This module creates the interface for Comic Page.
 #---------------------------------------------------------------------
@@ -242,3 +241,15 @@ sub shut_me_down {
 }
 
 1;
+
+# Local Variables:
+# tab-width: 4
+# cperl-indent-level: 4
+# cperl-continued-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-label-offset: -4
+# perl-indent-level: 4
+# perl-continued-brace-offset: -4
+# perl-continued-statement-offset: 4
+# perl-label-offset: -4
+# End:

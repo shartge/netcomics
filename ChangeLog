@@ -1,3 +1,9 @@
+2001-08-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/HTML/Page.pm: Made debugging output printed to stderr.
+	* Netcomics/HTML/Set.pm: Made debugging output printed to stderr.
+	* Netcomics/*.pm: Standardized emacs local variables to the end.
+
 2001-08-29  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Set.pm: Fix bad stuff with generating the index.

@@ -1,5 +1,3 @@
-#-*- tab-width: 4 -*-
-#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -71,18 +69,18 @@ sub check_rlis {
 			#rli for the backup).
 			next;
 		} elsif (/1/) {
-			print "No file for $comic. $inform_maintainer",next
+			print STDERR "No file for $comic. $inform_maintainer",next
 				unless defined $rli->{'file'};
 			$rli->{'stat'} = "local";
 		} elsif (/2/) {
-			print "No url for $comic. $inform_maintainer",next
+			print STDERR "No url for $comic. $inform_maintainer",next
 				unless defined $rli->{'url'};
 			$rli->{'file'} = $rli->{'url'};
 			$rli->{'stat'} = "remote";
 		} else {
 			print STDERR "Unsupported status ($_) for $comic. " .
 				$inform_maintainer;
-			print "Skipping $comic in operation.\n" if $verbose;
+			print STDERR "Skipping $comic in operation.\n" if $verbose;
 			next;
 		}
 		$rlis{$comic} = $rli;
@@ -91,3 +89,16 @@ sub check_rlis {
 }
 
 1;
+
+
+# Local Variables:
+# tab-width: 4
+# cperl-indent-level: 4
+# cperl-continued-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-label-offset: -4
+# perl-indent-level: 4
+# perl-continued-brace-offset: -4
+# perl-continued-statement-offset: 4
+# perl-label-offset: -4
+# End:

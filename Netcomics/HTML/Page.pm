@@ -1,3 +1,17 @@
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Library General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 package Netcomics::HTML::Page;
 
 use strict;
@@ -9,7 +23,7 @@ use Netcomics::HTML::Themes::Default;
 sub new {
 	my $class = shift;
 
-	print "setting attributes...\n";
+	print STDERR "setting attributes...\n" if $extra_verbose;
 
 	# Set up the properties of the page to be outputed.
 	my $self = {
@@ -32,7 +46,7 @@ sub new {
 				@_
 			   };
 
-	print "attributes set...\n";
+	print STDERR "attributes set...\n" if $extra_verbose;
 
 	# Bless object and return it.
 	bless $self, $class;
@@ -43,8 +57,9 @@ sub new {
 sub generate {
 	my $self = shift;
 
-	print "Creating $self->{'filename'} ($self->{'first_comic'} to $self->{'last_comic'} of $self->{'total_comics'})\n" 
-		if $extra_verbose && !$webpage_on_stdout;
+	print STDERR "Creating $self->{'filename'} ($self->{'first_comic'} to " . 
+		"$self->{'last_comic'} of $self->{'total_comics'})\n"
+			if $extra_verbose && !$webpage_on_stdout;
 
 	#replace group-global info
 	my $body ="";
@@ -127,7 +142,7 @@ sub generate {
 			$title .= " <A HREF=\"$_\"><FONT FACE=\"times\">" .
 				"<I>(archives)</I></FONT></A>";
 		}
-		print "$rli->{'title'} ($date)" if $extra_verbose;
+		print STDERR "$rli->{'title'} ($date)" if $extra_verbose;
 
 		# If we have a caption, we had better display it.
 		my $caption = "";
@@ -178,7 +193,7 @@ sub generate {
 				}
 			}
 
-			print " $num: $image" if $extra_verbose;
+			print STDERR " $num: $image" if $extra_verbose;
 
 			# Check for various variables and compensate for how they
 			# effect the $image variable.
@@ -224,7 +239,7 @@ sub generate {
 			s/<COMIC_ID>/$comic_id/g;
 			$index .= $_;
 		}
-		print "\n" if $extra_verbose;
+		print STDERR "\n" if $extra_verbose;
 	}
 
 	# Create it for the sole purpose of returning it.
@@ -247,3 +262,15 @@ sub generate {
 
 1;
 
+
+# Local Variables:
+# tab-width: 4
+# cperl-indent-level: 4
+# cperl-continued-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-label-offset: -4
+# perl-indent-level: 4
+# perl-continued-brace-offset: -4
+# perl-continued-statement-offset: 4
+# perl-label-offset: -4
+# End:
