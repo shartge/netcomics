@@ -28,7 +28,7 @@ FIND	= find
 MKDIR	= mkdir -p
 CD      = cd
 POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
-nPOD2HTML= pod2html
+POD2HTML= pod2html
 INSTALL	= install
 ETAGS	= etags
 CVS	= cvs
