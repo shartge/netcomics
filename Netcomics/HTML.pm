@@ -499,6 +499,7 @@ sub generate_HTML_page {
 				}
 			}
 			print " $num: $image" if $extra_verbose;
+			$image = $comics_dir."/".$image;
 			$body_el =~ s/<COMIC_FILE$num>/$image/g;
 			#width should be global, but oh well.
 			$body_el =~ s/<WIDTH>/$width/; 
