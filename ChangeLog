@@ -1,3 +1,8 @@
+2001-02-24  Elliot Glaysher <nuriko.chan@home.com>
+	* netcomics: Fixed behaviour of the -c option. -c now
+	over-rides the rc files, instead of adding the comics to the
+	list of comics to download.
+
 2001-02-22  Elliot Glaysher <nuriko.chan@home.com>
 	* netcomics: Added -P feature which separates comics into their
 	own directories. For archive and organization freaks like
