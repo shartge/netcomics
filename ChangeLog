@@ -1,5 +1,7 @@
 2001-08-31  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML/Page.pm (new): Fixed Page->{'filename'} to use a
+	modified form of $webpage_filename_tmpl.
 	* netcomics: now uses the Netcomics/HTML.pm wrapper.
 	* Netcomics/HTML.pm (create_basic_page_set): Now a wrapper to create
 	a set of webpages at $comic_dir level based from @rli.

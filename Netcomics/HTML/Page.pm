@@ -42,7 +42,7 @@ sub new {
 				'first_comic' => 1,
 				'last_comic' => 10,
 				'total_comics' => 10,
-				'filename' => "comics.html",
+				'filename' => stripout($webpage_filename_tmpl,'<NUM>'),
 				@_
 			   };
 
@@ -258,6 +258,11 @@ sub generate {
 			'tail_tmpl' => "$tail_tmpl",
 			'index' => "$index"
 		   });
+}
+
+sub stripout {
+	$_ = $_[0];
+	s/$_[1]//g;
 }
 
 1;
