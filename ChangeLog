@@ -1,3 +1,13 @@
+2001-06-20  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* TODO: Removed an old, done entry.
+	* Netcomics/GtkComics.pm: Expunged all code from this file. Moved
+	code from ./comicpage here. Modified to use Glade to create the
+	interface dynamically at runtime. (Hence it now depends upon
+	Gtk::GladeXML.
+	* Comicpage/comicpage.glade: First interface file commited! GTK+
+	interface created at runtime!
+	
 2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* doc/netcomics.pod: Added an example for recreating webpages with
