@@ -1,3 +1,9 @@
+2001-10-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics (when_leaving_dialog): Changed report of perlTK
+	require error to state that perlTK might not be installed correct
+	as well as maybe it's not installed at all.
+
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Themes/Default.pm (new): Switched over to the new
@@ -10,9 +16,9 @@
 	'group_number' in every instance. A small bug was being caused by
 	inconsistent usage of both in both Set.pm and Page.pm.
 	(new): Added new default property, 'link_to_local_archives' => 0.
-	(create_set_of_pages): Pass the new preperty to Page.pm.
+	(create_set_of_pages): Pass the new property to Page.pm.
 	(create_set_of_pages): Changed every instance of
-	$self->{'theme'}->{'*'} to $self->{'theme'}->{'html'}{'head'} per
+	$self->{'theme'}->{'*'} to $self->{'theme'}->{'html'}{'*'} per
 	Ben's suggestion.
 	* Netcomics/Config.pm.in: Strange construct was causing bug. Fixed
 	now. (Seems to be related to how -i was supposed to catch -I. Or not

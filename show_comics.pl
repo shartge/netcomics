@@ -258,8 +258,9 @@ sub when_leaving_dialog {
     };
     if ($@) {
 	$_ = <<END;
-WARNING! You don't have Tk installed.  Either install perlTk, or use the -l 
-option next time.  Not querying for the end of the time interval.
+$@
+WARNING! Either Tk is not installed or it is not installed correctly.  Use the
+-l option next time.  Not querying for the end of the time interval.
 END
 	errmsg("$_\nDefaulting the time you're leaving to $hour:$minute.\n");
 	return ($hour,$minute);
