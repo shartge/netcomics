@@ -46,6 +46,13 @@ For example, all Dilbert strips would be on their own page,
 Foxtrot in its own.  The index page would then have links to
 the pages themselves, and not to the individual comic strips.
 
+** Reduce time it takes to load index.html
+Archives' index.html can get quite large, and since it's implemented
+as a table, some webbrowsers can take a while to render the page.  Can
+reduce the load time by providing a simliar option as -W=n to split
+the page into multiple pages, or can provide a theme that doesn't use
+tables to implement the index.
+
 ----------------------------------------------------------------------
 
 * Comic Modules
