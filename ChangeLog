@@ -1,3 +1,7 @@
+2002-02-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL: Added wiley to the list of old modules.
+
 2002-02-24  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/ucomics (cd): Removed, since it appears a good deal of archives
