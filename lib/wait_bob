@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"waitbob"} = 0;
+
+#Waiting For Bob http://www.waitingforbob.com
+sub waitbob {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] == 6 || $ltime[6] == 0 ||
+		     $time < 916012800); #first strip on Jan 11, 1999
+    my $rec = {
+	'title' => "Waiting For Bob",
+	'author' => "Doug Sheppard & Katrin L Salyers",
+	'type' => 'gif',
+	'size' => [730,267],
+	'main' => "http://www.waitingforbob.com/",
+	'archives' => "http://www.waitingforbob.com/archive.php",
+	'base' => "http://www.waitingforbob.com/comics/",
+	'page' => strftime("%Y%m/%d.gif",@ltime),
+    };
+    return $rec;
+}
+
+1;
+

@@ -1,0 +1,23 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"fika"} = 8;
+
+#Out of Fika ex: http://www.modernhair.net/fika/2000/strips/20000110.gif
+sub fika  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => "Out Of Fika",
+	'author' => "Chris Muse",
+	'type' => 'gif',
+	'main' => "http://www.modernhair.net/fika/index.html",
+	'archives' => "http://www.modernhair.net/fika/archys.html",
+	'base' => "http://www.modernhair.net/fika/",
+	'size' => [720,267],
+	'page' => strftime("%Y\/strips\/%Y%m%d.gif",@ltime),
+    };
+    return $rec;
+}
+
+1;
