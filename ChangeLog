@@ -1,3 +1,9 @@
+2004-08-01 Sven Hartge  <hartge at users * sourceforge * net>
+
+        * lib/keenspot: some keenspot comics add some random characters
+          after the date. Adapted the regexp. (Works for me so far, may
+          need some polishing, as .* may be a bit to greedy.)
+
 2004-04-12  Chris Hostetter  <hossman at users * sourceforge * net>
 
 	* inktank.com has started updating strips again, but on a slightly
