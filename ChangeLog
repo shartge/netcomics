@@ -1,3 +1,8 @@
+2001-08-13  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* netcomics: Updated so that in -P, things work if @selected_comics
+	== 0.
+
 2001-08-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL (constants): Added replacing the INSTALLMAN*DIR

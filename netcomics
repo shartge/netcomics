@@ -130,6 +130,14 @@ if ($verbose) {
 	}
 }
 
+if (!@selected_comics) {
+	foreach (@rli) {
+		my $proc = $_->{'proc'};
+		print "Checking rli: $proc\n";
+		push(@selected_comics, $proc) if not grep(/$proc/, @selected_comics);
+	}
+}
+
 print STDERR "Selected Comics !! : @selected_comics \n" if $extra_verbose;
 
 if ($make_webpage) {
@@ -140,7 +148,15 @@ if ($make_webpage) {
 	unless ($separate_comics) {
 		$HTMLpage->create_webpage(@rli);
 	} else {
+		# Create the archive pages
 		$HTMLpage->create_webpage_set(\@rli, \@selected_comics);
+
+		my $today = strftime("${date_fmt}", localtime(time));
+		my @comics_to_pass;
+		foreach (@rli) {
+			push(@comics_to_pass, $_) if grep($today,$_->{'name'});
+		}
+		$HTMLpage->create_webpage(@rli)
 	}
 } else {
     my $user_specified_no_comics = 
