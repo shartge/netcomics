@@ -1,3 +1,7 @@
+2001-07-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL (macro): Changed PKGVERSION to be 1cvs.
+
 2001-07-19  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* debian/netcomics.manpages: Fixed manpage installation, and brought

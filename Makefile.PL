@@ -238,7 +238,7 @@ OLDMODULES = @old_modules
 
 " . '
 RCFILE = netcomicsrc
-PKGVERSION = 1
+PKGVERSION = 1cvs
 
 #install paths
 TMPBASE	= /var/spool
