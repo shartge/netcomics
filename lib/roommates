@@ -1,0 +1,43 @@
+#-*-Perl-*-
+
+$hof{"crfh"} = 0;
+
+# Collage Roomies from Hell
+# ex : http://www.crfh.net/comics/crfh20000721.jpg
+# does not work with older comics that were in gif format
+sub crfh {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,1,0,99); #1st comic: 01/01/1999
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => "College Roomies From Hell",
+	'author' => "Maritza Campos",
+	'main' => "http://www.crfh.net/",
+	'archives' => "http://www.crfh.net",
+	'base' => "http://www.crfh.net",
+	'page' => strftime("/d/%Y%m%d.html",@ltime),
+	'type' => 'jpg',
+    };
+    $rec->{'func'} = sub {
+        my $text = shift;
+        
+        my $y = strftime("%Y",@ltime);
+        my $m = strftime("%m",@ltime);
+        my $d = strftime("%d",@ltime);
+        my @relurls = ();
+        #repeatedly match and replace.  
+
+        while (1) {
+            if ($text =~ s/src=".*?(\/comics\/crfh$y$m$d\w?\.((:?jpg)|(:?gif)))"//i) {
+                # I don't use $2 now, but it may be used to determine the extension.
+                push(@relurls,$1);
+            } else {
+                last;
+            }
+        }
+        return @relurls;
+    };
+    return $rec;
+}
+
+1;
