@@ -34,8 +34,8 @@ sub pa {
 		    'caption' => $2,
 		    'page' => $1,
 		    'exprs' => {
-                'comic' => ["img src=\"(images/$year/$date2\.+?((jpg|gif|png)))\""],
-                'type' => ["img src=\"images/$year/$date2\.+?(jpg|gif|png)\""],
+                'comic' => ["img src=\"(images/$year/$date2\.?\\.+?((?i)(jpg|gif|png)))\""],
+                'type' => ["img src=\"images/$year/$date2\.?\\.+?((?i)jpg|gif|png)\""],
             },
             'func' => undef,   
 		};
