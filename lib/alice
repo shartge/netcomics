@@ -25,7 +25,7 @@ sub alicecomics {
 
 sub alice  {
     my $time = shift;
-    return undef if $time < mkgmtime(0,0,0,25,5,99) #1st comic: 06/25/1999
+    return undef if $time < mkgmtime(0,0,0,25,5,99); #1st comic: 06/25/1999
     my @ltime = gmtime($time);
     return undef if (($ltime[6] == 0) && ($time < mkgmtime(0,0,0,19,2,100)));
     my $type = ($ltime[6]==0) ? "jpg" : "gif";
