@@ -4,38 +4,46 @@ $hof{"evjake"} = 0;
 
 #Everything Jake: http://www.everythingjake.com
 sub evjake {
-    my @ltime = gmtime(shift(@_));
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    #1st comic: Apr 10, 2000
+    return undef if $time < 955321200;
+
     my $rec = {
-        'title' => "Everything Jake",
-        'author' => "Mike Rosenzweig",
-        'main' => "http://www.everythingjake.com/",
-        'archives' => "http://www.everythingjake.com",
-        'base' => "http://www.everythingjake.com",
+	'title' => "Everything Jake",
+	'author' => "Mike Rosenzweig",
+	'main' => "http://www.everythingjake.com/",
+	'archives' => "http://www.everythingjake.com",
+	'base' => "http://www.everythingjake.com",
     };
 
     $rec->{'page'} = strftime("/d/%Y%m%d.html",@ltime);
-    $rec->{'type'} = 'jpg';
-    $rec->{'exprs'} = {
-	'type' => ['comics\/jake\d+\w.(\w+)'],
-    };
+
+    if ($time < 961282800) {
+	$rec->{'type'} = 'jpg';
+    } else {
+	$rec->{'type'} = 'gif';
+    }
+
     $rec->{'func'} = sub {
-        my $text = shift;
+	my $text = shift;
+	
+	my $y = strftime("%Y",@ltime);
+	my $m = strftime("%m",@ltime);
+	my $d = strftime("%d",@ltime);
+	my @relurls = ();
+	#repeatedly match and replace.  
 
-        my $y = strftime("%Y",@ltime);
-        my $m = strftime("%m",@ltime);
-        my $d = strftime("%d",@ltime);
-        my @relurls = ();
-        #repeatedly match and replace.  
-
-        while (1) {
-            if ($text =~ s/src=".*?(\/comics\/jake$y$m$d.*?\.((:?jpg)|(:?gif)))"//i) {
-                $rec->{'type'} = $2;
-                push(@relurls,$1);
-            } else {
-                last;
-            }
-        }
-        return @relurls;
+	while (1) {
+	    if ($text =~ s/src=".*?(\/comics\/jake$y$m$d\w?\.((:?jpg)|(:?gif)))"//i) {
+		# I don't use $2 now, but it may be used to determine the extension.
+		push(@relurls,$1);
+	    } else {
+		last;
+	    }
+	}
+	return @relurls;
     };
 
     return $rec;
