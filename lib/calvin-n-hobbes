@@ -5,6 +5,7 @@
 #with the number of days from today the comic is available
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
 
+#This is a copy of ucomics
 #Calvin & Hobbes http://www.calvinandhobbes.com/strips/
 sub ch {
     my @ltime = gmtime(shift(@_));
@@ -12,11 +13,11 @@ sub ch {
 	'title' => "Calvin and Hobbes",
 	'author' => "Bill Watterson",
 	'type' => 'gif',
-	'main' => "http://www.calvinandhobbes.com/",
-	'archives' => "http://www.calvinandhobbes.com/",
-	'base' => "http://www.calvinandhobbes.com",
-	'page' => strftime("/strips/%y/%m/ch%y%m%d.html",@ltime),
-	'exprs' => [strftime("(\/strips\/%y\/%m\/ch\\d+\.gif)",@ltime)],
+	'main' => "http://www.ucomics.com/calvinandhobbes",
+	'archives' => "http://www.ucomics.com/calvinandhobbes/",
+	'base' => "http://",
+	'page' => strftime("www.ucomics.com/calvinandhobbes/viewch.cfm?uc_full_date=%Y%m%d&uc_comics=ch",@ltime),
+	'exprs' => [strftime("(images.ucomics.com/comics/ch/%Y/ch\\d+\\.(gif|jpg))",@ltime)],
 	'size' => ($ltime[6] == 0 ? [600,422] : [600,200])
 	};
     return $rec;

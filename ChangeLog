@@ -1,5 +1,7 @@
 2001-02-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/calvin-n-hobbes (ch): Updated for site change thanks to
+	Tim Kimber.
 	* lib/doonesbury (doon): Fixed typos
 	* lib/sketch (sketch): Added Sketch of Love thanks to Max Zomborszki.
 	Added excpetions lists.
