@@ -1,3 +1,7 @@
+2001-02-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): Fixed current day retrieval.
+
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/sketch (sketch): Updated exceptions list.
