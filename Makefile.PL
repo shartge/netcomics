@@ -240,8 +240,6 @@ sub constants {
     $_;
 }
 
-package MY;
-
 sub macro {
 	my $self = shift;
 	return "
