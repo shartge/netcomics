@@ -1,3 +1,8 @@
+2001-11-14  Elliot Glaysher  <glaysher@umich.edu>
+
+	* The "I should probably get off my lazy butt and do something" commit.
+	* lib/keenspot (avalon): Updated Avalon's @missing list.
+
 2001-10-02  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/megatokyo: Updated to meet megatokyo's erratic archive schedule.
