@@ -1,3 +1,7 @@
+2002-01-18  Elliot Glaysher  <glaysher@umich.edu>
+
+	* ChangeLog: Fix email address in ChangeLog
+
 2002-01-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* NEWS: Added high-level list of updates since previous release.
@@ -322,7 +326,7 @@
 	* Netcomics/HTML/Set.pm: Fix bad stuff with generating the index.
 	(Thanks for the head's up, Ben!)
 
-2001-08-26  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-26  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Page.pm: Initial commit
 	* Netcomics/HTML/Set.pm: Initial commit
@@ -336,12 +340,12 @@
 	keep the old html_tmpl.
 	* MANIFEST: (Pretty much the same as Makefile.PL)
 
-2001-08-19  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-19  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/GtkComics.pm (about_Form): Updated about text so it
 	actually made sense.
 
-2001-08-13  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-13  Elliot Glaysher  <glaysher@umich.edu>
 
 	* netcomics: Updated so that in -P, things work if @selected_comics
 	== 0.
@@ -352,20 +356,20 @@
 	definitions with $(PREFIX) instead of the configured_prefix value
 	to make up for old versions of ExtUtils/MM_Unix.pm.
 
-2001-08-09  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-09  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Factory.pm (new): Have you ever noticed how changing one
 	line of code can affect the whole program? FINALLY fixed import of
 	comics with multiple images.
 
-2001-08-08  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-08  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Factory.pm (new): Fixed implimentation of import that I did
 	two days ago.
 	* Netcomics/Factory.pm (new): (2nd commit). REALLY fixed importing on
 	comics with multiple 
 
-2001-08-06  Elliot Glaysher  <eglayshe@umich.edu>
+2001-08-06  Elliot Glaysher  <glaysher@umich.edu>
 
 	* (Sorry about the prolonged abscence)
 	* Netcomics/Factory.pm (new): now imports all the 0.13.2 RLIs
@@ -382,7 +386,7 @@
 	replacement to automatically manage the changelog.
 	* Makefile.PL (macro): Changed PKGVERSION to be 1cvs.
 
-2001-07-19  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-19  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/netcomics.manpages: Fixed manpage installation, and brought
 	packages closer to debian policy (lintian now only reports 2 errors
@@ -404,7 +408,7 @@
 	(Version): Updated to 0.13.2.
 	* Makefile (VERSION): updated to 0.13.2.
 
-2001-07-17  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-17  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspace: Added file back, because keenspot and keenspace
 	are two different services, with different comics hosted on each.
@@ -419,7 +423,7 @@
 	(OLDMODULES): Added keenspace.
 	* lib/keenspace: Removed because of its renaming to keenspot.
 
-2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-15  Elliot Glaysher  <glaysher@umich.edu>
 
 	* .cvsignore: Updated to ignore debian build stuff.
 	* debian/.cvsignore: Updated to ignore debian build stuff.
@@ -429,7 +433,7 @@
 	* Netcomics/GtkComics.pm: Modified to use the updates in Config.pm.in
 	and Makefile.PL
 
-2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-15  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspot: Added (by Shawn Oakey), which removes:
 	** lib/alice, lib/avalon, lib/bayside, lib/bigpanda
@@ -447,12 +451,12 @@
 	the rewrite back on the 4th.  Added use of sort() which hopefully
 	will truely fix the problem.
 
-2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-14  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/rules: Now builds working packages.
 	* Makefile.PL: Clean's up more Debian stuff.
 
-2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-14  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Makefile.PL: Minor updates for cleaning up after debian building
 	* debian/control: Update my email.
@@ -466,7 +470,7 @@
 	* netcomics (get_comics): Fixed improper handling of undef being
 	returned by a module's func.
 
-2001-07-11  Elliot Glaysher  <eglayshe@umich.edu>
+2001-07-11  Elliot Glaysher  <glaysher@umich.edu>
 
 	* AUTHORS: Updated for my new email.
 	* MANIFEST.SKIP: Made sure it skips more debian build crap (MORE, not
