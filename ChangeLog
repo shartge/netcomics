@@ -1,3 +1,10 @@
+2002-08-25 Sven Hartge  <netcomics@ds9.argh.org>
+
+        * MANIFEST: remove bf, since Benutzerfreundlich is officially dead.
+        Not keeping the module, because it never worked the way it should
+        have.
+	* lib/bf [REMOVED]: comic is now officially dead
+
 2002-08-20  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/netcomics-comicpage.menu: Move the actual Debian menu entry
