@@ -439,6 +439,7 @@ use vars ('$use_filecmd'); $use_filecmd = 0;
 use vars ('$prefer_color'); $prefer_color = 1;
 use vars ('$reset_libdir'); $reset_libdir = 0;
 use vars ('$real_date'); $real_date = 0;
+use vars ('$realend_date'); $realend_date = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -475,6 +476,7 @@ my $tz;
     $tz = (0 - $tzmin/60);
 }
 
+$realend_date = mkgmtime(gmtime(time));
 
 $| = 1; #autoflush on STDERR & STDOUT
 
@@ -682,10 +684,11 @@ while (@ARGV)
     # Real date day
     elsif (/-A$/) {
       $real_date = 1;
+      $given_options .= " -A";
     }
 
     #Specified date
-    elsif (/-([STEA])$/) {
+    elsif (/-([STE])$/) {
 	my $type = $1;
 	my $good = 0;
 	
@@ -846,6 +849,10 @@ if ($remake_webpage && $dont_download) {
 if (defined($comics_per_page) && $webpage_on_stdout) {
     print STDERR "-o may not be specified with -W= or -w=.  Use -h for usage.\n";
     exit 1;
+}
+if ( ($real_date == 1) && ! defined($start_date) && (scalar @dates == 0) ) {
+  print STDERR "-A may only be used with -S, -E or -T.  Use -h for usage.\n";
+  exit 1;
 }
 
 #only load the modules if needed
@@ -1041,7 +1048,7 @@ sub build_date_array {
     if (! defined($end_date) && ! defined($days_of_comics) &&
 	defined($start_date)) {
 	#-S, no -E, no -n
-	$end_date = time;
+	$end_date = time + (get_max_hof() * 24*3600);
     } elsif (defined($end_date) && defined($days_of_comics) &&
 	     ! defined($start_date)) {
 	#no -S, -E, -n
@@ -1119,8 +1126,14 @@ sub run_rli_func {
     my ($fun,$time,$fun_name,$days) = @_;
     $time -= $days * 24*3600 if defined $days;
 
-    # Real day date
-    $time -= $hof{$fun} * 24*3600 if ($real_date == 1);
+    # Real date day
+    if ($real_date == 1) {
+      # Make sure we do not download more than we are allowed to
+      return undef if ($time > $realend_date);
+
+      # Adapt time for this comic "as if" today was ...
+      $time -= $hof{$fun} * 24*3600;
+    }
 
     #get the info from the RLI
     if (ref($fun) =~ /(SUB|CODE)/) {
@@ -2040,6 +2053,18 @@ sub load_modules {
 	    print STDERR "$libdir is not accessible. Skipping it.\n";
 	}
     }
+}
+
+sub get_max_hof {
+  my ($tmp, $max_hof);
+
+  return 0 if ($real_date == 0);
+
+  foreach $tmp (keys %hof) {
+    $max_hof = $hof{$tmp} if ($hof{$tmp} > $max_hof);
+  }
+
+  return $max_hof;
 }
 
 sub library_sort {
