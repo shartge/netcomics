@@ -1,3 +1,8 @@
+2002-09-09  Sven Hartge  <netcomics@ds9.argh.org>
+
+	* lib/user_friendly: fix super stupid line wrapping, causing the
+	regex to fail. I feel ashamed now ...
+
 2002-09-07  Sven Hartge  <netcomics@ds9.argh.org>
 
 	* lib/user_friendly: Fix for bug 605848. Works for me, but because of
