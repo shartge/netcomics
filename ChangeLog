@@ -1,3 +1,8 @@
+2002-03-25  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Util.pm (processSyms): Fixed type that was causing an
+	annoying error
+
 2002-03-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/Factory.pm (load_RLI_files): Fixed code that tests for

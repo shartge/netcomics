@@ -219,7 +219,7 @@ sub processSyms {
 			my $subpkg = "$namespace$_";
 			if (grep(/^ISA$/, keys(%{$subpkg}))) {
 				#print "$subpkg\n";# for debugging
-				if (grep(/$package_regex/, @{"$subpkg\ISA"})) {
+				if (grep(/$package_regex/, @{"${subpkg}ISA"})) {
 					push(@modules, $subpkg);
 					#print "\t@modules\n"; #for debugging
 				}
