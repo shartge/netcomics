@@ -1,0 +1,41 @@
+#-*-CPerl-*-
+$hof{"eightbit"} = 0;
+
+#Eight-bit Theatre http://www.nuklearpower.com/
+
+sub eightbit {
+  my $time = shift;
+	my @ltime = gmtime($time);
+  return undef if ($time < mkgmtime(0,0,0,2,2,101)); #1st comic: Mar 2, 2001
+    
+  my $date = strftime("%y%m%d", @ltime);
+  my $baseurl = "http://www.nuklearpower.com";
+  my $rec = {
+  	'title' => "Eight-Bit Theatre",
+	  'author' => "Brian Clevinger",
+	  'main' => $baseurl,
+	  'archives' => "$baseurl/archive.php",
+	  'base' => "$baseurl/",
+	  'page' => "daily.php?date=$date",
+  };
+  $rec->{'func'} = sub {
+	  my $text = shift;
+    my @relurls = ();
+    while (1) {
+      if ($text =~ s/src=".*?(comics\/.*?$date\w?\.((:?jpg)|(:?gif)|(:?png)))"//i) {
+        push(@relurls,$1);
+        $rec->{'type'} = $2; 
+      } else {
+        last;
+      }
+    }
+   	if ($text =~ s/(Episode.*?)<\/font>//i) {
+      $rec->{'caption'} = $1;
+    }  
+    return reverse @relurls;
+  };
+  return $rec;
+}
+
+1;
+

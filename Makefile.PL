@@ -85,6 +85,7 @@ down_earth
 dragon
 dr_fun
 dysentery
+eightbit
 fairgame
 falling_dream
 farcus

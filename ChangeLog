@@ -1,3 +1,8 @@
+2002-12-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* MANIFEST, Makefile.PL, lib/eightbit: Added Eight-Bit Theatre
+	thanks to Shawn Oakey.
+
 2002-11-19  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspot (wigu): Author let domain expire. Changed to 
