@@ -3,6 +3,11 @@
 	* Netcomics/Factory.pm (dump_rli): Changed to delete unneeded
 	fields only from completely download comics.
 
+2001-04-24  Elliot Glaysher <nuriko.chan@home.com>
+
+	* debian/*: Elliot redesigned Debian packages, and is the new
+	maintainer.
+	
 2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/HTML.pm (create_webpage_set): Fixed use of
