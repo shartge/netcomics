@@ -11,19 +11,16 @@ RCFILE	= netcomicsrc
 VERSION	= 0.13.1
 PKGVERSION = 1
 
-#Required for building on Debian systems
-DESTDIR=
-
 #The 4 most commonly changed paths.  All occurrances of these in the
 #scripts, documentation, and the RPM spec will be changed if you set
 #these to something different
 PERL	= /usr/bin/perl
 PERLTK	= $(PERL)
 BUILDROOT = 
-PREFIX	= $(DESTDIR)/usr
-TMPBASE	= $(DESTDIR)/var/spool
-SYSRCDIR = $(DESTDIR)/etc
-PERLLIBROOT = $(DESTDIR)/usr/lib/perl5
+PREFIX	= $(BUILDROOT)/usr
+TMPBASE	= $(BUILDROOT)/var/spool
+SYSRCDIR = $(BUIDLROOT)/etc
+PERLLIBROOT = $(BUILDROOT)/usr/lib/perl5
 PERLINSTDIR = $(PERLLIBROOT)/site_perl/Netcomics
 
 RM	= rm -f
@@ -232,7 +229,7 @@ ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
 #installation under a different prefix without it remaking everything
 NOREMAKE = 0
 
-all: remake_check bin doc etc
+all: remake_check bin doc etc modules
 
 #check to see if anything has changed, and have it remade if so.
 #no worries if using clearmake
@@ -249,8 +246,20 @@ remake_check:
 	      ) && ( [ $(NOREMAKE) != 1 ] && [ $(MAKE) != clearmake ] ) ); then\
 		echo "Having documentation & scripts reproduced in doc & bin.";\
 		$(RM) bin/$(APPNAME) bin/$(AP2NAME) bin/$(AP3NAME) \
-			doc/$(APPNAME).pod doc/$(AP3NAME).pod; \
+			doc/$(APPNAME).pod doc/$(AP3NAME).pod \
+			Netcomics/Config.pm; \
 	fi
+
+#Use this macro for creating any template file.
+SUBPATHS = \
+	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $< \
+	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
+	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
+	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
+	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
+	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
+	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > $@
+
 
 distclean:: clean
 
@@ -281,14 +290,8 @@ distclean::
 	$(RM) bin/$(AP2NAME)
 	$(RM) bin/$(AP3NAME)
 
-bin/$(APPNAME): Makefile $(APPNAME)
-	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(APPNAME) \
-	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
-	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
-	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > bin/$(APPNAME)
+bin/$(APPNAME): $(APPNAME)
+	$(SUBPATHS)
 
 bin:: bin/$(APPNAME)
 
@@ -299,14 +302,8 @@ distclean::
 	$(RM) debian/tmp -R
 	$(RM) debian/files debian/*.debhelper debian/substvars
 
-etc/$(RCFILE): Makefile $(RCFILE)
-	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(RCFILE) \
-	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
-	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
-	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > etc/$(RCFILE)
+etc/$(RCFILE): $(RCFILE)
+	$(SUBPATHS)
 
 etc:: etc/$(RCFILE)
 
@@ -407,18 +404,18 @@ install_html:
 	$(CD) $(HTMLTMPLDIR); \
 	$(INSTALL) $(LIBINSTALLFLAGS) $(HTMLTEMPLATES) $(HTMLDIR)
 
-install_pms:
+install_pms: $(PERLMODULES:%=Netcomics/%)
 	$(MKDIR) $(MKDIRFLAGS) $(PERLINSTDIR)
 	$(CD) Netcomics; \
-	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR); \
-	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm Config.pm \
-	  | $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
-	  | $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	  | $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
-	  | $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
-	  | $(PERL) -pe s%netcomics%$(APPNAME)%gm \
-	  | $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > $(PERLINSTDIR)/Config.pm; \
-	$(CHMOD) $(LIBPERMS) $(PERLINSTDIR)/Config.pm
+	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR)
+
+Netcomics/Config.pm: Netcomics/Config.pm.in
+	$(SUBPATHS)
+
+distclean::
+	$(RM) Netcomics/Config.pm
+
+modules:: Netcomics/Config.pm
 
 install::
 	@oldmods=""; \
@@ -449,13 +446,8 @@ install::
 	rm ../$(APPNAME)-$(VERSION)
 
 #Make an RPM
-$(RHSPECS)/$(RPMSPEC): Makefile $(RPMSPEC)
-	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(RPMSPEC) \
-	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
-	| $(PERL) -pe s%/usr/man%$(MANROOT)%gm \
-	| $(PERL) -pe s%netcomics%$(APPNAME)%gm > $(RHSPECS)/$(RPMSPEC)
+$(RHSPECS)/$(RPMSPEC): $(RPMSPEC)
+	$(SUBPATHS)
 
 $(RHSOURCES)/$(TARGZFILE): ../$(TARGZFILE)
 	$(INSTALL) $(LIBINSTALLFLAGS) ../$(TARGZFILE) $(RHSRCS)

@@ -1,5 +1,10 @@
 2001-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* debian/rules (install): Changed to use NOREMAKE & BUILDROOT.
+	* Makefile (modules): Changed Config.pm to Config.pm.in and added
+	a rule for generating it.  Generalized all rules for substituting
+	paths in template files.
+	* Netcomics/Config.pm.in: moved Config.pm to this file.
 	* Netcomics/Config.pm (processARGV): Fixed call to usage().
 	* Netcomics/Factory.pm (dump_rli): Changed to delete unneeded
 	fields only from completely download comics.

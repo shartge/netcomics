@@ -47,7 +47,7 @@ install: build
 
 	# Add here commands to install the package into debian/netcomics.
 	
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	$(MAKE) BUILDROOT=$(CURDIR)/debian/tmp NOREMAKE=1 install
 
 	dh_movefiles
 
