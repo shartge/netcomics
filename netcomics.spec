@@ -4,8 +4,8 @@ Release: 1
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
 Group: Applications/Networking
-URL: http://netcomics.familycom.org/
-Source: http://netcomics.familycom.org/netcomics-%{version}.tar.bz2
+URL: http://netcomics.sourceforge.net/
+Source: http://download.sourceforge.net/netcomics/netcomics-%{version}.tar.bz2
 Prefix: /usr
 Packager: Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
 BuildArchitectures: noarch

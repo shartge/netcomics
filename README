@@ -44,7 +44,7 @@ Make sure you include the version of netcomics you are running when
 sending me a bug report!
 
 Visit the netcomics homepage:
-http://netcomics.familycom.org/
+http://netcomics.sourceforge.net/
 
 mirror:
 http://www.cs.rose-hulman.edu/~hochstrb/netcomics/
@@ -56,7 +56,7 @@ Future updates are announced on:
 * http://www.penguinfiles.com
 * the Linux Software Map (http://www.execpc.com/lsm/)
 * Redhat Announce List <redhat-announce-list@redhat.com>
-* Netcomics Announce List <netcomics-announce@familycom.org>
+* Netcomics Announce List <netcomics@lists.sourceforge.net>
 
 There is also another script out there that can get comics for you,
 written by Mark Hershberger. You can get it at: 
