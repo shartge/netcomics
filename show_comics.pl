@@ -151,7 +151,7 @@ while (@ARGV)
 	infomsg("Running $check_display_cmd to see if display can be " .
 		"openned.\n") if $extra_verbose;
 	if (system("$check_display_cmd 2>&1 > /dev/null")/256 != 0) {
-	    infomsg("$progname: unable to open display.\n");
+	    infomsg("unable to open display.\n");
 	    exit 1;
 	}
     }
@@ -350,8 +350,29 @@ sub lock_file {
     if (@_ == 0) {
 	infomsg("Checking for lockfile.\n") if $extra_verbose;
 	if (-e $lockfile) {
+	    if (! open(FILE,"<$lockfile")) {
+		errmsg("Unable to open $lockfile: $!\n");
+	    } else {
+		my $pid = <FILE>;
+		chomp($pid);
+		close(FILE);
+		if ($pid !~ /^\d+$/) {
+		    errmsg("$lockfile contained an invalid pid.\n");
+		} else {
+		    if (kill(0, $pid)) {
+			infomsg("Another $progname is already running: " .
+				"$pid\n");
+		    } else {
+			infomsg("A previous $progname died. " .
+				"Removing lockfile & continuing.\n");
+			unlink($lockfile);
+		    }
+		}
+	    }
+	}
+	if (-e $lockfile) {
 	    infomsg("Lockfile exists: $lockfile.\nCheck to make sure " .
-		    "another show_comics isn't running or \n" .
+		    "another $progname isn't running or \n" .
 		    "use -K to ignore the lockfile.\n");
 	    exit(0);
 	}
@@ -400,7 +421,7 @@ sub usage {
     print <<END;
 $progname:  Show comics downloaded with netcomics, distributed over time
 (c)1999 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
-usage: show_comics [-h] [-c cmd] [-d dir] [-f rcfile] [-l|-t hh:mm] [-p [cmd]]
+usage: show_comics [-hvw] [-c cmd] [-d dir] [-f rcfile] [-l|-t hh:mm] [-p [cmd]]
                    [-k lockfile|-K] [-s hh:mm]
   -c: specify the command used to display each comic strip (def: "nice -19 xv")
   -d: specify the directory where the comics reside (def: /var/spool/netcomics)
