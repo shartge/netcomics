@@ -160,6 +160,10 @@ where those statistics are monitored and if too high a percentage of
 failures are occurring, it will shoot the maintainer for not doing
 his/her job! (-;
 
+** Keywords/Categories
+Add a field that would contain a list of keywords or categories then
+that could be utilized to select a group of comics.
+
 -----------------------------------------------------------------------
 
 * Bugs
