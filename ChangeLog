@@ -1,5 +1,15 @@
+2001-11-19  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspace (machall): Fixed error grammer stupid!
+	(chopping): Added by Shawn Oakey.
+	(oddjobs): Added by Shawn Oakey.
+	(miracle): Added by Shawn Oakey.
+	(ua): Added by Shawn Oakey.
+
 2001-11-18  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML.pm: Commented out debugging messages that appear to be
+	months old.
 	* lib/doemain (doemain): Updated for sanity.
 	* lib/keenspace (machall): Wrote a machall module.
 	* lib/keenspot (elf): Updated missing comics list.

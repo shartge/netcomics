@@ -63,7 +63,7 @@ sub create_archive_webpages {
 	my @selected_comics;
 	foreach (@rli) {
 		my $proc = $_->{'proc'};
-		print "Checking rli: $proc\n";
+		#print "Checking rli: $proc\n";
 		push(@selected_comics, $proc) if not grep(/$proc/, @selected_comics);
 	}
 
@@ -87,7 +87,7 @@ sub create_archive_webpages {
 		 'theme' => $template,
 		 'include_subdir' => 0
 		);
-		print "Putting in directory $subdir\n";
+		#print "Putting in directory $subdir\n";
 		$HTMLpage->create_set_of_pages(@rlis_to_pass);
 	}
 }
@@ -97,7 +97,7 @@ sub create_today_page {
 	my @rli = @_;
 
 	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
-	print "Creating with template $template->{'name'}.\n";
+	print STDERR "Creating with template $template->{'name'}.\n" if $verbose;
 
 	# Create archives for these comics.
 	my %data = Netcomics::Util::rlis_hash(@rli);

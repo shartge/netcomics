@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 foreach (qw(boxjam heaven framed stereo rocr fce sketch fatjc roses 
-  zap spork tang ais forbez tap machall)) {
+  zap spork tang ais forbez tap machall chopping oddjobs miracle ua)) {
   $hof{$_} = 0;
 };
 foreach (qw(attwf)) {
@@ -133,7 +133,7 @@ sub boxjam {
 
     # Last updated June 21, 2001
     my @missing = ();
-    my @extra = (20000401,20000527);
+    my @extra = ();
 
     #no comics on Sunday or Saturday
     return undef 
@@ -146,6 +146,34 @@ sub boxjam {
     my $url = "boxjam";
 
     return keenspace($title,$author,$date,$url);
+}
+
+#Chopping Block
+sub chopping {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+    #exceptions list 
+    #last updated August 2, 2001
+    my @missing = (20000726,20000727,20000731,20000801);
+    my @extra = ();
+
+    #M to F until present
+    return undef if 
+      (($date < 20000725) || #first comic on July 25, 2000
+      (($date >= 20000725 && $date <= $date2) &&
+      ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
+      grep(/$date/,@missing));
+
+    my $title="Chopping Block";
+    my $author="Lee Adam Harold";
+    my $url = "http://www.choppingblock.org";
+
+    return keenspace($title,$author,$date,$url);
+
 }
 
 # Fat Jesus
@@ -394,7 +422,7 @@ sub machall {
         'base' => "http://machall.keenspace.com/",
         'page' => "archive.html",
 		# As much as I'd love to use keenspace(), Mac Hall's release schedule
-		# is so erratic that using a @missing list doesn't makes no sense.
+		# is so erratic that using a @missing list doesn't make any sense.
 		# Besides, if I ever get my idea about archive lists implimented, this
 		# won't be a problem.
 		#
@@ -432,6 +460,65 @@ sub machall {
 	
 
     return $rec;
+}
+
+#Makeshift Miracle
+sub miracle {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+    #exceptions list 
+    #last updated Oct 23, 2001
+    my @missing = ();
+    my @extra = ();
+
+    #MWF until present
+    return undef if 
+      (($date < 20010910) || #first comic on Sept 10, 2001
+      (($date >= 20010910 && $date <= $date2) &&
+      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+      grep(/$date/,@missing));
+
+    my $title="Makeshift Miracle";
+    my $author="Jim Zubkavich";
+    my $url = "miracle";
+
+    return keenspace($title,$author,$date,$url);
+
+}
+
+#OddJobs
+sub oddjobs {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+    #exceptions list 
+    #last updated Sept 25, 2001
+    my @missing = (20010605,20010607,20010612,20010614,20010619,20010621);
+    my @extra = (20010603);
+
+    return undef if 
+      (($date < 20000518) || #first comic on May 18, 2000
+      (($date >= 20000518 && $date < 20001107) &&
+      ($ltime[6] !~ /[4]/ && !grep(/$date/,@extra))) ||
+      (($date >= 20001107 && $date < 20010625 ) &&
+      ($ltime[6] !~ /[24]/ && !grep(/$date/,@extra))) ||
+      (($date >= 20010625 && $date <= $date2) &&
+      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+      grep(/$date/,@missing));
+
+    my $title="Oddjobs";
+    my $author="Tim Broderick";
+    my $url = "oddjobs";
+
+    return keenspace($title,$author,$date,$url);
+
 }
 
 #Rogues of Clwyd-Rhan
@@ -648,6 +735,46 @@ sub tap {
     my $title="Todd and Penguin";
     my $author="Dave Wright";
     my $url = "toddandpenguin";
+
+    return keenspace($title,$author,$date,$url);
+
+}
+
+#Untitled Again
+sub ua {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+    #exceptions list 
+    #last updated Oct 25, 2001
+    my @missing = (20001009,20001011,20001012,20001013,20001017,20001018,
+      20001019,20001020,20001024,20001025,20001026,20001027,20001030,
+      20001101,20001102,20001107,20001108,20001114,20001115,20001117,
+      20001121,20001122,2000124,20010623,20010630,20010914);
+    my @extra = (20001007,20010118,20010121,20010505,20010913);
+
+    #M to F scattered until November 27, 2000
+    #MWF until June 1, 2001
+    #MtoSa until July 1,2001
+    #MWF until present
+    return undef if 
+      (($date < 20001003) || #first comic on October 3, 2000
+      (($date >= 20001003 && $date < 20001127) &&
+      ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
+      (($date >= 20001127 && $date < 20010601) &&
+      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+      (($date >= 20010601 && $date < 20010701) &&
+      ($ltime[6] !~ /[123456]/ && !grep(/$date/,@extra))) ||
+      (($date >= 20010701 && $date <= $date2) &&
+      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+      grep(/$date/,@missing));
+
+    my $title="Untitled Again";
+    my $author="Paul Roustan";
+    my $url = "http://www.untitledagain.com";
 
     return keenspace($title,$author,$date,$url);
 
