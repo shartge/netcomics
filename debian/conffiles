@@ -1,0 +1,14 @@
+/etc/cron.daily/netcomics
+/etc/netcomics/body_el1.html
+/etc/netcomics/body_el2.html
+/etc/netcomics/body_el3.html
+/etc/netcomics/body_el4.html
+/etc/netcomics/body_el5.html
+/etc/netcomics/body_el6.html
+/etc/netcomics/body_el7.html
+/etc/netcomics/body_el8.html
+/etc/netcomics/head.html
+/etc/netcomics/index_body_el.html
+/etc/netcomics/links.html
+/etc/netcomics/links_index.html
+/etc/netcomics/tail.html
