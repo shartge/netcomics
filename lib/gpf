@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"gpf"} = 0;
+
+#General Protection Fault http://www.gpf-comics.com/
+# ex: http://www.gpf-comics.com/comics/gpf20000425.gif
+sub gpf {
+    my @ltime = gmtime(shift(@_));
+    return undef if $ltime[6] == 0; #no sunday seen so far
+    my $rec = {
+	'title' => "General Protection Fault",
+	'author' => "Jeffrey T. Darlington",
+	'type' => 'gif',
+	'main' => "http://www.gpf-comics.com/",
+	'archives' => "http://www.gpf-comics.com/d/",
+	'base' => "http://www.gpf-comics.com/comics/",
+	'page' => strftime("/gpf%Y%m%d.gif",@ltime),
+	'size' => [600,222]
+    };
+    return $rec;
+}
+
+1;
+
