@@ -16,8 +16,8 @@ sub shoe {
 	'type' => 'jpeg',
 	'main' => "http://macnelly.com/shoe_page.html",
 	'archives' => "http://macnelly.com/shoefolder/shoe_archive.asp",
-	'base' => "http://macnelly.com/shoe_images",
-	'page' => strftime("%m%y/shoe_$day%m%d%y.jpeg",@ltime),
+	'base' => "http://www.macnelly.com/shoe_images",
+	'page' => strftime("%m%y/shoe_$day%m%d%y.jpg",@ltime),
 	'size' => $size
     };
     return $rec;

@@ -2,7 +2,7 @@
 
 foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy
 	 pc rl ro zp spider apt3g bfriends buckles ba zt
-	 crock curtis dennis dinette familyc fgordon tumble bobo rmorgan
+	 crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
 	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
 	 katkids mandrake pops popeye sroper mmiller needhelp re schix)) {
     $hof{$_} = 0;
@@ -104,11 +104,12 @@ sub blondie {
 		       "blondie","Blondie",[480,142]);
 }
 
-# Bobos Prograss
-# http://www.kingfeatures.com/features/comics/bobo/about.htm
-sub bobo {
-    return kingfeature(shift(@_),"Bobos Progress","Dan Wright and Tom Spurgeon",
-                       "bobo","Bobos_Progress",[525,165]);
+# Wildwood
+# was Bobos Progress
+# http://www.kingfeatures.com/features/comics/wildwood/about.htm
+sub wildwood {
+    return kingfeature(shift(@_),"Wildwood","Dan Wright and Tom Spurgeon",
+                       "wildwood","Wildwood",[525,165]);
 }
 
 sub buckles {

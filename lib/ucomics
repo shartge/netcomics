@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb 
-	    jm boffo ob rla stsp tank ziggy)) {
+	    jm boffo ob rla stsp tank ziggy kudzu)) {
     $hof{$_} = 0;
 }
 #first Calvin & Hobbes strip was November 18, 1985.
@@ -101,6 +101,14 @@ sub ucross {
     return ucomics_direct($time, "United Comics Daily Crossword Puzzle",
 			  "Timothy E. Parker, ed.",[664,860],[664,860],
 			  "cxpic","cxpic");
+}
+
+#http://images.ucomics.com/comics/tmkud/2001/tmkud010501.gif
+sub kudzu {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,1,4,99); #May 1, 1999
+    return ucomics_direct($time, "Kudzu", "Doug Marlette",[600,412],[300,310],
+			  "tmkud","tmkud");
 }
 
 #Adam@home http://www.ucomics.com/adam/
