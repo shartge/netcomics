@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh 
+foreach (qw(bg bb be blondie bz fu gb hg lo mf ma mu fa sf sh 
     pc ro zp spider apt3g bfriends buckles ba zt phantom
     crock curtis dennis dinette familyc fgordon tumble rmorgan
     jparker mtrail mworth hi pvaliant theydo tiger
@@ -111,6 +111,12 @@ sub buckles {
     return kingfeature(shift(@_),"Buckles","David Gilbert","buckles","Buckles",
 		       [480,147]);
 }
+
+sub bz {
+    return kingfeature(shift(@_),"Bizarro","Dan Piraro","bizarro","Bizarro",
+			[300,356],[600,405]);
+}
+
 
 sub crock {
     return kingfeature(shift(@_),"Crock","Bill Rechin & Don Wilder","crock",
@@ -393,7 +399,10 @@ sub tiger {
 #Trudy http://www.kingfeatures.com/comics/trudy/
 #http://www.kingfeatures.com/features/comics/trudy/trt010124.gif
 sub trudy {
-    return kingfeature3(shift(@_),"Trudy","Jerry Marcus","trudy","trt",
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if 0 == $ltime[6]; # no sunday strips
+    return kingfeature3($time,"Trudy","Jerry Marcus","trudy","trt",
 		       [247,306]);
 }
 

@@ -14,10 +14,10 @@ sub nm {
 	'author' => "Michael Jantze",
 	'type' => $sfx,
 	'main' => "http://www.thenorm.com/",
-	'archives' => "http://www.thenorm.com/strips/strips.asp",
+	'archives' => "http://www.thenorm.com/strips/strips.php",
 	'base' => "http://www.thenorm.com/",
 #	'base' => "http://206.138.137.57/",
-	'page' => "arch/" . strftime("%y%m%d.$sfx",@ltime),
+	'page' => "arch/" . strftime("%Y/%y%m%d.$sfx",@ltime),
 	'size' => ($ltime[6] == 0) ? [737,252] : [475,155], #bigger on sunday
     };
     return $rec;

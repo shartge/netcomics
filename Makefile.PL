@@ -117,6 +117,7 @@ norm
 offthemark
 penny_arcade
 pvp
+real				 
 red_meat
 sempai
 sourcewars

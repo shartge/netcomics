@@ -1,3 +1,13 @@
+2003-07-12  Chris Hostetter  <hossman at users * sourceforge * net>
+
+	* patch#708540 new site for Dr. Fun
+	* patch#708545 Bizaro moved from ucomics to kingfeatures, 
+		Trudy not on sundays
+	* patch#750359 Real Life is now self hosting, moved from
+		keenspot to it's own module
+	* patch#750489 Little Gamers was broken, now it's not
+	* fixed The Norm (new URLs)
+
 2002-12-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* MANIFEST, Makefile.PL, lib/eightbit: Added Eight-Bit Theatre

@@ -1,22 +1,45 @@
 #-*-Perl-*-
 
-$hof{"lg"} = 1;
+$hof{"lg"} = 0;
 
 sub lg {
     my $time = shift(@_);
-    return undef if $time < mkgmtime(0,0,0,1,11,100); #started 1 Dec 2000
     my @ltime = gmtime($time);
-    return undef if $ltime[6] =~ /[06]/; #no weekend comics
-    my $baseurl = "http://www.little-gamers.com";
+    my $year = strftime('%Y',@ltime);
+    
+    # because of the calender configuration of the archive pages, we
+    # look for the "day" we are interested in, between the name of the
+    # "mon" we are interested in, and an upder "bound" of the next
+    # month...
+    my @months = qw(January February March April May June
+		    July August September October November December
+		    </table>);
+    # ... which is just like "Real Life" (aka: real) except that for
+    # Little Gamers, all of the years are on a single page, so the we also
+    # need a "hard" bound for the regexp with the next "year", or
+    # something we expect to see at the end of the page if "year"
+    # isn't the same as the current year...
+    my $hard =  ($ltime[5] == (gmtime())[5] ? "</body>" : ('>'.($year+1).'<'));
+		    
+    my $day = $ltime[3];
+    my $mon = $months[$ltime[4]];
+    my $bound = $months[$ltime[4]+1];
+
+    
+    my $base = 'http://www.little-gamers.com';
+    my $arc = '/archives.php';
+
     my $rec = {
 	'title' => "Little Gamers",
 	'author' => "Christian Fundin",
 	'type' => 'gif',
-	'main' => "$baseurl/",
-	'base' => "$baseurl/comics/",
-	'archives' => "$baseurl/archives.gamer",
-	'page' => strftime("%Y%m%d.gif",@ltime),
-	'size' => [771,237],
+	'main' => "$base/",
+	'base' => $base,
+	'archives' => $base . $arc,
+	'page' => $arc,
+	'exprs' => ["$year.*?$mon.*?<a\\s*href=\"(\/(index\.php)?\\?strip_id=\\d+)\">$day</a>.*?$bound.*?$hard",
+		    "'(/(index\.php)?\\?do_command=show_strip.*?)'"],
+
 	};
     return $rec;
 }

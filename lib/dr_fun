@@ -3,7 +3,7 @@
 $hof{"drfun"} = 0;
 
 # Doctor Fun
-# ex : http://metalab.unc.edu/Dave/Dr-Fun/df200004/df20000427.jpg
+# ex : http://www.ibiblio.org/Dave/Dr-Fun/df200004/df20000427.jpg
 sub drfun {
     my $time = shift;
     return undef if $time < 748825200; #1st comic: Sept 24, 1993
@@ -17,9 +17,9 @@ sub drfun {
 	'title' => "Doctor Fun",
 	'author' => "David Farley",
 	'type' => 'jpg',
-	'main' => "http://metalab.unc.edu/Dave/drfun.html",
-	'archives' => "http://metalab.unc.edu/Dave/archive.html",
-	'base' => "http://metalab.unc.edu/Dave/Dr-Fun",
+	'main' => "http://www.ibiblio.org/Dave/drfun.html",
+	'archives' => "http://www.ibiblio.org/Dave/archive.html",
+	'base' => "http://www.ibiblio.org/Dave/Dr-Fun",
 	'page' => strftime($page_fmt,@ltime),
 	#'size' => ($ltime[6] == 0 ? [614,1080] : [744,1338])
     };

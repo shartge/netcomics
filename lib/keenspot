@@ -3,7 +3,7 @@
 foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
-   real rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
+   rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
    cutewendy wigu youdamn chopping fatjc)) {
    $hof{"$_"} = 0;
 }
@@ -1656,42 +1656,6 @@ sub pentasmal {
     my $title = "Pentasmal";
     my $author = "Arron Farber";
     my $url = "http://pentasmal.com";
-    my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
-}
-
-#Real Life
-sub real {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
-    my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
-
-   # Last updated July 5, 2001
-    my @missing = (19991220,19991221,19991222,19991223,19991224,19991225,
-      19991226,20000304,20000305,20000326,20000501,20000527,20000528,
-      20000611,20000617,20000619,20000621,20000622,20000623,20000624,
-      20000625,20000716,20000725,20000808,20000820,20000914,20000916,
-      20000917,20000928,20001010,20001011,20001012,20001013,20001025,
-      20001205,20001225,20010101,20010102,20010219,20010504,20010515,
-      20010524,20010525,20010528,20010529,20010530,20010704);
-    my @extra = ();
-
-    #Everday until September 24, 2000
-    #M to F until present
-    return undef if 
-      (($date < 19991115) || #first comic on November 15, 1999
-      (($date >= 19991115 && $date < 20000924) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      (($date >= 20000924 && $date <= $date2) &&
-      ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
-
-    my $title = "Real Life";
-    my $author = "Greg Dean";
-    my $url = "http://reallifecomics.com";
     my $index = undef;
     
     return keenspot($title,$author,$date,$url,$index);

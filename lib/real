@@ -1,0 +1,40 @@
+#-*-Perl-*-
+
+$hof{"real"} = 0;
+
+#Real Life
+sub real {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    # because of the calender configuration of the archive pages, we
+    # look for the "day" we are interested in, between the name of the
+    # "mon" we are interested in, and an upder "bound" of the next
+    # month (for december, we seed bound with something we expect to see
+    # at the end of the page)
+    my @months = qw(January February March April May June
+		    July August September October November December
+		    </body>);
+		    
+    my $mon = $months[$ltime[4]];
+    my $bound = $months[$ltime[4]+1];
+    my $day = $ltime[3];
+    
+    my $base = 'http://reallifecomics.com';
+    my $arc = strftime('/archives%Y.php',@ltime);
+    
+    my $rec = {
+	'title' => "Real Life",
+	'author' => "Greg Dean",
+	'type' => 'png',
+	'base' => $base,
+	'archives' => $base . $arc,
+	'page' => $arc,
+	'exprs' => ["$mon.*?<a\\s*href=\"(\/daily.php\\?strip_id=\\d+)\">$day</a>.*?$bound",
+		    "'(/daily.php\\?do_command=show_strip.*?)'"],
+    };
+    
+    return $rec;
+}
+
+1;

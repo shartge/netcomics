@@ -3,7 +3,7 @@
 # TODO: ucomics(), ucomics_akamai() and ucomics_direct() should be
 #       rewritten to be only one uniform function.
 
-foreach (qw(adam baldo bigp bz bd cathy cth corn cs dp fw fusco hc itb 
+foreach (qw(adam baldo bigp bd cathy cth corn cs dp fw fusco hc itb 
 	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
 }
@@ -130,12 +130,6 @@ sub baldo {
 sub bigp {
     return ucomics_direct(shift(@_),"The Big Picture","Lennie Peterson",
 		    [600,412],[600,192],"bi","bi");
-}
-
-#Bizzaro http://www.ucomics.com/bizarro/
-sub bz {
-    return ucomics(shift(@_),"Bizarro","Dan Piraro","bizarro","bz",
-		   [600,405],[300,356],"bz");
 }
 
 #The Boondocks http://www.ucomics.com/boondocks/
