@@ -1,5 +1,9 @@
 #-*-Perl-*-
 
+# TODO: Benutzerfreundlich is somehow on a hiatus and the code is to
+#       dumb to notice this, so always producing a "remote" image,
+#       which is annoying.
+
 $hof{"bf"} = 0;
 
 # Benutzerfreundlich

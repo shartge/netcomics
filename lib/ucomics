@@ -1,5 +1,8 @@
 #-*-Perl-*-
 
+# TODO: ucomics(), ucomics_akamai() and ucomics_direct() should be
+#       rewritten to be only one uniform function.
+
 foreach (qw(adam baldo bigp bz bd cathy cth corn cs dp fw fusco hc itb 
 	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
