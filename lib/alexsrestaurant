@@ -29,7 +29,7 @@ sub alex {
     my $day = $ltime[3];
     my $page = $date >= 20000101 ? "/archive/$mon.$day.%y/full.gif" :
 	"/archive/%Y/%M.%D.%y/full.gif";
-    my $size = $ltime[6] == 6? [311,240] : [298,230];
+    my $size = $ltime[6] == 6? [311,240] : [665,230];
 
     my $baseurl = "http://www.alexsrestaurant.com";
     my $rec = {
@@ -37,7 +37,7 @@ sub alex {
 	'author' => "Peter Sinclair",
 	'type' => 'gif',
 	'main' => "$baseurl/",
-	'archives' => "$baseurl/archive.html",
+	'archives' => "$baseurl/archive",
 	'base' => $baseurl,
 	'page' => strftime($page,@ltime),
 	'size' => $size,

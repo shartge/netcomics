@@ -6,6 +6,7 @@
 
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/alexsrestaurant (alex): Fixed archive & weekday size.
 	* Netcomics/HTML/Themes/NoStatus.pm: new theme which doesn't
 	include the status column in the index.
 	* Netcomics/HTML/Theme.pm: Fixed mis-named html_key.
