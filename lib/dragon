@@ -17,9 +17,9 @@ sub dt {
        'title'    => "Dragon Tails",
        'author'   => "Tim Dawson",
        'type'     => 'jpg',
-       'main'     => "$baseurl/comics/",
+       'main'     => "$baseurl/",
        'archives' => strftime("$baseurl/?year=%Y", @ltime),
-       'base'     => "$baseurl/",
+       'base'     => "$baseurl/comics/",
        'page'     => strftime("%y%m%d.jpg", @ltime),
       };
     
