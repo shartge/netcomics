@@ -1,0 +1,60 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+#For comics that aren't updated, or are updated very irregularly,
+#then set it to undef (can only retreive using -T or -S & -E).
+$hof{"subname"} = 0;
+
+sub subname {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #use the script, mktime, in contrib (or doc if from the RPM) to
+    #find out what the number should be:
+    return undef if $time < 820454400; #1st comic: Jan 1, 1996
+    my $rec = {
+	'title' => "Comics Name",
+	'author' => "Author's Name", #optional
+	'type' => 'gif',
+	'main' => "http://www.comic-site.com/cartoon/", #optional
+	'archives' => "http://www.comic-site.com/cartoon/archives/", #optional
+	'base' => "http://www.comic-site.com/cartoons/archives/",
+	'page' => strftime("%y%m%d.html",@ltime),
+	'exprs' => ["\\/cartoons\\/archives\\/(\\d+\\.gif)"],
+	'size' => [$x,$y] #be sure to specify the dimensions (optional)
+	};
+    return $rec;
+}
+
+sub advanced {
+    my $rec = {
+	'back' => sub {
+	    #see Comic_Module-HOWTO.html
+	},
+	'func' => sub {
+	    #see Comic_Module-HOWTO.html
+	},
+	'exprs' => {
+	    'comic' => ["each one makes","another url","like 'exprs'"],
+	    'title' => [undef,undef,"expr to get title in next to last url"],
+	    'caption' => [undef,"this gets put in webpage below comic",undef],
+	    'size' => [undef,undef,
+		       "you can even replace the size field if you want"],
+	    'author' => ["in case the author is different per comic",
+			 undef,undef],
+	    'field1' => ["you can even make up your own field name",
+			 undef,undef],
+#	    'bad1' => ["you must provide an expression in only one item",
+#		       "this is illegal",undef],
+#	    'bad2' => ["you must provide the same number of items in your",
+#		       "array as that of 'comic'. this is bad."]
+	},
+#	'post' => sub {
+	    #sometime I'll add the ability to run function after the comic
+	    #has been downloaded. its argument will be the rli. That way
+	    #you can further manipulate the comic, like crop it given
+	    #some external program or other perl module is installed.
+#	}
+    }
+}
+1;
