@@ -1,3 +1,8 @@
+2002-06-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/HTML/Page.pm (generate): updated grabbing of the width
+	& height values to be lower/upper case independant.
+
 2002-06-07  Sven Hartge  <netcomics@ds9.argh.org>
 
         * lib/keenspot: needed to introduce @extra for wendy
