@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+$hof{"ay2k"} = 0;
+
+# After Y2K http://www.after-y2k.com/
+
+sub ay2k {
+    my $time = shift;
+    return undef if $time < 918345600; #first comic on Feb 7, 1999
+    my @ltime = gmtime($time);
+    my @ntime = gmtime(time); 
+    my $get_today = ($ntime[3] == $ltime[3] && $ntime[4] == $ltime[4] &&
+                     $ntime[5] == $ltime[5])? 1 : 0;
+    my $baseurl = "http://www.geekculture.com/geekycomics/Aftery2k";
+    my $rec = {
+	'title' => "After Y2K",
+        'author' => "Nitrozac",
+        'type' => 'gif',
+	'main' => "$baseurl/aftery2kmain.html",
+        'archives' => "$baseurl/y2Karchives/archivemain.html",
+        'base' => "$baseurl/"
+	};
+
+    if ($get_today) {
+        $rec->{'page'} = "aftery2kmain.html";
+        $rec->{'exprs'} = ["(y2Kimages/\\d+\\.gif)"];
+    } else {
+        my $seq = sprintf("%03d", int(($time - 926740000) / 86400)); 
+        if ($seq > 2) {  #1st numerically retrievable comic is #3
+	    $rec->{'page'} = "y2Kimages/$seq.gif";
+	} else {
+	    my %m = (1 => "February",
+		     2 => "March",
+		     3 => "April");
+	    $rec->{'base'} .= "y2Karchives/";
+	    $rec->{'page'} = "archivemain.html";
+	    $rec->{'exprs'} = {
+		'comic' => ["<\\/a>$m{$ltime[4]}.*?$ltime[3].*?<td><a href=\"([^\"]+\\.html)\"",
+			    '<img height="\d+" width="\d+" src="(../y2Kimages/\w+\.gif)" border="0" alt'],
+		'caption' => [undef,'<img height="\d+" width="\d+" src="../y2Kimages/\w+\.gif" border="0" alt="([^"]+)"']
+		};
+	}
+    }       
+
+    return $rec;
+}
+
+1;
+
