@@ -100,6 +100,7 @@ MODULES = lib/after_y2k \
 	lib/fordummies \
 	lib/foxtrot \
 	lib/frankandernest \
+	lib/freefall \
 	lib/gaming_u \
 	lib/gilthorp \
 	lib/gpf \

@@ -1,3 +1,8 @@
+2001-04-19  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/freefall: Added freefall, thanks to Jimmy De Laet, and then 
+	Phil Gregory.
+	
 2001-04-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomicsrc: Added supress_rerun_command option
