@@ -12,61 +12,61 @@ H1, ADDRESS, .TimeStamp {text-align: center}
 <H2>How to Personalize the Created Web Page</H2>
 The web page is created from a perl module in the namespace Netcomics::HTML::Themes.
 Don't know what that means? Copy the following template:<br>
-<CODE><TT>
-package Netcomics::HTML::Themes::Default;<BR>
-<BR>
-sub new {<BR>
-	my $class = shift;<BR>
-<BR>
-my $HTML_HEAD = <<'END_HEAD';<BR>
-<BR>
-END_HEAD<BR>
-<BR>
-my $HTML_LINKS = <<'END_LINKS';<BR>
-<BR>
-END_LINKS<BR>
-<BR>
-my $HTML_BODY = <<'END_BODY';<BR>
-<BR>
-END_BODY<BR>
-<BR>
-my $HTML_BODY_ELEMENT = <<'END_BODY_ELEMENT';<BR>
-<BR>
-END_BODY_ELEMENT<BR>
-<BR>
-my $HTML_TAIL = <<'END_TAIL';<BR>
-<BR>
-END_TAIL<BR>
-<BR>
-my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';<BR>
-<BR>
-END_LINKS_INDEX<BR>
-<BR>
-my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';<BR>
-<BR>
-END_INDEX_ELEMENT<BR>
-<BR>
-	my $self = {<BR>
-				'head' => $HTML_HEAD,<BR>
-				'links' => $HTML_LINKS,<BR>
-				'body' => $HTML_BODY,<BR>
-				'body_el' => $HTML_BODY_ELEMENT,<BR>
-				'tail' => $HTML_TAIL,<BR>
-				'links_index' => $HTML_LINKS_INDEX,<BR>
-				'index_element' => $HTML_INDEX_ELEMENT,<BR>
-			   };<BR>
-<BR>
-	return bless $self, $class;<BR>
-}<BR>
-<BR>
-1;<BR>
-</TT></CODE>
+<PRE>
+package Netcomics::HTML::Themes::Default;
+sub new {
+	my $class = shift;
+
+my $HTML_HEAD = <<'END_HEAD';
+
+END_HEAD
+
+my $HTML_LINKS = <<'END_LINKS';
+
+END_LINKS
+
+my $HTML_BODY = <<'END_BODY';
+
+END_BODY
+
+my $HTML_BODY_ELEMENT = <<'END_BODY_ELEMENT';
+
+END_BODY_ELEMENT
+
+my $HTML_TAIL = <<'END_TAIL';
+
+END_TAIL
+
+my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';
+
+END_LINKS_INDEX
+
+my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';
+
+END_INDEX_ELEMENT
+
+	my $self = {
+		'head' => $HTML_HEAD,
+		'links' => $HTML_LINKS,
+		'body' => $HTML_BODY,
+		'body_el' => $HTML_BODY_ELEMENT,
+		'tail' => $HTML_TAIL,
+		'links_index' => $HTML_LINKS_INDEX,
+		'index_element' => $HTML_INDEX_ELEMENT,
+	};
+
+	return bless $self, $class;
+}
+
+1;
+</PRE>
 <P>The webpage is divided into 7 parts:</P>
 <UL>
   <LI><I>$HTML_HEAD</I>:
       <UL>
 	<LI>The string <B>"&lt;DATE&gt;"</B> is replaced with
-	    the date of the form "Month day Year".</LI>
+	    the date of the form "mon day, Year"  This can be changed
+	    using the -wf option ($webpage_datefmt in the rc file).</LI>
 	<LI>If &lt;DATE&gt; is provided with the optional attribute,
 	    <B>FORMAT=""</B>, the text between the quotes is used
 	    as the format specifier for the POSIX::strftime() function.
@@ -81,9 +81,10 @@ END_INDEX_ELEMENT<BR>
       <UL>
 	<LI><B>"&lt;COMIC_FILE#&gt;"</B> is replaced with the filename of
 	    the comic.</LI>
-	<LI><B>"&lt;SIZE&gt;"</B> is replaced with the &lt;IMG&gt; attributes
-	    HEIGHT=# and WEIGHT=#.  This will help make rendering the web page
-	    happen more quickly in most browsers.</LI>
+	<LI><B>"&lt;SIZE&gt;"</B> is replaced with the HTML
+	    &lt;IMG&gt; attributes HEIGHT=# and WEIGHT=#.  This will
+	    help make rendering the web page happen more quickly in
+	    most browsers.</LI>
       </UL>
   </LI>
   <LI><I>$HTML_TAIL</I>: The string <B>"&lt;CTIME&gt;"</B> is replaced with
@@ -222,7 +223,7 @@ scratch.
 <HR>
 <ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
 <SPAN CLASS=TimeStamp>
-Last modified: Tue Apr 17 07:14:16 CDT 2001
+Last modified: Fri Aug 31 11:16:57 CDT 2001
 </SPAN>
 </BODY>
 </HTML>
