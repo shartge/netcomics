@@ -1,18 +1,38 @@
-Latest Changes:
-
-* Multi-page indexing
-* GUI-dependant debian package spun off
-* HTML Theme support (there is a current lack of different themes, though)
-* "Today's Comics" feature
-* Many updated comics
-
 Changes in release 0.14:
+* Multi-page indexing
+* GUI-dependent debian package spun off
+* HTML Theme support (we need people to submit themes)
+* "Today's Comics" feature
+* Many updated comics.
 * Most of the netcomics code has been rewriten/reorganized to be object
   oriented.
-* The HTML themeing system has been changed
+* The HTML theme system has been changed
   * Themes are now modules.
   * Themes are selected by name with the -t option.
-* More bug fixes then you can shake a finger at.
+* More bug fixes than you can shake a finger at.
+* New comics:
+	Broom Hilda
+	Cats with Hands
+	Doodles
+	Lewis
+	Lola
+	Loose Parts
+	Meehan Streak
+	Monkeyhouse
+	Sylvia
+	Willy 'N Ethel
+	9 to 5
+	Compu-toon
+	Quigmans
+	That's Jake
+	Slow Wave
+	Little Gamers
+	RPG World
+	Chopping Block
+	Oddjobs
+	Makeshift Miracle
+	Untitled Again
+	Mac Hall
 
 Changes in release 0.13.2:
 * New option, -P, that allows comics to be stored in their own

@@ -1,3 +1,7 @@
+2002-03-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* NEWS: Updated for 0.14 release.
+
 2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/kingfeatures (schix): Made author associated with her
