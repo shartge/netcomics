@@ -1,3 +1,8 @@
+2001-03-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics (lock_file): When lock file exists, the error
+	message is now printed even without verbosity.
+
 2001-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/ucomics (ga): Moved Garfield to ucomics thanks to

@@ -421,7 +421,8 @@ sub lock_file {
 	infomsg("Checking for lockfile.\n") if $extra_verbose;
 	if (-e $lockfile) {
 	    infomsg("Lockfile exists: $lockfile.\nCheck to make sure " .
-		"another show_comics isn't running or use -K.\n") if $verbose;
+		    "another show_comics isn't running or \n" .
+		    "use -K to ignore the lockfile.\n");
 	    exit(0);
 	}
 	if (open(FILE,">$lockfile")) {
