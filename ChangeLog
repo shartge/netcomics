@@ -1,5 +1,8 @@
 2001-07-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* netcomics.spec (%install): Added compression of some doc files.
+	(%changelog): Reformatted so that it would use RCS keyword
+	replacement to automatically manage the changelog.
 	* Makefile.PL (macro): Changed PKGVERSION to be 1cvs.
 
 2001-07-19  Elliot Glaysher  <eglayshe@umich.edu>
