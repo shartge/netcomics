@@ -11,11 +11,11 @@ sub tmw {
     my $rec = {
 	'title' => "This Modern World",
 	'author' => "Tom Tomorrow",
-	'type' => 'gif',
+	'type' => 'jpg',
 	'main' => "http://www.salon.com/comics/",
 	'archives' => "http://www.salon.com/archives/to/comics_tomo.html",
 	'base' => "http://www.salon.com/comics/tomo/",
-	'page' => strftime("%Y/%m/%d/%_dtomo/%_dtomo.gif",@ltime),
+	'page' => strftime("%Y/%m/%d/tomo/story.jpg",@ltime),
 	'size' => [565,511]
 	};
     return $rec;
