@@ -1942,7 +1942,9 @@ sub wendy {
                   20020225,20020304,20020311,20020318,20020325,
                   20020401,20020408,20020415,20020422,20020429,
                   20020506);
-     
+    
+    my @extra  = (20020531);
+    
     # Old wendy had a very irregular release cycle, therefor using an exists
     # list. The new wendy is released every monday until end of cutewendy.
     # After the end of cutewendy, wendy is planned to be released
@@ -1952,9 +1954,10 @@ sub wendy {
 	(
 	 ($date < 19900711) || #first comic on July 11, 1990 (?!)
 	 ($date < 20020520 && ! grep(/$date/,@exists)) || 
-	 ($date >= 20020520 && $ltime[6] !~ /[135]/) # wendy after may 20th 2002
+	 ($date >= 20020520 && $ltime[6] !~ /[135]/) || # wendy after may 20th 2002
+	 ($ltime[6] !~ /[123456]/ && !grep(/$date/,@extra)) 
 	);
-
+	
     my $title = "Wendy";
     my $author = "Joshua Lesnick";
     my $url = "http://www.wendycomic.com";
