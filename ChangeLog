@@ -1,6 +1,12 @@
 2001-05-17  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* AUTHORS: Fixed problem with Kai Wurm's name. Oops.
+	* Netcomics/Config.pm.in (clear_date_settings): Added POD text for
+	this function.
+	* Netcomics/Util.pm (in_future): Added this routine to check if a date
+	has happened yet.
+	* gtkcomics (Display_comic): Use in_future() to check that the user
+	didn't click on a date in the future. Added POD text.
 	
 2001-05-16  Elliot Glaysher  <nuriko.chan@home.com>
 

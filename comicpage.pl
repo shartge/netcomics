@@ -60,11 +60,12 @@ print "Sorting...\n";
 my $list = $forms->{'window_comic_page'}{'list1'};
 $list->set_selection_mode( 'single' );
 my @unified_comic_array;
-my (%name_lookup, %procs);
+my (%name_lookup, %date_lookup, %procs);
 foreach my $name (@names) {
 	my ($f, $d) = @{$names{$name}};
 	my $tmpref = [ "$name" ];
 	$name_lookup{$name} = "$f";
+	$date_lookup{$f} = "$d";
 	$procs{$f} = $name;
 	push(@unified_comic_array, $tmpref);
 }
@@ -138,6 +139,11 @@ sub Display_comic {
 	print "$year:$month:$day\n";
 	my $day_to_download = mkgmtime(0,0,12,$day,$month,$year-1900);
 	my $comic_name = $procs{$proc};
+	my $days_behind = $date_lookup{$proc};
+	unless (Netcomics::Util::in_future($day_to_download, $days_behind)) {
+		$info->set_status("This day has not happened yet.");
+		return;
+	}
 
 	$info->set_progress(.10);
 	$info->set_status("Please wait while downloading $comic_name...");

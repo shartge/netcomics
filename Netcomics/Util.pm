@@ -51,7 +51,6 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 	$tz = (0 - $tzmin/60);
 }
 
-
 sub requireDataDumper {
 	my $data_dumper_installed = 0;
     $@ = 1;
@@ -203,6 +202,24 @@ sub libdate_sort {
 
 sub mkgmtime {
 	return mktime(@_) + (3600*$tz);
+}
+
+=head2 in_future($day_to_download, $days_behind)
+
+Compares the the variable $days_to_download against the time reported by the
+time command. Returns 1 if the date has happened yet.
+
+=cut
+
+# TODO: Get it so it compensates for $days_behind;
+sub in_future {
+	my ($day_to_download, $days_behind) = @_;
+	my $today_time = time;
+	if ($today_time < $day_to_download) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 sub status_message {

@@ -670,6 +670,13 @@ sub load_rcfile {
 	}
 }
 
+=head2 clear_date_settings()
+
+Clears several date and comic related settings so different options can be sent
+to an alread initialized $conf/$factory object.
+
+=cut
+
 sub clear_date_settings {
 	# Clear date stuff.
 	$days_of_comics = undef;
