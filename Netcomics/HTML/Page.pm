@@ -31,7 +31,7 @@ sub new {
 				# them by passing them to the $self->new function.
 				'rli_dataset' => { },
 				'comics_set' => [ ],
-				'datestr' => strftime("%b %d, %Y",gmtime(time())),
+				'datestr' => strftime($webpage_datefmt, gmtime(time())),
 				'ctime' => ctime(time()),
 				'theme' => new Netcomics::HTML::Themes::Default,
 				'index' => undef,
