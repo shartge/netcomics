@@ -17,9 +17,10 @@
 ^etc/
 ^bin/
 ^debian/tmp/
+^debian/files$
 ^debian/netcomics/
 ^debian/netcomics-modules/
-^debian/.*debhelper$
-^debian/.*substvars$
+^debian/.+debhelper$
+^debian/.+substvars$
 \.orig$
 \.cvsignore$

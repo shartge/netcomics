@@ -1,7 +1,7 @@
 Source: netcomics
 Section: contrib/web
 Priority: optional
-Maintainer: Elliot Glaysher <nuriko.chan@home.com>
+Maintainer: Elliot Glaysher <eglayshe@umich.edu>
 Build-Depends-Indep: debhelper
 Standards-Version: 3.1.1
 

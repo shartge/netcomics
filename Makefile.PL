@@ -35,6 +35,7 @@ HTML.pm
 MyRequest.pm
 MyResponse.pm
 Util.pm
+RLI.pm
 );
 
 my @pm_with_pod = qw(
@@ -406,6 +407,16 @@ $(RHRPMS)/noarch/$(RPMFILE): $(RHSPECS)/$(RPMSPEC) \
 	cd $(DISTVNAME); \
 	su -c "$(MAKE) -f debian/rules binary; \
 		   $(CHOWN) $$LOGNAME $@; $(RM_RF) ../$(DISTVNAME)"
+
+distclean::
+	#$(RM) bin/*
+	$(RM_RF) debian/netcomics
+	$(RM_RF) debian/netcomics-modules
+	$(RM_RF) debian/tmp
+	$(RM) debian/files debian/*.debhelper debian/*substvars
+	$(RM_RF) comic_page/
+	$(RM_RF) comicpage.glade.bak comicpage.glade2perl.xml
+
 
 #This link is made to remind you that you need to upload the file
 #with this name to metalab.unc.edu, not the one the debian packager creates.

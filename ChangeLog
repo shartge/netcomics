@@ -1,3 +1,12 @@
+2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* Makefile.PL: Minor updates for cleaning up after debian building
+	* debian/control: Update my email.
+	* debian/netcomics-modules.files: Update to point for new build system
+	* debian/netcomics.files: Update to point for new build system.
+	* debian/netcomics.manpages: See debian/netcomics.files.
+	* debian/rules: See debian/netcomics.manpages. :-)
+
 2001-07-11  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* AUTHORS: Updated for my new email.

@@ -16,7 +16,7 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	perl Makefile.PL
+	perl Makefile.PL 
 
 	touch configure-stamp
 
@@ -47,8 +47,10 @@ install: configure build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/netcomics.
-	$(MAKE) TMPDIR=/var/cache/netcomics INSTALLSITELIB=/usr/lib/perl5
-	$(MAKE) PREFIX=$(CURDIR)/debian/tmp/usr SITEPREFIX=$(CURDIR)/debian/tmp/usr TMPDIR=$(CURDIR)/debian/tmp/var/cache/netcomics INSTALLSITELIB=$(CURDIR)/debian/tmp/usr/lib/perl5 INSTALLSITEMAN1DIR=$(CURDIR)/debian/tmp/usr/share/man/man1 INSTALLSITEMAN3DIR=$(CURDIR)/debian/tmp/usr/share/man/man3 install
+	$(MAKE) TMPDIR=/var/cache/netcomics PREFIX=/usr SITEPREFIX=/usr INSTALLSITELIB=/usr/share/perl/5.6.1
+	$(MAKE) PREFIX=$(CURDIR)/debian/tmp/usr SITEPREFIX=$(CURDIR)/debian/tmp/usr TMPDIR=$(CURDIR)/debian/tmp/var/cache/netcomics install
+
+	# 
 
 	dh_movefiles
 
