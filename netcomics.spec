@@ -116,7 +116,7 @@ END
 
 %files data
 %defattr(-,root,root)
-%doc *.gz doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
+%doc *.gz doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html
 /usr/%{installsitelib}/Netcomics/Comic
 /usr/%{installsitelib}/Netcomics/HTML/Themes
 
@@ -125,7 +125,10 @@ END
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.19  2002-04-02 20:59:37  hochstrb
+Revision 1.20  2002-05-29 17:24:57  hochstrb
+removed potd/astronomy from the %doc list in %files data
+
+Revision 1.19  2002/04/02 20:59:37  hochstrb
 fixed directory inclusions
 
 Revision 1.18  2002/04/02 19:08:58  hochstrb

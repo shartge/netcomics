@@ -1,3 +1,8 @@
+2002-05-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec (%files data): removed potd/astronomy from the
+	%doc list.
+
 2002-05-29  Sven Hartge  <netcomics@ds9.argh.org>
 
         * MANIFEST, Makefile.PL, lib/astronomy: Since no one objected:
