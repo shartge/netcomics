@@ -425,7 +425,7 @@ sub zp {
 
 #Zits http://www.kingfeatures.com/comics/zits/
 sub zt {
-    return kingfeature(shift(@_),"Zits","Jerry Scott and JimBorgman","zits",
+    return kingfeature(shift(@_),"Zits","Jerry Scott and Jim Borgman","zits",
                        "Zits", [480,166], [600,295]);
 }
 
