@@ -1,5 +1,7 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/kevin-n-kell: Updated to get every day of the week,
+	thanks to Shawn Oakey.
 	* lib/farcus: Updated thanks to Shawn Oakey.
 	* lib/fce (fce): Added Fight Cast or Evade thanks to 
 	Benjamin Cordes.  Added an exception & changed to use a baseurl.

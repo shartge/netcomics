@@ -6,16 +6,23 @@ $hof{"kk"} = 0;
 # http://www.kevinandkell.com/2000/strips/kk20000124.gif
 sub kk {
     my @ltime = gmtime(shift(@_));
-    return if $ltime[6] == 0 || $ltime[6] == 6;
+    my $date = strftime("%Y%m%d",@ltime);
+
+    return undef 
+	if ((($ltime[6] == 0 || $ltime[6] == 6) && 
+	     ($date < 20000703)) || #no Sun or Sat strips before this date
+	    ($date < 19950904)); #start of archive
+
+    my $baseurl = "http://www.kevinandkell.com/";
     my $rec = {
 	'title' => "Kevin n Kell",
 	'author' => "Bill Holbrook",
 	'type' => 'gif',
-	'main' => "http://www.kevinandkell.com/",
-	'archives' => "http://www.kevinandkell.com/archive/index.html",
-	'base' => "http://www.kevinandkell.com/",
-	'page' => strftime("/%Y/strips/kk%Y%m%d.gif",@ltime)
-	};
+	'main' => "$baseurl/",
+	'archives' => "$baseurl/archive/index.html",
+	'base' => $baseurl,
+	'page' => strftime("/%Y/strips/kk%Y%m%d.gif",@ltime),
+    };
     return $rec;
 }
 
