@@ -1,3 +1,9 @@
+2002-08-19  Sven Hartge  <netcomics@ds9.argh.org>
+
+        * Netcomics/HTML/Themes/: CleanRound.pm, CleanRoundImbedCaption.pm:
+        add a gray row below the comic identifier, making it look
+        vertically centered and not 'glued' to the comic image
+
 2002-08-18  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Themes/Default.pm (new): Added code to inherit prefs.
