@@ -1,3 +1,8 @@
+2001-08-08  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* Netcomics/Factory.pm (new): Fixed implimentation of import that I did
+	two days ago.
+
 2001-08-06  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* (Sorry about the prolonged abscence)
