@@ -70,7 +70,6 @@ MODULES = lib/after_y2k \
 	lib/badlands \
 	lib/bayside \
 	lib/bigpanda \
-	lib/boatanchor \
 	lib/bruno \
 	lib/callahan \
 	lib/cartoonweb \
@@ -97,8 +96,6 @@ MODULES = lib/after_y2k \
 	lib/farcus \
 	lib/fairgame \
 	lib/fika \
-	lib/forbez \
-	lib/fordummies \
 	lib/frankandernest \
 	lib/freefall \
 	lib/gaming_u \
@@ -108,7 +105,6 @@ MODULES = lib/after_y2k \
 	lib/greytown \
 	lib/helen \
 	lib/helpdesk \
-	lib/janesworld \
 	lib/jerkcity \
 	lib/joyoftech \
 	lib/k_chronicles \
@@ -131,7 +127,6 @@ MODULES = lib/after_y2k \
 	lib/offthemark \
 	lib/ozy_millie \
 	lib/penny_arcade \
-	lib/psmueller \
 	lib/pvp \
 	lib/reallife \
 	lib/red_meat \
@@ -155,7 +150,6 @@ MODULES = lib/after_y2k \
 	lib/suburban \
 	lib/superosity \
 	lib/this_modern_world \
-	lib/tom_the_dancing_bug \
 	lib/toonville \
 	lib/touche \
 	lib/toytrunk \
@@ -182,6 +176,7 @@ OLDMODULES = \
 	dilbert \
 	fatjesus \
 	fce \
+	forbez \
 	fordummies \
 	foxtrot \
 	garfield \
