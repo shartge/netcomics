@@ -3,5 +3,8 @@
 # netcomics daily cron job.
 #
 
-# Add here calls to netcomics:
-#netcomics -c uf -n 1 -g
+# Add here calls to netcomics.
+
+#This uses wget to download every comic strip released today and
+#creates a set of webpages with ten comics per page.
+#netcomics -g -w=10

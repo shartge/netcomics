@@ -1,3 +1,20 @@
+netcomics (0.13-1) unstable; urgency=medium
+
+  * Each comics strip's Resource Locator Info (RLI) structure is now
+    saved persistently in the spool directory when the comic strip is
+    downloaded.  These "rli status files" are reloaded during the next
+    invocation of netcomics (unless they're purged) and used to
+    determine what comics needs to be retried to be downloaded.  When
+    the webpage is recreated, the status files are used to find out
+    extra information about the already downloaded comics (author,
+    caption, website URLs, etc).  New commandline options: -R -a -q.
+  * Referers are now handled.  A module may specify its own referer if
+    the default (derived from the URL) is not correct.
+  * The external command specified may now include several macros which
+    get replaced.  See the manpage for details.
+
+ -- Ben Hochstedler <hochstrb@cs.rose-hulman.edu>  Fri, 25 Aug 2000 07:30:00 +0600
+
 netcomics (0.12-1) unstable; urgency=medium
 
   * Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
