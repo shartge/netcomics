@@ -130,51 +130,25 @@ sub init {
 		@files = sort(grep(s/(\..+\.rli)$/$1/,@files));
 		if (grep(/^$netcomics_rli_file$/, @files)) {
 			$single_rli_file = 1; #make sure this is on even if not specified
-			my @loading_rlis = load_rlis($netcomics_rli_file);
-			foreach my $rli (@loading_rlis) {
-				$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli) 
-					if defined $rli;
-				for (@{$rli->{'file'}}) {
-					my $file = $_;
-					my $test_file_name;
-					unless ($separate_comics) {
-						$test_file_name = "$comics_dir/$file";
-					} else {
-						$test_file_name = "$comics_dir/$rli->{'subdir'}/$file";
-					}
-					if (-f "$test_file_name") {
-						push(@{$self->{'existing_rli_files'}},$file);
-					} elsif ($rli->{'status'} == 1) {
-						print STDERR "Warning: $file is missing in $comics_dir\n"
-							if $verbose;
-						#make it so that this one will be retried.
-						$rli->{'status'} = 0;
-					}
-				}
-			}
-		} elsif (! $single_rli_file) {
-			for (@files) {
-				my $name = $_;
-				my $rli = load_rli($name);
-				if (! defined($rli)) {
-					print STDERR "Warning: $name did not load.\n";
-					next;
-				}
-				$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli)
-					if defined $rli;
-				#save the files managed by this rli status file so we know which
-				#files were already downloaded before we start downloading more.
-				for (@{$rli->{'file'}}) {
-					my $file = $_;
-					if (-f "$comics_dir/$file") {
-						push(@{$self->{'existing_rli_files'}},$file);
-					} elsif ($rli->{'status'} == 1) {
-						print STDERR 
-							"Warning: $name is missing $file in $comics_dir\n"
-								if $verbose;
-						#make it so that this one will be retried.
-						$rli->{'status'} = 0;
-					}
+			@files = ($netcomics_rli_file); #make it the only file to load.
+		}
+		foreach my $rli (load_rlis(@files)) {
+			$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli) 
+				if defined $rli;
+			#make sure important data is correct in the rli (i.e. its files)
+			for (@{$rli->{'file'}}) {
+				my $file = $_;
+				my $test_file_name;
+				$test_file_name = "$comics_dir/" . 
+					($rli->{'subdir'}? $rli->{'subdir'} : "") . $file;
+				if (-f "$test_file_name") {
+					push(@{$self->{'existing_rli_files'}},$file);
+				} elsif ($rli->{'status'} == 1) {
+					print STDERR "Warning: $file is missing in $comics_dir\n"
+						if $verbose;
+					#make it so that this one will be retried.
+					$rli->{'status'} = 0;
+					$rli->{'tries'}-- if $rli->{'tries'};
 				}
 			}
 		}
@@ -382,15 +356,6 @@ sub get_comics {
 		my $time = $rli->{'time'};
 		my $name = undef;
 
-		if ($separate_comics) {
-			$rli->{'subdir'} = $rli->{'title'};
-			$rli->{'subdir'} =~ s/\s/_/g;
-			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
-				print "Creating directory $rli->{'subdir'}\n" if $verbose;
-				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
-			}
-		}
-		
 		#first construct the name because this is also used by webpage creation
 		if (defined($rli->{'title'})) {
 			#todo: stick in here, using options to determine how to
@@ -413,6 +378,14 @@ sub get_comics {
 		$func = $rli->{'func'} if exists $rli->{'func'};
 		$back = $rli->{'back'} if exists $rli->{'back'};
 		$referer = $rli->{'referer'} if exists $rli->{'referer'};
+		
+		if ($separate_comics) {
+			$rli->{'subdir'} = $rli->{'name'};
+			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
+				print "Creating directory $rli->{'subdir'}\n" if $verbose;
+				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
+			}
+		}
 		
 		if (!defined($rli->{'type'})) {
 			$rli->{'type'} = $default_filetype;
@@ -823,6 +796,7 @@ sub dump_rli {
 			push(@rli, $rli);
 		}
 		foreach (@rli) {
+			delete $_->{'reloaded'};
 			#Delete no-longer needed fields for completely download comics
 			if ($_->{'status'} == 1) {
 				delete $_->{'base'};
@@ -1052,59 +1026,39 @@ sub add_referer {
 }
 
 
-#return the persistenantly stored rli hash.
-sub load_rli {
-	my $rli_name = shift;
-	my $file = $comics_dir . '/' . $rli_name;
-	local(%rli);
-	if (-f $file && -r $file) {
-		$@=0;
-		eval {require $file;};
-#		print Data::Dumper->Dump([\%rli],[qw(*rli)]) if $extra_verbose;
-		if ($@) {
-			print STDERR "Error loading rli status file: '$file':\n$@.\n";
-			print STDERR "Skipping."
-		} elsif (! defined(%rli)) {
-			print STDERR "Loaded rli status file, $file, " .
-				"resulted in an empty rli\n";
-		} else {
-			#Make sure necessary fields are there
-			$rli{'tries'} = 1 if ! defined $rli{'tries'};
-			#I'm not sure if this needs to be done or not, but to make sure
-			#the same hash isn't being passed around, return a reference to
-			#a locally created copy the rli.
-			my %rlic = %rli;
-			return \%rlic;
-		}
-	} elsif ($extra_verbose) {
-		print "No rli status file, $file, found\n";
-	}
-	return undef;
-}
-
+#return a list of persistenantly stored rli hashes.
 sub load_rlis {
-	my $rli_name = shift;
-	my $file = $comics_dir . '/' . $netcomics_rli_file;
-	local(@rli);
-	if (-f $file && -r $file) {
-		$@=0;
-		eval {require $file;};
-		if ($@) {
-			die "Error loading rli status file: '$file':\n$@.";
-		} elsif (! defined(@rli)) {
-			print STDERR "Loaded global rli status file, $file, " .
-				"resulted in an empty rli\n";
-		} else {
-			#Make sure necessary fields are there
-			foreach $_ (@rli) {
-				$_->{'tries'} = 1 if ! defined $_->{'tries'};
+	my @rli_files = @_;
+	my @loaded_rlis = ();
+	foreach (@rli_files) {
+		my $file = $comics_dir . '/' . $_;
+		local(@rli,%rli);
+		if (-f $file && -r $file) {
+			$@=0;
+			eval {require $file;};
+			if ($@) {
+				die "Error loading rli status file: '$file':\n$@.";
+			} elsif (@rli == 0 && keys(%rli) == 0) {
+				print STDERR "Loading rli status file, $file, " .
+					"resulted in an empty rli\n";
+			} 
+			#copy the whole reloaded list of rlis
+			if (@rli) {
+				push(@loaded_rlis, @rli);
 			}
-			return @rli;
+			#or copy the single rli reloaded
+			if (keys(%rli)) {
+				push(@loaded_rlis, \%rli);
+			}
+		} elsif ($extra_verbose) {
+			print STDERR "Error: No rli status file $_, found!\n";
 		}
-	} elsif ($extra_verbose) {
-		print STDERR "No global rli status file, $file, found\n";
 	}
-	return undef;
+	#Make sure necessary fields are there
+	foreach (@loaded_rlis) {
+		$_->{'tries'} = 1 if ! defined $_->{'tries'};
+	}
+	return @loaded_rlis;
 }
 
 sub get_max_hof {

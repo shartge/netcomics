@@ -2,6 +2,14 @@
 
 	* Netcomics/Factory.pm (dump_rli): Changed to delete unneeded
 	fields only from completely download comics.
+	(load_rlis): Redesigned to load in global & regular rli files so
+	that load_rlis() could be removed to unduplicate code.
+	(init): Adjusted code that was using load_rli() & load_rlis() to
+	eliminate duplicated code.
+	(get_comics): Moved where the subdirectory is created when
+	separate_comics is selected to after it's been determined if the
+	rli needs to be skipped to avoid needlessly creating
+	subdirectories.
 
 2001-04-24  Elliot Glaysher <nuriko.chan@home.com>
 
