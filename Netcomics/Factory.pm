@@ -104,18 +104,14 @@ sub new {
 				} elsif ($rli->{'status'} == 1) {
 					#print Data::Dumper->Dump([$rli],[qw(*rli)]);
 
-					# Check to see if it's an old style RLI (0.13.2)
+					# use only the final pathname
 					my @stuff = split(/\//, $file);
-					my $time = "@stuff";
-					$time--;
-					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[1]") {
+					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[$#stuff]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
 						foreach (@list_of_files) {
 							my @stuff = split(/\//, $_);
-							my $time = "@stuff";
-							$time--;
-							$_ = "$stuff[1]";
+							$_ = "$stuff[$#stuff]";
 							push(@temporary_file_rebuild_array, $_)
 						}
 						$rli->{'file'} = [ ];
