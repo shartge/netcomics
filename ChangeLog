@@ -1,3 +1,8 @@
+2001-04-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Factory.pm (get_comics): Reverted code that creates
+	the subdir name back to what it was before.
+
 2001-04-26  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Makefile (install): Fixed problems installing /etc/netomicsrc
