@@ -1,3 +1,8 @@
+2002-04-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL (post_constants): Fixed tar.gz & zip archive rules.
+	(%opts): changed version to 0.14.1cvs.
+
 2002-04-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* NEWS: Updated for 0.14.1 release.
