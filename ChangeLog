@@ -1,3 +1,7 @@
+2001-05-16  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* AUTHORS: Initial checkin.
+	
 2001-05-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/Factory.pm (setup): Removed resetting of
