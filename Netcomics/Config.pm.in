@@ -267,7 +267,7 @@ sub processARGV {
 				print STDERR "Need a space-delimitted list of comic id's.";
 				print STDERR "  Use -h for usage.\n";
 				exit 1;
-p			}
+			}
 			if ($user_unspecified_comics && $user_specified_comics) {
 				print STDERR 
 					"Can only use one of -c and -C. Use -h for usage.\n";

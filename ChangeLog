@@ -7,6 +7,7 @@
 	Gtk::GladeXML.
 	* Comicpage/comicpage.glade: First interface file commited! GTK+
 	interface created at runtime!
+	* Netcomics/Config.pm.in: Where the hell did that stray "p" come from?
 	
 2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
