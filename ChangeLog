@@ -1,5 +1,7 @@
 2001-11-27  Elliot Glaysher  <glaysher@umich.edu>
 
+	* netcomics: Fixed really _stupid_ efficiency problem with new today
+	webpage feature.
 	* lib/keenspot (elf): elf changed location of index. Fixed.
 
 2001-11-25  Elliot Glaysher  <glaysher@umich.edu>

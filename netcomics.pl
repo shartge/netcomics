@@ -140,11 +140,11 @@ if ($make_webpage) {
 		Netcomics::HTML->create_basic_page_set(@rli);
 	} else {
 		Netcomics::HTML->create_archive_webpages(@rli);
-		Netcomics::HTML->create_toplevel_page_set(@rli);
-	}
-
-	if ($webpage_today) {
-		Netcomics::HTML->create_today_page(@rli);
+		if ($webpage_today) {
+			Netcomics::HTML->create_today_page(@rli);
+		} else {
+			Netcomics::HTML->create_basic_page_set(@rli);
+		}
 	}
 
 } else {
