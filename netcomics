@@ -141,22 +141,37 @@ if (!@selected_comics) {
 print STDERR "Selected Comics !! : @selected_comics \n" if $extra_verbose;
 
 if ($make_webpage) {
-	#Create the HTML object.
-	my $HTMLpage = Netcomics::HTML->new("Webpage");
 
 	# Create the webpage.
 	unless ($separate_comics) {
-		$HTMLpage->create_webpage(@rli);
+		my $HTMLpage = Netcomics::HTML::Set->new;
+		$HTMLpage->create_set_of_pages(@rli);
 	} else {
 		# Create the archive pages
-		$HTMLpage->create_webpage_set(\@rli, \@selected_comics);
-
-		my $today = strftime("${date_fmt}", localtime(time));
-		my @comics_to_pass;
-		foreach (@rli) {
-			push(@comics_to_pass, $_) if grep($today,$_->{'name'});
+		foreach my $comic (@selected_comics) {
+			print "\nTRYING COMIC: $comic\n";
+			my @rlis_to_pass;
+			my $subdir = "";
+			foreach my $rli (@rli) {
+				#print "Trying to match $comic to $rli->{'proc'}\n";
+				#print "Succes matching $comic to $rli->{'proc'}" if
+				#grep(/$comic/, $rli->{'proc'});
+				if (grep(/$comic/, $rli->{'proc'})) {
+					push(@rlis_to_pass, $rli);
+					$subdir = $rli->{'subdir'};
+				}
+			}
+			my $HTMLpage = Netcomics::HTML::Set->new
+			('output_dir' => "$comics_dir/$subdir",
+			 'include_subdir' => 0
+			);
+			print "Putting in directory $subdir\n";
+			$HTMLpage->create_set_of_pages(@rlis_to_pass);
 		}
-		$HTMLpage->create_webpage(@rli)
+
+		# Create a set of normal webpages.
+		my $HTMLpage = Netcomics::HTML::Set->new;
+		$HTMLpage->create_set_of_pages(@rli);
 	}
 } else {
     my $user_specified_no_comics = 

@@ -315,7 +315,7 @@ sub processARGV {
 			$smushopt = 1;
 		}
 	
-		# Seperate comics into their own directories
+		# Separate comics into their own directories
 		elsif (/-P/) {
 			$separate_comics = 1;
 			$smushopt = 1;

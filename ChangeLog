@@ -1,3 +1,14 @@
+2001-08-26  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* Netcomics/HTML/Page.pm: Initial commit
+	* Netcomics/HTML/Set.pm: Initial commit
+	* Netcomics/HTML/Themes/Default.pm: Initial commit
+	* Netcomics/HTML.pm: Modified to be obsolete for now. Future revisions
+	will make this a wrapper around Netcomics/HTML/*.
+	* Netcomics/Config.pm.in: Fixed *really*dumb* spelling errors in
+	the "$seperate_comics" variable that were causing headaches.
+	* netcomics: Modified to use Netcomics/HTML/*
+
 2001-08-19  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* Netcomics/GtkComics.pm (about_Form): Updated about text so it
