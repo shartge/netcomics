@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"bayside"} = 0;
+
+#Life at Bayside http://www.baysid.com/
+# ex : http://www.baysid.com/comics/LAB19990503.gif
+sub bayside {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,3,4,99); #1st comic: may 03, 1999
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => "Life at Bayside",
+	'author' => "Curtis",
+	'type' => 'gif',
+	'main' => "http://www.baysid.com/",
+	'archives' => "http://www.baysid.com/archive/",
+	'base' => "http://www.baysid.com",
+	'page' => strftime("/d/%Y%m%d.html",@ltime),
+	'exprs'    => [strftime("SRC=\"(/comics/LAB%Y%m%d.*?gif)",@ltime)],
+    };
+
+    return $rec;
+}
+
+1;
+
+
