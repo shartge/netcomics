@@ -1,3 +1,13 @@
+2000-08-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (build_date_array): Changed so that list of dates
+	generated are of the date at midnight so that the local timezone
+	won't affect which dates are actually used.
+	* lib/kingfeatures: Fixed Sunday-only comics (Flash Gordon, Prince
+	Valiant, and Katzenjammer Kids) and their sizes, updated I Need
+	Help's size, and fixed kingfeature2() so that it checks to see
+	if kingfeature() returned undef or not.
+
 2000-08-01  Martial Michel  <martial@users.sourceforge.net>
 
 	* lib/ozy_millie: updated entry for temporary site, url change and
