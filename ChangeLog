@@ -1,3 +1,8 @@
+2001-06-30  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/HTML.pm: Redid the way templates are loaded as the first
+	part of a nice rewrite/restructure of HTML.pm
+
 2001-06-22  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Comicpage/comicpage.glade: Removed useless tab at top of display.

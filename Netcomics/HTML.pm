@@ -29,7 +29,33 @@ my $files_mode = 0644;
 
 sub new {
 	my ($class,$init) = @_;
-	my $self = {};
+
+	# Load the templates based off of config data from imported 
+	# Netcomics::Config.
+	my $i = 1;
+	my @body_el_tmpl;
+	while (-f "$webpage_templates/body_el$i.html") {
+		$body_el_tmpl[$i] = file_read("$webpage_templates/body_el$i.html");
+		$i++;
+	}
+	if ($#body_el_tmpl < 1) {
+		die "Could not find the html body template files under the default " .
+			"directory:\n$webpage_templates. Please use -t to specify the " .
+				"correct location.";
+	}
+
+	# Load this information into data held in the object.
+	my $self = {
+				'body_el_tmpl' => \@body_el_tmpl,
+				'head_tmpl' => file_read("$webpage_templates/head.html"),
+				'links_tmpl' => file_read("$webpage_templates/links" . 
+										  ($webpage_index ? "_index" : "") .
+										  ".html"),
+				'tail_tmpl' => file_read("$webpage_templates/tail.html"),
+				'index_body_el_tmpl_tmpl' => file_read("$webpage_templates/index_body_el.html")
+			   };
+
+	# Bless object and return it.
 	bless $self, $class;
 	
 	return $self;
@@ -118,13 +144,21 @@ sub create_webpage {
 			"comics on last page = $comics_on_last\n"
 				if $extra_verbose;
 
-	# Load templates into memory.
-	my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
-		&load_templates($self);
+	# Load templates from object.
+	my $head_tmpl = $self->{'head_tmpl'};
+	my $links_tmpl = $self->{'links_tmpl'};
+	my $tail_tmpl = $self->{'tail_tmpl'};
+	my @body_el_tmpl = @{$self->{'body_el_tmpl'}};
+	my $index_body_el_tmpl_tmpl = $self->{'index_body_el_tmpl_tmpl'};
 
-	my $index_body_el_tmpl_tmpl=
-		file_read("$webpage_templates/index_body_el.html")
-		if $webpage_index;
+	#replace head & tail template globals
+	$head_tmpl =~ s/<PAGETITLE>/$webpage_title/g;
+	$tail_tmpl =~ s/<CTIME>/$ctime/g;
+
+	#replace comic webpage head template globals
+	$head_tmpl =~ s/<LINK_COLOR>/$link_color/g;
+	$head_tmpl =~ s/<VLINK_COLOR>/$vlink_color/g;
+	$head_tmpl =~ s/<BACKGROUND>/$background/g;
 
 	# Process the index.
 	my $index;
@@ -314,13 +348,21 @@ sub create_webpage_set {
 			"comics on last page = $comics_on_last\n"
 				if $extra_verbose;
 
-		# Call &load_templates in order to get templates.
-		my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
-			&load_templates($self);
+		# Load templates from object.
+		my $head_tmpl = $self->{'head_tmpl'};
+		my $links_tmpl = $self->{'links_tmpl'};
+		my $tail_tmpl = $self->{'tail_tmpl'};
+		my @body_el_tmpl = @{$self->{'body_el_tmpl'}};
+		my $index_body_el_tmpl_tmpl = $self->{'index_body_el_tmpl_tmpl'};
 
-		my $index_body_el_tmpl_tmpl = 
-			file_read("$webpage_templates/index_body_el.html") 
-				if $webpage_index;
+		#replace head & tail template globals
+		$head_tmpl =~ s/<PAGETITLE>/$webpage_title/g;
+		$tail_tmpl =~ s/<CTIME>/$ctime/g;
+
+		#replace comic webpage head template globals
+		$head_tmpl =~ s/<LINK_COLOR>/$link_color/g;
+		$head_tmpl =~ s/<VLINK_COLOR>/$vlink_color/g;
+		$head_tmpl =~ s/<BACKGROUND>/$background/g;
 
 		# Process the index.
 		my $index;
@@ -524,42 +566,6 @@ sub generate_HTML_page {
 		print "\n" if $extra_verbose;
 	}
 	return($body, $index);
-}
-
-sub load_templates {
-	#Load in the templates & do some initial filling in of info
-	my $self = shift();
-	my @body_el_tmpl = ("");
-	my $i = 1;
-
-	my $time = time();
-	my $ctime = ctime($time);
-	my $datestr = strftime("%b %d, %Y",gmtime($time));
-
-	while (-f "$webpage_templates/body_el$i.html") {
-		$body_el_tmpl[$i] = file_read("$webpage_templates/body_el$i.html");
-		$i++;
-	}
-	if ($#body_el_tmpl < 1) {
-		die "Could not find the html body template files under the default " .
-			"directory:\n$webpage_templates. Please use -t to specify the " .
-				"correct location.";
-	}
-	my $head_tmpl=file_read("$webpage_templates/head.html");
-	my $links_tmpl=file_read("$webpage_templates/links" . 
-							 ($webpage_index ? "_index" : "") . ".html");
-	my $tail_tmpl=file_read("$webpage_templates/tail.html");
-
-	#replace head & tail template globals
-	$head_tmpl =~ s/<PAGETITLE>/$webpage_title/g;
-	$tail_tmpl =~ s/<CTIME>/$ctime/g;
-
-	#replace comic webpage head template globals
-	$head_tmpl =~ s/<LINK_COLOR>/$link_color/g;
-	$head_tmpl =~ s/<VLINK_COLOR>/$vlink_color/g;
-	$head_tmpl =~ s/<BACKGROUND>/$background/g;
-
-	return($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl);
 }
 
 1;
