@@ -1,0 +1,90 @@
+#-*-Perl-*-
+#color dilbert strips
+#http://www.dilbert.com/comics/dilbert/color_strips/images/strips/dc/
+#dc99083892822116389617919.gif
+#  ^^         ^^^
+#dc9904947509761011246.....gif
+#  ^^          ^^^
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"dilbert"} = 7;
+
+#taken from comiczone--should be kept in sync with it.
+sub dilbert_cal {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $ntime = time - (7*3600*24);
+    my @ntime = gmtime($ntime);
+    #determine the length of the previous month (number of days between one
+    #week ago and the same day of the month last month plus one day)
+    my $ptime = mkgmtime(@ntime[0..1],$ntime[2]-1,$ntime[3],
+			 ($ntime[4] == 0 ? 11 : $ntime[4] - 1),
+			 ($ntime[4] == 0 ? $ntime[5] - 1 : $ntime[5]))-24*3600;
+    my $mon_len = ($ntime - $ptime)/(3600*24);
+    $mon_len =~ s/^(\d+)(\.\d+)*/$1/g;
+
+    #since there's only a month of archive, can't allow past that even if
+    #the cal number is greater than 0.
+    return 0 if $time < ($ntime - 24*3600*($mon_len));
+    #Monday 6 or 7 weeks ago is cal #1, depending on number of days in month
+    #and the day of the week the same day of the month last month as a week
+    #ago was. Go to a comic's archives to see the current cal #'s for each
+    #day in previous month of comics
+    my @ptime = gmtime($ptime);
+    my $monday_a_month_ago = $ntime - 24*3600*($mon_len) -
+	24*3600*($ptime[6] == 0 ? 7 : $ptime[6]); #sunday is last day in week
+    #add in a half a day to round the division properly
+    my $cal = ($time - $monday_a_month_ago + 12*3600)/(24*3600);
+    $cal =~ s/^(\d+)(\.\d+)*/$1/g;
+    $cal = "0" . $cal if $cal < 10 && $cal > 0;
+    return $cal;
+}
+
+sub dilbert {
+    my ($time,$color) = @_;
+    $color = 1 unless defined $color;
+    my @ltime = gmtime($time);
+    my $t_day = strftime("%Y%m%d",@ltime);
+    my $n_day = strftime("%Y%m%d",gmtime(time - 24*3600*7));
+    my $wday = $ltime[6];
+    my %rec = ('title' => "Dilbert",
+	       'author' => "Scott Adams",
+	       'type' => 'gif',
+	       'main' => "http://www.dilbert.com/",
+	       'archives' => "http://www.dilbert.com/comics/dilbert/archive/",
+	       'base' => "http://www.dilbert.com/comics/dilbert/");
+
+    #get normal strip location if it's not today (minus seven), 
+    #it's sunday, or no color was requested
+    if ($t_day != $n_day || $wday == 0 || !$color) {
+	my $nwd = ($wday == 0) ? 7 : $wday; #shift sunday to 7
+	my $s_day = substr($t_day,0,$nwd) . '\d+' . substr($t_day,$nwd,8-$nwd);
+	my $exp_path;
+	if ($t_day == $n_day) {
+	    $rec{'page'} = "ab.html";
+	    $exp_path = '/comics/dilbert/(archive/images/dilbert';
+	} else {
+	    #normal strip location for previous days
+	    $rec{'base'} .= "archive/";
+	    my $cal = dilbert_cal($time);
+	    return undef if $cal < 1;
+	    $rec{'page'} = "cal-$cal.html",
+	    $exp_path = '/comics/dilbert/archive/(images/dilbert';
+	}
+	$rec{'exprs'} = [$exp_path . $s_day . '\.gif)'];
+    } else {
+	#color strip location for Monday thru Saturday
+	$rec{'base'} .= "color_strips/";
+	$rec{'page'} = "";
+
+	my $m1 = ++$ltime[4] / 10;
+	$m1 =~ s/(\d)\..*/$1/;
+	my $m2 = $ltime[4] % 10;
+	$rec{'exprs'} = 
+	    [strftime("(images/strips/dc/dc%y$m1\\d+$m2%d\\d+\\.gif)", @ltime)];
+	$rec{'back'} = sub {return dilbert(shift(@_),0);}; #not color
+    }
+    return \%rec;
+}
+
+1;
