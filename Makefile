@@ -2,7 +2,7 @@ APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
 RCFILE	= netcomicsrc
-VERSION	= 0.13.1
+VERSION	= 0.13
 PKGVERSION = 1
 
 #The 4 most commonly changed paths.  All occurrances of these in the
@@ -11,6 +11,66 @@ PKGVERSION = 1
 PERL	= /usr/bin/perl
 PERLTK	= $(PERL)
 BUILDROOT = 
+PREFIX	= $(BUILDROOT)/usr
+TMPBASE	= $(BUILDROOT)/var/spool
+SYSRCDIR = $(BUILDROOT)/etc
+
+RM	= rm -f
+FIND	= find
+MKDIR	= mkdir -p
+CD      = cd
+POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
+POD2HTML= pod2html
+INSTALL	= install
+ETAGS	= etags
+CT	= cleartool
+
+BININSTALLFLAGS	= -m 755
+LIBINSTALLFLAGS	= -m 644
+
+BINDIR  = $(PREFIX)/bin
+MANROOT	= $(PREFIX)/man
+LIBBASE	= $(PREFIX)/share
+LIBDIR	= $(LIBBASE)/$(APPNAME)
+MKDIRFLAGS	= -m 755
+TMPDIR	= $(TMPBASE)/$(APPNAME)
+TMPMKDIRFLAGS	= -m 777
+HTMLDIR	= $(LIBDIR)/html_tmpl
+MANDIR1	= $(MANROOT)/man1
+
+BZIP2	= bzip2
+GZIP	= gzip
+TAR	= tar
+TARFILES= "ls -d $(APPNAME)-$(VERSION)/* | \
+	$(PERL) -pe 's/.*(lost\+found|dist).*//gm'"
+RPM	= rpm
+RPMBUILDFLAGS	= -ba
+
+SRCDIR	= /usr/src
+RHDIR	= $(SRCDIR)/redhat
+RHSPECS	= $(RHDIR)/SPECS
+RHSRCS	= $(RHDIR)/SOURCES
+RHRPMS	= $(RHDIR)/RPMS
+RPMSPEC	= $(APPNAME).spec
+RPMFILE	= $(APPNAME)-$(VERSION)-$(PKGVERSION).noarch.rpm
+DEBFILE	= ../$(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
+TARBZ2FILE	= $(APPNAME)-$(VERSION).tar.bz2
+TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
+
+
+APPNAME	= netcomics
+AP2NAME	= display_comics
+AP3NAME = show_comics
+RCFILE	= netcomicsrc
+VERSION	= 0.13
+PKGVERSION = 1
+
+#The 4 most commonly changed paths.  All occurrances of these in the
+#scripts, documentation, and the RPM spec will be changed if you set
+#these to something different
+PERL	= /usr/bin/perl
+PERLTK	= $(PERL)
+BUILDROOT =
 PREFIX	= $(BUILDROOT)/usr
 TMPBASE	= $(BUILDROOT)/var/spool
 SYSRCDIR = $(BUILDROOT)/etc
@@ -178,6 +238,7 @@ OLDMODULES = \
 	roomies \
 	uexpress \
 	worldviews \
+
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
@@ -435,18 +496,10 @@ label:
 	$(CT) mklbtype -nc V$(VERSION)
 	$(CT) mklabel -recurse V$(VERSION) .
 
-install_local:
-	$(MAKE) install PREFIX=/usr/local
-
-install_home:
-	$(MAKE) install PREFIX=$(HOME) \
-		TMPDIR=$(HOME)/comics SYSRCDIR=$(HOME)/etc
-
 install_for_ben:
-	@perl=`which perl`; tkperl=`which tkperl`; \
-	$(MAKE) install PREFIX=$(HOME) \
-		TMPDIR=$(HOME)/www/comics PERL=$$perl \
-		PERLTK=$$tkperl SYSRCDIR=$(HOME)/etc
+	$(MAKE) install PREFIX=/home/benh \
+		TMPDIR=/home/benh/www/comics PERL=/mms/local/bin/perl \
+		PERLTK=/mms/local/bin/tkperl SYSRCDIR=/home/benh/etc
 
 .PHONY: all doc install clean distclean archives rpm dist install_for_ben \
 devel bin deb install_html install_mods
