@@ -36,11 +36,6 @@ $html{'links'} = <<END_LINKS;
 </TABLE>
 END_LINKS
 
-$html{'caption'} = <<END_CAPTION;
-<tr><td><center><CAPTION_DATA></center></td></tr>
-END_CAPTION
-
-
 $html{'body'} = <<END_BODY;
   <tr><td>
       <center>
