@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="Author" CONTENT="Ben Hochstedler <hochstrb@cs.rose-hulman.edu>">
+<META NAME="Description" CONTENT="netcomics software information">
+<TITLE>Netcomics: How to Personalize the Created Web Page</TITLE>
+<STYLE TYPE="text/css">
+H1, ADDRESS, .TimeStamp {text-align: center}
+</STYLE>
+</HEAD>
+<BODY>
+<H2>How to Personalize the Created Web Page</H2>
+<P>The web page is created from three template files:  a head (contains
+more than just the html head section): <I>head.html</I>, a body
+element: <I>body_el#.html</I>, and a tail: <I>tail.html</I>. The head &
+tail are used once, and the body element is repeated for each comic
+strip.  The files are installed by default under
+<I>/usr/share/netcomics/html_tmpl/</I>.</P>
+
+<P>There are multiple body_el#.html files.  The number indicates
+the number of image files in a comic that template handles.  For
+example, some comic strips provide each panel on Sunday in a seperate
+file.  If there are 5 frames total, then body_el5.html will be used.
+Inside it are 5 places for the file names to be inserted. (Yes, I
+don't like this design, but it was quick.  At some point, I'll change
+it so that there's 2 templates for the body elements--a template
+wrapper around a set of file element templates, and a file element
+template.)</P>
+
+<P>Since you are allowed to specify a different directory to contain
+these files with the <B>-m</B> option, if you do use that option, you
+must create a set of template html files, or the web page will not be 
+created when using the <B>-w</B> or <B>-W</B> options.  I suggest
+copying the template files and modifying them instead of starting from
+scratch.
+</P>
+<H3>What's replaced in the template files when writing out index.html</H3>
+<UL>
+  <LI><I>head.html</I>:
+      <UL>
+	<LI>The string <B>"&lt;DATE&gt;"</B> is replaced with
+	    the date of the form "Month day Year".</LI>
+	<LI>If &lt;DATE&gt; is provided with the optional attribute,
+	    <B>FORMAT=""</B>, the text between the quotes is used
+	    as the format specifier for the POSIX::strftime() function.
+	    The whole &lt;DATE FORMAT=""&gt; is replaced with the
+	    string produced by strftime().  Escaped double quotes are
+	    not allowed between the quotes. See the man page for
+	    strftime() on your system.</LI>
+      </UL>
+  </LI>
+      
+  <LI><I>body_el#.html</I>:
+      <UL>
+	<LI><B>"&lt;COMIC_FILE#&gt;"</B> is replaced with the filename of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_NAME&gt;"</B> is replaced with the name of
+	    the comic.</LI>
+	<LI><B>"&lt;SIZE&gt;"</B> is replaced with the &lt;IMG&gt; attributes
+	    HEIGHT=# and WEIGHT=#.  This will help make rendering the web page
+	    happen more quickly in most browsers.</LI>
+      </UL>
+  </LI>
+  <LI><I>tail.html</I>: The string <B>"&lt;CTIME&gt;"</B> is replaced with
+      the date as returned by POSIX::ctime().
+  </LI>
+  <LI><I>links.html</I>:
+      <UL>
+	<LI><B>"&lt;FILE=PREV&gt;"</B> is replaced with the filename
+	    of the previous webpage file.</LI>
+	<LI><B>"&lt;FILE=NEXT&gt;"</B> is replaced with the filename
+	    of the next webpage file.</LI>
+      </UL>
+  </LI>
+  </LI><I>links_index.html</I>: Both of the file types in links.html
+      are also replaced in this one, plus <B>"&lt;FILE=NEXT&gt;"</B>
+      which is replaced with the filename of the next webpage
+      index. This template is used instead of links.html if an index
+      is created (by default).
+  </LI>
+  <LI><I>index_body_el.html</I>: When created, an index webpage is
+      constructed using head.html, an instance of this template for
+      each comic, and tail.html. 
+      <UL>
+	<LI><B>"&lt;FILE=CURRENT&gt;"</B> is replaced with the
+	    name of the webpage in which the comic is included.</LI>
+	<LI><B>"&lt;COMIC_ID&gt;"</B> is replaced with the id of the
+	    comic so that it can be uniquely hyperlinked to (the date
+	    is also attached to the id).</LI>
+	<LI><B>"&lt;COMIC_DATE&gt;"</B> is replaced with the date of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_NAME&gt;"</B> is replaced with the name of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_AUTHOR&gt;"</B> is replaced with author of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_STATUS&gt;"</B> is replaced with the status
+	    of the comic. If it a local file, "local"; if it is a URL,
+	    "remote".</LI>
+	<LI><B>"&lt;PAGE=CURRENT&gt;"</B> is replaced with number of
+	    the webpage in which the comic is included.</LI>
+      </UL>
+  </LI>
+</UL>
+<HR>
+<ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
+<SPAN CLASS=TimeStamp>
+Last modified: Wed Dec  1 10:56:25 CST 1999
+</SPAN>
+</BODY>
+</HTML>
