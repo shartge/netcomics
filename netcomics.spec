@@ -1,6 +1,6 @@
 Name: netcomics
-Version: 0.13.1
-Release: 1
+Version: @VERSION@
+Release: @PKGVERSION@
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
 Group: Applications/Networking
@@ -23,7 +23,7 @@ on your workstation. It also can create webpages with the comics.
 %package data
 Summary: Comic modules that instruct netcomics on how to obtain comic strips.
 Group: Applications/Networking
-Requires: netcomics >= 0.13.1
+Requires: netcomics >= %{version}
 Prefix: /usr
 
 %description data
@@ -31,6 +31,9 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Fri Apr 27 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
+- Added conf file /etc/netcomicsrc. Made Version, Release, & OLDMODULES
+  to be replaced by the Makefile.
 * Sun Feb 18 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
 - added gzip of manpages, doc files for data pkg, & check for old modules.
 * Wed Feb 7 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
@@ -169,19 +172,8 @@ END
 
 %post data
 LIBDIR=$RPM_INSTALL_PREFIX/share/netcomics
-#The following list is to be kept in sync with that in the Makefile
-OLDMODULES="\
-	banditbruno \
-	bobbins \
-	calvin-n-hobbes \
-	ctoons \
-	dilbert \
-	glasbergen \
-	goats \
-	roomies \
-	uexpress \
-	worldviews \
-	"
+#The following is replaced by the list in the Makefile
+OLDMODULES="@OLDMODULES@"
 oldmods=""
 cd $LIBDIR
 for file in $OLDMODULES; do
@@ -203,12 +195,13 @@ END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html
+%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html netcomicsrc
 /usr/bin/netcomics
 /usr/bin/show_comics
 %attr(-,root,man) /usr/man/man1/netcomics.1.gz
 %attr(-,root,man) /usr/man/man1/show_comics.1.gz
 %config /usr/bin/display_comics
+%config /etc/netcomicsrc
 %attr(-,root,users) %dir /var/spool/netcomics
 %attr(-,root,users) %dir /usr/share/netcomics
 

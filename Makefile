@@ -8,7 +8,7 @@ MODULE3 = ExternalUserAgent.pm
 MODULE4 = RLI.pm
 
 RCFILE	= netcomicsrc
-VERSION	= 0.13.1
+VERSION	= 0.14
 PKGVERSION = 1
 
 #The 4 most commonly changed paths.  All occurrances of these in the
@@ -258,7 +258,11 @@ SUBPATHS = \
 	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
 	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
 	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
-	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > $@
+	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm \
+	| $(PERL) -pe "s/\@OLDMODULES\@/$(OLDMODULES)/gm" \
+	| $(PERL) -pe "s/\@VERSION\@/$(VERSION)/gm" \
+	| $(PERL) -pe "s/\@PKGVERSION\@/$(PKGVERSION)/gm" \
+	> $@
 
 
 distclean:: clean

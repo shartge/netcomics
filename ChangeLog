@@ -1,5 +1,9 @@
 2001-04-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Makefile (SUBPATHS): Added replacing OLDMODULES, VERSION, and
+	PKGVERSION.
+	* netcomics.spec (%files): added /etc/netcomicsrc
+	(%post data): changed OLDMODULES to be automatically replaced
 	* Netcomics/Factory.pm (get_comics): Reverted code that creates
 	the subdir name back to what it was before.
 
