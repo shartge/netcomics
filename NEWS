@@ -1,0 +1,75 @@
+Major changes in release 0.12:
+
+* Added the comics: 9 Chickweed Lane, Absurd Notion, Against The
+  Grain, Badlands, Bobos Progress, Boonies, Broom-Hilda, Buckets, Cats
+  With Hands, Chase Villens, Dilbert Classics, Down To Earth, Dr Katz,
+  Eek and Meek, Fair Game, Gibberish, Gil Thorp, Ick, Janes World, The
+  Japanese Beetle, K Rat, Lola, Loose Parts, Mary Worth, Meatloaf
+  Night, Mickey Mouse, The New Breed, Outtake, PC and Pixel, PS
+  Mueller, Penny Arcade, Penny Arcade Bench, Phantom, Player Versus
+  Player, Pretzel Logic, Quigmans, Random Shots, Rex Morgan, Ripleys
+  Believe It Or Not, Rubes, Small World, Spex and Wally, Staggering
+  Heights, Suburban Jungle, Sylvia, Tarzan, Thats Life, Top Of This
+  World, Toy Trunk Railroad, WildLife, You Damn Kid, Kudzu, Small
+  Grey, and Fat Cats.
+* Fixed Y2K bugs.
+
+Major changes in release 0.11:
+
+* Added the comics: After Y2K, Dysentery, Cartoon Web, Bound & Gagged,
+  Fred Basset, Herb & Jaamal, Middletons, Pluggers, Motley's Crew,
+  Zorro, Liberty Meadows, Teenage Ninja Turtles, Ballard Street, Miss
+  Peach, Wee Pals, Raw Material, Agnes, Dr Katz, Outtake, Pcpixel, 9
+  Chickweed Lane, Broom-Hilda, Kudzu, Lola, Quigmans, Rubes, Boonies,
+  Juilet Jones, Judge Parker, Mark Trail, Henry, Prince Val, New
+  Format, Theydoit, Walnut Cove, Tiger, Ripkirby, Hazel, Katzenjammer
+  Kids, Mandrake, Pops Place, Popeye, Small Society, Steve Roper,
+  Moose Miller, Needhelp, Dick Tracy, Brenda Star, Orphan Annie,
+  Gasoline Alley, Soap On A Rope, and World Views
+* Added editorial cartoons by: Walt Handelsman,  Bill Day, Chan Lowe,
+  Steve Sack, Mike Peters, Dana Summers, Jeff Macnelly, Jack Ohman,
+  Don Wright, Dick Locher, Wayne Stayskal
+* Changed the default installation location for module files to
+  /usr/share/netcomics.
+* Added rc file capability.
+* Removed Goats for copyright issues.
+
+Major changes in release 0.10:
+
+* Changed from using localtime() throughout the code that downloads
+  comics to use gmtime().
+* New RLI fields: title, type, author, main, and archives. The field
+  called "name" has been depricated. Please read
+  Comic_Module-HOWTO.html.
+* The created webpages now get extra links included with them: to the
+  comic at the website, the comics main page at the website, and the
+  website's archives. The body element html template files were
+  updated to handle very long headings for each comic.
+* The modules have been seperated into their own RPM so that updates
+  can be made to them without having to update the the main RPM. The
+  name of the RPM is netcomics-data.
+* Added the comics: Bliss, The Boondocks, Citizen Dog, The Fusco
+  Brothers, Overboard, Tank McNamara, Real Life Adventures, Tradin'
+  Paint, Animal Crackers, Bottom Liners, Strange Brew, For Heaven's
+  Sake, Heathcliff, & Color Blind.
+
+Major changes in release 0.9:
+
+* The template HTML files now require 8 body_el#.html files where # is
+  the number of image files that are handled.  If you have created
+  your own HTML template files, be sure to take a look at the ones
+  included with this distribution and the document:
+  Modify_Webpage_Creation-HOWTO.html
+* A new command-line option, -u, has been added.  Using this will
+  cause the actual comics to *not* be downloaded.  If you use -W or
+  -w, it will make the embedded images link to the comic on its
+  website.  If a webpage isn't created, the URLs will be printed on
+  standard out.  Note that many comics still require one or more HTTP
+  requests to be performed in order to determine the URL of the comic
+  strip on its website.
+* The command-line option, -s, now does the opposite of what it did
+  before.  By default, if a comic doesn't download but the URL was
+  determined, the URL will be used for that comic as if -u were
+  supplied just for it.  Specifying -s will make it so that those
+  comics will not be included in the webpage, as well as files that
+  were downloaded that don't actually seem to be images.
