@@ -1,3 +1,10 @@
+2001-05-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/.cvsignore: Fixed so that it wasn't ignoring controlled
+	files & ignoring all the generated files.
+	* Makefile (doc/Config.pod): Added generation of pod for Config.pm.
+	(doc): Added generation of comicpage man & html pages.
+
 2001-05-21  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* The kind people at sourceforge have moved the gtkcomics file to

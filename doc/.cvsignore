@@ -1,4 +1,7 @@
 *.1
-*.pod
+*.3
+Config.pod
 netcomics.html
 show_comics.html
+comicpage.html
+Config.html

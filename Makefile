@@ -23,6 +23,7 @@ TMPBASE	= $(BUILDROOT)/var/spool
 SYSRCDIR = $(BUIDLROOT)/etc
 PERLLIBROOT = $(BUILDROOT)/usr/lib/perl5
 PERLINSTDIR = $(PERLLIBROOT)/site_perl/Netcomics
+PERLMANDIR = $(PERLLIBROOT)/man
 TMPBUILDDIR = $(BUIDLROOT)/tmp/$(APPNAME)
 
 RM	= rm -f
@@ -55,6 +56,7 @@ TMPMKDIRFLAGS	= -m 777
 HTMLTMPLDIR = html_tmpl
 HTMLDIR	= $(LIBDIR)/$(HTMLTMPLDIR)
 MANDIR1	= $(MANROOT)/man1
+PERLMANDIR3 = $(PERLMANDIR)/man3
 
 BZIP2	= bzip2
 GZIP	= gzip
@@ -363,21 +365,47 @@ POD2HTMLRULES = \
 	$(RM) pod2html-itemcache pod2html-dircache $(TMPBUILDDIR)/$<; \
 	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
+MODPODRULES = \
+	echo Extracting pod text from $?; \
+	cat $? \
+	| perl -ne \
+	'$$p += /^=head/; \
+		$$p = 0 if /^=cut/; \
+		print($$_) if $$p;' \
+	> $@
+
+doc/Config.pod: Netcomics/Config.pm
+	@$(MODPODRULES)
+
+distclean::
+	$(RM) doc/Config.pod
+
 %.1: %.pod
 	@section=1; $(POD2MANRULES)
+%.3: %.pod
+	@section=3; $(POD2MANRULES)
 
 distclean::
 	$(RM) doc/$(APPNAME).1
 	$(RM) doc/$(AP3NAME).1
+	$(RM) doc/$(AP4NAME).1
+	$(RM) doc/Config.3
 
 install::
 	$(MKDIR) $(MKDIRFLAGS) $(MANDIR1)
 	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(APPNAME).1 $(MANDIR1)
 	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(AP3NAME).1 $(MANDIR1)
+	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(AP4NAME).1 $(MANDIR1)
+	$(INSTALL) $(LIBINSTALLFLAGS) doc/Config.3 \
+		$(PERLMANDIR3)/Netcomics::Config.3
 
 doc:: doc/$(APPNAME).1
 
 doc:: doc/$(AP3NAME).1
+
+doc:: doc/$(AP4NAME).1
+
+doc:: doc/Config.3
 
 %.html: %.pod
 	@$(POD2HTMLRULES)
@@ -385,6 +413,8 @@ doc:: doc/$(AP3NAME).1
 distclean::
 	$(RM) doc/$(APPNAME).html
 	$(RM) doc/$(AP3NAME).html
+	$(RM) doc/$(AP4NAME).html
+	$(RM) doc/Config.4
 
 clean::
 	$(RM) pod2html-*cache
@@ -392,6 +422,10 @@ clean::
 doc::	doc/$(APPNAME).html
 
 doc::	doc/$(AP3NAME).html
+
+doc::	doc/$(AP4NAME).html
+
+doc::	doc/Config.html
 
 install:: install_mods install_html install_pms
 
