@@ -82,48 +82,4 @@ sub swo {
 
 }
 
-# # Angst Technology
-# # ex: http://www.inktank.com/images/AT/cartoons/08-28-00.gif
-# sub angst {
-#     my $time = shift;
-#     my @ltime = gmtime($time);
-#     # First comic 2000-Aug-28
-#     return undef if ($time < mkgmtime(0,0,0,28,07,100));
-
-#     my $rec = {
-# 	'title' => "Angst Technology",
-# 	'author' => "Barry T. Smith",
-# 	'type' => 'gif',
-# 	'main' => "http://www.inktank.com/AT/",
-# 	'archives' => "http://www.inktank.com/AT/archive.cfm",
-# 	'base' => "http://www.inktank.com/images/AT/cartoons",
-# 	'page' => strftime("/%m-%d-%y.gif",@ltime),
-# 	'size' => [450, 615],
-#     };
-#     return $rec;
-# }
-
-# # Week-End Warriors
-# # ex: http://www.inktank.com/images/WW/cartoons/07-02-01.gif
-# sub ww {
-#     my $time = shift;
-#     my @ltime = gmtime($time);
-#     # First comic 2001-Jul-2
-#     return undef if ($time < mkgmtime(0,0,0,2,06,101));
-#     # Only runs on fridays
-#     return undef unless (1 == $ltime[6]);
-
-#     my $rec = {
-# 	'title' => "Week-End Warriors",
-# 	'author' => "Barry T. Smith",
-# 	'type' => 'gif',
-# 	'main' => "http://www.inktank.com/WW/",
-# 	'archives' => "http://www.inktank.com/WW/archive.cfm",
-# 	'base' => "http://www.inktank.com/images/WW/cartoons",
-# 	'page' => strftime("/%m-%d-%y.gif",@ltime),
-# 	'size' => [450, 615],
-#     };
-#     return $rec;
-# }
-
 1;
