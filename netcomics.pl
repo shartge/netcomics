@@ -515,7 +515,8 @@ use Netcomics::HTML;
 
 require Exporter;
 
-our @EXPORT = qw/%rli/;
+use vars '@EXPORT';
+@EXPORT = qw/%rli/;
 
 # Global Variables
 # Rule: Only declare a variable global with "use vars" if it can potentially
