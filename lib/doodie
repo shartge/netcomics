@@ -6,45 +6,24 @@ $hof{"doodie"} = 0;
 sub doodie {
     my $today = shift;
     my @ltime = gmtime($today);
-    my $daysago = (time - $today)/(3600*24);
-    $daysago =~ s/^(\d+)\..*$/$1/;
     my $date = strftime("%Y%m%d",@ltime);
-    my $archives = "members/doodie/index.cfm?pid=6226";
-    my $doodiebase = "http://www.doodie.com/";
-    my $blablabase = "http://www.bla-bla.com/";
+    return undef if (($date < 19990821) || #first comic Aug 21, 1999
+		     #none if after Sep 17, 1999 and is Saturday or Sunday 
+		     ($date > 19990917 && ($ltime[6] == 0 || $ltime[6] == 6)));
+
+    $date = strftime("%m%d%Y",@ltime); #reformat for use in URLs
+    my $urlbase = "http://www.doodie.com/";
     my %rec = ('title' => "Doodie",
 	       'author' => "Tom Winkler",
 	       'type' => "gif",
-	       'main' => $doodiebase,
-	       'archives' => $blablabase . $archives,
-	       'tz' => 8,
-	       'hour' => 1);
-
-    #exception list last updated Feb 16, 2001.
-    my @missing = (20010212,20010213,20010214);
-    #none if the day is after Sep 17, 1999 and is Saturday or Sunday 
-    return if ($date > 19990917 && ($ltime[6] == 0 || $ltime[6] == 6)) ||
-	grep(/$date/, @missing); 
-
-    #Because the retrieved webpages are being treated as a single line
-    #in netcomics when being matched on, .*? is used for matching the
-    #mimimum possible.  See the backtracking section in the perlre manpage.
-    my $date_expr = strftime("%m/%d/%Y",@ltime);
-    my $pic_expr = '"(homes/doodie/pics/.*?)"';
-    my $caption_expr = $date_expr . '.*?(<div.*?<\/div>)';
-    if ($daysago == 0) {
-	$rec{'base'} = $doodiebase;
-	$rec{'page'} = "";
-	$rec{'exprs'} = {'comic' => [$date_expr . '.*?' . $pic_expr],
-			 'caption' => [$caption_expr]};
-    } else {
-	$rec{'base'} = $blablabase;
-	$rec{'page'} = $archives . "&startr=" . ($daysago - 1);
-	$rec{'exprs'} = {
-	    'comic' => ['href="(members/doodie/index\.cfm\?[^"]+)">\s*<[^>]+>' 
-			. $date_expr,$pic_expr],
-	    'caption' => [$caption_expr,undef]};
-    }
+	       'main' => $urlbase,
+	       'base' => $urlbase,
+	       'page' => "index.php?date=$date",
+	       'exprs' => {
+		   'comic' => ["(pics/[^\\.]+\\.gif\\.$date)"],
+		   'caption' => ["$date.*?(<div.*?</div>)"],
+	       },
+	       );
     return \%rec;
 }
 

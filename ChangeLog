@@ -1,3 +1,7 @@
+2001-03-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): updated for site changes.
+
 2001-03-15  Elliot Glaysher <nuriko.chan@home.com>
 
 	* lib/doemain: Fixed module so it won't load while the author
