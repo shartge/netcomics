@@ -1,3 +1,11 @@
+Changes in release 0.14:
+* Most of the netcomics code has been rewriten/reorganized to be object
+  oriented.
+* The HTML themeing system has been changed
+  * Themes are now modules.
+  * Themes are selected by name with the -t option.
+* More bug fixes then you can shake a finger at.
+
 Changes in release 0.13.2:
 * New option, -P, that allows comics to be stored in their own
   subdirectories. 

@@ -55,7 +55,8 @@ If you want a deb, type:
   perl Makefile.PL
   make
   su #unless you're already root, of course
-  make deb
+  dpkg-buildpackage # Pass the option "-rfakeroot" if your aren't
+					# building as root.
   dpkg -i ../netcomics_<ver>_all.deb
 
 

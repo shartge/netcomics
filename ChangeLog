@@ -1,3 +1,10 @@
+2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
+
+	* AUTHORS: Corrected email address.
+	* debian/changelog: Corrected email address.
+	* INSTALL: Updated Debian build instructions.
+	* NEWS: Updated the news.
+
 2001-09-20  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/doemain: Updated and corrected.
