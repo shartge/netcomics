@@ -116,14 +116,17 @@ END
 %defattr(-,root,root)
 %doc *.gz doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
 /usr/%{installsitelib}/Netcomics/Comic
-/usr/%{installsitelib}/Netcomics/html_tmpl
+/usr/%{installsitelib}/Netcomics/HTML/Themes
 
 %define date    %(echo `LC_ALL="C" date +"%a %b %d %Y"`)
 %changelog
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.14  2001-07-19 17:04:34  hochstrb
+Revision 1.15  2001-09-05 14:06:33  hochstrb
+Completed the changes for html_tmpl -> HTML/Themes/Default.pm
+
+Revision 1.14  2001/07/19 17:04:34  hochstrb
 Added gzip of some doc files; reworked changelog to be RCS generated
 
 Revision 1.13  2001/07/19 14:59:08  hochstrb

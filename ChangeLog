@@ -1,5 +1,14 @@
 2001-09-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* html_tmpl/*: Removed the old template files.
+	* MANIFEST: Removed html_tmpl & its files
+	* debian/netcomics-modules.dirs: Changed html_tmpl to HTML/Themes.
+	* netcomics.spec (%files data): changed html_tmpl to
+	HTML/Themes.
+	* Makefile.PL: Disabled the html_templates targets since the
+	default theme is included in the modules.
+	* doc/netcomics.pod (FILES): Updated the description of the HTML
+	template directory to describe theme files.
 	* show_comics: Added sorting the comics of the same name by date.
 
 2001-09-03  Elliot Glaysher  <glaysher@umich.edu>

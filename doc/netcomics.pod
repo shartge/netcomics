@@ -534,8 +534,8 @@ Directory containing the modules that return RLIs.
 
 =item /usr/share/netcomics/html_tmpl
 
-Directory containing the HTML template files used to create the
-web page.
+Directory containing the HTML template theme files of which one is used
+to create the web page.  Each file contains a different set of templates.
 
 =item /etc/netcomicsrc
 

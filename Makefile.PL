@@ -49,9 +49,6 @@ Comicpage/comicpage.glade
 );
 
 my @html_templates = qw(
-head.html tail.html links.html links_index.html index_body_el.html
-body_el1.html body_el2.html body_el3.html body_el4.html
-body_el5.html body_el6.html body_el7.html body_el8.html
 );
 
 my @etc_files = qw(
@@ -261,7 +258,7 @@ TMPDIR	= $(TMPBASE)/$(NAME)
 MY_INST_SUBDIR = Netcomics
 MOD_INST_DIR = $(MY_INST_SUBDIR)/Comic
 ETC_INST_DIR = $(MY_INST_SUBDIR)/etc
-HTML_INST_DIR = $(MY_INST_SUBDIR)/html_tmpl
+HTML_INST_DIR = $(MY_INST_SUBDIR)/HTML/Themes
 
 POD2HTML= pod2html
 ETAGS	= etags
@@ -486,8 +483,8 @@ my %opts =
 				   '$(INST_LIBDIR)/$(MY_INST_SUBDIR)/' . $_)} @pm_to_install),
 			  (map {("$_" =>
 				   '$(INST_LIBDIR)/$(MY_INST_SUBDIR)/' . $_)} @glade_files),
-			  (map {("html_tmpl/$_" =>
-					'$(INST_LIBDIR)/$(HTML_INST_DIR)/' . $_)} @html_templates),
+#			  (map {("html_tmpl/$_" =>
+#					'$(INST_LIBDIR)/$(HTML_INST_DIR)/' . $_)} @html_templates),
 			  (map {("lib/$_" =>
 					 '$(INST_LIBDIR)/$(MOD_INST_DIR)/' . $_)} @modules),
 			  (map {("$_" =>
