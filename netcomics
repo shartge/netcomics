@@ -2055,7 +2055,7 @@ sub get_comics {
 		print "To try retrieving the images that failed, run this command:\n";
 		print "$script_name -nR";
 		if (! $data_dumper_installed) {
-			print " -c \"". @bad_images."\"";
+			print " -c \"@bad_images\"";
 			print " -n $days_of_comics" if ++$days_of_comics > 1;
 		}
 		if ($make_webpage) {
@@ -2122,7 +2122,7 @@ sub load_rli {
 			print STDERR "Error loading rli status file: '$file':\n$@.\n";
 			print STDERR "Skipping."
 		} elsif (! defined(%rli)) {
-			print "Loaded rli status file, $file, " .
+			print STDERR "Loaded rli status file, $file, " .
 				"resulted in an empty rli\n";
 		} else {
 			#Make sure necessary fields are there
