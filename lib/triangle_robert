@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+$hof{"tar"} = 0;
+
+sub tar {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $start = mkgmtime(0,0,0,21,7,99); #1st comic: Aug 21, 1999
+    return undef if $time < $start;
+    my @ntime = gmtime(time);
+
+    my $main_base = "http://people.ne.mediaone.net/pshaughn";
+    my $home = "$main_base/tandr.html";
+    my @arch_base = ("http://home.clara.net/imb/tr",
+		     "http://tr.house.cx");
+
+    #If this month, then look at the main site, else use the archive site
+    my $base = ($ntime[4] == $ltime[4] && $ntime[5] == $ltime[5])?
+	$main_base : $arch_base[0];
+
+    #Calculate the number since the start
+    my $number = ($time - $start)/(3600*24) + 1;
+    $number =~ s/\..*$//; #drop the remainder if any
+
+    #Vacation from Apr 10 - May 5, 2000
+    #233: Apr 9 2000
+    #234: May 6 2000
+    if ($time > mkgmtime(0,0,0,5,4,100)) {
+	#If newer than May 5, 2000, subtract the vacation days
+	$number -= 26;
+    } elsif ($time >= mkgmtime(0,0,0,10,3,100)) {
+	#no comics available during vacation
+	return undef;
+    }
+
+    my $rec = {
+	'title' => "Triangle and Robert",
+	'author' => "Patrick Shaughnessy",
+	'type' => 'gif',
+	'main' => $home,
+	'archives' => "$arch_base[0]/archives/", #optional
+	'base' => "$base/",
+	'page' => "tr$number.gif",
+	'size' => [768,256]
+	};
+    return $rec;
+}
+
+1;

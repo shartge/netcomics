@@ -137,6 +137,7 @@ MODULES = lib/after_y2k \
 	lib/tom_the_dancing_bug \
 	lib/touche \
 	lib/toytrunk \
+	lib/triangle_robert \
 	lib/tucson \
 	lib/unitedmedia \
 	lib/user_friendly \
