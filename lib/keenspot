@@ -144,7 +144,7 @@ sub avalon {
     my $date = strftime("%Y%m%d", @ltime);
     my $date2 = strftime("%Y%m%d", @ltime2);
 
-	# Last updated March 21, 2002
+	# Last updated August 26, 2002
 	# For some reason, 20010211 and 20010325 don't downlaod properly.
     my @missing = (20000305,20000507,20000521,20000629,20000630,20000703,
       20000704,20000705,20000827,20000903,20000910,20000924,20001105,
@@ -159,18 +159,28 @@ sub avalon {
 	  20011206,20011207,20011209,20011217,20011218,20011219,20011220,
       20011221,20020120,20020121,20020122,20020123,20020124,20020125,
 	  20020127,20020128,20020129,20020130,20020131,20020201,20020203,
-	  20020210,20020218,20020219,20020220,20020221,20020222);
-    my @extra = (20000401,20001223);
+	  20020210,20020218,20020219,20020220,20020221,20020222,20020223,
+	  20020302,20020622,20020623,20020803,20020804,20020805,20020806,
+	  20020810,20020811,20020817,20020818,20020824);
+    my @extra = (20000401,20001223,20020506,20020507,20020508,20020509,
+				 20020512,20020519);
 
-    #M to F until February 27, 2000
-    #S to F until present
     return undef if 
-      (($date < 19991108) || #first comic on November 8, 1999
-      (($date >= 19991108 && $date < 20000227) && 
-       ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
-      (($date >= 20000227 && $date <= $date2) &&
-       ($ltime[6] !~ /[012345]/ && !grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
+		(($date < 19991108) || #first comic on November 8, 1999
+		 # Monday - Friday from Nov 8, 1999 - Feb 27, 2000
+		 (($date >= 19991108 && $date < 20000227) && 
+		  ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
+		 # Sunday - Friday from Feb 27, 2000 to March 3, 2002
+		 (($date >= 20000227 && $date <= 20020303) &&
+		  ($ltime[6] !~ /[012345]/ && !grep(/$date/,@extra))) ||
+		 # Author goes on hiatus. Has some @extra strips.
+		 (($date >= 20020303 && $date <= 20020616) &&
+		  (!grep(/$date/,@extra))) ||
+		 # After Jun 16, 2002, we have a return to normalacy.
+		 (($date >= 20020617 && $date <= $date2) &&
+		  ($ltime[6] !~ /[012345]/ && !grep(/$date/,@extra))) ||
+		 grep(/$date/,@missing)
+		);
 
     my $title = "Avalon";
     my $author = "Josh Phillips";
