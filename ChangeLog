@@ -1,5 +1,7 @@
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML/Themes/Default.pm (new): Switched over to the new
+	inherited theme system.
 	* Netcomics/HTML.pm (create_toplevel_page_set): Added function.
 	Basically create_basic_page_set with special conditions.
 	* netcomics: Have netcomics use the new create_toplevel_page_set()
@@ -9,6 +11,9 @@
 	inconsistent usage of both in both Set.pm and Page.pm.
 	(new): Added new default property, 'link_to_local_archives' => 0.
 	(create_set_of_pages): Pass the new preperty to Page.pm.
+	(create_set_of_pages): Changed every instance of
+	$self->{'theme'}->{'*'} to $self->{'theme'}->{'html'}{'head'} per
+	Ben's suggestion.
 	* Netcomics/Config.pm.in: Strange construct was causing bug. Fixed
 	now. (Seems to be related to how -i was supposed to catch -I. Or not
 	catch it, as the case seemed)
@@ -16,6 +21,9 @@
 	up URLs.
 	(generate): Changed numerous stupid instances of 'group_num' to
 	'group_number'
+	(generate): Changed every instance of $self->{'theme'}->{'html'}{'*'}
+	per Ben's suggestion.
+
 	* AUTHORS: Corrected email address.
 	* debian/changelog: Corrected email address.
 	* INSTALL: Updated Debian build instructions.

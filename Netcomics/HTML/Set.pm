@@ -103,7 +103,7 @@ sub create_set_of_pages {
 	my $index;
 	if ($webpage_index) {
 		#index head global info
-		$index = $self->{'theme'}->{'head'};
+		$index = $self->{'theme'}->{'html'}{'head'};
 		$index =~ s/<PAGETITLE>/$webpage_title/g;
 		$index =~ s/<NUM=FIRST>/1/g;
 		$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
@@ -185,6 +185,7 @@ sub create_set_of_pages {
 		file_write("$self->{'output_dir'}/$webpage_index_filename",
 				   0664, "$index$tail");
 	}
+	$self->{'theme'}->generate_images($self->{'output_dir'});
 }
 
 sub check_rlis {

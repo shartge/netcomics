@@ -69,7 +69,7 @@ sub generate {
 
 	# Okay, now let's create the header and substitute information
 	# in.
-	my $head = $self->{'theme'}->{'head'};
+	my $head = $self->{'theme'}->{'html'}{'head'};
 	$head =~ s/<PAGETITLE>/$webpage_title/g;
 	$head =~ s/<CTIME>/$self->{'ctime'}/g;
 	$head =~ s/<DATE>/$self->{'datestr'}/g;
@@ -102,7 +102,7 @@ sub generate {
 	# if we have multiple groups. Otherwise leave $links blank.
 	my $links = "";
 	if ($self->{'num_groups'} > 1) {
-		$links = $self->{'theme'}->{'links'};
+		$links = $self->{'theme'}->{'html'}{'links'};
 		$links =~ s/<FILE=PREV>/$prevfile/g;
 		$links =~ s/<FILE=NEXT>/$nextfile/g;
 		$links =~ s/<NUM>/$comics_per_page/g;
@@ -111,7 +111,7 @@ sub generate {
 	# Make the index body.
 	my $index_body_el_tmpl;
 	if ($webpage_index) {
-		$index_body_el_tmpl = $self->{'theme'}->{'index_element'};
+		$index_body_el_tmpl = $self->{'theme'}->{'html'}{'index_element'};
 		$index_body_el_tmpl =~ s/<FILE=CURRENT>/$self->{'filename'}/g;
 		$index_body_el_tmpl =~ s/<PAGE=CURRENT>/$self->{'group_number'}/g;
 	}
@@ -169,9 +169,9 @@ sub generate {
 			"</CENTER></TD></TR>" if defined $rli->{'caption'};
 
 		#global body element fields
-		my $body_el = $self->{'theme'}->{'body'};
+		my $body_el = $self->{'theme'}->{'html'}{'body'};
 		$body_el =~ s/<COMIC_NAME>/$title/g;
-		$body_el =~ s/<CAPTION>/$caption/; 
+		$body_el =~ s/<CAPTION>/$caption/;
 		$body_el =~ s/<COMIC_ID>/$comic_id/g;
 
 		my $comic_images;
@@ -180,7 +180,7 @@ sub generate {
 			my $image = $image[$_];
 			next unless defined $image;
 			my $size = undef;
-			my $body_element = $self->{'theme'}->{'body_el'};
+			my $body_element = $self->{'theme'}->{'html'}{'body_el'};
 
 			#get the size from the file (status==1)
 			$size = image_size( ($comics_dir . "/$image") ) 
@@ -260,7 +260,7 @@ sub generate {
 	}
 
 	# Create it for the sole purpose of returning it.
-	my $tail_tmpl = $self->{'theme'}->{'tail'};
+	my $tail_tmpl = $self->{'theme'}->{'html'}{'tail'};
 
 	# Catch all for common elements.
 	foreach (\$body, \$links, \$index, \$tail_tmpl) {

@@ -14,10 +14,15 @@
 
 package Netcomics::HTML::Themes::Default;
 
-sub new {
-	my $class = shift;
+use MIME::Base64;
 
-my $HTML_HEAD = <<'END_HEAD';
+my @html_keys = qw(head links body body_el tail links_index links_element);
+my @imgs_keys =
+	qw(top_l top top_r bot_l bot bot_r left right prev index next);
+
+my (%html,%imgs);
+
+$html{'head'} = <<END_HEAD;
 <HTML>
 
 <HEAD>
@@ -32,7 +37,7 @@ my $HTML_HEAD = <<'END_HEAD';
 <TABLE WIDTH=100%>
 END_HEAD
 
-my $HTML_LINKS = <<'END_LINKS';
+$html{'links'} = <<END_LINKS;
 <TR><TD>
   <TABLE WIDTH=100%>
     <TR>
@@ -43,7 +48,7 @@ my $HTML_LINKS = <<'END_LINKS';
 </TD></TR>
 END_LINKS
 
-my $HTML_BODY = <<'END_BODY';
+$html{'body'} = <<END_BODY;
   <TR><TD ALIGN=CENTER>
     <TABLE CELLSPACING=0 CELLPADDING=0 BORDER=0><TR>
       <TD BGCOLOR=black ALIGN=CENTER><FONT FACE="Arial,Helvetica" SIZE=+1 COLOR=white><B><A NAME="<COMIC_ID>"><COMIC_NAME></A></B></FONT>
@@ -55,11 +60,11 @@ my $HTML_BODY = <<'END_BODY';
   </TD></TR>
 END_BODY
 
-my $HTML_BODY_ELEMENT = <<'END_BODY_ELEMENT';
+$html{'body_el'} = <<END_BODY_ELEMENT;
 <A HREF="<COMIC_FILE>"><IMG BORDER=0 SRC="<COMIC_FILE>" <SIZE>></A>
 END_BODY_ELEMENT
 
-my $HTML_TAIL = <<'END_TAIL';
+$html{'tail'} = <<END_TAIL;
 </TABLE>
 
 <HR>
@@ -68,7 +73,7 @@ my $HTML_TAIL = <<'END_TAIL';
 </HTML>
 END_TAIL
 
-my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';
+$html{'links_index'} = <<END_LINKS_INDEX;
 <TR><TD>
   <TABLE WIDTH=100%>
     <TR>
@@ -80,7 +85,7 @@ my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';
 </TD></TR>
 END_LINKS_INDEX
 
-my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';
+$html{'index_element'} = <<END_INDEX_ELEMENT;
   <TR>
     <TD><A HREF="<FILE=CURRENT>#<COMIC_ID>"><COMIC_NAME></A></TD>
     <TD ALIGN=right><COMIC_DATE></TD>
@@ -90,18 +95,46 @@ my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';
   </TR>
 END_INDEX_ELEMENT
 
-	my $self = {
-				'name' => "Default",
-				'head' => $HTML_HEAD,
-				'links' => $HTML_LINKS,
-				'body' => $HTML_BODY,
-				'body_el' => $HTML_BODY_ELEMENT,
-				'tail' => $HTML_TAIL,
-				'links_index' => $HTML_LINKS_INDEX,
-				'index_element' => $HTML_INDEX_ELEMENT,
-			   };
+sub new {
+	#takes these optional arguments: imgs hash ref & an html hash ref
+	my ($class, $name, $r_imgs, $r_html) = @_;
 
+	my $self = bless {
+				'name' => $name || "Default",
+				'html' => \%html,
+				'imgs' => \%imgs,
+			   }, $class;
+
+	#only copy only standard-named keys because that's all that Page.pm
+	#cares about.
+	if (defined($r_html)) {
+		foreach my $key (@html_keys) {
+			$self->{'html'}{$key} = $r_html->{$key} if defined $r_html->{$key};
+		}
+	}
+	if (defined($r_imgs)) {
+		foreach my $key (keys(%$r_imgs)) {
+			$self->{'imgs'}{$key} = $r_imgs->{$key};
+		}
+	}
+	#print "CREATED KEYS:".keys(%$self->{'imgs'});
+	
 	return bless $self, $class;
+}
+
+sub generate_images {
+	my $self = shift;
+	my $target_directory = shift;
+
+	my %images = %{$self->{'imgs'}};
+
+	foreach (keys(%images)) {
+		print "Saving image $_...\n";
+		my $decoded = decode_base64($images{$_});
+		open(F,">$target_directory/$_") || die "could not open file: $!\n";
+		print F $decoded;
+		close(F);
+	}
 }
 
 1;
