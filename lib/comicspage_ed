@@ -1,0 +1,117 @@
+#-*-Perl-*-
+
+foreach (qw(walth billd chanl sack mikep danas jeffm jacko donw waynes)) {
+    $hof{$_} = 7;
+}
+
+#comicspage.com http://www.comicspage.com
+sub ComicsPageEd {
+    my ($time,$title,$author,$dir,$file,$wd_type,$sun_type,$wd_size,$sun_size)
+	= @_;
+    my @ltime = gmtime($time);
+    my ($size,$type);
+    if ($ltime[6] == 0) {
+        $size = $sun_size;
+        $type = $sun_type;
+    } else {
+        $size = $wd_size;
+        $type = $wd_type;
+    }                                                 
+
+    return undef unless defined($size) && defined($type);
+
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://www.comicspage.com/$dir/main.html",
+	'archives' => "http://www.comicspage.com/$dir/main.html",
+	'base' => "http://www.comicspage.com/daily/ed$file/",
+	'page' => strftime("%Y%m%ded$file-a.$type",@ltime),
+	'size' => $size,
+    };
+    return $rec;
+}
+
+#Walt Handelsman ex: http://www.comicspage.com/daily/edhan/0916edhan-a.gif
+#random days, checks everyday
+sub  walth {
+    my $time = shift;
+    return ComicsPageEd($time,"Walt Handelsman Editorial","Walt Handelsman",
+	"handelsman", "han",'gif','gif',[450,351],[450,351]);
+}
+
+#Bill Day ex: http://www.comicspage.com/daily/edday/0916edday-a.gif
+#random days, checks everyday
+sub billd {
+    my $time = shift;
+#doesn't seem to have any current comics, disabling for now
+    return ComicsPageEd($time,"Bill Day Editorial","Bill Day",
+	"day", "day",undef,undef,[450,351],[450,351]);
+}
+
+#Chan Lowe ex: http://www.comicspage.com/daily/edlow/0916edlow-a.gif
+#random days, checks everyday
+sub chanl {
+    my $time = shift;
+    return ComicsPageEd($time,"Chan Lowe Editorial","Chan Lowe",
+	"lowe", "low",'gif','gif',[450,351],[450,351]);
+}
+
+#Steve Sack ex: http://www.comicspage.com/daily/edsak/0916edsak-a.gif
+#random days, checks everyday
+sub sack {
+    my $time = shift;
+    return ComicsPageEd($time,"Steve Sack Editorial","Steve Sack",
+	"sack", "sak",'gif','gif',[450,351],[450,351]);
+}
+
+#Mike Peters ex: http://www.comicspage.com/daily/edpet/0916edpet-a.gif
+#random days, checks everyday
+sub mikep {
+    my $time = shift;
+    return ComicsPageEd($time,"Mike Peters Editorial","Mike Peters",
+	"peters", "pet",'gif','gif',[450,351],[450,351]);
+}
+
+#Dana Summers ex: http://www.comicspage.com/daily/edsum/0916edsum-a.gif
+#random days, checks everyday
+sub danas {
+    my $time = shift;
+    return ComicsPageEd($time,"Dana Summers Editorial","Dana Summers",
+	"summers", "sum",'gif','gif',[450,351],[450,351]);
+}
+
+#Jeff MacNelly ex: http://www.comicspage.com/daily/edmac/0916edmac-a.gif
+#random days, checks everyday
+sub jeffm {
+    my $time = shift;
+    return ComicsPageEd($time,"Jeff MacNelly Editorial","Jeff MacNelly",
+	"macnelly", "mac",'gif','gif',[450,351],[450,351]);
+}
+
+#Jack Ohman ex: http://www.comicspage.com/daily/edohm/0916edohm-a.gif
+#random days, checks everyday
+sub jacko {
+    my $time = shift;
+    return ComicsPageEd($time,"Jack Ohman Editorial","Jack Ohman",
+	"ohman", "ohm",'gif','gif',[450,351],[450,351]);
+}
+
+#Don Wright ex: http://www.comicspage.com/daily/edwrt/0916edwrt-a.gif
+#random days, checks everyday
+sub donw {
+    my $time = shift;
+    return ComicsPageEd($time,"Don Wright Editorial","Don Wright",
+	"wright", "wrt",'gif','gif',[450,351],[450,351]);
+}
+
+#Wayne Stayskal ex: http://www.comicspage.com/daily/edsty/0916edsty-a.gif
+#random days, checks everyday
+sub waynes {
+    my $time = shift;
+    return ComicsPageEd($time,"Wayne Stayskal Editorial","Wayne Stayskal",
+	"stayskal", "sty",'gif','gif',[450,351],[450,351]);
+}
+
+1;
