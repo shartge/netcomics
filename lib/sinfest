@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+# 'sinf' and not 'sin' because 'sin' is already spoken for
+$hof{"sinf"} = 0;
+
+#Sinfest - ex: www.sinfest.net/comics/sf20000428.gif
+sub sinf  {
+    my $time = shift;
+    return undef if $time < 948067200; #1st comic: Jan 17, 2000
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Sinfest",
+	'author' => "Tatsuya Ishida",
+	'main' => "http://www.sinfest.net/",
+	'archives' => "http://www.sinfest.net/strips_page.htm",
+	'base' => "http://www.sinfest.net/comics/",
+	'type' => 'gif',
+	'page' => strftime("sf%Y%m%d.gif",@ltime),
+	'size' => [682, 276],
+    };
+    return $rec;
+}
+
+1;

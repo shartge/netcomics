@@ -1,0 +1,373 @@
+=head1 NAME
+
+netcomics - retrieve comics from the Internet
+
+=head1 SYNOPSIS
+
+B<netcomics> [B<-bBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [B<-S,-T,-E> I<date>]
+                 [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>] [B<-g> [I<program>]] [B<-nD>]
+                 [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
+
+=head1 DESCRIPTION
+
+The I<netcomics> program will download today's comic strips from
+the Web, and place them in a spool directory where they can be
+retrieved for display.  Because each website that carries comic
+strips chooses how old of strips to show, the comic strips downloaded
+will actually be from different dates.  Most common will be comic
+strips that are 1 week, 2 weeks, and 3 weeks old. Also, each website
+is not updated at the same time, nor are any of them updated at a
+consistent time during the day.  Therefore, when running netcomics
+as a cron job in the early morning, you may need to rerun it by hand
+a little later in the day to get the comics that it couldn't find.
+The exact command to run is given at the end of I<netcomics> output
+if any failures occurred.
+
+I<netcomics> also supports retrieving specific dates of comics.  A
+"Starting Date" may be specified with B<-S>.  An "Ending Date" may be
+specified with B<-E>.  And a specific date may be specified with
+B<-T>.  All dates are given in the M-D-[YY]YY format.  If a start date
+is given without an end date, B<-n> may be used to specify the number
+of days of comics to retrieve starting at the specified start date.
+If an end date is given without a start date, B<-n> will specify the
+number of days of comics to retrieve counting backwards from the end
+date.  If a start date is given without B<-n> or B<-E>, then the end
+date is assumed to be today's date.  If the option given to B<-E>,
+B<-S>, or B<-T> is just an integer, that integer is interpreted as
+the number of days prior to the current day (specify specific dates
+relatively).
+
+Another way to specify the dates to download comics, is to use B<-N>
+in conjunction with B<-n>.  The argument to B<-N> is the number of
+days prior to the current day to retrieve comics.  Note that this does
+not specify an actual date.  It rather indicates the number of days
+ago a comic was made available, rather than the actual date of the
+comic.  To see how far behind the date of each comic is from the date
+it actually gets released, use B<-l>.  So if today is Wednesday, and you
+specify B<-N 2>, I<netcomics> will download the comics that were made
+available on Monday.  This is useful for running netcomics in a
+timezone that is way ahead of the timezones the comics' websites are
+located.
+
+I<netcomics> was created for the purpose of giving your weary mind a 
+little relief from your hectic workday, so another script
+called I<show_comics> has been provided to periodically popup the 
+retrieved comic strips throughout the workday.  Another script called
+I<display_comics> has also been provided, but it is only an example
+script of what can be done for displaying comics on many users
+computers on a network.
+
+B<Important:>  The further east your timezone is from the US, the later 
+in the day you'll have to run I<netcomics>.  As a reference, I suggest
+those whose timezone in GMT to wait to run the script at 12:30pm if
+they want to get all the comics at a time that's pretty likely to have
+had all of the websites updated.  Use B<-N> if you want to run the
+script early in the morning and are having problems getting comics to
+download. Also, just because a comic failed to download doesn't mean
+that the module for that comic is broken--it most likely the website
+just hasn't been updated yet.
+
+I<netcomics> can also create an HTML file, "index.html", in the
+directory you have the comics placed.   If a number is given with
+B<-W> or B<-w>, it will be used to determine the number of comics to
+be placed in each html file.  Subsequent files are named "comic#.html".
+
+B<Disclaimer:> Do not put the comics up on the Internet!  You should
+only use them for your own use.  Also, do not redistribute the comics
+downloaded by I<netcomics> in any other way unless you receive written
+authorization from each publisher.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-b>
+
+Get black & white comics if their is a choice between that and color.
+
+=item B<-B>
+
+Don't get black & white comics if their is a choice between that and color.
+Use this option to override the setting in the rc file.
+
+=item B<-c> I<'comic_ids'>
+
+Get the supplied comics (ids are separated by white spaces).
+This option may be repeated, and may not be used in conjunction with B<-C>.
+
+=item B<-C> I<'comic_ids'>
+
+Don't get the supplied comics (ids are separated by white spaces).
+This option may be repeated, and may not be used in conjunction with B<-c>.
+
+=item B<-d> I<dir>
+
+Put comics into directory. Default is /home/benh/www/comics.
+
+=item B<-D>
+
+Delete files in directory before retrieving.
+
+=item B<-E> [I<date> | I<days>]
+
+Specify an ending date, or the date that is the specified number of
+days prior to today, with which to define the range of days of comics
+to retrieve.  Must be used in combination with one of B<-S> or B<-n>.
+The date is of the form: M-D-Y.
+
+=item B<-f> I<date_fmt>
+
+Specify the date format used when naming files.  Default is C<'%y%m%d'>.
+
+=item B<-g> [I<program>]
+
+Specify a program to use to perform HTTP requests.  The URL to retrieve 
+is attached to the end of the provided text without a space. The 
+program must write the retrieved content of the URL on its stdout.
+The default command is:
+
+   'wget -q -O - '.
+
+=item B<-h>
+
+Show usage. Comics will not be downloaded.
+
+=item B<-i>
+Don't create an index for the webpages.
+
+=item B<-I>
+Create an index for the webpages. Specify this to override the setting 
+in the rc file if need be.
+
+=item B<-l>
+
+List supported comics & their identifiers, sorted by name alphabetically.
+Comics will not be downloaded.
+
+=item B<-L>
+
+Sort comics in webpages by date and when using B<-l>, by days behind.
+
+=item B<-m> I<dir>
+
+Add dir to the locations of comic modules. Default is /home/benh/share/netcomics.
+This option may be repeated to add multiple directories.
+
+=item B<-M> I<dir>
+
+Use only the list of locations of comic modules specified on the command line.
+
+=item B<-n> I<days>
+
+Retrieve this number of days of comics, going backwards. Default is 1.
+This option may be used in conjunction with B<-N>.
+
+=item B<-N> I<days>
+
+Start retrieving comics this many days before the currently available date.
+If you use B<-l> to show the comic id's, the 3rd column indicates the number
+of days behind a comic is available.  By default, if B<-E> or B<-S> are
+not specified, then netcomics will retrieve each comic, understanding that
+the latest available is that many days ago (according to the number shown
+in the 3rd column).  Use this option to push the number of days ago back 
+even further.  Default is 0. This option may be used in conjunction with 
+B<-n>, but not with B<-S> or B<-E>.
+
+=item B<-o>
+
+Write the webpage on standard out. Cannot specify the number of comics
+per page for B<-W> or B<-w> if you use this option.
+
+=item B<-p> I<url>
+
+Specify a URL to use as a proxy.  Both HTTP and FTP are supported.
+
+=item B<-r> I<rc filename>
+
+Specify an alternate name for the user-specific rc file
+
+=item B<-s>
+
+Don't skip bad comics when creating the web page.  This will potentially
+cause the web page to be loaded into a browser more slowly, but it will
+make it evident exactly which websites don't return proper HTTP errors.
+
+=item B<-S> [I<date> | I<days>]
+
+Specify a starting date, or the date that is the specified number of
+days prior to today, with which to define the range of days of
+comics to retrieve.  May be used in combination with of B<-E> or
+B<-n>. The date is of the form: M-D-Y.
+
+=item B<-t> I<dir>
+
+Specify the location of html template files. Default is 
+/home/benh/share/netcomics/html_tmpl.
+
+=item B<-T> [I<date> | I<days>]
+
+Specify a specific date, or the date that is the specified number of
+days prior to today, of comics to retrieve.  This option my be
+repeated. The date is of the form: M-D-Y.
+
+=item B<-u>
+
+Don't download comics, but print URLs on stdout, or if creating a
+webpage, make the images be implementing using the URLs.
+
+=item B<-v>
+
+Be a little verbose.
+
+=item B<-vv>
+
+Be extra verbose
+
+=item B<-w>[=n]
+
+Create an html file, index.html, for the comics downloaded. Optionally,
+n specifies the number of comics to have in each page, where subsequent
+html files are named comic#.html.
+
+=item B<-nw>
+
+Don't create a webpage. Use this option to override the rc file setting
+if need be.
+
+=item B<-wt> I<title>
+
+Specify a title for the web page rather than the default
+("Today's Comics From the Web on E<lt>DATEE<gt>").  This is useful
+for when you download specific comics, and want the title of the
+web page to reflect the actual contents.
+
+=item B<-W>[=n]
+
+Recreate the html file, index.html, from the comics that are in the
+directory, as well as any new comics downloaded.  Optionally,
+n specifies the number of comics to have in each page, where subsequent
+html files are named comic#.html.
+
+=back
+
+=head1 EXAMPLES
+
+=over 3
+
+=item 1.
+Run as a cron job at 7:30am, Monday through Friday, removing
+the previous day's comics beforehand, and creating a web page.
+And for Monday, also retrieve Saturday & Sunday's comics.
+
+   30 07  *  *  2-5  /home/benh/bin/netcomics -D -w
+   30 07  *  *  1    /home/benh/bin/netcomics -n 3 -D -w
+
+
+=item 2.
+Same as before, except, for Monday, get Saturday's & Sunday's
+comics, and for Tuesday, get Monday & Tuesday's.  This is so there
+isn't such an overload of comics on Monday.
+
+   30 07  *  *  1    /home/benh/bin/netcomics -N 1 -n 2 -D -w
+   30 07  *  *  2    /home/benh/bin/netcomics -n 2 -D -w
+   30 07  *  *  3-5  /home/benh/bin/netcomics -D -w
+
+=item 3.
+Grab Dilbert & Foxtrot comics from the past 30 days, place them in /tmp,
+and create a web page with a specific title (<DATE> gets replaced with the
+name of the month).
+
+   netcomics -c "dilbert ft" -n 30 -d /tmp -w -wt 'Dilbert & \
+   Foxtrot Comics From the Month of <DATE FORMAT="%b">'
+
+=item 4.
+Specify the date range of comics to retrieve to be from Feb 3, 1999
+to Feb 6, 1999, and also get comics on March 3, 1998.
+
+   netcomics -S 2-3-99 -E 2-6-99 -T 3-3-98
+
+=item 5.
+Specify the date range of comics to retrieve to be from Jan 6, 1999
+and the 5 days before it.  Get all the comics except Jerkcity and Doodie
+
+   netcomics -E 1-6-99 -n 6 -C jc -C doodie
+
+=item 6.
+Specify the date range of comics to retrieve to be all those that came
+available three, four, and five days ago.
+
+   netcomics -N 3 -n 3
+
+=item 7.
+Specify the date range of comics to retrieve to be all those that are
+dated three, four, and five days ago.  This example is given to show
+the difference between -E & -S  (when given a number) and -N. All
+comics downloaded will have the same 3 dates, while in the previous 
+example, the comics will have varying dates that are determined by
+the 3rd column in the output of -l. Note that since many comics aren't
+available until 2 weeks have past, many of them will not download
+with this example.
+
+   netcomics -E 3 -n 3
+
+            or
+
+   netcomics -E 3 -S 5
+
+=item 8.
+Use wget instead of libwww-perl (makes it so you don't have to install
+libwww-perl).
+
+   netcomics -g
+
+=item 9.
+Do not actually download the comics, and output the webpage to stdout.
+
+   netcomics -uwo
+
+=back
+
+=head1 FILES
+
+=over 29
+
+=item /home/benh/share/netcomics
+
+Directory containing the modules that return RLIs.
+
+=item /home/benh/share/netcomics/html_tmpl
+
+Directory containing the HTML template files used to create the
+web page.
+
+=item /home/benh/www/comics
+
+Default directory where comics and the web page are placed.
+
+=item /home/benh/bin/display_comics
+
+Example script that should be modified to be used to display the
+downloaded comics.
+
+=back
+
+=head1 BUGS
+
+=over 4
+
+=item
+Some of the comics depend on having the LANG and/or LC_CTYPE set so that
+the abbreviated month names are of only a certain locale.   Therefore,
+these comics will not download for certain locals.
+
+=back
+
+=head1 SEE ALSO
+
+show_comics(1)
+
+=head1 AUTHOR
+
+Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
+ICQ: B<15469308> AIM: B<hochstrb>
+

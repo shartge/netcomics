@@ -1,0 +1,686 @@
+Creating doc/netcomics.html from doc/netcomics.pod
+mics</TITLE>
+</HEAD>
+<BODY></CENTER><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_name_0">
+NAME</A>
+</H1>
+netcomics - retrieve comics from the Internet
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_synopsis_0">
+SYNOPSIS</A>
+</H1>
+<STRONG>netcomics</STRONG> [<STRONG>-bBDhiIlLosuvv</STRONG>] [
+<A HREF="doc/netcomics.html#doc/netcomics_c_0">-c,-C</A>
+ <EM>``comic ids''</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_p_0">-p</A>
+ <EM>proxy</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S,-T,-E</A>
+ <EM>date</EM>]
+                 [
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n,-N</A>
+ <EM>days</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_d_0">-d,-m,-t</A>
+ <EM>dir</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_f_0">-f</A>
+ <EM>date_fmt</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_g_0">-g</A>
+ [<EM>program</EM>]] [<STRONG>-nD</STRONG>]
+                 [
+<A HREF="doc/netcomics.html#doc/netcomics_r_0">-r</A>
+ <EM>rc_file</EM>] [
+<A HREF="doc/netcomics.html#doc/netcomics_w_1">-W,-w</A>
+[=<EM>n</EM>]] [<STRONG>-nw</STRONG>]
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_description_0">
+DESCRIPTION</A>
+</H1>
+The <EM>netcomics</EM> program will download today's comic strips from
+the Web, and place them in a spool directory where they can be
+retrieved for display.  Because each website that carries comic
+strips chooses how old of strips to show, the comic strips downloaded
+will actually be from different dates.  Most common will be comic
+strips that are 1 week, 2 weeks, and 3 weeks old. Also, each website
+is not updated at the same time, nor are any of them updated at a
+consistent time during the day.  Therefore, when running netcomics
+as a cron job in the early morning, you may need to rerun it by hand
+a little later in the day to get the comics that it couldn't find.
+The exact command to run is given at the end of <EM>netcomics</EM> output
+if any failures occurred.
+<p><EM>netcomics</EM> also supports retrieving specific dates of comics.  A
+``Starting Date'' may be specified with 
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S</A>
+.  An ``Ending Date'' may be
+specified with 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+.  And a specific date may be specified with
+
+<A HREF="doc/netcomics.html#doc/netcomics_t_1">-T</A>
+.  All dates are given in the M-D-[YY]YY format.  If a start date
+is given without an end date, 
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+ may be used to specify the number
+of days of comics to retrieve starting at the specified start date.
+If an end date is given without a start date, 
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+ will specify the
+number of days of comics to retrieve counting backwards from the end
+date.  If a start date is given without 
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+, then the end
+date is assumed to be today's date.  If the option given to 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+,
+
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S</A>
+, or 
+<A HREF="doc/netcomics.html#doc/netcomics_t_1">-T</A>
+ is just an integer, that integer is interpreted as
+the number of days prior to the current day (specify specific dates
+relatively).
+<p>Another way to specify the dates to download comics, is to use 
+<A HREF="doc/netcomics.html#doc/netcomics_n_1">-N</A>
+
+in conjunction with 
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+.  The argument to 
+<A HREF="doc/netcomics.html#doc/netcomics_n_1">-N</A>
+ is the number of
+days prior to the current day to retrieve comics.  Note that this does
+not specify an actual date.  It rather indicates the number of days
+ago a comic was made available, rather than the actual date of the
+comic.  To see how far behind the date of each comic is from the date
+it actually gets released, use 
+<A HREF="doc/netcomics.html#doc/netcomics_l_0">-l</A>
+.  So if today is Wednesday, and you
+specify 
+<A HREF="doc/netcomics.html#doc/netcomics_n_1">-N 2</A>
+, <EM>netcomics</EM> will download the comics that were made
+available on Monday.  This is useful for running netcomics in a
+timezone that is way ahead of the timezones the comics' websites are
+located.
+<p><EM>netcomics</EM> was created for the purpose of giving your weary mind a 
+little relief from your hectic workday, so another script
+called <EM>show_comics</EM> has been provided to periodically popup the 
+retrieved comic strips throughout the workday.  Another script called
+<EM>display_comics</EM> has also been provided, but it is only an example
+script of what can be done for displaying comics on many users
+computers on a network.
+<p><STRONG>Important:</STRONG>  The further east your timezone is from the US, the later 
+in the day you'll have to run <EM>netcomics</EM>.  As a reference, I suggest
+those whose timezone in GMT to wait to run the script at 12:30pm if
+they want to get all the comics at a time that's pretty likely to have
+had all of the websites updated.  Use 
+<A HREF="doc/netcomics.html#doc/netcomics_n_1">-N</A>
+ if you want to run the
+script early in the morning and are having problems getting comics to
+download. Also, just because a comic failed to download doesn't mean
+that the module for that comic is broken--it most likely the website
+just hasn't been updated yet.
+<p><EM>netcomics</EM> can also create an HTML file, ``index.html'', in the
+directory you have the comics placed.   If a number is given with
+
+<A HREF="doc/netcomics.html#doc/netcomics_w_1">-W</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_w_0">-w</A>
+, it will be used to determine the number of comics to
+be placed in each html file.  Subsequent files are named ``comic#.html''.
+<p><STRONG>Disclaimer:</STRONG> Do not put the comics up on the Internet!  You should
+only use them for your own use.  Also, do not redistribute the comics
+downloaded by <EM>netcomics</EM> in any other way unless you receive written
+authorization from each publisher.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_options_0">
+OPTIONS</A>
+</H1>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_b_0">
+-b</A>
+
+</STRONG>
+<DD>
+Get black &amp; white comics if their is a choice between that and color.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_b_1">
+-B</A>
+
+</STRONG>
+<DD>
+Don't get black &amp; white comics if their is a choice between that and color.
+Use this option to override the setting in the rc file.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_c_0">
+-c</A>
+ <EM>'comic_ids'</EM>
+</STRONG>
+<DD>
+Get the supplied comics (ids are separated by white spaces).
+This option may be repeated, and may not be used in conjunction with 
+<A HREF="doc/netcomics.html#doc/netcomics_c_1">-C</A>
+.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_c_1">
+-C</A>
+ <EM>'comic_ids'</EM>
+</STRONG>
+<DD>
+Don't get the supplied comics (ids are separated by white spaces).
+This option may be repeated, and may not be used in conjunction with 
+<A HREF="doc/netcomics.html#doc/netcomics_c_0">-c</A>
+.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_d_0">
+-d</A>
+ <EM>dir</EM>
+</STRONG>
+<DD>
+Put comics into directory. Default is /home/benh/www/comics.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_d_1">
+-D</A>
+
+</STRONG>
+<DD>
+Delete files in directory before retrieving.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_e_0">
+-E</A>
+ [<EM>date</EM> | <EM>days</EM>]
+</STRONG>
+<DD>
+Specify an ending date, or the date that is the specified number of
+days prior to today, with which to define the range of days of comics
+to retrieve.  Must be used in combination with one of 
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+.
+The date is of the form: M-D-Y.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_f_0">
+-f</A>
+ <EM>date_fmt</EM>
+</STRONG>
+<DD>
+Specify the date format used when naming files.  Default is <CODE>'<STRONG>%y</STRONG><STRONG>%m</STRONG><STRONG>%d</STRONG>'</CODE>.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_g_0">
+-g</A>
+ [<EM>program</EM>]
+</STRONG>
+<DD>
+Specify a program to use to perform HTTP requests.  The URL to retrieve 
+is attached to the end of the provided text without a space. The 
+program must write the retrieved content of the URL on its stdout.
+The default command is:
+<p>
+<XMP>
+   'wget -q -O - '.
+
+</XMP>
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_h_0">
+-h</A>
+
+</STRONG>
+<DD>
+Show usage. Comics will not be downloaded.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_i_0">
+-i</A>
+
+</STRONG>
+<DD>
+Don't create an index for the webpages.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_i_1">
+-I</A>
+
+</STRONG>
+<DD>
+Create an index for the webpages. Specify this to override the setting 
+in the rc file if need be.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_l_0">
+-l</A>
+
+</STRONG>
+<DD>
+List supported comics &amp; their identifiers, sorted by name alphabetically.
+Comics will not be downloaded.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_l_1">
+-L</A>
+
+</STRONG>
+<DD>
+Sort comics in webpages by date and when using 
+<A HREF="doc/netcomics.html#doc/netcomics_l_0">-l</A>
+, by days behind.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_m_0">
+-m</A>
+ <EM>dir</EM>
+</STRONG>
+<DD>
+Add dir to the locations of comic modules. Default is /home/benh/share/netcomics.
+This option may be repeated to add multiple directories.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_m_1">
+-M</A>
+ <EM>dir</EM>
+</STRONG>
+<DD>
+Use only the list of locations of comic modules specified on the command line.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_n_0">
+-n</A>
+ <EM>days</EM>
+</STRONG>
+<DD>
+Retrieve this number of days of comics, going backwards. Default is 1.
+This option may be used in conjunction with 
+<A HREF="doc/netcomics.html#doc/netcomics_n_1">-N</A>
+.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_n_1">
+-N</A>
+ <EM>days</EM>
+</STRONG>
+<DD>
+Start retrieving comics this many days before the currently available date.
+If you use 
+<A HREF="doc/netcomics.html#doc/netcomics_l_0">-l</A>
+ to show the comic id's, the 3rd column indicates the number
+of days behind a comic is available.  By default, if 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S</A>
+ are
+not specified, then netcomics will retrieve each comic, understanding that
+the latest available is that many days ago (according to the number shown
+in the 3rd column).  Use this option to push the number of days ago back 
+even further.  Default is 0. This option may be used in conjunction with 
+
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+, but not with 
+<A HREF="doc/netcomics.html#doc/netcomics_s_1">-S</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_o_0">
+-o</A>
+
+</STRONG>
+<DD>
+Write the webpage on standard out. Cannot specify the number of comics
+per page for 
+<A HREF="doc/netcomics.html#doc/netcomics_w_1">-W</A>
+ or 
+<A HREF="doc/netcomics.html#doc/netcomics_w_0">-w</A>
+ if you use this option.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_p_0">
+-p</A>
+ <EM>url</EM>
+</STRONG>
+<DD>
+Specify a URL to use as a proxy.  Both HTTP and FTP are supported.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_r_0">
+-r</A>
+ <EM>rc filename</EM>
+</STRONG>
+<DD>
+Specify an alternate name for the user-specific rc file
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_s_0">
+-s</A>
+
+</STRONG>
+<DD>
+Don't skip bad comics when creating the web page.  This will potentially
+cause the web page to be loaded into a browser more slowly, but it will
+make it evident exactly which websites don't return proper HTTP errors.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_s_1">
+-S</A>
+ [<EM>date</EM> | <EM>days</EM>]
+</STRONG>
+<DD>
+Specify a starting date, or the date that is the specified number of
+days prior to today, with which to define the range of days of
+comics to retrieve.  May be used in combination with of 
+<A HREF="doc/netcomics.html#doc/netcomics_e_0">-E</A>
+ or
+
+<A HREF="doc/netcomics.html#doc/netcomics_n_0">-n</A>
+. The date is of the form: M-D-Y.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_t_0">
+-t</A>
+ <EM>dir</EM>
+</STRONG>
+<DD>
+Specify the location of html template files. Default is 
+/home/benh/share/netcomics/html_tmpl.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_t_1">
+-T</A>
+ [<EM>date</EM> | <EM>days</EM>]
+</STRONG>
+<DD>
+Specify a specific date, or the date that is the specified number of
+days prior to today, of comics to retrieve.  This option my be
+repeated. The date is of the form: M-D-Y.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_u_0">
+-u</A>
+
+</STRONG>
+<DD>
+Don't download comics, but print URLs on stdout, or if creating a
+webpage, make the images be implementing using the URLs.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_v_0">
+-v</A>
+
+</STRONG>
+<DD>
+Be a little verbose.
+<p>
+<DT><STRONG>
+<STRONG>-vv</STRONG>
+</STRONG>
+<DD>
+Be extra verbose
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_w_0">
+-w</A>
+[=n]
+</STRONG>
+<DD>
+Create an html file, index.html, for the comics downloaded. Optionally,
+n specifies the number of comics to have in each page, where subsequent
+html files are named comic#.html.
+<p>
+<DT><STRONG>
+<STRONG>-nw</STRONG>
+</STRONG>
+<DD>
+Don't create a webpage. Use this option to override the rc file setting
+if need be.
+<p>
+<DT><STRONG>
+<STRONG>-wt</STRONG> <EM>title</EM>
+</STRONG>
+<DD>
+Specify a title for the web page rather than the default
+(``Today's Comics From the Web on &lt;DATE&gt;'').  This is useful
+for when you download specific comics, and want the title of the
+web page to reflect the actual contents.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_w_1">
+-W</A>
+[=n]
+</STRONG>
+<DD>
+Recreate the html file, index.html, from the comics that are in the
+directory, as well as any new comics downloaded.  Optionally,
+n specifies the number of comics to have in each page, where subsequent
+html files are named comic#.html.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_examples_0">
+EXAMPLES</A>
+</H1>
+<p>
+<OL>
+<LI>Run as a cron job at 7:30am, Monday through Friday, removing
+the previous day's comics beforehand, and creating a web page.
+And for Monday, also retrieve Saturday &amp; Sunday's comics.
+<p>
+<XMP>
+   30 07  *  *  2-5  /home/benh/bin/netcomics -D -w
+   30 07  *  *  1    /home/benh/bin/netcomics -n 3 -D -w
+
+</XMP>
+<p>
+<LI>Same as before, except, for Monday, get Saturday's &amp; Sunday's
+comics, and for Tuesday, get Monday &amp; Tuesday's.  This is so there
+isn't such an overload of comics on Monday.
+<p>
+<XMP>
+   30 07  *  *  1    /home/benh/bin/netcomics -N 1 -n 2 -D -w
+   30 07  *  *  2    /home/benh/bin/netcomics -n 2 -D -w
+   30 07  *  *  3-5  /home/benh/bin/netcomics -D -w
+
+</XMP>
+<p>
+<LI>Grab Dilbert &amp; Foxtrot comics from the past 30 days, place them in /tmp,
+and create a web page with a specific title (&lt;DATE&gt; gets replaced with the
+name of the month).
+<p>
+<XMP>
+   netcomics -c "dilbert ft" -n 30 -d /tmp -w -wt 'Dilbert & \
+   Foxtrot Comics From the Month of <DATE FORMAT="%b">'
+
+</XMP>
+<p>
+<LI>Specify the date range of comics to retrieve to be from Feb 3, 1999
+to Feb 6, 1999, and also get comics on March 3, 1998.
+<p>
+<XMP>
+   netcomics -S 2-3-99 -E 2-6-99 -T 3-3-98
+
+</XMP>
+<p>
+<LI>Specify the date range of comics to retrieve to be from Jan 6, 1999
+and the 5 days before it.  Get all the comics except Jerkcity and Doodie
+<p>
+<XMP>
+   netcomics -E 1-6-99 -n 6 -C jc -C doodie
+
+</XMP>
+<p>
+<LI>Specify the date range of comics to retrieve to be all those that came
+available three, four, and five days ago.
+<p>
+<XMP>
+   netcomics -N 3 -n 3
+
+</XMP>
+<p>
+<LI>Specify the date range of comics to retrieve to be all those that are
+dated three, four, and five days ago.  This example is given to show
+the difference between -E &amp; -S  (when given a number) and -N. All
+comics downloaded will have the same 3 dates, while in the previous 
+example, the comics will have varying dates that are determined by
+the 3rd column in the output of -l. Note that since many comics aren't
+available until 2 weeks have past, many of them will not download
+with this example.
+<p>
+<XMP>
+   netcomics -E 3 -n 3
+            or
+   netcomics -E 3 -S 5
+
+</XMP>
+<p>
+<LI>Use wget instead of libwww-perl (makes it so you don't have to install
+libwww-perl).
+<p>
+<XMP>
+   netcomics -g
+
+</XMP>
+<p>
+<LI>Do not actually download the comics, and output the webpage to stdout.
+<p>
+<XMP>
+   netcomics -uwo
+
+</XMP>
+<p>
+</OL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_files_0">
+FILES</A>
+</H1>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_home_benh_share_netcomics_0">
+/home/benh/share/netcomics</A>
+
+</STRONG>
+<DD>
+Directory containing the modules that return RLIs.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_home_benh_share_netcomics_html_tmpl_0">
+/home/benh/share/netcomics/html_tmpl</A>
+
+</STRONG>
+<DD>
+Directory containing the HTML template files used to create the
+web page.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_home_benh_www_comics_0">
+/home/benh/www/comics</A>
+
+</STRONG>
+<DD>
+Default directory where comics and the web page are placed.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_home_benh_bin_display_comics_0">
+/home/benh/bin/display_comics</A>
+
+</STRONG>
+<DD>
+Example script that should be modified to be used to display the
+downloaded comics.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_bugs_0">
+BUGS</A>
+</H1>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="doc/netcomics_some_0">
+Some of the comics depend on having the LANG and/or LC_CTYPE set so that</A>
+
+</STRONG>
+<DD>
+the abbreviated month names are of only a certain locale.   Therefore,
+these comics will not download for certain locals.
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_see_0">
+SEE ALSO</A>
+</H1>
+show_comics(1)
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/netcomics_author_0">
+AUTHOR</A>
+</H1>
+Ben Hochstedler &lt;<A HREF="MAILTO:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt;
+ICQ: <STRONG>15469308</STRONG> AIM: <STRONG>hochstrb</STRONG>
+<p>
+</BODY>
+</HTML>

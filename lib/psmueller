@@ -1,0 +1,24 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"psmueller"} = 0;
+
+#Show PC Mueller
+# http://www.psmueller.com/cartoons/archive/_04_21_00.gif
+sub psmueller {
+  my @ltime = gmtime(shift(@_));
+  my $site = "http://www.psmueller.com/";
+  my $rec = {
+    'title' => "PS Mueller",
+    'author' => "PS Mueller",
+    'type' => 'gif',
+    'main' => $site,
+    'base' => $site,
+    'archives' => "${site}cartoons/archive/",
+    'page' => strftime("cartoons/archive/_%m_%d_%y.gif",@ltime),
+  };
+
+  return $rec;
+}
+
+1;
