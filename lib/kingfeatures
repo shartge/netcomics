@@ -368,7 +368,7 @@ sub schix {
 
 #Steve Roper & Mike Nomad http://www.kingfeatures.com/comics/sroper/index.htm
 sub sroper {
-    return kingfeature(shift(@_),"Steve Roper & Mike Nomad",
+    return kingfeature(shift(@_),"Steve Roper and Mike Nomad",
 	"John Saunders & Fran Matera", "sroper","Steve_Roper", [480,149]);
 }
 

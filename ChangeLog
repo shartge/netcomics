@@ -1,5 +1,9 @@
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/comicspage (herb & bound): Changed ampersand to "and" so
+	shell commands wouldn't need the "&" in their names escaped.
+	* lib/kingfeatures (sroper): Changed ampersand to "and" so
+	shell commands wouldn't need the "&" in their names escaped.
 	* lib/keenspot (alice): Fixed passing of the size & main.
 	(adventure): Disabled.
 	* lib/elf_life (elf): Fixed the type field regexp

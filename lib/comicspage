@@ -46,7 +46,7 @@ sub ComicsPage {
 #mon-sat
 sub bound {
     my $time = shift;
-    return ComicsPage($time,"Bound & Gagged","Dana Summers",
+    return ComicsPage($time,"Bound and Gagged","Dana Summers",
 	"bound", "bgg","cs",'gif','gif',[580,180],[580,180]);
 }
 
@@ -62,7 +62,7 @@ sub fredb {
 #mon-sat
 sub herb {
     my $time = shift;
-    return ComicsPage($time,"Herb & Jamaal","Stephen Bentley",
+    return ComicsPage($time,"Herb and Jamaal","Stephen Bentley",
 	"herb", "hjl","cs",'gif','gif',[580,180],[580,180]);
 }
 
