@@ -35,6 +35,7 @@ HTML/Page.pm
 HTML/Set.pm
 HTML/Theme.pm
 HTML/Themes/Default.pm
+HTML/Themes/NoStatus.pm
 MyRequest.pm
 MyResponse.pm
 Util.pm
