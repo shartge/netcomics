@@ -413,7 +413,7 @@ the same day, but will download the May 1st 1989 Calvin & Hobbes' strip
 since it is 4018 days back, as well as the April 17th 2000 strip for Alice 
 since it is 14 days back.
 
-This behaviour also applies for the -E and -S options.
+This behaviour also applies for the B<-E> and B<-S> options.
 
 =item 11.
 Have netcomics retry downloading comics it didn't successfully download,
