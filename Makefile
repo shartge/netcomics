@@ -65,7 +65,6 @@ MODULES = lib/after_y2k \
 	lib/bastich \
 	lib/bayside \
 	lib/bigpanda \
-	lib/bobbins \
 	lib/bruno \
 	lib/callahan \
 	lib/calvin-n-hobbes \
