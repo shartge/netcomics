@@ -13,10 +13,8 @@ sub doon {
         'main' => "http://www.doonesbury.com/",
         'archives' => "http://www.doonesbury.com/strip/dailydose/",
         'base' => "http://",
-        'page' => strftime("www.doonesbury.com/strip/dailydose/index.cfm?uc_full
-_date=%Y%m%d&uc_comic=db",@ltime),
-        'exprs' => [strftime("//([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/imag
-es.ucomics.com/comics/db/%Y/db%y%m%d.gif)",@ltime)]
+        'page' => strftime("www.doonesbury.com/strip/dailydose/index.cfm?uc_full_date=%Y%m%d&uc_comic=db",@ltime),
+        'exprs' => [strftime("//([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/db/%Y/db%y%m%d.gif)",@ltime)]
     };
     return $rec;
 }
