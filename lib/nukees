@@ -1,0 +1,41 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"nukees"} = 0;
+
+#Nukees http://www.nukees.com/
+# ex : http://www.nukees.com/comics/19970121a.gif
+#Since Aug 26, 1998, all comics have been on either Mon, Wed, Fri.
+#Before that, there were some Tuesdays & a Thursday, also.
+sub nukees {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,21,0,97); #1st comic: jan 21, 1997
+    my @ltime = gmtime($time);
+
+    if ($time < mkgmtime(0,0,0,26,7,98)) {
+	#not Sat or Sun.
+	return undef if ($ltime[6] == 0) || ($ltime[6] == 6);
+    } else {
+	#only Mon, Wed, Fri
+	return undef if ($ltime[6] != 1) && ($ltime[6] != 3) &&
+	    ($ltime[6] != 5);
+    }
+
+    my $rec = {
+	'title' => "Nukees",
+	'author' => "Darren Bleuel",
+	'type' => 'gif',
+	'main' => "http://www.nukees.com/",
+	'archives' => "http://www.nukees.com/archives.html",
+    	'base' => "http://www.nukees.com",
+	'page' => strftime("/d/%Y%m%d.html",@ltime),
+	'exprs' => [strftime("SRC=\"(/comics/%Y%m%d.*?gif)",@ltime)],
+	'size' => [700,230],
+    };
+
+    return $rec;
+}
+
+1;
+
+
