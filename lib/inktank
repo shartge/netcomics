@@ -3,49 +3,127 @@
 #Tack on the names of the subroutines to the list of functions
 $hof{"angst"} = 0;
 $hof{"ww"} = 0;
+$hof{"swo"} = 0;
+
+# The ubiquitous helper function
+sub inktank {
+    
+    my ($time, $code, $first, $title) = @_;
+    my @ltime = gmtime($time);
+    my $main = 'http://www.inktank.com/';
+    my $arch = "$code/archive.cfm";
+    
+    my $year = strftime('%Y',@ltime);
+    my $last = ($year == $first) ? "</body>" : $year - 1;
+    my $day = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)[$ltime[4]];
+    $day .= (" " . strftime('%d',@ltime));
+    my $date = strftime('%m-%d-%y',@ltime);
+
+    my $ref = {
+	'title' => $title,
+	'author' => "Barry T. Smith",
+	'type' => 'gif',
+ 	'main' => $main,
+ 	'archives' => "$main$arch",
+ 	'base' => $main,
+	'page' => $arch,
+	'func' => sub {
+	    my $c = shift;
+	    my @relurls = ();
+	    # What we're looking for here is the year, eventually followed
+	    # by the day we're looking for, followed by the previous year
+	    # (or the end of the page if it's the first year of the comic.)
+	    #
+	    # we have to check for the previous year to prevent our regex
+	    # for finding the date in another year.
+	    if ($c =~ m|<b>$year</b>.*?<option value="(\d+)">$day - (.*?)</option>.*?$last|s) {
+		push @relurls, {
+		    'caption' => $2,
+		    'page' => "/$code/index.cfm?nav=$1",
+		    'exprs' => {
+			'comic' => ["(/images/$code/cartoons/$date\.?\\.+?((?i)(jpg|gif|png)))"],
+		    },
+		    'func' => undef,   
+		};
+		
+	    }
+	    return @relurls;
+	},
+    };
+    return $ref;
+    
+}
 
 # Angst Technology
 # ex: http://www.inktank.com/images/AT/cartoons/08-28-00.gif
 sub angst {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    # First comic 2000-Aug-28
-    return undef if ($time < mkgmtime(0,0,0,28,07,100));
-
-    my $rec = {
-	'title' => "Angst Technology",
-	'author' => "Barry T. Smith",
-	'type' => 'gif',
-	'main' => "http://www.inktank.com/AT/",
-	'archives' => "http://www.inktank.com/AT/archive.cfm",
-	'base' => "http://www.inktank.com/images/AT/cartoons",
-	'page' => strftime("/%m-%d-%y.gif",@ltime),
-	'size' => [450, 615],
-    };
-    return $rec;
-}
+     my $time = shift;
+     # First comic 2000-Aug-28
+     return undef if ($time < mkgmtime(0,0,0,28,07,100));
+     return inktank($time, 'AT', 2000, 'Angst Technology');
+ }
 
 # Week-End Warriors
 # ex: http://www.inktank.com/images/WW/cartoons/07-02-01.gif
 sub ww {
     my $time = shift;
-    my @ltime = gmtime($time);
     # First comic 2001-Jul-2
     return undef if ($time < mkgmtime(0,0,0,2,06,101));
-    # Only runs on fridays
-    return undef unless (1 == $ltime[6]);
-
-    my $rec = {
-	'title' => "Week-End Warriors",
-	'author' => "Barry T. Smith",
-	'type' => 'gif',
-	'main' => "http://www.inktank.com/WW/",
-	'archives' => "http://www.inktank.com/WW/archive.cfm",
-	'base' => "http://www.inktank.com/images/WW/cartoons",
-	'page' => strftime("/%m-%d-%y.gif",@ltime),
-	'size' => [450, 615],
-    };
-    return $rec;
+    return inktank($time, 'WW', 2001, 'Week-End Warriors');
 }
+
+# Sorry, We're Open
+# ex: http://inktank.com/images/SWO/cartoons/04-01-04.gif
+sub swo {
+    my $time = shift;
+    # First comic 2004-Apr-1
+    return undef if ($time < mkgmtime(0,0,0,1,03,104));
+    return inktank($time, 'SWO', 2004, 'Sorry We\'re Open');
+
+}
+
+# # Angst Technology
+# # ex: http://www.inktank.com/images/AT/cartoons/08-28-00.gif
+# sub angst {
+#     my $time = shift;
+#     my @ltime = gmtime($time);
+#     # First comic 2000-Aug-28
+#     return undef if ($time < mkgmtime(0,0,0,28,07,100));
+
+#     my $rec = {
+# 	'title' => "Angst Technology",
+# 	'author' => "Barry T. Smith",
+# 	'type' => 'gif',
+# 	'main' => "http://www.inktank.com/AT/",
+# 	'archives' => "http://www.inktank.com/AT/archive.cfm",
+# 	'base' => "http://www.inktank.com/images/AT/cartoons",
+# 	'page' => strftime("/%m-%d-%y.gif",@ltime),
+# 	'size' => [450, 615],
+#     };
+#     return $rec;
+# }
+
+# # Week-End Warriors
+# # ex: http://www.inktank.com/images/WW/cartoons/07-02-01.gif
+# sub ww {
+#     my $time = shift;
+#     my @ltime = gmtime($time);
+#     # First comic 2001-Jul-2
+#     return undef if ($time < mkgmtime(0,0,0,2,06,101));
+#     # Only runs on fridays
+#     return undef unless (1 == $ltime[6]);
+
+#     my $rec = {
+# 	'title' => "Week-End Warriors",
+# 	'author' => "Barry T. Smith",
+# 	'type' => 'gif',
+# 	'main' => "http://www.inktank.com/WW/",
+# 	'archives' => "http://www.inktank.com/WW/archive.cfm",
+# 	'base' => "http://www.inktank.com/images/WW/cartoons",
+# 	'page' => strftime("/%m-%d-%y.gif",@ltime),
+# 	'size' => [450, 615],
+#     };
+#     return $rec;
+# }
 
 1;
