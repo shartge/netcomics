@@ -1,4 +1,9 @@
 
+2003-08-18  Sven Hartge  <netcomics@ds9.argh.org>
+                                                                                                   
+        * Moved Crankshaft from ucomics to kingfeatures and thus 
+          Closing: 698389
+
 2003-08-11  Chris Hostetter  <hossman at users * sourceforge * net>
 
 	* comiczone no longer supports "warped"
