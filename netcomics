@@ -2259,9 +2259,10 @@ sub usage
     print "$script_name : download comics from the Web.\n";
     print << "END";
 (c)1999 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
-usage: netcomics [-bBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-S,-T,-E date]
+usage: netcomics [-bBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-S,-T,-E date -A]
                  [-n,-N days] [-d,-m,-t dir] [-f date_fmt] [-g [program]] [-nD]
                  [-r rc_file] [-W,-w[=n]] [-nw]
+   -A: act as if the days specified with S, T or E were today
    -b: specify that you prefer the comics to be in black & white--not color
    -B: specify that you prefer the comics color (override rc file setting)
    -c: get the listed comics (ids are seperated by white spaces)
