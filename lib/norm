@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+$hof{"nm"} = 1; #advertised as 2 weeks behind, but yesterday's is available
+
+#The Norm:  http://www.thenorm.com/
+
+sub nm {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $time < 915148800; #1st comic: Jan 1, 1999
+    my $sfx = ($ltime[6] == 0) ? "jpg" : "gif"; #jpegs on Sunday
+    my $rec = {
+	'title' => "The Norm",
+	'author' => "Michael Jantze",
+	'type' => $sfx,
+	'main' => "http://www.thenorm.com/",
+	'archives' => "http://www.thenorm.com/strips/strips.asp",
+	'base' => "http://www.thenorm.com/",
+	'page' => "arch/" . strftime("%y%m%d.$sfx",@ltime),
+	'size' => [475,155]
+	};
+    return $rec;
+}
+
+1;
