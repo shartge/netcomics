@@ -115,6 +115,12 @@ my $HOME = $ENV{'HOME'};
 ## Title of each page generated.  Below is the default
 #$webpage_title = "Today's Comics From The Web on <DATE>";
 
+## Date format used to replace <DATE> in webpage template content,
+## like the title.  Default is "%b %d, %Y".  The following would change
+## it to your "locale's appropriate date representation", according to
+## the strftime manpage.
+#$webpage_datefmt = "%x";
+
 ## Maximum number of comics per webpage. Default is undef (none).
 #$comics_per_page = 10;
 
