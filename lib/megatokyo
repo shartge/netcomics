@@ -17,7 +17,7 @@ sub megatokyo {
     my $baseurl = "http://www.megatokyo.com";
     my $rec = {
 	'title' => "Megatokyo",
-	'author' => "Fred Gallagher & Rodney Caston",
+	'author' => "Fred Gallagher",
 	'type' => 'gif',
 	'main' => $baseurl,
 	'archives' => "$baseurl/index.php",

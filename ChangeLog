@@ -1,4 +1,10 @@
 2002-08-29  Sven Hartge  <netcomics@ds9.argh.org>
+	
+	* lib/megatokyo: cosmetic change, Rodney 'Largo' Caston is no longer
+	directly involved with Megatokyo
+
+2002-08-29  Sven Hartge  <netcomics@ds9.argh.org>
+
 	* lib/comicspage: Revert the last change, since this was the wrong
 	file to fix.
 	* lib/comicspage_ed: Change main.html to index.html
