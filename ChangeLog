@@ -1,5 +1,7 @@
 2001-02-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* doc/Comic_Module-HOWTO.html: Updated information about how RLIs
+	returned by functions are processed.
 	* lib/template: Encourage use of $baseurl.
 	* lib/lcd (lcd): Added LCD thanks to Max Zomborszki.
 	* lib/bad_boys (badboys): Updated thanks to Max Zomborszki.

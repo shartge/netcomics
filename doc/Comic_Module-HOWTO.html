@@ -140,28 +140,39 @@ Information) hash structure.
 	}
     </TD>
     <TD><P>This field provides the ability for multiple files to be
-	downloaded from a website for a single comic.  The last field
-	of the RLI to be used, this function pointed to by the
-	subroutine reference is run, being given the text of the
-	last web page downloaded, if there was one.  The function
-	should return a list of strings:  each string being a relative
-	URL, that is finally used to download a comic file.  The
-	function may also return in the list a reference to a hash,
-	like with the field 'exprs', which contains fields & values to
-	be added to RLI.</P>
+	downloaded from a website for a single comic, and for the RLI
+	to be dynamically regenerated.  This function is run by
+	netcomics' engine after the initial page & expressions are run
+	on it if either of those fields are provided.  Thet text from
+	the last page downloaded is passed into the function.</p>
+	<p>The function can either return a list of strings where each
+	string is a relative URL to the base, or it can return a hash
+	containing new and updated fields for the RLI.  If an array is
+	returned, each item in the array is used as a relative URL
+	used to download the final images.</p>
+	<p>If the function returns a hash instead, the RLI is fully
+	reprocessed.  This gives you the power to have a site
+	initially looked at to find out even if a comic for the
+	provided date exists, and then restructure the RLI
+	accordingly.  You'll need to use this technique if a comic has
+	multiple images and a caption you want to grab.  To do this,
+	the function would scan the text for the caption and then
+	return a hash where one field is the caption and the other
+	field is another function which will grab the relative urls.</p> 
 	<P>Most often, the function will be created by a module as a
 	closure.  A closure is an anonymous subroutine that is created
 	with some specific data.  For example, if you're writing a
 	closure that is to return two relative URLs, each with some
 	text in it that is created from the date, the data you need to
 	embed in the subroutine when you create it needs to be the
-	date given to the RLI function in some form.</P>
-	<P>Usually, a hash reference would be put in the returned list
-	to provide a caption that would be put in the generated
-	webpage below the comic.  See penny_arcade for an example.</P>
+	date given to the RLI function in some form. Note that Perl
+	doesn't seem to maintain references to variables in a closure
+	created from within a closure, so in order to have a function
+	return an RLI with a new function, you'll have to write the
+	second function such that it doesn't depend on any variables
+	or so that it uses global variables.</P>
 	<P>See the module files madam-n-eve, sluggy_freelance, doodie,
-	and goats for some examples.  This was introduced in version
-	0.6.</P>
+	goats and bad_boys for some examples.</P>
     </TD>
   </TR>
   <TR>
@@ -318,7 +329,7 @@ If you don't, the module will not load properly.
 <HR>
 <ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
 <SPAN CLASS=TimeStamp>
-Last modified: Mon Jan 15 15:28:52 CST 2001
+Last modified: Sat Feb  3 09:24:27 CST 2001
 </SPAN>
 </BODY>
 </HTML>
