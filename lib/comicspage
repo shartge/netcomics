@@ -29,14 +29,14 @@ sub ComicsPage {
 
     return undef unless defined($size) && defined($type);
 
-	# http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=20020427csfbt-a-p.jpg&code=csfbt
+	# http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=20020827edshe-a-p.jpg&code=edshe
 
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => $type,
-	'main' => "http://www.comicspage.com/$dir/index.html",
-	'archives' => "http://www.comicspage.com/$dir/index.html",
+	'main' => "http://www.comicspage.com/$dir/",
+	'archives' => "http://www.comicspage.com/$dir/",
 	'base' => "http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=",
 	'page' => strftime("%Y%m%d$prefix$file-$postfix-p.$type\&code=$prefix$file",@ltime),
 	'size' => $size,
@@ -93,7 +93,7 @@ sub mixed {
 		      "mixedmedia","mix","cs",'jpg','jpg',[700,218],[700,319]);
 }                                                                              
 
-#Dick Tracy http://www.comicspage.com/dick/
+#Dick Tracy http://www.comicspage.com/dicktracy/
 sub dtracy {
     return ComicsPage($_[0],"Dick Tracy","Dick Locher & Mike Kilian","dicktracy",
                        "dty","cs",'jpg','jpg',[700,218],[700,491]);
