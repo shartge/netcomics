@@ -226,10 +226,11 @@ If you use wget, specify http_proxy = URL or ftp_proxy = URL in your
 .wgetrc file.
 
 =item B<-P>
+
 Turns on comic separation mode, which puts comics into their own 
 subdirectories. This is useful for maintaining an archive of comics.
-B<It is a better idea to set the $separate_comics variable to one so
-that this feature is not intermittently used.>
+B<It is a better idea to set the $separate_comics variable to 1 in the
+netcomicsrc file so that this feature is not intermittently used.>
 
 =item B<-q>
 
