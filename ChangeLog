@@ -1,3 +1,8 @@
+2001-09-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Util.pm (load_modules): Updated to be more generalized
+	so that HTML themes could be loaded with it.
+
 2001-09-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* html_tmpl/*: Removed the old template files.

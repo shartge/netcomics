@@ -72,11 +72,11 @@ sub requireDataDumper {
 #load_modules(namespace,dirs) arguments:
 # Namespace in which to load modules
 # Directories to find modules
-#returns a reference to a copy of the hof hash which was also loaded
-#into that namespace.
+#Returns the number of modules loaded.
 sub load_modules {
 	my $namespace = shift;
 	my @libdirs = @_;
+	my $numloaded = 0;
 	push(@INC,@libdirs);
 	foreach my $libdir (@libdirs) {
 		if (opendir(DIR, $libdir)) {
@@ -86,19 +86,17 @@ sub load_modules {
 
 			my $module;
 			foreach $module (@modules) {
-				next if $module =~ /\.pm$/;
 				print "$module " if $extra_verbose;
 				eval "package $namespace; require \"$libdir/$module\""
 					if (-r "$libdir/$module");
+				$numloaded++;
 			}
 			print "\n" if $extra_verbose;
 		} else {
 			print STDERR "$libdir is not accessible. Skipping it.\n";
 		}
 	}
-	my %hofc;
-	eval "%hofc = %${namespace}::hof";
-	return \%hofc;
+	return $numloaded;
 }
 
 sub parse_name {
