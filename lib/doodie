@@ -7,7 +7,7 @@ sub doodie {
     my $today = shift;
     my @ltime = gmtime($today);
     my $daysago = (time - $today)/(3600*24);
-    $daysago =~ s/^(\d+)\./$1/;
+    $daysago =~ s/^(\d+)\..*$/$1/;
     my $archives = "members/doodie/index.cfm?pid=6226";
     my $base = "http://www.bla-bla.com/";
     my %rec = ('title' => "Doodie",

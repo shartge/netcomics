@@ -1,5 +1,6 @@
 2000-08-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/doodie: fixed determining days in past.
 	* netcomics: Rewrote the code that creates rlis based on file
 	names to use newly updated parse_name()
 	(parse_name): Updated returned list to include the date and
