@@ -129,7 +129,7 @@ if ($verbose) {
 	}
 }
 
-print "Selected Comics !! : @selected_comics \n";
+print STDERR "Selected Comics !! : @selected_comics \n" if $extra_verbose;
 
 if ($make_webpage) {
 	#Create the HTML object.
