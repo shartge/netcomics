@@ -102,6 +102,8 @@ END
 %dir /usr/%{installsitelib}/Netcomics
 /usr/%{installsitelib}/Netcomics/*.pm
 /usr/%{installsitelib}/Netcomics/Comicpage
+%dir /usr/%{installsitelib}/Netcomics/HTML
+/usr/%{installsitelib}/Netcomics/HTML/*.pm
 %dir /usr/share/perl5/Netcomics/etc
 %attr(-,root,man) /usr/man/man1/*
 %attr(-,root,man) /usr/lib/perl5/man/man3/Netcomics::Config.3.gz
@@ -109,6 +111,7 @@ END
 %config /usr/share/perl5/Netcomics/etc/netcomicsrc
 %attr(-,root,users) %dir /var/spool/netcomics
 %attr(-,root,users) %dir /usr/%{installsitelib}/Netcomics/Comic
+%attr(-,root,users) %dir /usr/%{installsitelib}/Netcomics/HTML/Themes
 
 
 %files data
@@ -122,7 +125,10 @@ END
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.18  2002-04-02 19:08:58  hochstrb
+Revision 1.19  2002-04-02 20:59:37  hochstrb
+fixed directory inclusions
+
+Revision 1.18  2002/04/02 19:08:58  hochstrb
 added contrib/mktheme to %files
 
 Revision 1.17  2002/03/31 16:25:21  hochstrb
