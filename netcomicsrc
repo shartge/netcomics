@@ -18,7 +18,7 @@ my $HOME = $ENV{'HOME'};
 ## Change the location of the html template directory
 #$html_tmpl_dir = "$HOME/share/netcomics/html_tmpl";
 
-## Change the download directory location (default /var/spool/netcomics)
+## Change the download directory location
 #$comics_dir = "$HOME/comics";
 
 ## Place different comics in their own directories? (default 0)
