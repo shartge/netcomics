@@ -1,3 +1,23 @@
+2001-09-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/Modify_Webpage_Creation-HOWTO.html: Changed template to be
+	surrouneded by <PRE></PRE>.
+	* doc/netcomics.pod (SYNOPSIS): Updated & reorganized the CLI
+	synopsis.
+	(OPTIONS): Added -wf, -nwa, & -wa.
+	* netcomicsrc: Added $webpage_datefmt
+	* Netcomics/HTML/Page.pm (new): $webpage_datefmt used instead of
+	hardcoded date format.
+	* Netcomics/Factory.pm (get_comics): Moved functionality for
+	determining the remake webpage option for $given_options into
+	Config.pm.
+	* Netcomics/Config.pm.in (processARGV): Added
+	append_to_given_options() to provide a common interface for
+	building up the given_options attribute.
+	(@EXPORT): added $webpage_datefmt
+	(usage): Added -wf for webpage date format. Updated & reorganized
+	the CLI	synopsis.
+
 2001-08-31  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Page.pm (new): Fixed Page->{'filename'} to use a
