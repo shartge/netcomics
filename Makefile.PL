@@ -118,6 +118,7 @@ sempai
 sourcewars
 shermans_lagoon
 shoe
+slowwave
 sluggy_freelance
 small_grey
 small_world
@@ -273,6 +274,7 @@ CVS	= cvs
 BZIP2 = bzip2
 GZIP = $(COMPRESS)
 CHOWN = chown
+FIND = find
 RPM = rpm
 RPMBUILDFLAGS = -ba
 SRCDIR	= /usr/src
@@ -459,6 +461,7 @@ archives: preparchive
 	$(MAKE) $(ZIPFILE)
 
 rpm:
+	$(RM) $(RHSPECS)/$(RPMSPEC)
 	$(MAKE) INSTALLSITELIB=/usr/lib/perl5/site_perl $(RHRPMS)/noarch/$(RPMFILE)
 
 deb:
@@ -468,6 +471,11 @@ tag: label
 label:
 	ver=`echo $(VERSION) | sed \'s/\./_/g\'`; \
 	cd ..; $(CVS) tag V$$ver
+
+#get rid of cvs poop
+distclean::
+	$(FIND) . \( -name "*.rej" -o -name "*.orig" -o -name ".#*.1.*" \) \
+		-exec rm {} \\;
 
 #example on how to change where things are installed
 install_home:
@@ -486,7 +494,7 @@ package main;
 
 my %opts =
 	('NAME' => 'netcomics',
-	 'VERSION' => "0.14cvs",
+	 'VERSION' => "0.14.1",
 	 'PM' => {(map {("Netcomics/$_" =>
 				   '$(INST_LIBDIR)/$(MY_INST_SUBDIR)/' . $_)} @pm_to_install),
 			  (map {("$_" =>
