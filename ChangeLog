@@ -1,3 +1,8 @@
+2001-03-31  Elliot Glaysher <nuriko.chan@home.com>
+
+	* Netcomics/HTML.pm: Bad Elliot! Bad! Don't leave your debugging
+	statement in when you commit!
+	
 2001-03-27  Elliot Glaysher <nuriko.chan@home.com>
 
 	* TODO: After using the new -P function, I updated the TODO

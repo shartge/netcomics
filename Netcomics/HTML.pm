@@ -382,7 +382,7 @@ sub create_webpage_set {
 
 		$i = -1;
 		my $first_file;
-		print "$comic_title : $num_groups";
+
 		while (++$i < $num_groups) {
 			my $group = $i + 1;
 			my $first = $i * $self->{'comics_per_page'} + 1;
