@@ -25,7 +25,7 @@ sub kingfeature {
 	'type' => $sf,
 	'main' => $base,
 	'archives' => $base,
-	'base' => $base,
+	'base' => "http://est.rbma.com/content/",
 	'page' => strftime("${fp}.%Y%m%d.$sf",@ltime)
 	};
     $rec->{'size'} = $size if defined $size;

@@ -1,5 +1,7 @@
 2000-07-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/kingfeatures (kingfeature): Fixed 'base' field thanks to 
+	Claudemir Todo Bom.
 	* netcomics (get_comics): Fixed previous change made which caused
 	files to incorrectly be added to the successfully downloaded list.
 
