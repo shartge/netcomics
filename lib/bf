@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+$hof{"bf"} = 0;
+
+# Benutzerfreundlich
+# ex : http://www.comic-strips.de/benutzer/200204/bf020414.gif
+sub bf {
+    my $time = shift;
+    return undef if $time < 933544800; #1st comic: Aug 02, 1999
+    my @ltime = gmtime($time);
+    $page_fmt = strftime("/%Y%m/bf%y%m%d.gif",@ltime);
+     
+    my $rec = {
+	'title' => "Benutzerfreundlich",
+	'author' => "Illiad (Heike Brand)",
+	'type' => 'gif',
+	'main' => "http://www.comic-strips.de/benutzer/bf_heute.htm",
+	'base' => "http://www.comic-strips.de/benutzer",
+	'page' => strftime($page_fmt,@ltime),
+    };
+    return $rec;
+}
+
+1;
