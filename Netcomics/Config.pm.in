@@ -608,6 +608,19 @@ sub load_rcfile {
 	}
 }
 
+sub clear_date_settings {
+	# Clear date stuff.
+	$days_of_comics = 1;
+	$end_date = undef;
+	$start_date = undef;
+	@dates = ( );
+
+	# Clear comic list.
+	@selected_comics = ( );
+	$user_specified_comics = 1;   
+	$user_unspecified_comics = undef; 
+}
+
 sub usage {
 	my $self = shift;
 

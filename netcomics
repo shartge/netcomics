@@ -48,6 +48,7 @@ $| = 1; #autoflush on STDERR & STDOUT
 my $data_dumper_installed = requireDataDumper();
 
 my $factory = Netcomics::Factory->new($conf);
+$factory->setup;
 
 $factory->list_comics(), exit(0) if ($do_list_comics);
 	

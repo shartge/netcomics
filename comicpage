@@ -20,8 +20,8 @@ use Gnome;
 use POSIX;
 use Exporter;
 use Netcomics::GtkComics;
-use Netcomics::Factory;
 use Netcomics::Config;
+use Netcomics::Factory;
 use Netcomics::Util;
 use Data::Dumper;
 
@@ -32,6 +32,7 @@ set_locale Gtk;
 
 my $false = 0;
 my $true = 1;
+my $proc;
 
 # Create the GUI.
 my $forms = &Netcomics::GtkComics::create_main_window;
@@ -40,11 +41,19 @@ print "Creating Netcomics object\n";
 # Create the $factory object, and get the @comic_names .
 my $script_name = "gtkcomics";
 my $conf = Netcomics::Config->new($script_name);
+$conf->load_rcfile("/etc/netcomicsrc", "$ENV{'HOME'}/.netcomicsrc");
+
+$verbose = 1;
+$extra_verbose = 1;
+
+my $data_dumper_installed = requireDataDumper();
+
 my $factory = Netcomics::Factory->new($conf);
 my ($names_r,$max_flen,$max_nlen) = $factory->comic_names;
 my %names = %$names_r;
 my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1],
 									 $sort_by_date);} keys(%names));
+
 
 print "Sorting...\n";
 my $list = $forms->{'window_comic_page'}{'list1'};
@@ -62,7 +71,6 @@ my $i;
 for ($i = 0; $i < $#unified_comic_array; $i++) {
 	$list->append( @{$unified_comic_array[ $i ]} );
 }
-
 
 # Set up status bar.
 my $info = $forms->{'window_comic_page'}{'appbar1'};
@@ -86,10 +94,10 @@ $forms->{'window_comic_page'}{'window_comic_page'}->show();
 main Gtk;
 
 sub about_Form {
-    my $name = $0;
+	my $name = $0;
 	#
 	# Create a Gnome::About '$ab'
-    my $ab = new Gnome::About
+	my $ab = new Gnome::About
 	  (
 	   "Comic Page", 
 	   "0.01", 
@@ -98,7 +106,7 @@ sub about_Form {
 	   "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>", 
 	   "Comic Page is a program that will create a composite image of your favorite online comics. It will also do archiving of these comics if you so wish it to."
 	  );
-	$ab->set_title(("About")." gtkcomics" );
+	$ab->set_title("About"." gtkcomics" );
 	$ab->position('mouse' );
 	$ab->set_policy(1, 1, 0 );
 	$ab->set_modal(1 );
@@ -109,7 +117,6 @@ sub comic_selected_from_list {
 	my ( $clist, $row, $column, $event, @data ) = @_;
 
 	my $name;
-	my $proc;
 	# Get the proc name of the comic.
 	$name = $clist->get_text( $row, 0 );
 	$proc = $name_lookup{$name};
@@ -120,13 +127,23 @@ sub comic_selected_from_list {
 }
 
 sub Display_comic {
-  my $calendar;
-    $calendar = $forms->{'window_comic_page'}{'calendar_date_comic_selection'};
-    (my $year, my $month, my $day) = $calendar->get_date();
-    print "$year:$month:$day\n";
+	my $calendar;
+	$calendar = $forms->{'window_comic_page'}{'calendar_date_comic_selection'};
+	(my $year, my $month, my $day) = $calendar->get_date();
+	print "$year:$month:$day\n";
 
-    #$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
-    #$forms->{'window_comic_page'}{'pixmap1'}->show();
+	#$conf->clear_date_settings();
+	@selected_comics = ( "$proc" );
+	@dates = ( mkgmtime(0,0,12,$day,$month,$year) );
+	$factory->setup();
+
+	my @rli = $factory->get_comics();
+	my @comics = $factory->files_retrieved();
+	my @existing_rli_files = $factory->existing_rli_files();
+	my $get_current = $factory->get_current();
+
+	#$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
+	#$forms->{'window_comic_page'}{'pixmap1'}->show();
 	#$info->set_status("Displaying $filename");
 }
 

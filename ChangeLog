@@ -1,3 +1,17 @@
+2001-05-09  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* gtkcomics: various random changes as I head towards a program 
+	that works...
+	* Netcomics/Factory.pm (init): Renamed to (setup);
+	(new): Moved responsibility of reloading RLI files and populating
+	$self->{'hof'} here, so duplication of work is minimalized == faster
+	startups.
+	* netcomics: fixed so it'll work with the new layout to Netcomics/
+	Factory.pm. 
+	* Netcomics/Config.pm.in (clear_date_settings): added function that
+	should (in theory) reset date settings.
+	* Changelog: corrected visual layout in one of my earlier entries.
+	
 2001-05-06  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/GtkComics.pm: Small tweaks to the List widget.
@@ -305,6 +319,7 @@
 	(dist): Updated list of things to do after making the distributions.
 
 2001-02-17  Elliot Glaysher <nuriko.chan@home.com>
+
 	* Split webpage creation into an OO module set in
 	Netcomics/HTML.pm.
 	* Fixed Makefile accordingly.

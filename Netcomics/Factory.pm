@@ -60,68 +60,22 @@ sub new {
 
 	bless $self, $class;
 
+	# Load comic modules.
+	load_modules("Netcomics::Factory",@libdirs)
+		if keys(%hof) == 0;
+	if (keys(%hof) == 0) {
+		# Error if no modules found.
+		print STDERR "\nThere were no comic modules succesfully loaded.  ";
+		print STDERR "Please check the setting\nof \@libdirs in the system";
+		print STDERR " and user rc file and on the command line:\n";
+		print STDERR "\@libdirs = @libdirs\n";
+		print STDERR "Also, check the installation of netcomics.\n";
+		exit 1;
+	}
+	%{$self->{'hof'}} = %hof;
+
+	# We need Data::Dumper for the next part.
 	$data_dumper_installed = requireDataDumper;
-
-	return $self->init();
-}
-
-sub init {
-	my $self = shift;
-	#only load the modules if needed
-	unless (($user_specified_comics && @selected_comics == 0 &&
-			!$do_list_comics) || keys(%hof)) {
-		
-		load_modules("Netcomics::Factory",@libdirs)
-			if keys(%hof) == 0;
-		
-		#check to make sure there was some comics defined
-		if (keys(%hof) == 0) {
-			print STDERR "\nThere were no comic modules succesfully loaded.  ";
-			print STDERR "Please check the setting\nof \@libdirs in the system";
-			print STDERR " and user rc file and on the command line:\n";
-			print STDERR "\@libdirs = @libdirs\n";
-			print STDERR "Also, check the installation of netcomics.\n";
-			exit 1;
-		} else {
-			#copy the hof into this instance of the Factory.
-			%{$self->{'hof'}} = %hof;
-		}
-	} elsif (keys(%hof)) {
-		#modules were previously loaded
-		%{$self->{'hof'}} = %hof;
-		#reset some attributes
-		$self->{'rli_procs'} = {};
-		$self->{'rli'} = [];
-		$self->{'dates'} = [];
-		$self->{'existing_rli_files'} = [];
-		$self->{'files_retrieved'} = [];
-		$self->{'get_current'} = undef;
-	}
-	
-	#make sure user specified existing functions
-	#and set the %hof to those the user specified
-	if ($user_specified_comics || $user_unspecified_comics) {
-		my %new_hof = ();
-		my @hof_keys = keys(%{$self->{'hof'}});
-		@hof_keys = () unless @hof_keys;
-		my $fun;
-		foreach $fun (@selected_comics) {
-			$fun = quotemeta($fun);
-			my @hres = grep(/^$fun$/,@hof_keys);
-			if (@hres > 0) {
-				$new_hof{$fun} = $self->{'hof'}{$fun};
-			}
-		}
-		if ($user_specified_comics) {
-			%{$self->{'hof'}} = %new_hof;
-		} else {
-			#intersection
-			foreach (keys %new_hof) {
-				delete $self->{'hof'}{$_};
-			}
-		}
-	}
-
 
 	#Make sure the temp dir exists
 	unless (-d $comics_dir) {
@@ -149,8 +103,8 @@ sub init {
 			for (@{$rli->{'file'}}) {
 				my $file = $_;
 				my $test_file_name;
-				$test_file_name = "$comics_dir/" . 
-					($rli->{'subdir'}? $rli->{'subdir'} : "") . $file;
+				$test_file_name = "$comics_dir/" . $file;
+					#($rli->{'subdir'}? $rli->{'subdir'} : "") . $file;
 				if (-f "$test_file_name") {
 					push(@{$self->{'existing_rli_files'}},$file);
 				} elsif ($rli->{'status'} == 1) {
@@ -163,12 +117,49 @@ sub init {
 			}
 		}
 	}
-
 	print "Rli's reloaded: " . @{$self->{'rli'}} . "\n" if $extra_verbose;
 
-	print Data::Dumper->Dump([$self->{'rli_procs'}],[qw(*$self->{'rli_procs'})])
-		if $data_dumper_installed && $extra_verbose && $show_tasks;
+	return $self;
+}
 
+sub setup {
+	my $self = shift;
+
+	# Reset these values whether we need them or not.
+	$self->{'dates'} = [];
+	$self->{'existing_rli_files'} = [];
+	$self->{'files_retrieved'} = [];
+	$self->{'get_current'} = undef;
+		
+	#make sure user specified existing functions
+	#and set the %hof to those the user specified
+	if ($user_specified_comics || $user_unspecified_comics) {
+		my %new_hof = ();
+		my @hof_keys = keys(%{$self->{'hof'}});
+		@hof_keys = () unless @hof_keys;
+		my $fun;
+		foreach $fun (@selected_comics) {
+			$fun = quotemeta($fun);
+			my @hres = grep(/^$fun$/,@hof_keys);
+			if (@hres > 0) {
+				$new_hof{$fun} = $self->{'hof'}{$fun};
+			}
+		}
+		if ($user_specified_comics) {
+			%{$self->{'hof'}} = %new_hof;
+		} else {
+			#intersection
+			foreach (keys %new_hof) {
+				delete $self->{'hof'}{$_};
+			}
+		}
+	}
+
+	#print Data::Dumper->Dump([$self->{'hof'}],[qw(*$self->{'hof'})]);
+
+	print Data::Dumper->Dump([$self->{'rli_procs'}],[qw(*$self->{'rli_procs'})])
+	if $data_dumper_installed && $extra_verbose && $show_tasks;
+	
 	#
 	#Do the work.
 	#
@@ -201,6 +192,7 @@ sub init {
 		}
 		exit(0);
 	}
+
 	return $self;
 }
 
