@@ -62,6 +62,10 @@ $html{'body_el'} = <<END_BODY_ELEMENT;
 <A HREF="<COMIC_FILE>"><IMG BORDER=0 SRC="<COMIC_FILE>" <SIZE>></A>
 END_BODY_ELEMENT
 
+$html{'body_el_embed'} = <<END_BODY_ELEMENT_EMBED;
+<embed src="<COMIC_FILE>" <SIZE> align="absmiddle" salign="l" play="true" loop="true" quality="autohigh" swLiveConnect="False"></embed>
+END_BODY_ELEMENT_EMBED
+
 $html{'caption'} = <<END_CAPTION;
 <TR><TD><CENTER><CAPTION_DATA></CENTER></TD></TR>
 END_CAPTION
