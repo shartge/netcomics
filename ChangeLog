@@ -1,3 +1,9 @@
+2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/kingfeatures: It seems like I'm the first to notice that
+	kingfeatures puts it's comics up now. It's now 0 days behind instead
+	of 14.
+
 2001-05-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/nando (NandoComics): Major update to this module.

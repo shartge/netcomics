@@ -5,7 +5,7 @@ foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy
 	 crock curtis dennis dinette familyc fgordon tumble bobo rmorgan
 	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
 	 katkids mandrake pops popeye sroper mmiller needhelp re schix)) {
-    $hof{$_} = 14; #two weeks behind
+    $hof{$_} = 0;
 }
 
 
