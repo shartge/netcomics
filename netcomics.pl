@@ -505,6 +505,10 @@ $0 =~ s,.*/,,;  # use basename only
 use POSIX;
 use strict;
 use Carp;
+use Netcomics::MyResponse;
+use Netcomics::MyRequest;
+use Netcomics::ExternalUserAgent;
+use Netcomics::RLI;
 
 # Global Variables
 # Rule: Only declare a variable global with "use vars" if it can potentially
@@ -589,8 +593,8 @@ my $tz;
     my(@epoch) = localtime(0);
     my($tzmin) = $epoch[2] * 60 + $epoch[1];    # minutes east of GMT
     if ($tzmin > 0) {
-	$tzmin = 24 * 60 - $tzmin;              # minutes west of GMT
-	$tzmin -= 24 * 60 if $epoch[5] == 70;   # account for the date line
+		$tzmin = 24 * 60 - $tzmin;              # minutes west of GMT
+		$tzmin -= 24 * 60 if $epoch[5] == 70;   # account for the date line
     }
     $tz = (0 - $tzmin/60);
 }
@@ -605,21 +609,21 @@ foreach (@ARGV) {
     last if ++$i == @ARGV;
     #rc filename
     if (/^-\w*r$/) {
-	if (@ARGV > 0) {
-	    $rc_file = $ARGV[$i]
-	} else {
-	    print STDERR "Need a filename for an argument to -r. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
-	if (! -f $rc_file) {
-	    print STDERR "Specified rc file doesn't exist: '$rc_file'\n";
-	    exit 1;
-	} elsif (! -r $rc_file) {
-	    print STDERR "Can't read specified rc file: '$rc_file'\n";
-	    exit 1;
-	}
-	last;
+		if (@ARGV > 0) {
+		    $rc_file = $ARGV[$i]
+		} else {
+		    print STDERR "Need a filename for an argument to -r. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
+		if (! -f $rc_file) {
+		    print STDERR "Specified rc file doesn't exist: '$rc_file'\n";
+		    exit 1;
+		} elsif (! -r $rc_file) {
+		    print STDERR "Can't read specified rc file: '$rc_file'\n";
+		    exit 1;
+		}
+		last;
     }
 }
 
@@ -636,217 +640,217 @@ while (@ARGV)
 
     #Get specific comics or don't get a specific comics
     if (/-(c)$/i) {
-	if (@ARGV > 0) {
-	    my @ids = split(' ',shift(@ARGV));
-	    if ($1 eq 'c') {
+		if (@ARGV > 0) {
+		    my @ids = split(' ',shift(@ARGV));
+		    if ($1 eq 'c') {
                 $user_specified_comics = 1;
                 push(@selected_comics,@ids);
             } else {
                 $user_unspecified_comics = 1;
                 push(@selected_comics,@ids);
-	    }
-	} else {
-	    print STDERR "Need a space-delimitted list of comic id's.";
-	    print STDERR "  Use -h for usage.\n";
-	    exit 1;
+		    }
+		} else {
+		    print STDERR "Need a space-delimitted list of comic id's.";
+		    print STDERR "  Use -h for usage.\n";
+		    exit 1;
+		}
+		if ($user_unspecified_comics && $user_specified_comics) {
+		    print STDERR "Can only use one of -c and -C. Use -h for usage.\n";
+		    exit 1;
+		}
 	}
-	if ($user_unspecified_comics && $user_specified_comics) {
-	    print STDERR "Can only use one of -c and -C. Use -h for usage.\n";
-	    exit 1;
-	}
-    }
     
     #List supported comics
     elsif (/-l/) {
-	$do_list_comics++;
-	$smushopt = 1;
+		$do_list_comics++;
+		$smushopt = 1;
     }
     
     #set the directory
     elsif (/-d$/) {
-	if (@ARGV > 0) {
-	    $comics_dir = shift(@ARGV);
-	    $given_options .= " -d $comics_dir"
-	} else {
-	    print STDERR "Need a directory name. Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $comics_dir = shift(@ARGV);
+		    $given_options .= " -d $comics_dir"
+		} else {
+		    print STDERR "Need a directory name. Use -h for usage.\n";
+		    exit 1;
+		}
     }
     
     #verbosity
     elsif (/-v/) {
-	if ($verbose) {
-	    $extra_verbose = 1;
-	    if ($given_options =~ /^(.*)-v([^v].*)$/) {
-		$given_options = $1 . $2;
-	    }
-	    $given_options .= " -vv";
-	} else {
-	    $verbose = 1;
-	    $given_options .= " -v";
-	}
-	$smushopt = 1;
+		if ($verbose) {
+		    $extra_verbose = 1;
+		    if ($given_options =~ /^(.*)-v([^v].*)$/) {
+				$given_options = $1 . $2;
+		    }
+		    $given_options .= " -vv";
+		} else {
+		    $verbose = 1;
+		    $given_options .= " -v";
+		}
+		$smushopt = 1;
     }
     
     #Delete the files
     elsif (/-D/) {
-	$delete_files = 1;
-	$smushopt = 1;
+		$delete_files = 1;
+		$smushopt = 1;
     }
 
     #Don't delete the files
     elsif (/-nD/) {
-	$delete_files = 0;
-	$given_options .= " -nD";
+		$delete_files = 0;
+		$given_options .= " -nD";
     }
 
     #webpage title
     elsif (/-wt$/) {
-	if (@ARGV > 0) {
-	    $webpage_title = shift(@ARGV);
-	    $given_options .= " -wt '$webpage_title'";
-	} else {
-	    print STDERR "Need a string for an argument to -wt. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $webpage_title = shift(@ARGV);
+		    $given_options .= " -wt '$webpage_title'";
+		} else {
+		    print STDERR "Need a string for an argument to -wt. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #webpage on standard out
     elsif (/-o/) {
-	$webpage_on_stdout = 1;
-	$given_options .= " -o";
-	$smushopt = 1;
+		$webpage_on_stdout = 1;
+		$given_options .= " -o";
+		$smushopt = 1;
     }
 
     #don't create a webpage
     elsif (/-nw$/) {
- 	$make_webpage = 0;	
-	$remake_webpage = 0;
-	$given_options .= " -nw";
+		$make_webpage = 0;	
+		$remake_webpage = 0;
+		$given_options .= " -nw";
     }
 
     #Create webpage?
     elsif (/-(w)(=.+)?/i) {
-	if (defined($2)) {
-	    if ($2 =~ /^=(\d+)$/) {
-		$comics_per_page = $1;
-	    } else {
-		print STDERR "Number of comics per page for -W & -w must be " .
-		    "a positive integer.\n";
-		exit 1;
-	    }
-	} else {
-	    $smushopt = 1;
-	}
- 	$make_webpage = 1;
-	$remake_webpage = ($1 =~ /W/)? 1 : 0;
+		if (defined($2)) {
+		    if ($2 =~ /^=(\d+)$/) {
+				$comics_per_page = $1;
+		    } else {
+				print STDERR "Number of comics per page for -W & -w must be " .
+			    "a positive integer.\n";
+				exit 1;
+		    }
+		} else {
+		    $smushopt = 1;
+		}
+		$make_webpage = 1;
+		$remake_webpage = ($1 =~ /W/)? 1 : 0;
     }
 
     #Use a Proxy?
     elsif (/-p$/) {
-	if (@ARGV > 0) {
-	    $proxy_url = shift(@ARGV);
-	    $given_options .= " -p $proxy_url";
-	} else {
-	    print STDERR "Need a URL to use as the proxy. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $proxy_url = shift(@ARGV);
+		    $given_options .= " -p $proxy_url";
+		} else {
+		    print STDERR "Need a URL to use as the proxy. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #Number of days of comics to get, going backwards
     elsif (/-n$/) {
-	if (@ARGV > 0) {
-	    $days_of_comics = shift(@ARGV);
-	} else {
-	    print STDERR "Need a number for an argument to -n. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $days_of_comics = shift(@ARGV);
+		} else {
+		    print STDERR "Need a number for an argument to -n. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #HTML Template Directory
     elsif (/-t$/) {
-	if (@ARGV > 0) {
-	    $html_tmpl_dir = shift(@ARGV);
-	    $given_options .= " -t $html_tmpl_dir";
-	} else {
-	    print STDERR "Need a directory for an argument to -t. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $html_tmpl_dir = shift(@ARGV);
+		    $given_options .= " -t $html_tmpl_dir";
+		} else {
+		    print STDERR "Need a directory for an argument to -t. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #Comic Module Directory
     elsif (/-m$/) {
-	if (@ARGV > 0) {
-	    my $dir = shift(@ARGV);
-	    unshift(@newlibdirs,$dir);
-	    $given_options .= " -m $dir";
-	} else {
-	    print STDERR "Need a directory for an argument to -m. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    my $dir = shift(@ARGV);
+		    unshift(@newlibdirs,$dir);
+		    $given_options .= " -m $dir";
+		} else {
+		    print STDERR "Need a directory for an argument to -m. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #clear out libdirs
     elsif (/-M$/) {
-	@libdirs = ();
-	$given_options .= " -M";
-	$smushopt = 1;
+		@libdirs = ();
+		$given_options .= " -M";
+		$smushopt = 1;
     }
 
     # Real date day
     elsif (/-A$/) {
-	$real_date = 1;
-	$given_options .= " -A";
-	$smushopt = 1;
+		$real_date = 1;
+		$given_options .= " -A";
+		$smushopt = 1;
     }
 
     #Specified date
     elsif (/-([STE])$/) {
-	my $type = $1;
-	my $good = 0;
+		my $type = $1;
+		my $good = 0;
 	
-	if (@ARGV > 0) {
-	    my $ds = shift(@ARGV);
-	    my $ts = undef;
-	    if ($ds =~ /([0-1]?[0-9])-([0-3]?[0-9])-(19|20)?([0-9][0-9])/) {
-		my $year = defined($4) ? $4 : $3;
-		$year += 100 if $year < 70;
-		$ts = mkgmtime(0,0,12,$2,$1-1,$year);
-	    } elsif ($ds =~ /^([+-]?\d+)$/) {
-		$ts = time - ($1 * 24*3600);
-	    }
-	    if (defined($ts)) {
-		$given_options .= " -$type $ds";
-		$good = 1;
-		$_ = $type;
-		if (/T/) {
-		    push(@dates,$ts);
-		} elsif (/S/) {
-		    $start_date = $ts;
-		} elsif (/E/) {
-		    $end_date = $ts;
+		if (@ARGV > 0) {
+		    my $ds = shift(@ARGV);
+		    my $ts = undef;
+		    if ($ds =~ /([0-1]?[0-9])-([0-3]?[0-9])-(19|20)?([0-9][0-9])/) {
+				my $year = defined($4) ? $4 : $3;
+				$year += 100 if $year < 70;
+				$ts = mkgmtime(0,0,12,$2,$1-1,$year);
+	 	   } elsif ($ds =~ /^([+-]?\d+)$/) {
+				$ts = time - ($1 * 24*3600);
+		    }
+		    if (defined($ts)) {
+				$given_options .= " -$type $ds";
+				$good = 1;
+				$_ = $type;
+				if (/T/) {
+				    push(@dates,$ts);
+				} elsif (/S/) {
+				    $start_date = $ts;
+				} elsif (/E/) {
+				    $end_date = $ts;
+				}
+		    }
 		}
-	    }
-	}
 	
-	unless ($good) {
-	    print STDERR "Need a date for an argument to -$type. ";
-	    print STDERR "It has the form: MM-DD-[YY]YY\nOr it is the number ";
-	    print STDERR "of days prior to day to specify the date.\n";
-	    exit 1;
-	}
+		unless ($good) {
+		    print STDERR "Need a date for an argument to -$type. ";
+		    print STDERR "It has the form: MM-DD-[YY]YY\nOr it is the number ";
+		    print STDERR "of days prior to day to specify the date.\n";
+		    exit 1;
+		}
     }
 
     #skip bad comics
     elsif (/-s/) {
-	$skip_bad_comics = 1;
-	$given_options .= " -s";
-	$smushopt = 1;
+		$skip_bad_comics = 1;
+		$given_options .= " -s";
+		$smushopt = 1;
     }
 
     #date format used when naming files
@@ -2468,152 +2472,6 @@ sub mkgmtime {
     return mktime(@_) + (3600*$tz);
 }
 
-{
-    package MyResponse;
-
-    sub new
-    {
-	my ($class,$code,$content) = @_;
-	my $self = bless {
-	    'content' => $content,
-	    'code' => $code
-	    }, $class;
-	$self;
-    }
-
-    sub code
-    {
-	my $self = shift;
-	$self->{'code'};
-    }
-
-    sub is_success
-    {
-	my $self = shift;
-	$self->{'code'} ? 0 : 1;
-    }
-
-    sub content
-    {
-	my $self = shift;
-	$self->{'content'};
-    }
-}
-
-{
-    package MyRequest;
-
-    sub new
-    {
-	my ($class,$url) = @_;
-	my $self = bless {
-	    'method' => 'GET',
-	    'url' => $url,
-	    'referer' => undef
-	    }, $class;
-	$self;
-    }
-
-    sub method
-    {
-	my $self = shift;
-	$self->{'method'};
-    }
-
-    sub url
-    {
-	my $self = shift;
-	$self->{'url'};
-    }
-
-    sub referer
-    {
-	my $self = shift;
-	if (@_ == 0) {
-	    return $self->{'referer'};
-	} elsif (@_ == 1) {
-	    $self->{'referer'} = shift;
-	} else {
-	    die("Too many arguments to MyRequest::referer(@_)");
-	}
-    }
-}
-
-{
-    package ExternalUserAgent;
-
-    sub new 
-    {
-	my ($class,$init) = @_;
-	if (ref $init) {
-	    die "Error!  handling references unimplmemented.\n";
-	}
-	my $self = bless {
-	    'cmd' => 'wget -q -O - --header="Referer: %R" ',
-	    'verbose' => 0,
-	    'extra_verbose' => 0,
-	    'proxy' => undef
-	    }, $class;
-	$self;
-    }
-
-
-    sub setCmd
-    {
-	my ($self,$cmd) = @_;
-	die "Error: External command must be a scalar.\n"
-	    if (! defined($cmd) || ref($cmd));
-	my $old = $self->{'cmd'};
-	$self->{'cmd'} = $cmd;
-	return $old;
-    }
-
-    sub setVerbosity
-    {
-	my ($self,$verbosity) = @_;
-	die "Error: verbosity must be a scalar.\n"
-	    if (! defined($verbosity) || ref($verbosity));
-	$self->{'verbose'} = ($verbosity > 0) ? 1 : 0;
-	$self->{'extra_verbose'} = ($verbosity > 1) ? 1 : 0;
-    }
-
-    sub proxy
-    {
-	my ($self,$protocols,$proxy) = @_;
-	#protocols is ignored
-	if (@_ == 1) {
-	    return $self->{'proxy'};
-	} elsif (@_ == 3) {
-	    $self->{'proxy'} = $proxy;
-	} else {
-	    shift;
-	    die("Wrong number of arguments to UA::proxy(@_)");
-	}
-    }
-
-    sub request 
-    {
-	my ($self,$request) = @_;
-	my ($method,$url) = ($request->method,$request->url);
-	die "Error: HTTP request type $method uknown or unimplemented.\n"
-	    unless ($method =~ /^GET$/);
-	my $cmdline = $self->{'cmd'};
-	my $referer = $request->referer;
-	$cmdline =~ s/%[Rr]/$referer/ if defined $referer;
-	$cmdline =~ s/%[Pp]/$self->{'proxy'}/ if defined $self->proxy;
-	if ($cmdline =~ /%[Uu]/) {
-	    $cmdline =~ s/%[Uu]/$url/;
-	} else {
-	    $cmdline .= " $url";
-	}
-	print "Running: '$cmdline'." if $self->{'extra_verbose'};
-	my $content = `$cmdline`;
-	my $retval = $?;
-	print " ret=$retval\n" if $self->{'extra_verbose'};
-	return MyResponse->new($retval, $content);
-    }
-}
-
 sub status_message {
     #note this table is stolen from HTTP::Status
     my %StatusCode = (
@@ -2658,67 +2516,6 @@ sub status_message {
     $_ = $StatusCode{shift(@_)};
     return (defined($_)? $_ : "(unknown HTTP response code)");
 }
-
-{
-    package RLI;
-
-    sub new {
-      my ($this,$time,$color) = @_;
-      my $class = ref($this) || $this;
-      my $self = {};
-      bless $self, $class;
-      $self->{'behind'} = 0; #default 0 days behind
-      #default is 0 to indicate we're only interested in static information.
-      $self->{'time'} = defined($time) ? $time : 0;
-      #default is to prefer color.
-      $self->{'$color'} = defined($color) ? $color : 1;
-      #subclasses must define this method.
-      return $self->init();
-    }
-    #subclasses call this method to quickly & easily add static attributes.
-    #Argument: hash reference
-    sub add_attributes {
-      my $method = "RLI::add_attributes()";
-      my $self = shift;
-      croak("$method: argument must be a reference to a hash.")
-          if @_ != 1 || ! (ref($_[0]) eq 'HASH');
-      my $attrs = shift;
-      for (keys(%$attrs)) {
-          if (/(time|color|page|exprs)/) {
-              croak("$method: static vars may not include $_.");
-          } else {
-              $self->{$_} = attrs->($_};
-          }
-      }
-      return $self;
-    }
-    #setting color on/off will automatically have the RLI reinitialize itself.
-    sub color {
-      my $self = shift;
-      if (@_) {
-          $self->init(shift);
-          return $self;
-      } else {
-          return $self->{'color'};
-      }
-    }
-    #setting the time will automatically have the RLI reinitialize itself.
-    sub time {
-      my $self = shift;
-      if (@_) {
-          $self->init(shift);
-          return $self;
-      } else {
-          return $self->{'time'};
-      }
-    }
-    sub behind {
-      my $self = shift;
-      return $self->{'behind'};
-    }
-
-}
-
 
 sub usage
 {

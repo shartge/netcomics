@@ -1,6 +1,12 @@
 APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
+
+MODULE1 = MyResponse.pm
+MODULE2 = MyRequest.pm
+MODULE3 = ExternalUserAgent.pm
+MODULE4 = RLI.pm
+
 RCFILE	= netcomicsrc
 VERSION	= 0.13.1
 PKGVERSION = 1
@@ -9,6 +15,7 @@ PKGVERSION = 1
 #scripts, documentation, and the RPM spec will be changed if you set
 #these to something different
 PERL	= /usr/bin/perl
+PERLSITE = /usr/lib/perl5
 PERLTK	= $(PERL)
 BUILDROOT = 
 PREFIX	= $(BUILDROOT)/usr
@@ -237,8 +244,13 @@ OLDMODULES = \
 	goats \
 	roomies \
 	uexpress \
-	worldviews \
+	worldviews 
 
+PROGRAMMODULES = \
+	Netcomics/MyResponse.pm \
+	Netcomics/MyRequest.pm \
+	Netcomics/ExternalUserAgent.pm \
+	Netcomics/RLI.pm 
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
@@ -284,10 +296,15 @@ clean::
 install:: all
 	$(MKDIR) $(TMPMKDIRFLAGS) $(TMPDIR)
 	$(MKDIR) $(MKDIRFLAGS) $(BINDIR)
+	$(MKDIR) $(PERLSITE)/Netcomics
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(APPNAME) $(BINDIR)/$(APPNAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP2NAME) $(BINDIR)/$(AP2NAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP3NAME) $(BINDIR)/$(AP3NAME)
-
+	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE1) $(PERLSITE)/Netcomics/$(MODULE1)
+	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE2) $(PERLSITE)/Netcomics/$(MODULE2)
+	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE3) $(PERLSITE)/Netcomics/$(MODULE3)
+	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE4) $(PERLSITE)/Netcomics/$(MODULE4)
+	
 bin/$(AP2NAME): $(AP2NAME)
 	$(PERL) -pe s%/usr/bin/perl%$(PERL)%gm $(AP2NAME) \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm > $@
