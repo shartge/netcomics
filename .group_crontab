@@ -4,5 +4,5 @@
 32 05 * * * cd $HOME/src/netcomics; cvs -q update -d; cd website; make -s all install
 #
 # Generate daily CVS snapshots and copy them into the webspace (very ugly)
-# 40 05 * * * cd $HOME/src/netcomics/netomics; make archives; cd $HOME/src; copy netcomics-*cvs.*z* /home/groups/n/ne/netcomics/htdocs/snaps/; echo `date` > /home/groups/n/ne/netcomics/htdocs/snaps/lastmod
+# 40 05 * * * cd $HOME/src/netcomics/netomics; make archives; cd $HOME/src; rm /home/groups/n/ne/netcomics/htdocs/snaps/*; cp netcomics-*cvs.*z* /home/groups/n/ne/netcomics/htdocs/snaps/; echo `date` > /home/groups/n/ne/netcomics/htdocs/snaps/lastmod
 #
