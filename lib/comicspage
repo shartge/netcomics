@@ -185,7 +185,7 @@ sub compu {
 #Quigmans http://www.comicspage.com/quigmans/
 sub quig {
     return ComicsPage($_[0],"Quigmans","Buddy Hickerson","quigmans",
-		      "qgm","cp",'gif',undef,[499,580],undef);
+		      "qgm","cp",'gif',undef,[428,580],undef);
 }                                                                              
 
 #That's Jake http://www.comicspage.com/thatsjake/

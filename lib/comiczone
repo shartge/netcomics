@@ -160,13 +160,13 @@ sub oth {
 #Peanuts  http://www.comiczone.com/comics/peanuts/archive
 sub peanuts {
     return comiczone(shift(@_),"Peanuts","Charles Schulz","comics",
-		     "peanuts",[600,425],[600,200],"peanuts");
+		     "peanuts",[600,425],[600,148],"peanuts");
 }
 
 #Pearls Before Swine  http://www.comiczone.com/comics/pearls/archive
 sub pearls {
     return comiczone(shift(@_),"Pearls Before Swine","Stephan Pastis",
-                     "comics","pearls",[727,350],[600,202],"pearls");
+                     "comics","pearls",[727,350],[600,228],"pearls");
 }
 
 #Monty  http://www.comiczone.com/comics/monty/archive
@@ -184,7 +184,7 @@ sub rose {
 #warped  http://www.comiczone.com/comics/warped/archive
 sub warped {
     return comiczone(shift(@_),"Warped","Mike Cavna","comics","warped",
-		     [725,372],[600,211],"warped");
+		     [725,372],[600,225],"warped");
 }
 
 #Janes World  http://www.comiczone.com/comics/janesworld/archive

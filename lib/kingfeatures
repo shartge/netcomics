@@ -414,7 +414,7 @@ sub tumble {
 #Zippy http://www.kingfeatures.com/comics/zippy/
 sub zp {
     return kingfeature(shift(@_),"Zippy","Bill Griffith","zippy",
-		       "Zippy_the_Pinhead", [480,190], [600,142]);
+		       "Zippy_the_Pinhead", [525,209], [600,142]);
 }
 
 #Zits http://www.kingfeatures.com/comics/zits/
