@@ -1,0 +1,2 @@
+?package(netcomics):needs=X11 section=Apps/Viewers\
+  title="Comicpage" command="/usr/bin/gtkcomics"
