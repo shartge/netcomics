@@ -124,8 +124,8 @@ sub about_Form {
 	   "Comic Page", 
 	   "0.01", 
 	   "(C) GNU GPL, Elliot Glaysher, Mon Jan 22, 2001", 
-	   "Elliot Glaysher <nuriko.chan\@home.com> \n" .
-	   "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>", 
+	   ["Elliot Glaysher <nuriko.chan\@home.com>" ,
+	   "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>"], 
 	   "Comic Page is a program that will create a composite image of your favorite online comics. It will also do archiving of these comics if you so wish it to."
 	  );
 
