@@ -1,3 +1,11 @@
+2002-03-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/alexsrestaurant: moved alex over from nando & updated it for
+	it being in its own website.
+	* lib/nando: removed file.
+	* Makefile.PL: Moved nando to removed list, added alexsrestaurant.
+	* MANIFEST: Removed nando, added alexsrestaurant
+
 2002-03-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Added listing themes on stdout.

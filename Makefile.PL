@@ -58,6 +58,7 @@ netcomicsrc
 
 my @modules = qw(
 after_y2k
+alexsrestaurant
 an
 angry_flower
 bad_boys
@@ -104,7 +105,6 @@ megatokyo
 mercury
 mom
 mrlowe
-nando
 newshounds
 norm
 offthemark
@@ -173,6 +173,7 @@ helpdesk
 janesworld
 lostfound
 melonpool
+nando
 nukees
 ozy_millie
 psmueller

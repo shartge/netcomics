@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+foreach (qw(alex)) {
+    $hof{$_} = 0;
+}
+
+#Alex's Restaurant http://www.nandotimes.com/nt/comics/alex/
+sub alex {
+    my $time = shift;
+    my $date = strftime("%Y%m%d",gmtime($time));
+    # archive start Aug 11, 1997, check for missing dates
+    # missing list last updated May 20, 2001
+    return undef 
+	if ($date < 19970811 ||
+	    grep(/^$date$/,(20000109,20000224,20000315,20000307,20000514,
+			    20000525,20000530,20000609,20000807,20000918,
+			    20000924,20001105,20001118,20001119,
+			    20010117,20010122,20010105,20010211,20010323,
+			    20010303,20010415,20010422,20010417,20010522,
+			    20010524,20010614,20010615,20010622,20010713,
+			    20010805,20010823,20011002,20011013,20011014,
+			    20011015,20011016,20011017,20011018,20011119,
+			    20011121,20011122,20011123,20011124,20011125,
+			    20011202,20011125,20011002,20011013,
+			    )));
+
+    my @ltime = gmtime($time);
+    my $mon = $ltime[4] + 1;
+    my $day = $ltime[3];
+    my $page = $date >= 20000101 ? "/archive/$mon.$day.%y/full.gif" :
+	"/archive/%Y/%M.%D.%y/full.gif";
+    my $size = $ltime[6] == 6? [311,240] : [298,230];
+
+    my $baseurl = "http://www.alexsrestaurant.com";
+    my $rec = {
+	'title' => "Alex's Restaurant",
+	'author' => "Peter Sinclair",
+	'type' => 'gif',
+	'main' => "$baseurl/",
+	'archives' => "$baseurl/archive.html",
+	'base' => $baseurl,
+	'page' => strftime($page,@ltime),
+	'size' => $size,
+    };
+    return $rec;
+}
+
+1;
+

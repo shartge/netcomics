@@ -56,6 +56,7 @@ doc/netcomics.pod
 doc/old_Comic_Module-HOWTO.html
 doc/show_comics.pod
 lib/after_y2k
+lib/alexsrestaurant
 lib/an
 lib/angry_flower
 lib/bad_boys
@@ -110,7 +111,6 @@ lib/megatokyo
 lib/mercury
 lib/mom
 lib/mrlowe
-lib/nando
 lib/newshounds
 lib/norm
 lib/offthemark
