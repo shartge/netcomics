@@ -64,6 +64,7 @@ lib/alexsrestaurant
 lib/an
 lib/angry_flower
 lib/animation_express
+lib/astronomy
 lib/bad_boys
 lib/badlands
 lib/bf
@@ -151,5 +152,4 @@ lib/wfc
 netcomics
 netcomics.spec
 netcomicsrc
-potd/astronomy
 show_comics
