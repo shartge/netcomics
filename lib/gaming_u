@@ -1,0 +1,26 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+$hof{'gu'} = 0;
+
+#Gaming U http://www.outer-ring.com/gamingu/
+
+sub gu {
+  my $time = shift;
+  my @ltime = gmtime($time);
+  return undef if (($ltime[6] == 0) || ($ltime[6] == 6)); # no weekends
+  return undef if ($time < mkgmtime(0,0,0,6,12,99)); #first: July 12, 1999
+  my $site = "http://www.outer-ring.com/gamingu";
+  my $rec = {
+    'title' => 'Gaming U',
+    'author' => 'Trent Donelson',
+    'type' => 'gif',
+    'main' => $site,
+    'archives' => "$site/archives.html",
+    'base' => $site,
+    'page' => strftime("/gu%Y%m%d.gif", @ltime),
+    'size' => [600, 200],
+  };
+  return $rec;
+}
+
+1;

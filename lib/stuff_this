@@ -1,0 +1,159 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"st"} = 0;
+
+# http://www.macworks.com/html/stuffthis.html
+# Entry added by : Martial MICHEL (martial.michel@loria.fr)
+sub st {
+    my $time = shift(@_);
+    return undef if ($time < mkgmtime(0,0,0,16,9,95)); #1st comic: Oct 16 1995
+    
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] != 1); # Only on mondays
+    
+    my $ext = ($time < mkgmtime(0,0,0,12,7,96)) ? "GIF" : "gif";
+    # extension was ".GIF" before Aug 12 1996
+    
+    my $rec = {
+	'title' => "Stuff This",
+	'author' => "Peter Steinfeld",
+	'type' => 'gif',
+	'main' => "http://www.macworks.com/html/stuffthis.html",
+	'archives' => "http://www.macworks.com/html/stuffthis.html",
+	'base' => "http://www.macworks.com/stuffthis/archives/"
+	};
+    
+    if ($time < mkgmtime(0,0,0,17,10,97)) { # Before Nov 17 1997
+	my %convert = # Perl script generated ;)
+	    (
+	     # 1995
+	     "813862800" => "powerbook",
+	     "814467600" => "windows95",
+	     "815072400" => "techsupport",
+	     "815677200" => "techsupport",
+	     "816282000" => "jobsecurity",
+	     "816886800" => "marketing",
+	     "817491600" => "dummy",
+	     "818096400" => "wireless",
+	     "827946000" => "win95",
+	     "819306000" => "subcompact",
+	     # 1996
+	     "821120400" => "manual",
+	     "821725200" => "pandora",
+	     "822330000" => "gates",
+	     "822934800" => "apple",
+	     "823539600" => "clone",
+	     "824144400" => "splinter",
+	     "824749200" => "voodoo",
+	     "825181200" => "frankengates",
+	     "825958800" => "goliath",
+	     "826563600" => "nightmare",
+	     "827168400" => "email",
+	     "827773200" => "blowup",
+	     "828378000" => "holdtime",
+	     "828982800" => "deadman",
+	     "829587600" => "crashed",
+	     "830192400" => "joystick",
+	     "830797200" => "unabomb",
+	     "831488400" => "perstest",
+	     "832093200" => "darkages",
+	     "832698000" => "problem",
+	     "833302800" => "where",
+	     "833821200" => "downsize",
+	     "834426000" => "mission",
+	     "835030800" => "hype",
+	     "835635600" => "laffy",
+	     "836240400" => "window",
+	     "836845200" => "quark",
+	     "837450000" => "id4",
+	     "838054800" => "2010",
+	     "838659600" => "powermovie",
+	     "839264400" => "blindfold",
+	     "839869200" => "msusa",
+	     "840474000" => "macforkid",
+	     "841078800" => "explorer",
+	     "842288400" => "sayno",
+	     "842893200" => "macarena",
+	     "843498000" => "demise",
+	     "844102800" => "mis",
+	     "844707600" => "xfile",
+	     "845312400" => "boss",
+	     "845917200" => "intelinside",
+	     "847126800" => "advil",
+	     "847731600" => "buyamac",
+	     "848336400" => "election",
+	     "848941200" => "realworld",
+	     "850150800" => "stateofmind",
+	     "850755600" => "wince",
+	     "851360400" => "santa",
+	     "851965200" => "apple97",
+	     # 1997
+	     "852570000" => "chicago",
+	     "853174800" => "macworld",
+	     "853779600" => "be",
+	     "854384400" => "houstonchron",
+	     "854989200" => "journalism",
+	     "855594000" => "tank",
+	     "856198800" => "mmx",
+	     "857408400" => "jobs",
+	     "858013200" => "nerd",
+	     "859222800" => "box",
+	     "859827600" => "rollercoast",
+	     "860432400" => "lunch",
+	     "861037200" => "collapse",
+	     "861642000" => "whack",
+	     "862246800" => "pc",
+	     "862851600" => "cloning",
+	     "863456400" => "winnt",
+	     "864061200" => "kasparov",
+	     "865875600" => "push",
+	     "866480400" => "advertising",
+	     "867085200" => "hated",
+	     "867690000" => "cda",
+	     "868899600" => "shock",
+	     "869504400" => "telecommute",
+	     "870109200" => "os8",
+	     "870714000" => "boston",
+	     "871318800" => "150million",
+	     "871923600" => "hell",
+	     "872528400" => "beware",
+	     "873219600" => "alliance",
+	     "873738000" => "cloners",
+	     "874342800" => "macmicro",
+	     "874947600" => "trap",
+	     "875552400" => "pray",
+	     "876157200" => "thinkdiff",
+	     "876762000" => "todo",
+	     "877366800" => "how",
+	     "878576400" => "inquisition",
+	     "879181200" => "cards",
+	     );
+	
+	return undef if (! exists $convert{$time});
+	$rec->{'page'} = "$convert{$time}.$ext";
+	
+    } elsif ($time < mkgmtime(0,0,0,7,11,98)) { # Before Dec 7 1998
+	my $date = $ltime[4]+1 . "-" . $ltime[3] . "-" . $ltime[5];
+	my @outdate = ( "11-24-97", "2-9-98", "4-6-98", "5-25-98",
+		       "9-7-98", "10-12-98", "11-2-98", "11-16-98" );
+
+	return undef if (grep /^$date$/, @outdate);
+ 
+	$rec->{'page'} = "$date.$ext";
+
+    } else {
+	my $date = strftime("%m-%d-%y", @ltime);
+	my @outdate = ( "02-01-99", "02-15-99", "02-22-99", "05-03-99",
+		       "05-31-99" );
+	
+	return undef if (grep /^$date$/, @outdate);
+	
+	$rec->{'page'} = strftime("%m-%d-%y.$ext", @ltime);
+    }
+    
+    return $rec;
+}
+
+1;
