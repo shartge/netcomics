@@ -5,14 +5,14 @@ $hof{"alice"} = 14;
 $hof{"adventure"} = 7;
 
 sub alicecomics {
-    my ($time,$title,$ext,$size,$main,$dir,$expr) = @_;
+    my ($time,$title,$type,$size,$main,$dir,$expr) = @_;
     my @ltime = gmtime($time);
     my $base = "http://www.alicecomics.com";
 
     my $rec = {
 	'title' => $title,
 	'author' => "Michael McKay-Fleming",
-	'type' => $ext,
+	'type' => $type,
 	'main' => "$base/$main",
 	'archives' => "$base/$main",
 	'base' => "$base/",
@@ -25,15 +25,16 @@ sub alicecomics {
 
 sub alice  {
     my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,25,5,99) #1st comic: 06/25/1999
     my @ltime = gmtime($time);
     return undef if (($ltime[6] == 0) && ($time < mkgmtime(0,0,0,19,2,100)));
-    my $ext = ($ltime[6]==0) ? "jpg" : "gif";
-    $ext = "jpg" if (strftime("%Y%m%d", @ltime) =~ 
-		     /^(1999(062(5|8)|07(0(1|6|9)|1(6|7|9)|20)
-			     |0811|11(15|25)|1224)
-			|200001(04|26))$/);
-    my $size = ($ltime[6]==0) ? [650,270] : [640,477];
-    return alicecomics($time,"Alice",$ext,"today.html",$size,"d",
+    my $type = ($ltime[6]==0) ? "jpg" : "gif";
+    $type = "jpg" if (strftime("%Y%m%d", @ltime) =~ 
+		      /^(1999(062(5|8)|07(0(1|6|9)|1(6|7|9)|20)
+			      |0811|11(15|25)|1224)
+			 |200001(04|26))$/);
+    my $size = ($ltime[6]==0) ? [650,1080] : [744,1338];
+    return alicecomics($time,"Alice",$type,"today.html",$size,"d",
 		       "comics/alice");
 }
 
