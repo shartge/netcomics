@@ -1,3 +1,7 @@
+2001-02-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/sourcewars: Added Daemon News' "Source Wars".
+
 2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/comicspage_ed (jeffm): Removed Jeff MacNelly thanks to Sizer.

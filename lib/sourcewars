@@ -1,0 +1,61 @@
+#-*-Perl-*-
+
+$hof{"srcwars"} = 0;
+
+#Source Wars
+#http://darby.daemonnews.org/episodes/week19.gif or png
+sub srcwars {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    #The following was derived from http://darby.daemonnews.org/episodes/
+    # 2000
+    #1 - Jan 3
+    #2 - Jan 10
+    #3 - Jan 17
+    #4 - Jan 24
+    #5 - Jan 31
+    #6 - Feb 7
+    #7 - Feb 14 
+    #8 - Feb 21 - first comic to have date different than Feb 14.
+    #9 - Mar 1
+    #10- Mar 8
+    #11- Mar 16
+    #12- Mar 28
+    #13- Apr 11
+    #14- May 3
+    #15- May 10
+    #16- May 19
+    #17- Jul 15
+    # 2001
+    #18- Jan 25
+    #19- Feb 9
+
+    #Setting up this would take a few minutes I don't have, therefore,
+    #let's assume that the comic will be released regularly now that
+    #it's started back up and count back from Feb 9.
+
+    my $start = mkgmtime(0,0,0,4,9,100); #1st comic: Oct 4, 2000
+    return undef if $time < $start ||
+	$ltime[6] != 3; #released weekly, use Wed to make sure it's updated.
+
+    #determine the week.
+    my $week = ($time - $start) / (7*24*3600) + 1;
+    $week =~ s/\.\d+$//;
+
+    my $type = "gif"; #"png" also available
+    my $baseurl = "http://darby.daemonnews.org";
+    my $rec = {
+	'title' => "Source Wars",
+	'author' => "Susannah Coleman & Seth Claybrook",
+	'type' => $type,
+	'main' => "$baseurl/",
+	'archives' => "$baseurl/episodes/",
+	'base' => $baseurl,
+	'page' => "/episodes/week$week.$type",
+	'size' => [580,642],
+    };
+    return $rec;
+}
+
+1;

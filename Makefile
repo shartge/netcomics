@@ -136,6 +136,7 @@ MODULES = lib/after_y2k \
 	lib/roommates \
 	lib/sempai \
 	lib/soaprope \
+	lib/sourcewars \
 	lib/shermans_lagoon \
 	lib/shoe \
 	lib/sinfest \
