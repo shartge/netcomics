@@ -1,5 +1,10 @@
 2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Fixed webpage
+	printed on stderr instead of stdout when requested.  Added
+	progress dots if verbose. Fixed index title not taken from the
+	webpage_index_title setting & the link colors from the
+	index_link_color settings.
 	* Netcomics/Util.pm (image_size): Made warning about Image::Size
 	not being installed only printed if extra verbose.
 	* Makefile.PL: Removed spex.

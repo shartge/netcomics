@@ -81,9 +81,8 @@ sub create_set_of_pages {
 	}
 
 	if ($verbose) {
-		print STDERR "Creating the webpage";
+		print STDERR "Creating webpage";
 		print STDERR "s" if defined($comics_per_page);
-		print STDERR ".\n";
 	}
 
 	#create a sorted list of the comics
@@ -111,7 +110,6 @@ sub create_set_of_pages {
 	my $datestr = strftime($webpage_datefmt, @ltime);
 
 	my @index_entries;
-
 	for my $group_num (1..$num_groups) {
 
 		# Generate the first and last comic numbers in @sorted_comics.
@@ -164,10 +162,12 @@ sub create_set_of_pages {
 
 		unless ($webpage_on_stdout) {
 			file_write("$self->{'output_dir'}/$filename",0664,"$page");
+			print STDERR "." if $verbose;
 		} else {
-			print STDERR "$page";
+			print $page;
 		}
 	}
+	print STDERR "\n" if $verbose && ! $webpage_on_stdout;
 
 	# Yes, pretty much this whole section of code is ripped from above.
 	# Sue me.
@@ -190,6 +190,8 @@ sub create_set_of_pages {
 		my $comics_on_last = $num_comics % $comics_per_index_page;
 		$num_groups++ if $comics_on_last > 0;
 
+		print STDERR "Creating webpage indices" if $verbose;
+
 		for my $group_num (1..$num_groups) {
 
 			# Generate the first and last comic numbers in @sorted_comics.
@@ -200,14 +202,13 @@ sub create_set_of_pages {
 
 			#index head global info
 			my $head = $self->{'theme'}->{'html'}{'head'};
-			$head =~ s/<PAGETITLE>/$webpage_title/g;
+			$head =~ s/<PAGETITLE>/$webpage_index_title/g;
 			$head =~ s/<CTIME>/$ctime/g;
 			$head =~ s/<NUM=FIRST>/$first/g;
 			$head =~ s/<NUM=LAST>/$last/g;
 			$head =~ s/<NUM=TOTAL>/$num_comics/g;
-			$head =~ s/<PAGETITLE>/$webpage_title/g;
-			$head =~ s/<LINK_COLOR>/$link_color/g;
-			$head =~ s/<VLINK_COLOR>/$vlink_color/g;
+			$head =~ s/<LINK_COLOR>/$index_link_color/g;
+			$head =~ s/<VLINK_COLOR>/$index_vlink_color/g;
 			$head =~ s/<BACKGROUND>/$background/g;
 
 			# Code that let's you use custom date strigs.
@@ -264,14 +265,18 @@ sub create_set_of_pages {
 
 			file_write("$self->{'output_dir'}/$filename",
 					   0664, "$head$links$pre_body$body$post_body$links$tail");
-
+			print STDERR "." if $verbose;
 		}
+		print STDERR "\n" if $verbose;
 
 		#create a link to the main index if groups
 		if ($num_groups > 1) {
 			my $first_index = $webpage_indexname_tmpl;
 			$first_index =~ s/<NUM>/1/g;
-			symlink($first_index, $webpage_index_filename);
+			print STDERR "Creating symlink $webpage_index_filename -> " .
+				"$first_index\n" if $verbose;
+			symlink($first_index, $webpage_index_filename) ||
+				print STDERR "Error creating symlink: $!\n";
 		}
 	}
 	$self->{'theme'}->generate_images($self->{'output_dir'});
