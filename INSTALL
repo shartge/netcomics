@@ -13,7 +13,7 @@ Typically changed install paths & their default values:
   PREFIX=<value returned by "perl -V:prefix">
   INSTALLSITELIB=$(PREFIX)/lib/perl5/site_perl/<perl ver>
   INSTALLMAN3DIR=$(PREFIX)/lib/perl5/<perl ver>/man/man3
-  INSTALLBIN=$(PREFIX)/bin
+  INSTALLSCRIPT=$(PREFIX)/bin
   INSTALLMAN1DIR=$(PREFIX)/man/man1
   TMPDIR=/var/spool/netcomics
 

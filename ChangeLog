@@ -1,5 +1,8 @@
 2001-10-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* INSTALL: Bug 466330: Changed reference to INSTALLBIN to
+	INSTALLSCRIPT for changing the location of where the bin scripts
+	are installed.
 	* show_comics (when_leaving_dialog): Changed report of perlTK
 	require error to state that perlTK might not be installed correct
 	as well as maybe it's not installed at all.
