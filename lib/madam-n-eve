@@ -1,0 +1,46 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"me"} = 0;
+
+sub me {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @rtime = @ltime;
+    my $path;
+
+    if ($ltime[5] > 99) {
+      $path = strftime("%Y/%m/me%Y%m%d", @ltime);
+    } else {
+      $path = strftime("%y%m/me%y%m%d",@ltime);
+    }
+
+    my $rec = {
+        'title' => "Madam and Eve",
+	'author' => "S. Francis, H. Dugmore, & Rico",
+	'type' => 'gif',
+        'base' => "http://www.mg.co.za/mg/m&e/"
+    };
+    
+    if ($ltime[6]==6) {
+	# no saturday comics before Apr 28, 1997
+        return undef if $time < 862185600; 
+	$rec->{'func'} = sub {
+	    return ("${path}a.gif","${path}b.gif");
+	}
+    } else {
+	$rec->{'size'} = [605,190];
+	if ($ltime[6]==0) {
+	    # no sunday comics before May 3, 1999
+	    return undef if $time < 925689600; 
+	    $rec->{'page'} = "${path}c.gif";
+	} else {
+	    $rec->{'page'} = "$path.gif";
+	}
+    }
+
+    return $rec;
+}
+
+1;
