@@ -1876,14 +1876,32 @@ sub wendy {
     my @ltime2 = gmtime(time);
     my $date = strftime("%Y%m%d", @ltime);
     my $date2 = strftime("%Y%m%d", @ltime2);
-   
-    # This one is going to need a HUUUUGE missing list.
-    # Newer comics seem to be M only, but I am not sure.
-    # This why I leave this commented out.
-    
-    # return undef if
-    # 	($ltime[6] !~ /[1]/); 
-       
+
+    my @exists = (19900712,19900806,19900810,19900906,19901023,19901027,
+		  19901111,19901115,19901121,19901130,19990705,19990726,
+		  19990807,19990814,19990911,19990913,19990915,19990917,
+		  19991004,19991122,19991218,19991221,20000110,20000126,
+		  20000201,20000223,20000313,20000322,20000326,20000330,
+		  20000428,20000508,20000514,20000516,20000519,20000524,
+		  20000527,20000604,20000612,20000614,20000706,20000716,
+		  20000722,20000820,20000901,20000908,20000919,20000929,
+		  20001005,20001009,20001021,20001208,20001214,20001219,
+		  20001222,20010108,20010111,20010117,20010125,20010202,
+		  20010211,20010217,20010223,20010301,20010308,20010216,
+		  20010324,20010429,20010507,20010512,20010513,20020107,
+		  20020111,20020114,20020118,20020121,20020204,20020211,
+		  20020213,20020215);
+
+    # Old wendy had a very irregular release cycle, therefor using an exists
+    # list. The new wendy seems to be released every monday.
+
+    return undef if
+	(
+	 ($date < 19900711) || #first comic on July 11, 1990 (?!)
+	 ($date < 20020216 && ! grep(/$date/,@exists)) || # old wendy
+	 ($date >= 20020216 && $ltime[6] !~ /[1]/) # new wendy since 20020218
+	);
+
     my $title = "Wendy";
     my $author = "Joshua Lesnick";
     my $url = "http://www.wendycomic.com";
@@ -1931,7 +1949,7 @@ sub cutewendy {
     'title' => "Cute Wendy",
     'author' => "Joshua Lesnick",
     'main' => "http://www.wendycomic.com",
-    'archives' => "http://www.wendycomic.com",
+    'archives' => "http://www.wendycomic.com/arc.html",
     'base' => "http://www.wendycomic.com",
     'page' => "/cutecomics/cutewendy$date.gif",
   };
