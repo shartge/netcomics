@@ -1,3 +1,12 @@
+2002-11-19  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot (wigu): Author let domain expire. Changed to 
+	wigu.keenspot.com...
+	* lib/down_earth: Website says downtoearth is down. Redirects to a 
+	portal. Assuming dead and removing.
+	* lib/kingfeatures (pardon): s/I_Need_Help/Pardon_My_Planet/;
+	(wildwood): Removed dead comic.
+
 2002-10-17  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/small_grey (grey): Generally works now. Reset daysbehind and

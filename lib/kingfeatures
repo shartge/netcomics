@@ -2,9 +2,9 @@
 
 foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh 
     pc ro zp spider apt3g bfriends buckles ba zt phantom
-    crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
+    crock curtis dennis dinette familyc fgordon tumble rmorgan
     jparker mtrail mworth hi pvaliant theydo tiger
-    katkids popeye sroper needhelp re schix)) {
+    katkids popeye sroper pardon re schix)) {
     $hof{$_} = 14;
 }
 
@@ -107,14 +107,6 @@ sub blondie {
 		       "blondie","Blondie",[480,142], [600,406]);
 }
 
-# Wildwood
-# was Bobos Progress
-# http://www.kingfeatures.com/features/comics/wildwood/about.htm
-sub wildwood {
-    return kingfeature(shift(@_),"Wildwood","Dan Wright and Tom Spurgeon",
-                       "wildwood","Wildwood",[525,165], [525,166]);
-}
-
 sub buckles {
     return kingfeature(shift(@_),"Buckles","David Gilbert","buckles","Buckles",
 		       [480,147]);
@@ -201,10 +193,10 @@ sub hr {
 		       "horrscpe","hrt",[240,295]);
 }
 
-#I Need Help http://www.kingfeatures.com/comics/needhelp/index.htm
-sub needhelp {
-    return kingfeature(shift(@_),"I Need Help",
-	"Vic Lee", "needhelp","I_Need_Help", [263,258], [600,280]);
+#Pardon My Planet 
+sub pardon {
+    return kingfeature(shift(@_),"Pardon My Planet",
+	"Vic Lee", "pardon","Pardon_My_Planet", [263,258], [600,280]);
 }
 
 #Judge Parker http://www.kingfeatures.com/comics/jparker/index.htm

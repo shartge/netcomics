@@ -2265,7 +2265,7 @@ sub wigu {
 
     my $title = "Whenigrowup";
     my $author = "Jeffrey Rowland";
-    my $url = "http://www.whenigrowup.net";
+    my $url = "http://wigu.keenspot.net";
     my $index = undef;
     
     return keenspot($title,$author,$date,$url,$index);
