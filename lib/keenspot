@@ -22,9 +22,6 @@ sub keenspot {
   my @ltime2 = gmtime(time);
   
   my $page = "/d/$date.html";
-  if ($index =~ /cute.html/) {
-    $page = "/cute/$date.html";
-  }
   if ($index =~ /wander/) {
     $page = "/D/$date.html";
     $index = "index.html";
@@ -1874,58 +1871,26 @@ sub wander {
 
 #Wendy
 sub wendy {
-#not date based
-#Ended May 24, 2001
-#using that date as last strip
-#first strip will be 70 comics before
     my $time = shift;
     my @ltime = gmtime($time);
-    my $daysago = (time - $time)/(3600*24);
-    $daysago =~ s/\..*$//;
-    my $dayssincelast = (time - mkgmtime(0,0,0,24,4,101))/(3600*24);
-    $dayssincelast =~ s/\..*$//;
-    my $totalcomics = 70;
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+   
+    # This one is going to need a HUUUUGE missing list.
+    # Newer comics seem to be M only, but I am not sure.
+    # This why I leave this commented out.
     
-    my $comicnum = ($dayssincelast - $daysago)%$totalcomics;
-
-    my $stripnum = 1+$comicnum;
-    my $archive = "/a/pagewendy";
-    my $page = "$archive"."0".$stripnum."a.html";
-    if ($comicnum == 70) {
-      $stripnum = 300;
-      $page = "$archive".$stripnum."a.html";
-    }  
+    # return undef if
+    # 	($ltime[6] !~ /[1]/); 
+       
+    my $title = "Wendy";
+    my $author = "Joshua Lesnick";
+    my $url = "http://www.wendycomic.com";
+    my $index = undef;
     
-    my $rec = {
-	  'title' => "Wendy",
-	  'author' => "Joshua Lesnick",
-	  'main' => "http://www.wendycomic.com",
-	  'archives' => "http://www.wendycomic.com/arc.html",
-	  'base' => "http://www.wendycomic.com",
-	  'page' => $page,
-    };
-    $rec->{'func'} = sub {
- 	     my $text = shift;
-         my @relurls = ();
-         my $dir = "";
-         my $type = "";
-         while (1) {
-           if ($text =~ s/src="((\/comics\/.*?$stripnum)\w?\.((:?jpg)|(:?gif)|(:?png)))"//i) {
-             push(@relurls,$1);
-             $dir = $2;
-             $type = $3;
-             $rec->{'type'} = $type;
-           } elsif ($text =~ s/href="\/a\/pagewendy.*?$stripnum(\w?)\.html"//i) {
-             $comic = $dir.$1.".".$type;
-             if (!grep(/$comic/,@relurls)) {push(@relurls, $comic);}
-           } else {   
-             last;
-           }
-         }
-         return reverse @relurls;
-    };
+    return keenspot($title,$author,$date,$url,$index);
 
-    return $rec;
 }
 
 #Cute Wendy
@@ -1962,12 +1927,16 @@ sub cutewendy {
       ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||      
       grep(/$date/,@missing));
 
-    my $title = "Cute Wendy";
-    my $author = "Joshua Lesnick";
-    my $url = "http://www.wendycomic.com";
-    my $index = "cute.html";
-    
-    return keenspot($title,$author,$date,$url,$index);
+  my $rec = {
+    'title' => "Cute Wendy",
+    'author' => "Joshua Lesnick",
+    'main' => "http://www.wendycomic.com",
+    'archives' => "http://www.wendycomic.com",
+    'base' => "http://www.wendycomic.com",
+    'page' => "/cutecomics/cutewendy$date.gif",
+  };
+
+    return $rec;
 }
 
 #When I Grow Up
