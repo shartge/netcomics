@@ -69,6 +69,7 @@ MODULES = lib/after_y2k \
 	lib/calvin-n-hobbes \
 	lib/cartoonweb \
 	lib/chuck_show \
+	lib/clan_cats \
 	lib/comicspage \
 	lib/comicspage_ed \
 	lib/comiczone \
