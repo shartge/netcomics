@@ -1,3 +1,8 @@
+2001-07-04  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/Factory.pm (new): Added check for $subdir if 
+	$separate_comics. [Error in reloading persistant data]
+
 2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/GtkComics.pm (Display_comic): Modified passing the filename

@@ -95,8 +95,12 @@ sub new {
 			for (@{$rli->{'file'}}) {
 				my $file = $_;
 				my $test_file_name;
-				$test_file_name = "$comics_dir/" . $file;
-					#($rli->{'subdir'}? $rli->{'subdir'} : "") . $file;
+				if ($separate_comics) {
+					$test_file_name = "$comics_dir/$rli->{'subdir'}/$file";
+				} else {
+					$test_file_name = "$comics_dir/" . $file;
+				}
+
 				if (-f "$test_file_name") {
 					push(@{$self->{'existing_rli_files'}},$file);
 				} elsif ($rli->{'status'} == 1) {
