@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#UserFriendly http://www.userfriendly.org/cartoons/
+package uf;
+no strict; @ISA = qw(RLI); use strict;
+
+my @monthconv = ("jan", "feb", "mar", "apr", "may", "jun",
+		 "jul", "aug", "sep", "oct", "nov", "dec");
+
+my $baseurl = "http://www.userfriendly.org";
+
+my %static = ('title' => "User Friendly",
+	      'author' => "Illiad",
+	      'type' => 'gif',
+	      'main' => "$baseurl/static/",
+	      'archives' => "$baseurl/cartoons/archives/",
+	      'base' => $baseurl,
+	      );
+
+sub init {
+    my $self = shift;
+    $self->add_attributes(\%static);
+
+    return $self if $self->{'time'} < 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($self->{'time'});
+    my $b = $monthconv[$ltime[4]];
+
+    $self->{'page'} = strftime("/cartoons/archives/%y$b/%Y%m%d.html",@ltime);
+    $self->{'exprs'} = 
+	[strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\d+\\.gif)",@ltime)];
+    $self->{'size'} = ($ltime[6] == 0 ? [720,529] : [720,274]);
+    return $self;
+}
+
+1;
