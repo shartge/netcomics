@@ -69,6 +69,7 @@ lib/astronomy
 lib/bad_boys
 lib/badlands
 lib/bruno
+lib/cad
 lib/callahan
 lib/cartoonweb
 lib/comicspage
@@ -117,6 +118,7 @@ lib/littlegamers
 lib/madam-n-eve
 lib/megatokyo
 lib/mercury
+lib/moderntales
 lib/mom
 lib/mrlowe
 lib/newshounds
@@ -124,6 +126,7 @@ lib/norm
 lib/offthemark
 lib/penny_arcade
 lib/pvp
+lib/real
 lib/red_meat
 lib/sempai
 lib/shermans_lagoon
@@ -138,6 +141,7 @@ lib/spooner
 lib/story_minute
 lib/stuff_this
 lib/template
+lib/theater
 lib/this_modern_world
 lib/toonville
 lib/touche
