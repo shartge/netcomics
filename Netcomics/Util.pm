@@ -30,6 +30,7 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 file_write
 			 file_read
 			 image_size
+			 image_type
 			 library_sort
 			 libdate_sort
 			 mkgmtime
@@ -185,6 +186,10 @@ sub image_size {
 	} else {
 		return undef;
 	}
+}
+
+sub image_type {
+	return $_[0] =~ /^(xpm|gif|jpe?g|tiff?|png)$/;
 }
 
 sub library_sort {

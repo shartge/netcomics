@@ -205,7 +205,11 @@ sub generate {
 			my $image = $image[$_];
 			next unless defined $image;
 			my $size = undef;
-			my $body_element = $self->{'theme'}->{'html'}{'body_el'};
+			my $body_element = image_type($rli->{'type'}) ?
+				$self->{'theme'}->{'html'}{'body_el'} :
+				$self->{'theme'}->{'html'}{'body_el_embed'};
+			$body_element = $self->{'theme'}->{'html'}{'body_el'}
+				if ! defined $body_element;
 
 			#get the size from the file if it exists (status of 1)
 			if ($rli->{'status'} == 1) {
