@@ -35,15 +35,19 @@ sub helen {
     
     if ($today >= mkgmtime(0,0,0,27,9,100)) {
 	# 2000-Oct-27 -- ????-???-?? : The comic is at www.comicspage.com
-	
+
+#http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=20020503cshln-a-p.jpg\&code=cshln
+
+		
 	$rec->{'main'} = "http://www.comicspage.com/helen/";
-	$rec->{'base'} = "http://www.comicspage.com/daily/cshln";
+	$rec->{'base'} = "http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=";
 	
 	if ($lt[6] == 0) {
-	    $rec->{'page'} = strftime("/%Y%m%dcshln-s.gif",@lt);
+	    $rec->{'page'} = strftime("%Y%m%dcshln-s-p.jpg\&code=cshln",@lt);
 	} else {
-	    $rec->{'page'} = strftime("/%Y%m%dcshln-a.gif",@lt);
+	    $rec->{'page'} = strftime("%Y%m%dcshln-a-p.jpg\&code=cshln",@lt);
 	}
+	$rec->{'type'} = 'jpg';
 	
 	return $rec;
 

@@ -1,3 +1,8 @@
+2002-05-24  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/helen: Fix by sizer. (see ML for more info on this!)
+	* lib/comicspage: Fixed by sizer
+
 2002-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/animation_express (ae): Added support for mini, animated gifs.

@@ -1,8 +1,14 @@
+netcomics (0.14.1-1) unstable; urgency=low
+
+  * 0.14 contained a b0rk kingfeatures. This fixes it.
+
+ -- Elliot Glaysher <glaysher@umich.edu>  Sun,  7 Apr 2002 01:10:45 -0400
+	
 netcomics (0.14-1) unstable; urgency=low
 
   * New Maintainer.
 
- -- Elliot Glaysher <glaysher@umich.edu>  Mon, 23 Apr 2001 21:51:10 -0400
+ -- Elliot Glaysher <glaysher@umich.edu>  Mon,  4 Apr 2001 21:51:10 -0400
 
 netcomics (0.13.2-1) unstable; urgency=medium
 

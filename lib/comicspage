@@ -1,8 +1,8 @@
 #-*-Perl-*-
 
-foreach (qw(bound fredb middle plug crackers bottom mixed dtracy bstar gas
+foreach (qw(bound fredb middle plug crackers mixed dtracy bstar gas
 	    annie bh cwh doodles lewis lola lp ms mh sylvia wne ntf
-	    compu quig tjk)) {
+	    compu quig tjk gil2)) {
     $hof{$_} = 0;
 }
 
@@ -29,14 +29,16 @@ sub ComicsPage {
 
     return undef unless defined($size) && defined($type);
 
+	# http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=20020427csfbt-a-p.jpg&code=csfbt
+
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => $type,
-	'main' => "http://www.comicspage.com/$dir/main.html",
-	'archives' => "http://www.comicspage.com/$dir/main.html",
-	'base' => "http://www.comicspage.com/daily/$prefix$file/",
-	'page' => strftime("%Y%m%d$prefix$file-$postfix.$type",@ltime),
+	'main' => "http://www.comicspage.com/$dir/index.html",
+	'archives' => "http://www.comicspage.com/$dir/index.html",
+	'base' => "http://www.tmsfeatures.com/tmsfeatures/servlet/com.featureserv.util.Download?file=",
+	'page' => strftime("%Y%m%d$prefix$file-$postfix-p.$type\&code=$prefix$file",@ltime),
 	'size' => $size,
     };
     return $rec;
@@ -45,133 +47,140 @@ sub ComicsPage {
 #Bound & Gagged ex: http://www.comicspage.com/bound
 sub bound {
     return ComicsPage($_[0],"Bound and Gagged","Dana Summers","bound",
-		      "bgg","cs",'gif','gif',[700,218],[700,326]);
+		      "bgg","cs",'jpg','jpg',[700,218],[700,326]);
 }
 
 #Fred Basset ex: http://www.comicspage.com/fred
 sub fredb {
     return ComicsPage($_[0],"Fred Basset","Alex Graham","fred",
-		      "fbt","cs",'gif','gif',[700,218],[700,324]);
+		      "fbt","cs",'jpg','jpg',[700,218],[700,324]);
+}
+
+#gil thorp ex: http://www.comicspage.com/fred
+sub gil2 {
+    return ComicsPage($_[0],"Gil Thorp Alt",
+					  "Jerry Jenkins and Frank McLaughlin",
+					  "gil", "gtp","cs",'jpg','jpg',[700,218],[700,324]);
 }
 
 #Middletons ex: http://www.comicspage.com/middletons
 sub middle {
     return ComicsPage($_[0],"The Middletons","Ralph Dunagin & Dana Summers",
-		      "middletons", "mid","cs",'gif','gif',[700,218],[700,483]);
+		      "middletons", "mid","cs",'jpg','jpg',[700,218],[700,483]);
 }
 
 #Pluggers ex: http://www.comicspage.com/pluggers
 sub plug {
     return ComicsPage($_[0],"Pluggers","Gary Brookins", "pluggers", 
-		      "plg","cp",'gif','gif',[300,322],[700,465]);
+		      "plg","cp",'jpg','jpg',[300,322],[700,465]);
 }
 
 #Animal Crackers http://www.comicspage.com/animal/
 sub crackers {
     return ComicsPage($_[0],"Animal Crackers","Fred Wagner","animal",
-		      "ack","cs",'gif','gif',[700,218],[700,489]);
+		      "ack","cs",'jpg','jpg',[700,218],[700,489]);
 }
 
 #Bottom Liners http://www.comicspage.com/bottom/
-sub bottom {
-    return ComicsPage($_[0],"Bottom Liners","Eric & Bill Teitelbaum",
-		      "bottomliners","bls","cp",'gif',undef,[300,329],undef);
-}
+#sub bottom {
+#    return ComicsPage($_[0],"Bottom Liners","Eric & Bill Teitelbaum",
+#		      "bottomliners","bls","cp",'jpg',undef,[300,329],undef);
+#}
 
 #Mixed Media http://www.comicspage.com/mixed/
 sub mixed {
     return ComicsPage($_[0],"Mixed Media","Scott Willis & Jack Ohman",
-		      "mixedmedia","mix","cs",'gif','gif',[700,218],[700,319]);
+		      "mixedmedia","mix","cs",'jpg','jpg',[700,218],[700,319]);
 }                                                                              
 
 #Dick Tracy http://www.comicspage.com/dick/
 sub dtracy {
-    return ComicsPage($_[0],"Dick Tracy","Dick Liyer & Mike Kilian","dicktracy",
-                       "dty","cs",'gif','gif',[700,218],[700,491]);
+    return ComicsPage($_[0],"Dick Tracy","Dick Locher & Mike Kilian","dicktracy",
+                       "dty","cs",'jpg','jpg',[700,218],[700,491]);
 }                                                                              
 
 #Brenda Star http://www.comicspage.com/brenda/
 sub bstar {
     return ComicsPage($_[0],"Brenda Star","Brigman - Schmich","brenda",
-		      "bsr","cs",'gif','gif',[700,218],[700,491]);
+		      "bsr","cs",'jpg','jpg',[700,218],[700,491]);
 }                                                                              
 
 #Orphan Annie http://www.comicspage.com/annie/
 sub annie {
     return ComicsPage($_[0],"Orphan Annie","Jay Maeder & Alan Kupperberg",
-		      "annie","ann","cs",'gif','gif',[700,218],[700,491]);
+		      "annie","ann","cs",'jpg','jpg',[700,218],[700,491]);
 }                                                                              
 
 #Gasoline Alley http://www.comicspage.com/gas/
 sub gas {
     return ComicsPage($_[0],"Gasoline Alley","Jim Scancarelli","gasolinealley",
-		      "gas","cs",'gif','gif',[700,218],[700,491]);
+		      "gas","cs",'jpg','jpg',[700,218],[700,491]);
 }                                                                              
 
 #Broom Hilda http://www.comicspage.com/broomhilda/
 sub bh {
     return ComicsPage($_[0],"Broom Hilda","Russell Myers","broomhilda",
-		      "bhl","cs",'gif','gif',[700,218],[700,490]);
+		      "bhl","cs",'jpg','jpg',[700,218],[700,490]);
 }                                                                              
 
 #Cats with Hands http://www.comicspage.com/cats/
 sub cwh {
     return ComicsPage($_[0],"Cats with Hands","Joe Martin","cats",
-		      "cwh","cs",'gif','gif',[700,218],[700,491]);
+		      "cwh","cs",'jpg','jpg',[700,218],[700,491]);
 }                                                                              
 
 #Doodles http://www.comicspage.com/profdoodles/
 sub doodles {
     return ComicsPage($_[0],"Doodles","Steve Sack & Craig MacIntosh",
-		      "profdoodles","dod","cs",undef,'gif',undef,[700,467]);
+		      "profdoodles","dod","cs",undef,'jpg',undef,[700,467]);
 }                                                                              
 
 #Lewis http://www.comicspage.com/lewis/
 sub lewis {
     return ComicsPage($_[0],"Lewis","Jan Thomas and Peter Mozley","lewis",
-		      "lew","cs",'gif','gif',[700,218],[700,236]);
+		      "lew","cs",'jpg','jpg',[700,218],[700,236]);
 }                                                                              
 
 #Lola http://www.comicspage.com/lola/
 sub lola {
     return ComicsPage($_[0],"Lola","Steve Dickenson and Todd Clark","lola",
-		      "lol","cs",'gif','gif',[700,218],[700,235]);
+		      "lol","cs",'jpg','jpg',[700,218],[700,235]);
 }                                                                              
 
 #Loose Parts http://www.comicspage.com/looseparts2/
 sub lp {
     return ComicsPage($_[0],"Loose Parts","Dave Blazek","looseparts2",
-		      "lsp","cs",'gif','gif',[700,218],[700,230]);
+		      "lsp","cs",'jpg','jpg',[700,218],[700,230]);
 }                                                                              
 
 #Meehan Streak http://www.comicspage.com/meehan/
 sub ms {
     return ComicsPage($_[0],"Meehan Streak","Kieran Meehan","meehan",
-		      "mst","cs",'gif','gif',[700,218],[700,232]);
+		      "mst","cs",'jpg','jpg',[700,218],[700,232]);
 }                                                                              
 
 #Monkeyhouse http://www.comicspage.com/monkeyhouse/
 sub mh {
     return ComicsPage($_[0],"Monkeyhouse","Pat Byrnes","monkeyhouse",
-		      "mhs","cs",'gif','gif',[700,218],[700,342]);
+		      "mhs","cs",'jpg','jpg',[700,218],[700,342]);
 }                                                                              
 
 #Sylvia http://www.comicspage.com/sylvia/
 sub sylvia {
     return ComicsPage($_[0],"Sylvia","Nicole Hollander","sylvia",
-		      "syl","cs",'gif',undef,[700,218],undef);
+		      "syl","cs",'jpg',undef,[700,218],undef);
 }                                                                              
 
 #Willy 'N Ethel http://www.comicspage.com/willynethel/
 sub wne {
     return ComicsPage($_[0],"Willy 'N Ethel","Joe Martin","willynethel",
-		      "wil","cs",'gif',undef,[580,180],undef);
+		      "wil","cs",'jpg',undef,[580,180],undef);
 }                                                                              
 
 #9 to 5 http://www.comicspage.com/9to5/
 sub ntf {
     return ComicsPage($_[0],"9 to 5","Harley Schwadron","9to5",
-		      "ntf","cp",'gif',undef,[440,580],undef);
+		      "ntf","cp",'jpg',undef,[440,580],undef);
 }                                                                              
 
 #Compu-toon http://www.comicspage.com/computoon/
@@ -179,19 +188,19 @@ sub compu {
     my @ltime = gmtime($_[0]);
     return undef if $ltime[6] != 1; #only monday
     return ComicsPage($_[0],"Compu-toon","Charles Boyce","computoon",
-		      "cpt","cp",'gif',undef,[300,394],undef);
+		      "cpt","cp",'jpg',undef,[300,394],undef);
 }                                                                              
 
 #Quigmans http://www.comicspage.com/quigmans/
 sub quig {
     return ComicsPage($_[0],"Quigmans","Buddy Hickerson","quigmans",
-		      "qgm","cp",'gif',undef,[428,580],undef);
+		      "qgm","cp",'jpg',undef,[428,580],undef);
 }                                                                              
 
 #That's Jake http://www.comicspage.com/thatsjake/
 sub tjk {
     return ComicsPage($_[0],"That's Jake","Jake Vest","thatsjake",
-		      "tjk","cp",'gif','gif',[300,395],[700,339]);
+		      "tjk","cp",'jpg','jpg',[300,395],[700,339]);
 }                                                                              
 
 1;
