@@ -1,3 +1,8 @@
+2000-10-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/unitedmedia: [bug 119738] Accommodated for the site's update.
+	Removed Eek & Meek.  Made the comics not be a week behind anymore.
+	
 2000-10-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/triangle_robert: initial version (requested by Owen Cameron)
