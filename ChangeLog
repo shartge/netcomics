@@ -1,3 +1,8 @@
+2001-08-29  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Set.pm: Fix bad stuff with generating the index.
+	(Thanks for the head's up, Ben!)
+
 2001-08-26  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* Netcomics/HTML/Page.pm: Initial commit

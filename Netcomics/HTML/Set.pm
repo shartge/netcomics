@@ -5,6 +5,7 @@ use Netcomics::Config;
 use Netcomics::HTML::Themes::Default;
 use Netcomics::Util;
 use Netcomics::HTML::Page;
+use POSIX;
 
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
@@ -92,6 +93,18 @@ sub create_set_of_pages {
 		$index =~ s/<NUM=FIRST>/1/g;
 		$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
 		$index =~ s/<PAGETITLE>/$webpage_title/g;
+		$index =~ s/<LINK_COLOR>/$link_color/g;
+		$index =~ s/<VLINK_COLOR>/$vlink_color/g;
+		$index =~ s/<BACKGROUND>/$background/g;
+
+		# Code that let's you use custom date strigs.
+		my $date = strftime("%b %d, %Y",gmtime(time()));
+		$index =~ s/<DATE>/$date/g;
+		my @ltime = localtime(time);
+		while ($index =~ /<DATE FORMAT="([^\"]*)">/) {
+			my $datestr = strftime($1,@ltime); 
+			$index =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
+		}
 	}
 
 	my $tail;
