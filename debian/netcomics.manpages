@@ -1,2 +1,2 @@
-debian/tmp/usr/man/man1/*
-debian/tmp/usr/lib/perl5/man/man3/*
+debian/tmp/usr/share/man/man1/*
+debian/tmp/usr/share/man/man3/*

@@ -3,6 +3,8 @@
 \bCVS\b
 ~$
 ^blib/
+^build-stamp$
+^configure-stamp$
 \.old$
 \.[13]$
 \.out$
@@ -14,5 +16,10 @@
 ^Netcomics/Config.pm$
 ^etc/
 ^bin/
+^debian/tmp/
+^debian/netcomics/
+^debian/netcomics-modules/
+^debian/.*debhelper$
+^debian/.*substvars$
 \.orig$
 \.cvsignore$

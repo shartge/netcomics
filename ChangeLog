@@ -1,3 +1,13 @@
+2001-07-11  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* AUTHORS: Updated for my new email.
+	* MANIFEST.SKIP: Made sure it skips more debian build crap (MORE, not
+	all)
+	* debian/rules: Actually get packages that build more (doesn't fully
+	work yet)
+	* debian/netcomics.manpages: Putting manpages in packages is usually
+	a good idea :-P
+
 2001-07-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomicsrc: Removed reference to default download directory so
