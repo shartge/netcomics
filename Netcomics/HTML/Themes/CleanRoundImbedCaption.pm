@@ -65,7 +65,12 @@ $html{'body'} = <<END_BODY;
           <td <WIDTH> bgcolor="#f7f7f7" align=center><font face="Arial,Helvetica" size=+1 color="black"><b><a name="<COMIC_ID>"><COMIC_NAME></a></b></font></td>
           <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
         </tr>
-        <tr>
+	<tr>
+          <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
+          <td bgcolor="#f7f7f7" height="15">&nbsp;</td>
+          <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
+        </tr>
+	<tr>
           <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
           <td><ELEMENT></td>
           <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
