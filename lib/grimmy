@@ -1,4 +1,4 @@
-$hof{"grimm"} = 7;
+$hof{"grimm"} = 0;
 
 # comics name is "grimm" to be compatible with old name used in toonville
 
