@@ -1,5 +1,6 @@
 2001-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/Config.pm (processARGV): Fixed call to usage().
 	* Netcomics/Factory.pm (dump_rli): Changed to delete unneeded
 	fields only from completely download comics.
 	(load_rlis): Redesigned to load in global & regular rli files so

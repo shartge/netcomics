@@ -543,7 +543,7 @@ sub processARGV {
 		#Usage
 		else {
 			print STDERR "Unknown option: $_.\n" unless /-h/;
-			&{$self->{'usage'}}();
+			&{$self->{'usage'}}($self);
 		}
 
 		#Allow for smushed-together options
