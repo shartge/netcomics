@@ -1,0 +1,34 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"suburban"} = 2;
+
+#Suburban Jungle ex:http://www.suburbanjungle.com/strips/sj100899.gif
+sub suburban  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+#    return undef if $time < 933206400; 
+    if ($ltime[6] == 0) {
+	$size = [600,365];
+	$type = 'jpg';
+    } else {
+	$size = [600,192];
+	$type = 'gif';
+    }
+
+# Note - this strip is now appearing about every other day, but it is
+# erratic, so you might as well try getting it every day.
+    my $rec = {
+	'title' => "Suburban Jungle",
+	'author' => "John Robey",
+	'type' => $type,
+	'main' => "http:/www.suburbanjungle.com/",
+	'archives' => "http://www.suburbanjungle.com/archives.htm",
+	'base' => "http://www.suburbanjungle.com/strips/",
+	'size' => $size,
+	'page' => strftime("sj%m%d%y.$type",@ltime)
+	};
+    return $rec;
+}
+
+1;
