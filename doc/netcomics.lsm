@@ -1,32 +1,35 @@
 Begin3
 Title:          netcomics
-Version:        0.13.2
-Entered-date:   18JUL01
+Version:        0.14
+Entered-date:   04APR02
 Description:    netcomics is a perl script that can retrieve comic
 		strips from the Web that are continuously being
 		updated each day. netcomics utilizes a modular set of
 		library perl scripts that provide it information on
 		where to find each specific comic strip.  It is most
-		often run as a cron job, along with a provided script,
-		show_comics, to display it on your workstation. It
-		also can create webpages with the comics.
+		often run as a cron job, but has a GUI for browsing
+		comics. It also can create webpages with the comics.
 Keywords:       web-tools, comics, funnies, agent
 Author:         hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Maintained-by:  hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Primary-site:   http://netcomics.sourceforge.net/download.html
-		142 kB netcomics-0.13.1.tar.bz2
-		155 kB netcomics-0.13.1-1.src.rpm
-		216 kB netcomics-0.13.1.tar.gz
-		102 kB netcomics-0.13.1-1.noarch.rpm
-		117 kB netcomics-data-0.13.1-1.noarch.rpm
-		159 kB netcomics_0.13.1-1_all.deb
+		153 kB netcomics-0.14.tar.bz2
+		162 kB netcomics-0.14-1.src.rpm
+		190 kB netcomics-0.14.tar.gz
+		150 kB netcomics-0.14-1.noarch.rpm
+		141 kB netcomics-data-0.14-1.noarch.rpm
+		119 kB netcomics_0.14-1_all.deb
+		100 kB netcomics-modules_0.14-1_all.deb
+		38 kB netcomics-comicpage_0.14-1_all.deb
 Alternate-site: metalab.unc.edu /pub/Linux/apps/www/misc
-		142 kB netcomics-0.13.1.tar.bz2
-		155 kB netcomics-0.13.1-1.src.rpm
-		216 kB netcomics-0.13.1.tar.gz
-		102 kB netcomics-0.13.1-1.noarch.rpm
-		117 kB netcomics-data-0.13.1-1.noarch.rpm
-		159 kB netcomics-0.13.1-1_all.deb
+		153 kB netcomics-0.14.tar.bz2
+		162 kB netcomics-0.14-1.src.rpm
+		190 kB netcomics-0.14.tar.gz
+		150 kB netcomics-0.14-1.noarch.rpm
+		141 kB netcomics-data-0.14-1.noarch.rpm
+		119 kB netcomics_0.14-1_all.deb
+		100 kB netcomics-modules_0.14-1_all.deb
+		38 kB netcomics-comicpage_0.14-1_all.deb
 Platforms:      perl5
 Copying-policy: GPL
 End
