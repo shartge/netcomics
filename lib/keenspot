@@ -1894,12 +1894,15 @@ sub wendy {
 
     # Old wendy had a very irregular release cycle, therefor using an exists
     # list. The new wendy seems to be released every monday.
+    # After the end of cutewendy, wendy is planned to be released
+    # every MWF.
 
     return undef if
 	(
 	 ($date < 19900711) || #first comic on July 11, 1990 (?!)
 	 ($date < 20020216 && ! grep(/$date/,@exists)) || # old wendy
-	 ($date >= 20020216 && $ltime[6] !~ /[1]/) # new wendy since 20020218
+	 ($date >= 20020216 && $date < 20020513 && $ltime[6] !~ /[1]/) || # wendy since 20020218
+	 ($date >= 20020513 && $ltime[6] !~ /[135]/) # wendy after may 13th 2002
 	);
 
     my $title = "Wendy";
@@ -1932,18 +1935,26 @@ sub cutewendy {
       20010704,20010706);
     my @extra = (20010616);
 
-    #MWF until January 2, 2001
-    #Everyday until April 30 , 2001
-    #MWF until present
+    # MWF until January 2, 2001
+    # Everyday until April 30, 2001
+    # MWF until present (not really, sometimes TT instead of MWF,
+    #                    @missing and @extra needs an update)
+    # WF until May 10, 2002
+    # Last strip on May 10, 2002
     return undef if 
-      (($date < 20000830) || #first comic on August 30, 2000
-      (($date >= 20000830 && $date < 20010102) && 
-      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
-      (($date >= 20010102 && $date < 20010429) && 
-      ($ltime[6] !~ /[0123456]/)) ||
-      (($date >= 20010429 && $date <= $date2) &&
-      ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||      
-      grep(/$date/,@missing));
+      (
+       ($date < 20000830) || #first comic on August 30, 2000
+       (($date >= 20000830 && $date < 20010102) && 
+        ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+       (($date >= 20010102 && $date < 20010429) && 
+        ($ltime[6] !~ /[0123456]/)) ||
+       (($date >= 20010429 && $date < 20020220 ) && # weird release cycle between those dates
+        ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra))) ||
+       (($date >= 20020220 && $date < 20020511) && 
+        ($ltime[6] !~ /[35]/)) ||
+       (($date > 20020510)) || # definite last strip of cutewendy
+       grep(/$date/,@missing)
+      );
 
   my $rec = {
     'title' => "Cute Wendy",
