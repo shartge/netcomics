@@ -1,5 +1,6 @@
 2002-03-27  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/spex: Comic appears to have died.
 	* lib/sluggy_freelance (sluggy): Note to self: Remove your debugging
 	messages BEFORE making a commit.
 

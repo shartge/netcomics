@@ -9,7 +9,7 @@ foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh
 }
 
 foreach (qw(mandrake ss henry hazel moosem pops trudy)) {
-    $hof{$_} = 0;
+    $hof{$_} = 14;
 }
 
 
