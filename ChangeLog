@@ -1,5 +1,8 @@
 2001-01-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/sluggy_freelance (sluggy): Updated thanks to Martial Michel,
+	plus simplified by having all days of the week use the function
+	to return multiple URLs.
 	* netcomics (get_comics): Updated RELURL section so that it would
 	detect when both an rli and relurls were returned, and made it so
 	that it could handle ARRAY refs. Added defaulting the file type if
