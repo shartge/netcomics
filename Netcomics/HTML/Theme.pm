@@ -37,12 +37,13 @@ list.
 =cut
 
 sub new {
-	my ($class, $name, $r_imgs, $r_html) = @_;
+	my ($class, $name, $r_imgs, $r_html, $r_prefs) = @_;
 
 	my $self = bless {
-				'name' => $name,
-				'html' => $r_html,
-				'imgs' => $r_imgs,
+				'name'  => $name,
+				'html'  => $r_html,
+				'imgs'  => $r_imgs,
+				'prefs' => $r_prefs,
 			   }, $class;
 
 	#chomp off newlines to prevent extra whitespace from getting

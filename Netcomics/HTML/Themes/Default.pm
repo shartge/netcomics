@@ -22,7 +22,7 @@ require Exporter;
 use vars qw($VERSION);
 $VERSION = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
 
-my (%html,%imgs);
+my (%html,%imgs,%prefs);
 
 $html{'head'} = <<END_HEAD;
 <HTML>
@@ -108,11 +108,16 @@ $html{'index_element'} = <<END_INDEX_ELEMENT;
   </TR>
 END_INDEX_ELEMENT
 
+# Setup default colors...
+$prefs{'vlink_color'} = "VLINK=#FF99FF";
+$prefs{'link_color'}  = "LINK=#9999FF";
+
 sub new {
-	my ($class, $name, $r_imgs, $r_html) = @_;
+	my ($class, $name, $r_imgs, $r_html, $r_prefs) = @_;
 	$name = "Default" unless defined $name;
 	my %html_c = %html;
 	my %imgs_c = %imgs;
+	my %prefs_c = %prefs;
 	if (defined($r_html)) {
 		#only copy the html templates that get used
 		foreach (@Netcomics::HTML::Theme::html_keys) {
@@ -124,7 +129,12 @@ sub new {
 			$imgs_c{$_} = $r_imgs->{$_};
 		}
 	}
-    return $class->SUPER::new($name, \%imgs_c, \%html_c);
+	if (defined($r_prefs)) {
+		foreach (keys(%$r_prefs)) { #copy all prefs
+			$prefs_c{$_} = $r_prefs->{$_};
+		}
+	}
+    return $class->SUPER::new($name, \%imgs_c, \%html_c, \%prefs_c);
 }
 
 1;

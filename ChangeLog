@@ -1,3 +1,15 @@
+2002-08-18  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Themes/Default.pm (new): Added code to inherit prefs.
+	* Netcomics/HTML/Themes/CleanRoundImbedCaption.pm: There is now a 10
+	pixel margin between the comic and the caption. Looks nicer.
+	* Netcomics/HTML/Themes/CleanRound.pm: Now keeps link colors in the
+	Theme.
+	* Netcomics/HTML/Theme.pm (new): Added a $theme->{'prefs'} property.
+	* Netcomics/HTML/Page.pm (generate): Now checks theme's link color
+	properties.
+	* Netcomics/Config.pm.in: Set $[v]link_color to "".
+
 2002-08-12  Sven Hartge  <netcomics@ds9.argh.org>
 
 	* lib/ucomics: work-around for always-gets-todays-comic, thanks to

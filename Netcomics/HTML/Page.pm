@@ -87,6 +87,10 @@ sub generate {
 	#replace group-global info
 	my $body ="";
 	my @index;
+	$vlink_color = $self->{'theme'}->{'prefs'}{'vlink_color'}
+		if $vlink_color eq "";
+	$link_color  = $self->{'theme'}->{'prefs'}{'link_color'}
+		if $link_color eq "";
 
 	# Okay, now let's create the header and substitute information
 	# in.

@@ -28,11 +28,16 @@ $VERSION = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
 my (%html, %imgs);
 
 $html{'caption'} = <<END_CAPTION;
-        <tr valign=center>
+        <tr valign="center">
+          <td background="<THEME_DIR>/left.gif" width="20" height="10"></td>
+  	      <td bgcolor="#f7f7f7" height="10"></td>
+          <td background="<THEME_DIR>/right.gif" width="20" height="10"></td>
+        </tr>
+        <tr valign="center">
           <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
-  	  <td><center><CAPTION_DATA></center></td>
+  	      <td bgcolor="#f7f7f7"><center><CAPTION_DATA></center></td>
           <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
-	</tr>
+        </tr>
 END_CAPTION
 
 # To use the corners als real images is neccessary, or some browsers
@@ -49,7 +54,7 @@ END_CAPTION
 $html{'body'} = <<END_BODY;
   <tr><td>
       <center>
-      <table cellspacing=0 cellpadding=0 border=0>
+      <table cellspacing="0" cellpadding="0" border="0">
         <tr>
           <td><img src="<THEME_DIR>/top_l.gif" width="20" height="20"></td>
           <td background="<THEME_DIR>/top.gif" height="20">&nbsp;</td>

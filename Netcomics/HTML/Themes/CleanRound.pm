@@ -25,7 +25,7 @@ require Exporter;
 use vars qw($VERSION);
 $VERSION = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
 
-my (%html,%imgs);
+my (%html,%imgs,%prefs);
 
 $html{'links'} = <<END_LINKS;
 <TABLE WIDTH=100%>
@@ -160,11 +160,15 @@ ZQAh+QQBCgADACwAAAAAFAAUAAACK5yPqcvtD6OctK6Ac4ii+/x4ooA5o1gyJ9qs37a4nyqT
 tAwrtR3XebL7IQoAOw==
 END_MIME
 
+$prefs{'vlink_color'} = "VLINK=\"#606060\"";
+$prefs{'link_color'}  = "LINK=\"#4c4c4c\"";
+
 sub new {
-	my ($class, $name, $r_imgs, $r_html) = @_;
+	my ($class, $name, $r_imgs, $r_html, $r_prefs) = @_;
 	$name = "CleanRound" unless defined $name;
 	my %html_c = %html;
 	my %imgs_c = %imgs;
+	my %prefs_c = %prefs;
 	if (defined($r_html)) {
 		#only copy the html templates that get used
 		foreach (@Netcomics::HTML::Theme::html_keys) {
@@ -176,7 +180,12 @@ sub new {
 			$imgs_c{$_} = $r_imgs->{$_};
 		}
 	}
-    return $class->SUPER::new($name, \%imgs_c, \%html_c);
+	if (defined($r_prefs)) {
+		foreach (keys(%$r_prefs)) { #copy all prefs
+			$prefs_c{$_} = $r_prefs->{$_};
+		}
+	}
+    return $class->SUPER::new($name, \%imgs_c, \%html_c, \%prefs_c);
 }
 
 1;
