@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"elf"} = 1;
+
+# Elf Life
+# ex : http://www.elflife.com/comics/20000802m.gif
+# no telling which days of the week comics will be released.
+# this one really needs to have a script written to produce a table of
+# valid days from the archives, or it should use a function to return a
+# null list.
+sub elf {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,14,5,99); #1st comic 06/14/1999
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => "Elf Life",
+	'author' => "Carson Fire",
+	'type' => 'gif',
+	'main' => "http://www.elflife.com/",
+	'archives' => "http://www.elflife.com/archive.htm",
+	'base' => "http://www.elflife.com",
+	'page' => strftime("/d/%Y%m%d.html",@ltime),
+	'exprs' => [strftime("SRC=\"(/comics/%Y%m%d.*?gif)",@ltime)],
+    };
+    return $rec;
+}
+
+1;
