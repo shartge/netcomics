@@ -1,7 +1,7 @@
 APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
-AP4NAME = comicapge
+AP4NAME = comicpage
 
 MODULE1 = MyResponse.pm
 MODULE2 = MyRequest.pm
@@ -480,7 +480,6 @@ archives: preparchive ../$(TARBZ2FILE) ../$(TARGZFILE)
 
 rpm:	$(RHRPMS)/noarch/$(RPMFILE)
 
-#deb:	../$(DEBFILE) ../$(DEBFILELINK)
 deb:
 	dpkg-buildpackage -rfakeroot
 
