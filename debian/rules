@@ -47,7 +47,7 @@ install: build
 
 	# Add here commands to install the package into debian/netcomics.
 	BUILDROOT=$(CURDIR)/debian/tmp
-	$(MAKE) BUILDROOT=$(CURDIR)/debian/tmp PERLINSTDIR=$(CURDIR)/debian/tmp/usr/lib/perl5/Netcomics MANDIR1=debian/ NOREMAKE=1 install
+	$(MAKE) BUILDROOT=$(CURDIR)/debian/tmp PERLINSTDIR=$(CURDIR)/debian/tmp/usr/lib/perl5/Netcomics NOREMAKE=1 install
 
 	dh_movefiles
 

@@ -11,6 +11,9 @@
 
 	* debian/netcomics.files: Explicitly declare /usr/lib/perl5/Netcomics*
 	for pkging.
+	* debian/netcomics.manpages, Makefile, debian/rules: Put the to be
+	installed manpages in the normal place instead of making it more
+	complicated. Install the Netcomics::Config.3 manpage.
 	
 2001-05-21  Elliot Glaysher  <nuriko.chan@home.com>
 
