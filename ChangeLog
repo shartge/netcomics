@@ -1,3 +1,8 @@
+2001-12-26  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Fixed small bug in new
+	multiple index page feature. (Purely my fault.)
+
 2001-12-20  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Set.pm: Now can create multi-paged indexes.

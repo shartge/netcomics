@@ -231,7 +231,7 @@ sub create_set_of_pages {
 				$links = $self->{'theme'}->{'html'}{'links'};
 				$links =~ s/<FILE=PREV>/$prevfile/g;
 				$links =~ s/<FILE=NEXT>/$nextfile/g;
-				$links =~ s/<NUM>/$comics_per_page/g;
+				$links =~ s/<NUM>/$comics_per_index_page/g;
 			}
 
 			for my $comic_number ($first .. $last ) {
