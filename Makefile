@@ -84,6 +84,7 @@ MODULES = lib/after_y2k \
 	lib/curiosities \
 	lib/doodie \
 	lib/doonesbury \
+	lib/dork_tower \
 	lib/down_earth \
 	lib/dr_fun \
 	lib/dysentery \

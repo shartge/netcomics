@@ -1,5 +1,7 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/dork_tower (dork): Added Dork Tower thanks to
+	Benjamin Cordes. 
 	* Makefile: Added install_home & install_local targets. Redesigned
 	the install_for_ben target to be generic enough others could use it.
 
