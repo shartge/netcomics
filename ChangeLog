@@ -6,6 +6,20 @@
 	doesn't barf on reading it.
 	* debian/rules: Redefined PERLINSTDIR so that it places *.pm in a 
 	places that Debian's perl looks for them.
+	* Makefile (distclean): Added statement to remove manpages from the
+	debian/ directory, where they are dumped before moving into the 
+	packages.
+	* Netcomics/Factory.pm (get_comics): Fixed bug that caused a directory
+	to be created for EACH file.
+	* debian/control: Fixed dependencies.
+	* debian/netcomics.dirs: Removed old man instalation. Man page 
+	installation is now done by dpkg.
+	* debian/netcomics.files: Removed old man stuff, and explicitly
+	declared "binaries"
+	* debian/rules: We now use dh_installman to install the man pages
+	instead of doing it man-ually. (pun intended.) Changed "make clean"
+	to "make distclean" so each time a Debian package is built, it starts
+	from scratch. 
 	
 2001-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

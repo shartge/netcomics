@@ -380,7 +380,10 @@ sub get_comics {
 		$referer = $rli->{'referer'} if exists $rli->{'referer'};
 		
 		if ($separate_comics) {
-			$rli->{'subdir'} = $rli->{'name'};
+			$_ = $rli->{'name'};
+			s/\s/_/g;
+			/(\w+)-\d+/;
+			$rli->{'subdir'} = $1;
 			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
 				print "Creating directory $rli->{'subdir'}\n" if $verbose;
 				mkdir("$comics_dir/$rli->{'subdir'}", 0755);

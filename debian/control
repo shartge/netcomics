@@ -7,7 +7,7 @@ Standards-Version: 3.1.1
 
 Package: netcomics
 Architecture: all
-Depends: perl, libwww-perl, libhtml-parser-perl
+Depends: ${perl:Depends}, libwww-perl, libhtml-parser-perl
 Suggests: libimage-size-perl
 Description: Retrieve comic strips from the Web
  netcomics is a perl script that can retrieve comic strips from the Web
