@@ -1,0 +1,67 @@
+#!/usr/bin/perl
+#script to create a hash of image dimension for Bruno
+#
+#Install Image::Size from CPAN
+#
+#Suck the bruno website (this will take a couple of hours):
+# wget  -L -r http://www.brunostrip.com/1996.html
+# wget  -L -r http://www.brunostrip.com/1997.html
+# wget  -L -r http://www.brunostrip.com/1998.html
+# wget  -L -r http://www.brunostrip.com/1999.html
+#
+#Then, run this script in the directory www.brunostrip.com
+
+use strict;
+use Image::Size;
+
+my $tab = "\t\t\t";
+my ($std_x,$std_y) = (674,220);
+
+opendir(DIR,".") || die "can't open cwd.";
+my @files = readdir(DIR);
+closedir(DIR);
+
+my %monthconv = ("jan" => '01',
+		 "feb" => '02',
+		 "mar" => '03',
+		 "apr" => '04',
+		 "may" => '05',
+		 "june" => '06',
+		 "jun" => '06',
+		 "july" => '07',
+		 "aug", => '08',
+		 "sept" => '09',
+		 "sep" => '09',
+		 "oct" => '10',
+		 "nov" => '11',
+		 "dec" => '12'
+		 );
+
+my @gif_exceptions = ();
+my @jpeg_exceptions = ();
+my @jpgs = ();
+
+print "\tmy %imgsizes = (\n";
+foreach (@files) {
+    if (/^([a-z]+)(\d\d?)(9\d)?b?\.(jpe?g|gif)$/) {
+	my ($mon,$day,$ext) = ($1,$2,$4);
+	my $year = defined($3) ? $3 : 97;
+	my ($x,$y) = imgsize($_);
+	next if $x == $std_x && $y == $std_y;
+	$day = "0$day" if $day =~ /^\d$/;
+	my $date = "19$year$monthconv{$mon}$day";
+	print "$tab'$date' => [$x,$y],\n";
+
+	if ($year < 98 && $ext =~ /gif/) {
+	    push(@gif_exceptions,$date);
+	} elsif ($year > 97 && $ext =~ /jpe?g/) {
+	    push(@jpeg_exceptions,$date);
+	}
+	push (@jpgs,$date) if $ext =~ /^jpg$/;
+    }
+}
+print "$tab);\n";
+
+print "\t\tmy \@gif_exceptions = (" . join(',',@gif_exceptions) . ");\n";
+print "\t\tmy \@jpeg_exceptions = (" . join(',',@jpeg_exceptions) . ");\n";
+print "\t\tmy \@jpgs = (" . join(',',@jpgs) . ");\n";
