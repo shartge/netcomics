@@ -2417,7 +2417,7 @@ sub list_comics {
 	}
 	print "</TD></TR>\n" if $make_webpage;
     }
-    print "</TABLE>\n</BODY>\n<HTML>\n" if $make_webpage;
+    print "</TABLE>\n</BODY>\n</HTML>\n" if $make_webpage;
     exit 0;
 }
 
