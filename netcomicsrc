@@ -1,0 +1,156 @@
+#-*-Perl-*-
+
+my $HOME = $ENV{'HOME'};
+
+#### General Configuration Options ####
+
+## Add a directory to the lib dirs
+#unshift(@libdirs,"$HOME/share/netcomics");
+
+## Create downloaded files with the following permissions (default 0644)
+#$files_mode = 0644;
+
+## Change the location of the html template directory
+#$html_tmpl_dir = "$HOME/share/netcomics/html_tmpl";
+
+## Change the download directory location (default /var/spool/netcomics)
+#$comics_dir = "$HOME/comics";
+
+## Set the verbosity (both either 1 or 0) (default 0 for both)
+#$verbose = 1;
+#$extra_verbose = 1;
+
+## Delete files in $comics_dir before downloading (default 0)
+#$delete_files = 1;
+
+## Select comics to either download or not download
+#@selected_comics = (qw());
+
+## You must uncomment one of the following if you defined @selected_comics
+## (both default to 0)
+#$user_specified_comics = 1;   #download only those in @selected_comics
+#$user_unspecified_comics = 1; #download all but those in @selected_comics
+
+## Specify an http or ftp proxy (default none).
+#$proxy_url = "http://myproxy.site.com/";
+
+## number of days of comics to get, going backwards (default 1).
+#$days_of_comics = 2;
+
+## number of days prior to today to start at (default 0).
+#$days_prior = 1;
+
+## mkgmtime() rules:
+## * Don't specify hour, minute, or second.
+## * Month is from 0 to 11.
+## * Year is two digits (2001 = 01)
+
+## Specify a range--you can select one of them or both. 
+#$start_date = mkgmtime(0,0,0,<day>,<month>,<year>);
+#$end_date = mkgmtime(0,0,0,<day>,<month>,<year>);
+
+## Specify individual dates of comics to get.
+#@dates = (mkgmtime(0,0,0,<day>,<month>,<year>),
+#	  mkgmtime(0,0,0,<day>,<month>,<year>)); 
+
+## External command to use to download URLs if you don't have LWP installed
+#$external_cmd = "wget -q -O - ";
+
+## Don't actually download the comics, but print the URLs on stdout, and
+## if creating a webpage, use the URLs in place of file names (default 0).
+#$dont_download = 1;
+
+## Download color images when possible (default 1)
+#$prefer_color = 0;
+
+
+#### Webpage Creation Options ####
+
+## Create a set of webpages? (default 0)
+#$make_webpage = 1; 
+
+## Create webpages to also include existing downloaded comics in $comics_dir?
+## Doesn't make sense to set this to 1 and $delete_files to 1 (default 0).
+#$remake_webpage = 1;
+
+## Print the created webpage to stdout.
+#$webpage_on_stdout = 0;
+
+## Skip bad comics when creating the webpage
+#$skip_bad_comics = 1;
+
+## Order the comics in the webpage by date instead of alphabetically
+#$sort_by_date = 1;
+
+## Title of each page generated.  Below is the default
+#$webpage_title = "Today's Comics From The Web on <DATE>";
+
+## Maximum number of comics per webpage. Default is undef (none).
+#$comics_per_page = 10;
+
+## HTML <BODY> attribute for the color of the unvisited links in the webpage
+#$link_color = "LINK=#9999FF";
+
+## HTML <BODY> attribute for the color of the visited links in the webpage
+#$vlink_color = "VLINK=#FF99FF";
+
+## HTML <BODY> attribute for the background of the webpages
+#$background = "";
+
+## Create an index for the webpages. Default is 1 (on)
+#$webpage_index = 0;
+
+## Title of the index page. Below is the default
+#$webpage_index_title = "Index for $webpage_title";
+
+## HTML <BODY> attribute for the color of the unvisited links in the title page
+#$index_link_color = "";
+
+## HTML <BODY> attribute for the color of the visited links in the title page
+#$index_vlink_color = "";
+
+## Name of the generated files for the webpages. "<NUM>" is replaced with the
+## sequence number of the page (if $comics_per_page is set).
+#$webpage_filename_tmpl = "comics<NUM>.html";
+
+## Name of the generated index file for the webpages.
+#$webpage_index_filename = "index.html";
+
+
+#### Configure Individual and Groups of Comics ####
+
+## Comic-specific options
+#$comic{"nickname"} = {
+#    'dir' => "fulldirname",
+#    'title' => "full name (with blanks, even)",
+#    'date_fmt' => "%Y%m%d"
+#};
+#$comic{"nickname"} = {
+#    'alias' => "user-alias",
+#    'days_ago' => 14,
+#    'size' => [400,300],
+#    'author' => "Bartman",
+#    'type' => "jpg" #convert "jpeg" to "jpg"
+#};
+
+
+## Options for specifying groups of comics is not currently implemented
+#$group{"editorials"} = [qw(bla foo bat bar)];
+#$group{"single_panes"} = [qw(boffo fw fdcotd curios)];
+#$group{"animated"} = [qw(doodie)];
+
+#$comic{"groupname"} = {
+#^^^^^ $comic, not $group
+#    'dir' => "fulldirname",
+#    'date_fmt' => "%Y%m%d"
+#};
+#
+#And/Or perhaps:
+#
+#$group{"groupname"} = {
+#    'comics' => [qw(com1 com2 com3)],
+#    'dir' => "fulldirname",
+#    'date_fmt' => "%Y%m%d"
+#};
+
+1;
