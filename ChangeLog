@@ -1,3 +1,7 @@
+2001-09-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics: Added sorting the comics of the same name by date.
+
 2001-09-03  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/netcomics-modules.files, debian/netcomics.conffiles, 

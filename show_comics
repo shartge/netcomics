@@ -198,8 +198,7 @@ if (-f $rcfile && -r $rcfile) {
 	chomp($comic);
 	next if $comic =~ /^$/;
 	my @l = grep(/^$comic/,@files);
-	my $num = @l;
-	push(@newfiles,@l) if @l > 0;
+	push(@newfiles,sort(@l)) if @l > 0;
     }
     @files = @newfiles;
 }
