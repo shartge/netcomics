@@ -9,26 +9,29 @@ sub dork {
   my $time = shift;
   my @ltime = gmtime($time);
   my $date = strftime ("%Y%m%d", @ltime);
-  return undef unless ($ltime[6] =~ m/[126]/);
+  #First comic Dec. 12, 2000; only mon, tues, sat.
+  return undef if ($ltime[6] !~ m/[126]/ || $date <  20001212);
+
+  my $rec = {'title' => "Dork Tower",
+	     'author' => "John Kovalic",
+	     'type' => "jpg",
+	     'main' => "http://kovalic.com/dork/index.html",
+	   };
 
   if ($ltime[6] == 1) { # Fetch Interactive Week comic
-    return undef if ($date <  20001218); #First comic
     return undef if ($date == 20010101); #No comic on New Year's
-    $d = int (($time - 977029200) / 604800);
+    my $d = int (($time - 977029200) / 604800);
     if ($ltime[5] == 100) { $d++; }
     if ($d < 10) { $d = "0" . $d; }
     if ($d < 100) { $d = "0" . $d; }
     
-    my $rec = {'title' => "Dork Tower",
-	       'author' => "John Kovalic",
-	       'type' => "jpg",
-	       'main' => "http://kovalic.com/dork/index.html",
-	       'base' => "http://kovalic.com/dork/dorks/",
-	       'page' => "DorkTowerIntWeek$d.jpg"
-	      };
-    return $rec;
+    $rec->{'base'} = "http://kovalic.com/dork/dorks/";
+    $rec->{'page'} = "DorkTowerIntWeek$d.jpg";
 
   } else { # Fetch Gamespy.com comic
+    my @month = (qw(January February March April May June July August September
+		    October November December));
+    $ltime[3] -= 10 if ($date < 20010101); #adjust for Dec 2000
     my $whole = int($ltime[3] / 7);
     my $part = $ltime[3] % 7;
     my $stripnum = (2*$whole) + 1;
@@ -38,19 +41,14 @@ sub dork {
     } else {
       $stripnum++ if ($part > 4);
     }
+    my $page = strftime("$month[$ltime[4]]%y/dork$stripnum",@ltime);
     
-    my $page = strftime("%B%y/dork$stripnum",@ltime);
-    
-    my $rec = {'title' => "Dork Tower",
-	       'author' => "John Kovalic",
-	       'type' => "jpg",
-	       'main' => "http://kovalic.com/dork/index.html",
-	       'archives' => "http://www.gamespy.com/comics/dorktower",
-	       'base' => "http://www.gamespy.com/comics/$page/",
-	       'exprs' => ["<!-- DORK TOWER -->.*<img src=\"([^\"]*\.jpg)\".*<br>"]
-	      };
-    return $rec;
+    $rec->{'base'} = "http://www.gamespy.com/comics/$page/";
+    $rec->{'exprs'} = ["<!-- DORK TOWER -->.*<img src=\"([^\"]*\.jpg)\".*<br>"];
+
   }
+
+  return $rec;
 }
 
 1;
