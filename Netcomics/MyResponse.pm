@@ -15,6 +15,10 @@
 package Netcomics::MyResponse;
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
+
 sub new {
 	my ($class,$code,$content) = @_;
 	my $self = bless {

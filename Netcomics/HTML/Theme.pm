@@ -16,6 +16,10 @@ package Netcomics::HTML::Theme;
 
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
+
 use vars '@html_keys';
 @html_keys = qw(head links pre_body body body_el body_el_embed caption post_body
  tail links_index index_element);

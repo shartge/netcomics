@@ -15,11 +15,20 @@
 package Netcomics::HTML::Set;
 
 use strict;
-use Netcomics::Config;
 use Netcomics::HTML::Theme;
-use Netcomics::Util;
+use Netcomics::Util qw/file_write libdate_sort/;
 use Netcomics::HTML::Page;
 use POSIX;
+use Netcomics::Config qw/$comics_dir $webpage_on_stdout $webpage_filename_tmpl
+$extra_verbose $html_theme $verbose $comics_per_page $sort_by_date
+$webpage_datefmt $webpage_title $webpage_index $comics_per_index_page
+$webpage_index_title $index_link_color $index_vlink_color $background
+$webpage_indexname_tmpl $webpage_absolute_paths $webpage_index_filename
+$remake_webpage/;
+
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";

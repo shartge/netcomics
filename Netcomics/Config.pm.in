@@ -21,7 +21,7 @@ Netcomics::Config - Configuration class used by Netcomics classes
 =head1 SYNOPSIS
 
 use Netcomics::Config;
-my $config = Netcomics::Config-new("script name");
+my $config = Netcomics::Config->new("script name");
 $config->setUsageProc(\&usage);
 $config->processARGV(@ARGV);
 
@@ -54,9 +54,10 @@ use Carp;
 my $script_name = "netcomics";
 
 require Exporter;
-use vars qw(@EXPORT @ISA);
+use vars qw($VERSION @EXPORT_OK @ISA);
+$VERSION = do {my @r=(q$@VERSION@$=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
 @ISA = qw(Exporter);
-@EXPORT = qw/$date_fmt @libdirs $html_theme $comics_dir $system_rc
+@EXPORT_OK = qw/$date_fmt @libdirs $html_theme $comics_dir $system_rc
 	$verbose $extra_verbose $delete_files @selected_comics
 	$do_list_comics $do_list_themes
 	$make_webpage $remake_webpage $proxy_url
@@ -140,8 +141,8 @@ use vars ('$skip_bad_comics'); $skip_bad_comics = 0;
 use vars ('$sort_by_date'); $sort_by_date = 0;
 use vars ('$webpage_title'); 
 $webpage_title = "Today's Comics From The Web on <DATE>";
-use vars ('$webpage_index_title'); 
-$webpage_index_title = "Index for " . $webpage_title;
+use vars ('$webpage_index_title');
+$webpage_index_title = "Index for %s";
 use vars ('$comics_per_page'); $comics_per_page = undef;
 use vars ('$link_color'); $link_color = "LINK=#9999FF";
 use vars ('$vlink_color'); $vlink_color = "VLINK=#FF99FF";

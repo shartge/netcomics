@@ -16,12 +16,25 @@ package Netcomics::Factory;
 
 use POSIX;
 use strict;
+use strict 'subs';
 use Carp;
-use Netcomics::Config;
 use Netcomics::MyResponse;
 use Netcomics::MyRequest;
-use Netcomics::Util;
+use Netcomics::Util qw/requireDataDumper load_modules parse_name
+file_write libdate_sort samedate status_message $tz mkgmtime/;
 use Netcomics::ExternalUserAgent;
+use Netcomics::Config qw/@dates @libdirs $comics_dir
+$show_tasks $extra_verbose $delete_files $netcomics_rli_file
+$single_rli_file $separate_comics $verbose $user_specified_comics
+$user_unspecified_comics @selected_comics $date_fmt $always_download
+$dont_download $max_attempts $external_cmd $proxy_url $skip_bad_comics
+$suppress_rerun_command $days_of_comics $given_options $do_list_comics
+$sort_by_date $real_date $prefer_color %comics $end_date $start_date
+$days_prior/;
+
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 
 use vars qw(%rli @rli); #only used for importing modules & .rli files.
 use vars qw(%hof);
@@ -115,8 +128,6 @@ sub load_RLI_files {
 
 					# use only the final pathname
 					my @stuff = split(/\//, $file);
-					my $time = "@stuff";
-					$time--;
 					if (-f "$test_dir/$stuff[$#stuff]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
@@ -276,12 +287,25 @@ sub build_rli_array_helper {
 						$rli->{'file'} = $rlis->[$i]->{'file'};
 						$rli->{'status'} = $rlis->[$i]->{'status'};
 						$rli->{'tries'} = $rlis->[$i]->{'tries'};
-						#now, copy in only those fields which don't exist.
+						#now, copy in only those fields which don't exist
+						#except for those which are declared volatile.
 						foreach (keys(%{$rlis->[$i]})) {
 							$rli->{$_} = $rlis->[$i]->{$_} if
-								(! defined $rli->{$_} &&
-								 defined $rlis->[$i]->{$_});
+								(defined $rlis->[$i]->{$_} &&
+								 (! defined $rli->{$_} ||
+								  (defined $rli->{'volatile'} &&
+								   grep(/^$_$/, @{$rli->{'volatile'}})))
+								);
 						}
+						#except for reloaded; if reloaded exists & status
+						#is such that it will attempt to redownload it, then
+						#get_comics() knows that it should run the
+						#rli func to get the current definition of the
+						#module which might have changed (as well as 'func'
+						#which is just a dummy.  By removing the reloaded
+						#field here, we've kept get_comics() from needlessly
+						#rerunnig the rli func.
+						delete($rli->{'reloaded'});
 					}
 					#remove the old one
 					$self->remove_from_rli_list($old_rli);
@@ -387,7 +411,34 @@ sub get_comics {
 		my $time = $rli->{'time'};
 		my $name = undef;
 
-		#first construct the name because this is also used by webpage creation
+		#1st: skip it if there's no action needed
+		next if $self->skip_rli($rli);
+
+		#2nd: make sure the rli is current
+		if (defined($rli->{'reloaded'})) {
+			#reget the rli from the func because:
+			#  1. 'func' is a dummy
+			#  2. the module might have been updated
+			my $newrli = $self->run_rli_func($proc,$time,$proc);
+			if (! defined($newrli)) {
+				print STDERR "$name: previously tried but now doesn't exist.\n"
+					if $extra_verbose;
+				goto FINISH_RLI;
+			} else {
+				#remove all of the existing fields except for status,tries
+				foreach (keys(%$rli)) {
+					next if /^(status|tries)$/;
+					delete $rli->{$_};
+				}
+				#copy the new rli stuff into the existing one.
+				foreach (keys(%$newrli)) {
+					next if /^(status|tries)$/;
+					$rli->{$_} = $newrli->{$_};
+				}
+			}
+		}
+
+		#3rd: construct the name because this is also used by webpage creation
 		if (defined($rli->{'title'})) {
 			#todo: stick in here, using options to determine how to
 			#name the file.
@@ -399,7 +450,17 @@ sub get_comics {
 		}
 		$name =~ s/\s/_/g;
 		$rli->{'name'} = $name;
-		next if $self->skip_rli($rli);
+
+		#4th: create the subdir field & dir if not showing tasks
+		if ($separate_comics) {
+			$rli->{'subdir'} = $rli->{'title'};
+			$rli->{'subdir'} =~ s/\s/_/g;
+			if (!$show_tasks && ! -e "$comics_dir/$rli->{'subdir'}" ) {
+				print "Creating directory $rli->{'subdir'}\n" if $verbose;
+				mkdir("$comics_dir/$rli->{'subdir'}", 0777);
+			}
+		}
+
 		my ($base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
 	  SETUPDATA:
 		$base = $rli->{'base'} if exists $rli->{'base'};
@@ -409,15 +470,6 @@ sub get_comics {
 		$func = $rli->{'func'} if exists $rli->{'func'};
 		$back = $rli->{'back'} if exists $rli->{'back'};
 		$referer = $rli->{'referer'} if exists $rli->{'referer'};
-		
-		if ($separate_comics) {
-			$rli->{'subdir'} = $rli->{'title'};
-			$rli->{'subdir'} =~ s/\s/_/g;
-			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
-				print "Creating directory $rli->{'subdir'}\n" if $verbose;
-				mkdir("$comics_dir/$rli->{'subdir'}", 0777);
-			}
-		}
 		
 		if (!defined($rli->{'type'})) {
 			$rli->{'type'} = $default_filetype;
@@ -641,7 +693,9 @@ sub get_comics {
 				my $litem = pop(@relurls);
 				$_ = ref($litem);
 				if ($litem eq "DUMMY") {
-					next RLI;
+					print STDERR "$name($i): Warning: cannot finish " .
+						"downloading comic: function is a dummy.\n" if $verbose;
+					goto FINISH_RLI;
 				}
 				if (/HASH/) {
 					#special rli fields to be added (like with mfeh)

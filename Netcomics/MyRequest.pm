@@ -15,6 +15,10 @@
 package Netcomics::MyRequest;
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
+
 sub new {
 	my ($class,$url) = @_;
 	my $self = bless {

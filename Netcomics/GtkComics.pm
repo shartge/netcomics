@@ -27,8 +27,11 @@ use Exporter;
 use Netcomics::GtkComics;
 use Netcomics::Config;
 use Netcomics::Factory;
-use Netcomics::Util;
-use Data::Dumper;
+use Netcomics::Util qw/requireDataDumper libdate_sort mkgmtime/;
+
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 
 $| = 1;
 my $NAME = "ComicPage";
@@ -61,7 +64,7 @@ $conf->load_rcfile($system_rc,$rc_file);
 $verbose = 1;
 $extra_verbose = 1;
 
-my $data_dumper_installed = requireDataDumper();
+my $data_dumper_installed = requireDataDumper;
 
 my $factory = Netcomics::Factory->new($conf);
 my ($names_r,$max_flen,$max_nlen) = $factory->comic_names;
@@ -216,7 +219,7 @@ sub Display_comic {
 	my ($rli,$i) = $factory->get_comic($proc, $day_to_download);
 
 	$info->set_progress(.70);
-	if ($extra_verbose) {
+	if ($extra_verbose && $data_dumper_installed) {
 		print Data::Dumper->Dump([$rli],[qw(*rli)]);
 	}
 	if (defined($rli) && $rli->{'status'} == 1) {

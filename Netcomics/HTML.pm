@@ -17,9 +17,13 @@ package Netcomics::HTML;
 use POSIX;
 use strict;
 use Carp;
-use Netcomics::Util;
-use Netcomics::Config;
+use Netcomics::Util qw/load_modules processSyms/;
 use Netcomics::HTML::Set;
+use Netcomics::Config qw/@html_theme_dirs $verbose $html_theme $comics_dir/;
+
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 
 #class attributes
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .

@@ -18,6 +18,10 @@ package Netcomics::HTML::Themes::Default;
 use vars '@ISA'; @ISA = ("Netcomics::HTML::Theme");
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
+
 my (%html,%imgs);
 
 $html{'head'} = <<END_HEAD;

@@ -17,12 +17,13 @@ package Netcomics::Util;
 use POSIX;
 use strict;
 use Carp;
-use Netcomics::Config;
+use Netcomics::Config qw($verbose $extra_verbose $use_filecmd);
 
 require Exporter;
-use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
+use vars qw($VERSION @EXPORT_OK @ISA $tz);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 @ISA = qw(Exporter);
-@EXPORT = qw(
+@EXPORT_OK = qw(
 			 requireDataDumper
 			 load_modules
 			 parse_name
@@ -41,6 +42,8 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 syscmd
              $tz
 			 );
+
+my $imgsize_loaded;
 
 #mkgmtime var (taken from Time::Local)
 {
@@ -82,7 +85,8 @@ sub load_modules {
 	my @libdirs = @_;
 	my $numloaded = 0;
 	push(@INC,@libdirs);
-	foreach my $libdir (@libdirs) {
+	foreach (@libdirs) {
+		my $libdir = $_;
 		if (opendir(DIR, $libdir)) {
 			my @modules = grep { /[^~]$/ && -f "$libdir/$_" } readdir(DIR);
 			closedir DIR;

@@ -16,9 +16,20 @@ package Netcomics::HTML::Page;
 
 use strict;
 use POSIX;
-use Netcomics::Config;
-use Netcomics::Util;
+use Netcomics::Util qw/image_size image_type/;
 use Netcomics::HTML::Theme;
+use Netcomics::Config qw/$html_theme $comics_dir $verbose $extra_verbose
+    $make_webpage $remake_webpage $separate_comics $webpage_indexname_tmpl
+	$webpage_on_stdout $skip_bad_comics $webpage_title $dont_download
+	$webpage_index_title $comics_per_page $link_color $vlink_color
+	$index_link_color $index_vlink_color $background $webpage_index
+	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
+    $webpage_datefmt $webpage_absolute_paths $comics_per_index_page
+/;
+
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
 
 sub new {
 	my $class = shift;

@@ -18,6 +18,10 @@ package Netcomics::HTML::Themes::CleanRound;
 use vars '@ISA'; @ISA = ("Netcomics::HTML::Themes::Default");
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = sprintf("%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/);
+
 my (%html,%imgs);
 
 $html{'links'} = <<END_LINKS;

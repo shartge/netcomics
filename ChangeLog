@@ -1,5 +1,25 @@
 2002-05-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/MyRequest.pm, Netcomics/MyResponse.pm,
+	Netcomics/RLI.pm, Netcomics/HTML/Themes/*.pm: Added a VERSION.
+	* Netcomics/Factory.pm: Changed use of Netcomics::Util &
+	Netcomics::Config to specify the specific exported items from
+	those to be used.
+	(build_rli_array_helper): Made it so that reloading comics works
+	correctly for getting valid subroutine code from the module.
+	(get_comics): Added steps before SETUPDATA to make sure the rli
+	has been regerenated correctly if it was reloaded.
+	* Netcomics/Config.pm.in: Changed to EXPORT_OK instead of EXPORT
+	to prevent namespace collisions.  Added VERSION & updated the
+	default $webpage_index_title to use %s instead of appending the
+	$webpage_title.  Fixed documentation example for creating a new
+	Config object.
+	* netcomics, Netcomics/GtkComics.pm, Netcomics/HTML.pm,
+	Netcomics/Util.pm Netcomics/HTML/Page.pm Netcomics/HTML/Set.pm,
+	Netcomics/HTML/Theme.pm:
+	Changed use of Netcomics::Util & Netcomics::Config to specify the
+	specific exported items from those to be used.  Added exporting
+	a VERSION.
 	* netcomicsrc: Added details for $external_cmd.  Made
 	$webpage_index_title default use %s which is replaced with the
 	$webpage_title.

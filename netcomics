@@ -33,8 +33,10 @@ use Netcomics::ExternalUserAgent;
 use Netcomics::RLI;
 use Netcomics::HTML;
 use Netcomics::Factory;
-use Netcomics::Config;
-use Netcomics::Util;
+use Netcomics::Util qw/requireDataDumper parse_name date_from_filename/;
+use Netcomics::Config qw/$do_list_themes $do_list_comics $remake_webpage
+$comics_dir $extra_verbose $verbose $dont_download @selected_comics
+$make_webpage $separate_comics $webpage_today $user_specified_comics @dates/;
 
 # Global Variables
 my $script_name = "netcomics";

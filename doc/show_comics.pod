@@ -109,7 +109,6 @@ netcomics(1)
 
 =head1 AUTHOR
 
-Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
-ICQ: B<15469308> AIM: B<hochstrb>
+Netcomics Maintainers <netcomics-maintainers@lists.sf.net>
 
 =cut

@@ -15,6 +15,10 @@
 package Netcomics::RLI;
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
+
 sub new {
 	my ($this,$time,$color) = @_;
 	my $class = ref($this) || $this;
