@@ -89,10 +89,14 @@ sub load_modules {
 
 			my $module;
 			foreach $module (@modules) {
-				print "$module " if $extra_verbose;
 				eval "package $namespace; require \"$libdir/$module\""
 					if (-r "$libdir/$module");
-				$numloaded++;
+				if ($@) {
+					print STDERR "\nError loading $module: $@";
+				} else {
+					print "$module " if $extra_verbose;
+					$numloaded++;
+				}
 			}
 			print "\n" if $extra_verbose;
 		} else {
