@@ -1,0 +1,43 @@
+To install, type:
+
+  make install
+
+Files are installed under /usr by default, and a download directory
+(where comic files are placed & the webpages are generated) is created
+at /var/spool/netcomics by default.
+
+If you want to change where perl is, the base prefix to install under,
+or the default download directory, then you can either change their
+definitions in the Makefile or you can specify them on the command
+line when you install:
+
+  make install PREFIX=/usr/local TMPBASE=/home/httpd/html \
+	PERL=/usr/local/bin/perl PERLTK=/usr/local/bin/perl
+
+Note that doing this will cause documentation to be recreated also.
+
+If you want an rpm, type:
+
+  make rpm
+  rpm -Uvh /usr/src/redhat/RPMS/noarch/netcomics-<version>.noarch.rpm
+
+You can also set any Makefile variables on the commandline (like
+PREFIX, TMPBASE), and they should get updated in the installed RPM
+spec properly.
+
+See the netcomics manpage for examples and instructions on how to use
+it.
+
+Use show_comics to have a selected list of comics in a ~/.comics files
+to be shown during the day.  show_comics will run in the background
+and show comics throughout the day, the time inbetween comics
+calculated from the time you plan to leave.  See its manpage for more
+details. 
+
+Take a look at the display_comics script, and modify it to your liking
+if you want to use it.  You don't have to use it if you want to setup
+your own way of having the comics displayed each day for everyone on
+your network, or if you plan on just using automatically generated
+webpage (options -w & -W).
+
+Also take a look at the scripts under the contrib directory.
