@@ -1,3 +1,11 @@
+2001-07-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/helpdesk (helpdesk): rewrote so that it uses a single array
+	to store all valid dates & simplified the function that returns
+	the relative urls. Fixed bug #438428.
+	* contrib/make_helpdesk_dates: created to make the dates array in
+	helpdesk.
+
 2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* netcomics: Fixed small -wo != -Wo bug.
