@@ -1,3 +1,9 @@
+2001-09-03  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/netcomics-modules.files, debian/netcomics.conffiles, 
+	debian/netcomics.dirs, debian/netcomics.files, debian/rules:
+	Redid debian build system so that we are now VENDOR, not SITE.
+
 2001-09-02  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/netcomics.dirs: Changed dirs to new system. Oops. Thanks

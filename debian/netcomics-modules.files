@@ -1,2 +1,2 @@
-usr/share/perl/5.6.1/Netcomics/Comics/*
-usr/share/perl/5.6.1/Netcomics/html_tmpl/*
+usr/share/perl5/Netcomics/Comics/*
+usr/share/perl5/Netcomics/html_tmpl/*
