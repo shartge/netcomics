@@ -8,30 +8,18 @@ $hof{"angst"} = 0;
 sub angst {
     my $time = shift;
     my @ltime = gmtime($time);
-    return undef if $time < mkgmtime(0,0,0,28,7,100); #first comic Aug 28, 2000
-    my $date = strftime("%y-%m-%d",@ltime);
-    my $baseurl = "http://www.inktank.com";
+    # First comic 2000-Aug-28
+    return undef if ($time < mkgmtime(0,0,0,28,07,100));
+
     my $rec = {
 	'title' => "Angst Technology",
 	'author' => "Barry T. Smith",
 	'type' => 'gif',
-	'main' => $baseurl,
-	'archives' => "$baseurl/archive.cfm",
-	'base' => "$baseurl/",
+	'main' => "http://www.inktank.com/",
+	'archives' => "http://www.inktank.com/archive.cfm",
+	'base' => "http://www.inktank.com/images/cartoons",
+	'page' => strftime("/%m-%d-%y.gif",@ltime),
 	'size' => [450, 615],
-	'page' => "archive.cfm",
-	'func' => sub {
-	    $_ = shift;
-	    my @relurls = ();
-	    if (m/<option value="$date">.* - (.*)<\/option>/) {
-		push @relurls, {
-		    'caption' => $1,
-		    'page' => "images/cartoons/$date.gif",
-		    'func' => undef,
-		};
-	    }
-	    return @relurls;
-	},
     };
     return $rec;
 }
