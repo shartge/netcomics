@@ -6,6 +6,9 @@
 
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/HTML/Theme.pm: Fixed mis-named html_key.
+	(generate_images): Changed to "require" MIME::Base64 instead of
+	"use" so as to relieve dependency just for theme image support.
 	* Netcomics/HTML/Set.pm (create_set_of_pages): Updated elements
 	to replace to match everything in Page.pm.  Added replacing common
 	elements & simplified code.  Added creating a symlink to the

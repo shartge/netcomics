@@ -14,7 +14,6 @@
 
 package Netcomics::HTML::Theme;
 
-use MIME::Base64;
 use strict;
 
 use vars '@html_keys';
@@ -51,9 +50,18 @@ sub generate_images {
 
 	my $images = $self->{'imgs'};
 
+	return unless keys(%$images);
+
+	eval {require MIME::Base64;};
+	if ($@) {
+		warn "Perl module MIME::Base64 could not be loaded.\n" .
+			" Unable to use images in themes.\n";
+		return;
+	}
+
 	foreach (keys(%$images)) {
-		print "Saving image $_...\n";
-		my $decoded = decode_base64($images->{$_});
+		#print "Saving image $_...\n";
+		my $decoded = ""; decode_base64($images->{$_});
 		open(F,">$target_directory/$_") || die "could not open file: $!\n";
 		print F $decoded;
 		close(F);
