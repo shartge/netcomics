@@ -61,21 +61,14 @@ TARBZ2FILE	= $(APPNAME)-$(VERSION).tar.bz2
 TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
 
 MODULES = lib/after_y2k \
-	lib/alice \
 	lib/an \
 	lib/angry_flower \
 	lib/angst \
-	lib/avalon \
 	lib/bad_boys \
 	lib/badlands \
-	lib/bayside \
-	lib/bigpanda \
 	lib/bruno \
 	lib/callahan \
 	lib/cartoonweb \
-	lib/ccs \
-	lib/chuck_show \
-	lib/clan_cats \
 	lib/comicspage \
 	lib/comicspage_ed \
 	lib/comiczone \
@@ -89,9 +82,6 @@ MODULES = lib/after_y2k \
 	lib/dragon \
 	lib/dr_fun \
 	lib/dysentery \
-	lib/elf_life \
-	lib/everythingjake \
-	lib/exploitation \
 	lib/falling_dream \
 	lib/farcus \
 	lib/fairgame \
@@ -100,11 +90,7 @@ MODULES = lib/after_y2k \
 	lib/freefall \
 	lib/gaming_u \
 	lib/gilthorp \
-	lib/gpf \
-	lib/greystoneinn \
-	lib/greytown \
 	lib/helen \
-	lib/helpdesk \
 	lib/jerkcity \
 	lib/joyoftech \
 	lib/k_chronicles \
@@ -114,31 +100,22 @@ MODULES = lib/after_y2k \
 	lib/laughseeds \
 	lib/lcd \
 	lib/lily_wong \
-	lib/lostfound \
 	lib/madam-n-eve \
 	lib/megatokyo \
-	lib/melonpool \
 	lib/mercury \
 	lib/mom \
 	lib/nando \
 	lib/newshounds \
 	lib/norm \
-	lib/nukees \
 	lib/offthemark \
-	lib/ozy_millie \
 	lib/penny_arcade \
 	lib/pvp \
-	lib/reallife \
 	lib/red_meat \
-	lib/road_waffles \
 	lib/rocky \
-	lib/roommates \
 	lib/sempai \
-	lib/soaprope \
 	lib/sourcewars \
 	lib/shermans_lagoon \
 	lib/shoe \
-	lib/sinfest \
 	lib/sluggy_freelance \
 	lib/small_grey \
 	lib/small_world \
@@ -147,8 +124,6 @@ MODULES = lib/after_y2k \
 	lib/spooner \
 	lib/story_minute \
 	lib/stuff_this \
-	lib/suburban \
-	lib/superosity \
 	lib/this_modern_world \
 	lib/toonville \
 	lib/touche \
@@ -159,21 +134,28 @@ MODULES = lib/after_y2k \
 	lib/unitedmedia \
 	lib/user_friendly \
 	lib/wait_bob \
-	lib/wandering \
 	lib/wfc \
-	lib/whenigrowup \
 	lib/wiley \
-	lib/youdamn \
 
 OLDMODULES = \
+	alice \
+	avalon \
 	banditbruno \
 	bastich \
+	bayside \
+	bigpanda \
 	boatanchor \
 	bobbins \
 	boxjam \
 	calvin-n-hobbes \
+	ccs \
+	clan_cats \
+	chuck_show \
 	ctoons \
 	dilbert \
+	elf_life \
+	everythingjake \
+	exploitation \
 	fatjesus \
 	fce \
 	forbez \
@@ -182,15 +164,34 @@ OLDMODULES = \
 	garfield \
 	glasbergen \
 	goats \
+	gpf \
+	greystoneinn \
+	greytown \
 	heaven_and_earth \
+	helpdesk \
 	janesworld \
+	lostfound \
+	melonpool \
+	nukees \
+	ozy_millie \
 	psmueller \
+	reallife \
+	road_waffles \
 	rogues \
 	roomies \
+	roommates \
+	sinfest \
 	sketch \
+	soaprope \
+	suburban \
+	superosity \
 	tom_the_dancing_bug \
 	uexpress \
+	wandering \
+	whenigrowup \
 	worldviews \
+	youdamn \
+
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\

@@ -1,3 +1,15 @@
+2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* lib/keenspot: Added (by Shawn Oakey), which removes:
+	** lib/alice, lib/avalon, lib/bayside, lib/bigpanda
+	lib/ccs, lib/chuck_show, lib/clan_cats, lib/elf_life, 
+	lib/everythingjake, lib/exploitation, lib/gpf, lib/greystoneinn,
+	lib/greytown, lib/helpdesk, lib/keenspot, lib/lostfound, lib/melonpool
+	lib/nukees, lib/ozy_millie, lib/reallife, lib/road_waffles, 
+	lib/roommates, lib/sinfest, lib/soaprope, lib/suburban, lib/superosity
+	lib/wandering, lib/whenigrowup, lib/youdamn.
+	* Makefile: Updates old_modules section.
+
 2001-07-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/helpdesk (helpdesk): Bug #438428 wasn't totally fixed with
