@@ -141,6 +141,25 @@ the filetype from the URL used to download the image.
 Consider utilizing or extending GnomeTransferManager to download files
 http://gtm.sourceforge.net/
 
+** Ability to specify a referer for individual URLs
+The current scheme allows a module to specify a referer, but the same
+one is used for all HTTP requests generated to download its image.  It
+is possible that a website would setup a scheme that requires a
+different referer for the webpage that contains the IMG SRC for the
+image.  Design proposal: utilize 'referer' in @exprs each time (which
+means that the last entry in a referer list in @exprs wouldn't be used
+and that the global 'referer' would have to be set for the first page
+downloaded.  Something else would have to be devised for functions
+that return a list of relative URLs that might need different referers
+(although highly unlikely this functionality would be needed).
+
+** Download statistics
+It would be nice to have netcomics keep statistics on download
+failures over time so that netcomics' maintainer could setup a scheme
+where those statistics are monitored and if too high a percentage of
+failures are occurring, it will shoot the maintainer for not doing
+his/her job! (-;
+
 -----------------------------------------------------------------------
 
 * Bugs
@@ -150,5 +169,5 @@ http://gtm.sourceforge.net/
 ** From Chris McAvaney: When I get netcomics to re-create the html pages,
 it puts the newer formated gif files in the comics1.html file and not
 the last file.  So the sorting routine must be doing something a bit
-wierd.
+weird.
 

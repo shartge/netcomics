@@ -54,7 +54,7 @@ my $HOME = $ENV{'HOME'};
 #	  mkgmtime(0,0,0,<day>,<month>,<year>)); 
 
 ## External command to use to download URLs if you don't have LWP installed
-#$external_cmd = "wget -q -O - ";
+#$external_cmd = 'wget -q -O - --header="Referer: %R"';
 
 ## Don't actually download the comics, but print the URLs on stdout, and
 ## if creating a webpage, use the URLs in place of file names (default 0).

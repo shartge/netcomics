@@ -123,12 +123,19 @@ Specify the date format used when naming files.  Default is C<'%y%m%d'>.
 
 =item B<-g> [I<program>]
 
-Specify a program to use to perform HTTP requests.  The URL to retrieve 
-is attached to the end of the provided text without a space. The 
+Specify a program to use to perform HTTP requests.  The 
 program must write the retrieved content of the URL on its stdout.
-The default command is:
+The macro %R is replaced with the URL of the referer, %P is replaced
+with the proxy URL (if supplied), and %U is replaced with
+the URL to retrieve.  If %U is not found, the URL is appended (with a
+space). Macros are case insensitive.
 
-   'wget -q -O - '.
+Note that you don't have to specify the program on the command line
+if you want to use the default command which is:
+
+   'wget -q -O - --header="Referer: %R"'.
+
+You'll probably just want to set $external_cmd in your rc file.
 
 =item B<-h>
 
@@ -1125,6 +1132,15 @@ sub run_rli_func {
     return $_;
 }
 
+sub add_referer {
+    my ($request,$referer) = @_;
+    if (! defined($referer)) {
+	$referer = $request->url;
+	$referer =~ s/([^:]+:\/*[^\/]+)\/.*/$1/ if defined $referer;
+    }
+    $request->referer($referer) if defined $referer;
+    return $request;
+}
 
 #Engine for getting the comics.  
 #Go through the list of RLI's and get the comic at each one.
@@ -1134,6 +1150,7 @@ sub get_comics {
     #use polymorphism to make it so that the user doesn't have to have 
     #libwww-perl installed, but can use a program like wget instead
     my $ua;
+    my $new_request;
     if (defined($external_cmd)) {
 	$@ = 1;
     } else {
@@ -1145,13 +1162,19 @@ sub get_comics {
 	    require HTTP::Request;
 	    require HTTP::Response;
 	    require HTTP::Request::Common;
-	  HTTP::Request::Common->import('GET');
 	    $ua = LWP::UserAgent->new;
+	    $new_request = sub {
+		my $request = new HTTP::Request 'GET', shift;
+		return add_referer($request,shift(@_));
+	    };
 #	    $ua->redirect(0);
 	};
     }
     if ($@) {
-	*GET = sub {['GET',@_]};
+	$new_request = sub {
+	    my $request = new MyRequest shift;
+	    return add_referer($request,shift(@_));
+	};
 	$ua = ExternalUserAgent->new;
 	$ua->setVerbosity(($extra_verbose) ? 2 : $verbose);
 	unless (defined($external_cmd)) {
@@ -1178,15 +1201,17 @@ sub get_comics {
 	next if ! defined $rli;
 	my $proc = $rli->{'proc'};
 	my $time = $rli->{'time'};
-	my ($title,$name,$base,$page,$expr,$exprs,$func,$back,$mfeh)=(undef)x9;
+	my ($title,$name,$base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) =
+	    (undef)x10;
 	$name = $rli->{'name'} if defined $rli->{'name'};
 	$base = $rli->{'base'} if defined $rli->{'base'};
 	$page = $rli->{'page'} if defined $rli->{'page'};
 	$expr = $rli->{'expr'} if defined $rli->{'expr'};
-	$exprs=$rli->{'exprs'} if defined $rli->{'exprs'};
+	$exprs = $rli->{'exprs'} if defined $rli->{'exprs'};
 	$func = $rli->{'func'} if defined $rli->{'func'};
 	$back = $rli->{'back'} if defined $rli->{'back'};
 	$title = $rli->{'title'} if defined $rli->{'title'};
+	$referer = $rli->{'referer'} if defined $rli->{'referer'};
 
 	$rli->{'status'} = 0;
 
@@ -1295,14 +1320,21 @@ sub get_comics {
 	    if (!defined($func) && !defined($exprs) && $dont_download) {
 		$rli->{'status'} = 2;
 	    } else {
-		$request = GET($url);
+		$request = &$new_request($url);
+		$request->referer($referer) if defined $referer;
 		$response = $ua->request($request);
 		unless ($response->is_success) {
+		    my $code = $response->code;
+		    print STDERR "Response: $code " .
+			status_message($code) . "\n"
+			    if $extra_verbose;
 		    if (defined($back) && 
 			add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				 "$name($i): fetching '$url' failed.")) {
 			next RLI;
 		    }
+		    print STDERR 
+			"failure fetching '$url' for $name ($i).\n";
 		    push(@bad_images,$proc) 
 			unless grep {/^$proc$/} @bad_images;
 		    if (!$skip_bad_comics && !defined($func) && 
@@ -1363,9 +1395,14 @@ sub get_comics {
 		if (++$j == @$exprs && !defined($func) && $dont_download) {
 		    $rli->{'status'} = 2;
 		} else {
-		    $request = GET($url);
+		    $request = &$new_request($url);
+		    $request->referer($referer) if defined $referer;
 		    $response = $ua->request($request);
 		    unless ($response->is_success) {
+			my $code = $response->code;
+			print STDERR "Response: $code " .
+			    status_message($code) . "\n"
+				if $extra_verbose;
 			if (defined($back) && 
 			    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				     "$name($i): fetching '$url' failed.")) {
@@ -1446,9 +1483,13 @@ RELURL:	    foreach (@relurls) {
 		if ($dont_download) {
 		    $rli->{'status'} = 2;
 		} else {
-		    $request = GET($url);
+		    $request = &$new_request($url,$referer);
 		    $response = $ua->request($request);
 		    unless ($response->is_success) {
+			my $code = $response->code;
+			print STDERR "Response: $code " .
+			    status_message($code) . "\n"
+				if $extra_verbose;
 			if (defined($back) && 
 			    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				     "$name($i): fetching '$url' failed.")) {
@@ -2006,24 +2047,69 @@ sub mkgmtime {
 
     sub new
     {
-	my ($class,$success,$content) = @_;
+	my ($class,$code,$content) = @_;
 	my $self = bless {
 	    'content' => $content,
-	    'success' => $success
+	    'code' => $code
 	    }, $class;
 	$self;
+    }
+
+    sub code
+    {
+	my $self = shift;
+	$self->{'code'};
     }
 
     sub is_success
     {
 	my $self = shift;
-	$self->{'success'};
+	$self->{'code'} ? 0 : 1;
     }
 
     sub content
     {
 	my $self = shift;
 	$self->{'content'};
+    }
+}
+
+{
+    package MyRequest;
+
+    sub new
+    {
+	my ($class,$url) = @_;
+	my $self = bless {
+	    'method' => 'GET',
+	    'url' => $url,
+	    'referer' => undef
+	    }, $class;
+	$self;
+    }
+
+    sub method
+    {
+	my $self = shift;
+	$self->{'method'};
+    }
+
+    sub url
+    {
+	my $self = shift;
+	$self->{'url'};
+    }
+
+    sub referer
+    {
+	my $self = shift;
+	if (@_ == 0) {
+	    return $self->{'referer'};
+	} elsif (@_ == 1) {
+	    $self->{'referer'} = shift;
+	} else {
+	    die("Too many arguments to MyRequest::referer(@_)");
+	}
     }
 }
 
@@ -2037,9 +2123,10 @@ sub mkgmtime {
 	    die "Error!  handling references unimplmemented.\n";
 	}
 	my $self = bless {
-	    'cmd' => "wget -q -O - ",
+	    'cmd' => 'wget -q -O - --header="Referer: %R" ',
 	    'verbose' => 0,
-	    'extra_verbose' => 0
+	    'extra_verbose' => 0,
+	    'proxy' => undef
 	    }, $class;
 	$self;
     }
@@ -2066,28 +2153,85 @@ sub mkgmtime {
 
     sub proxy
     {
-	die "Error: External Program proxy specification not supported.\n" .
-	    "Specify it in the argument to -g instead.\n";
+	my ($self,$protocols,$proxy) = @_;
+	#protocols is ignored
+	if (@_ == 1) {
+	    return $self->{'proxy'};
+	} elsif (@_ == 3) {
+	    $self->{'proxy'} = $proxy;
+	} else {
+	    shift;
+	    die("Wrong number of arguments to UA::proxy(@_)");
+	}
     }
 
     sub request 
     {
-	my ($self,$type,$url) = @_;
-	if (defined($type) && ref($type)) {
-	    $url = $type->[1];
-	    $type = $type->[0];
+	my ($self,$request) = @_;
+	my ($method,$url) = ($request->method,$request->url);
+	die "Error: HTTP request type $method uknown or unimplemented.\n"
+	    unless ($method =~ /^GET$/);
+	my $cmdline = $self->{'cmd'};
+	my $referer = $request->referer;
+	$cmdline =~ s/%[Rr]/$referer/ if defined $referer;
+	$cmdline =~ s/%[Pp]/$self->{'proxy'}/ if defined $self->proxy;
+	if ($cmdline =~ /%[Uu]/) {
+	    $cmdline =~ s/%[Uu]/$url/;
+	} else {
+	    $cmdline .= " $url";
 	}
-	die "Error: HTTP request type $type uknown or unimplemented.\n"
-	    unless ($type =~ /^GET$/);
-	my $cmdline = $self->{'cmd'} . $url;
 	print "Running: '$cmdline'." if $self->{'extra_verbose'};
 	my $content = `$cmdline`;
 	my $retval = $?;
 	print " ret=$retval\n" if $self->{'extra_verbose'};
-	return MyResponse->new(($retval) ? 0 : 1, $content);
+	return MyResponse->new($retval, $content);
     }
 }
 
+sub status_message {
+    #note this table is stolen from HTTP::Status
+    my %StatusCode = (
+    100 => 'Continue',
+    101 => 'Switching Protocols',
+    200 => 'OK',
+    201 => 'Created',
+    202 => 'Accepted',
+    203 => 'Non-Authoritative Information',
+    204 => 'No Content',
+    205 => 'Reset Content',
+    206 => 'Partial Content',
+    300 => 'Multiple Choices',
+    301 => 'Moved Permanently',
+    302 => 'Moved Temporarily',
+    303 => 'See Other',
+    304 => 'Not Modified',
+    305 => 'Use Proxy',
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    402 => 'Payment Required',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    405 => 'Method Not Allowed',
+    406 => 'Not Acceptable',
+    407 => 'Proxy Authentication Required',
+    408 => 'Request Timeout',
+    409 => 'Conflict',
+    410 => 'Gone',
+    411 => 'Length Required',
+    412 => 'Precondition Failed',
+    413 => 'Request Entity Too Large',
+    414 => 'Request-URI Too Large',
+    415 => 'Unsupported Media Type',
+    500 => 'Internal Server Error',
+    501 => 'Not Implemented',
+    502 => 'Bad Gateway',
+    503 => 'Service Unavailable',
+    504 => 'Gateway Timeout',
+    505 => 'HTTP Version Not Supported',
+    );
+    $_ = $StatusCode{shift(@_)};
+    return (defined($_)? $_ : "(unknown HTTP response code)");
+}
 
 sub usage
 {

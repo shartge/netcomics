@@ -405,12 +405,7 @@ label:
 	$(CT) mklabel -recurse V$(VERSION) .
 
 install_for_ben:
-	$(MAKE) install NOREMAKE=1 PREFIX=/home/benh \
-		TMPDIR=/home/benh/www/comics PERL=/mms/local/bin/perl \
-		PERLTK=/mms/local/bin/tkperl SYSRCDIR=/home/benh/etc
-
-all_for_ben:
-	$(MAKE) all devel PREFIX=/home/benh \
+	$(MAKE) install PREFIX=/home/benh \
 		TMPDIR=/home/benh/www/comics PERL=/mms/local/bin/perl \
 		PERLTK=/mms/local/bin/tkperl SYSRCDIR=/home/benh/etc
 

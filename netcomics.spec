@@ -1,5 +1,5 @@
 Name: netcomics
-Version: 0.12
+Version: 0.13
 Release: 1
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
@@ -30,6 +30,8 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Wed Jul 26 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
+- Added info about new referer capabilities.
 * Sun Apr 23 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.12-1
 - Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
   Alice, Avalon, Badlands, Bobos Progress, Boonies, Broom-Hilda, Buckets,
@@ -142,7 +144,9 @@ rm -f /var/spool/netcomics/*
 
 %post
 cat <<END
-fyi: comic modules & html templates are now installed in /usr/share/netcomics.
+fyi: The external command now supports macros for referer, proxy, and
+url.  Please see the entry for -g in the manpage because you may want
+to adjust your setting of this option.
 END
 
 %files
