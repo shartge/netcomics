@@ -41,7 +41,13 @@ my $true = 1;
 my $proc;
 
 # Create the GUI.
-my $file = "$comicpage_glade_dir/comicpage.glade";
+my $file;
+if ( -e "Comicpage/comicpage.glade" ) {
+	# Comicpage is being run "in place" in the source distribution.
+	$file = "Comicpage/comicpage.glade";
+} else {
+	$file = "$comicpage_glade_dir/comicpage.glade";
+}
 print "Loading GUI file: $file\n";
 my $main = new Gtk::GladeXML("$file");
 $main->signal_autoconnect_from_package('Netcomics::GtkComics');
