@@ -55,7 +55,6 @@ my %names = %$names_r;
 my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1],
 									 $sort_by_date);} keys(%names));
 
-
 print "Sorting...\n";
 my $list = $forms->{'window_comic_page'}{'clist1'};
 $list->set_selection_mode( 'single' );
@@ -68,6 +67,24 @@ foreach my $name (@names) {
 	$date_lookup{$f} = "$d";
 	$procs{$f} = $name;
 	push(@unified_comic_array, $tmpref);
+}
+
+# Create temporary groups.
+foreach (keys(%procs)) {
+	$groups{"All"} .= " $_";
+}
+$groups{"single_panes"} = "boffo fw fdcotd curios";
+$groups{"animated"} = "doodie";
+
+my @menu_list;
+my $value = 0;
+foreach (keys(%groups)) {
+	my $newmenuitem = new Gtk::MenuItem("$_");
+	$forms->{'window_comic_page'}{'optionmenu1_menu'}->append($newmenuitem);
+	$newmenuitem->signal_connect( 'activate', \&change_group, $value  );
+	$newmenuitem->show;
+	$value++;
+	push(@menu_list, $_);
 }
 
 my $i;
@@ -87,7 +104,7 @@ $forms->{'window_comic_page'}{'menu_file_exit'}->signal_connect( 'activate', \&s
 $forms->{'window_comic_page'}{'menu_help_about'}->signal_connect( 'activate', \&about_Form );
 $forms->{'window_comic_page'}{'calendar_date_comic_selection'}->signal_connect( 'day_selected', \&Display_comic );
 $forms->{'window_comic_page'}{'clist1'}->signal_connect( 'select_row', \&comic_selected_from_list );
-
+$forms->{'window_comic_page'}{'optionmenu1'}->signal_connect( 'released', \&change_group );
 
 # Show the window.
 $forms->{'window_comic_page'}{'window_comic_page'}->show();
@@ -118,6 +135,33 @@ sub about_Form {
 	$ab->set_policy(1, 1, 0 );
 	$ab->set_modal(1 );
 	$ab->show;
+}
+
+sub change_group {
+	shift;
+	my $value = shift;
+	my $group_name = $menu_list[$value];
+	my $comics = $groups{$group_name};
+	my @comics = split(/ /,$comics);
+
+	my (@unified_comic_array, @true_comic_name);
+	foreach my $name (@comics) {
+		push(@true_comic_name, $procs{$name});
+	}
+	@true_comic_name = sort(@true_comic_name);
+	foreach (@true_comic_name) {
+		my $tmpref = [ "$_" ];
+		push(@unified_comic_array, $tmpref);
+	}
+	my $i;
+
+	# Clear data and add new array.
+	my $list = $forms->{'window_comic_page'}{'clist1'};
+	$list->clear();
+	$list->set_selection_mode( 'single' );
+	for ($i = 0; $i < $#unified_comic_array + 1; $i++) {
+		$list->append( @{$unified_comic_array[ $i ]} );
+	}
 }
 
 sub comic_selected_from_list {

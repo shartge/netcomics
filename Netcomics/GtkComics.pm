@@ -177,11 +177,11 @@ sub create_main_window {
 			    $widgets->{'optionmenu1_menu'} = new Gtk::Menu;
 			    $forms->{'window_comic_page'}{'optionmenu1'}->set_menu($widgets->{'optionmenu1_menu'} );
 			    $forms->{'window_comic_page'}{'optionmenu1_menu'} = $widgets->{'optionmenu1_menu'};
-			    $widgets->{'optionmenu1_item0'} = new Gtk::MenuItem('All' );
-				$forms->{'window_comic_page'}{'optionmenu1_menu'}->append($widgets->{'optionmenu1_item0'} );
-				$widgets->{'optionmenu1_item0'}->show;
-				$forms->{'window_comic_page'}{'optionmenu1_item0'} = $widgets->{'optionmenu1_item0'};
-			    $forms->{'window_comic_page'}{'optionmenu1_item0'}->activate;
+			    #$widgets->{'optionmenu1_item0'} = new Gtk::MenuItem('All' );
+				#$forms->{'window_comic_page'}{'optionmenu1_menu'}->append($widgets->{'optionmenu1_item0'} );
+				#$widgets->{'optionmenu1_item0'}->show;
+				#$forms->{'window_comic_page'}{'optionmenu1_item0'} = $widgets->{'optionmenu1_item0'};
+			    #$forms->{'window_comic_page'}{'optionmenu1_item0'}->activate;
 			    $forms->{'window_comic_page'}{'optionmenu1'}->set_history( 0 );
 			    $forms->{'window_comic_page'}{'vbox6'}->set_child_packing($forms->{'window_comic_page'}{'optionmenu1'}, 0, 0, 0, 'start' );
 			    #

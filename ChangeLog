@@ -1,3 +1,10 @@
+2001-05-29  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/GtkComics.pm: Small change to remove $widgets->
+	{'optionmenu1_item0'};
+	* comicpage ({init}): Changes to translate groups into menu items.
+	(change_group): New feature! comicpage can kindof do groups!
+	
 2001-05-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (distclean): Updated to use RM_RF.
