@@ -85,6 +85,8 @@ Specify the default time to be put in the pop-up window.
  
 Output verbose messages.
 
+=back
+
 =head1 FILES
 
 =over 29
