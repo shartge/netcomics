@@ -6,7 +6,7 @@ foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb
 }
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
-$hof{"ga"} = 14;
+$hof{"ga"} = 0;
 
 $hof{"ucross"} = 0;
 

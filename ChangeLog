@@ -1,3 +1,8 @@
+2001-04-01  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/ucomics (ga): Updated the days behind from 14 to 0 thanks
+	to Garry Glendown.
+	
 2001-03-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* show_comics (lock_file): When lock file exists, the error
