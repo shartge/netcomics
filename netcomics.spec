@@ -1,5 +1,5 @@
 Name: netcomics
-Version: 0.13
+Version: 0.13.1
 Release: 1
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
@@ -30,6 +30,17 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Wed Feb 7 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
+- Added the comics: Big Nate, The Big Picture, Bizarro, Bobos Progress,
+  The Boondocks, Bulls n Bears, Cartoon Web: BizWit, Cartoon Web: Caricatures,
+  Cartoon Web: Ecotoon, Cartoon Web: Kal, Cartoon Web: Symbolics,
+  Cartoon Web: Views of the World, Cartoon Web: Wit of the World,
+  Cartoon Web: WitWomen, Cartoon Web: World View of the day,
+  Cheap Thrills Cuisine, Dork Tower, Exploitation Now, Fat Jesus,
+  Fight Cast Or Evade, Flight Deck, Grand Avenue, Grandfather Clause,
+  James, Lupo Alberto, Mr. Lowe, Pearls Before Swine, Pickles, Raising Duncan,
+  Randolph Itch 2:00 AM, Reality Check, Red and Rover, Shirley and Son,
+  Soup to Nutz.
 * Tue Aug 25 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
 - Added info about new referer and download avoidance capabilities.
 - Added the comics: Whenigrowup, Dr. Fun, Sinfest, Sempai, Everything Jake,
@@ -148,26 +159,9 @@ rm -f /var/spool/netcomics/*
 %post
 cat <<END
 FYI:
-* The external command now supports macros for referer, proxy, and
-  url.  Please see the entry for -g in the manpage because you may want
-  to adjust your setting of this option.
-* Netcomics now has download avoidance and retry capabilities.  To
-  retry downloading comics, you can simply rerun netcomics with the
-  same options instead of using the command given on stdout at the end
-  of the download sequence.  See the manpage for details on -q -a -R.
-# New comics:
-  btaf		Bob the Angry Flower
-  cotc		Clan of the Cats
-  crfh		College Roomies from Hell
-  drfun		Dr. Fun
-  evjake	Everything Jake
-  elf		Elf Life
-  gu		Gaming U
-  bayside	Life at Bayside
-  nukees	Nukees
-  sempai	Sempai
-  sinf		Sinfest
-  wigu		Whenigrowup
+* The -a option behaves a little differently when used with -c.  See
+  the netcomics manpage and/or usage for details.
+# For a list of the new comics, see the NEWS file.
 END
 
 %files

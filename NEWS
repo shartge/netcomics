@@ -1,3 +1,47 @@
+Changes in release 0.13.1:
+* Several bug fixes.
+* The option -a ($always_download) when used with -c now only forces
+  download of the specified comics.  Failed comics that haven't
+  reached the maximum retry limit are also retried.
+* New comics in this release:
+  bignate     Big Nate
+  bigp        The Big Picture
+  bz          Bizarro
+  bobo        Bobos Progress
+  bd          The Boondocks
+  bullsnbears Bulls n Bears 
+  cwbw        Cartoon Web: BizWit
+  cwc         Cartoon Web: Caricatures
+  cwet        Cartoon Web: Ecotoon
+  kal         Cartoon Web: Kal
+  cws         Cartoon Web: Symbolics
+  votw        Cartoon Web: Views of the World
+  wotw        Cartoon Web: Wit of the World
+  cwww        Cartoon Web: WitWomen
+  wvotd       Cartoon Web: World View of the day
+  cheap       Cheap Thrills Cuisine
+  dork        Dork Tower
+  exploit     Exploitation Now
+  fatjc       Fat Jesus
+  fce         Fight Cast Or Evade
+  flightdeck  Flight Deck
+  grandave    Grand Avenue
+  grandclause Grandfather Clause
+  jm          James
+  lupo        Lupo Alberto
+  mrlowe      Mr. Lowe
+  pearls      Pearls Before Swine
+  pickles     Pickles
+  duncan      Raising Duncan
+  randolph    Randolph Itch 2:00 AM
+  reality     Reality Check
+  redrover    Red and Rover
+  shirley     Shirley and Son
+  soupnutz    Soup to Nutz
+  srcwars     Source Wars
+* Several comics have been removed either because the artist requested
+  it, or the site from which it was being retreaved dropped it.
+
 Major changes in release 0.13:
 
 * Each comics strip's Resource Locator Info (RLI) structure is now
