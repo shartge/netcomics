@@ -57,7 +57,7 @@ my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1],
 
 
 print "Sorting...\n";
-my $list = $forms->{'window_comic_page'}{'list1'};
+my $list = $forms->{'window_comic_page'}{'clist1'};
 $list->set_selection_mode( 'single' );
 my @unified_comic_array;
 my (%name_lookup, %date_lookup, %procs);
@@ -86,7 +86,7 @@ $forms->{'window_comic_page'}{'window_comic_page'}->signal_connect( 'destroy_eve
 $forms->{'window_comic_page'}{'menu_file_exit'}->signal_connect( 'activate', \&shut_me_down );
 $forms->{'window_comic_page'}{'menu_help_about'}->signal_connect( 'activate', \&about_Form );
 $forms->{'window_comic_page'}{'calendar_date_comic_selection'}->signal_connect( 'day_selected', \&Display_comic );
-$forms->{'window_comic_page'}{'list1'}->signal_connect( 'select_row', \&comic_selected_from_list );
+$forms->{'window_comic_page'}{'clist1'}->signal_connect( 'select_row', \&comic_selected_from_list );
 
 
 # Show the window.
@@ -168,14 +168,17 @@ sub Display_comic {
 	if ($extra_verbose) {
 		print Data::Dumper->Dump([$rli],[qw(*rli)]);
 	}
-
 	if (defined($rli) && $rli->{'status'} == 1) {
 		# Display the comic since it downloaded succesfully.
 		my $filename = "$comics_dir/$rli->{'file'}[0]";
 		print "Going to display: $filename \n" if $extra_verbose;
 		$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
 		$forms->{'window_comic_page'}{'pixmap1'}->show();
-		$info->set_status("Displayed: $filename");
+		if ($rli->{'caption'}) {
+			$info->set_status("$rli->{'caption'}");
+		} else {
+			$info->set_status("Displayed: $filename");
+		}
 	} else {
 		# Error, as it didn't download.
 		$info->set_status(strftime("Could not download $comic_name for %x",

@@ -291,8 +291,10 @@
     </widget>
 
     <widget>
-      <class>GtkStatusbar</class>
-      <name>statusbar1</name>
+      <class>GnomeAppBar</class>
+      <name>appbar1</name>
+      <has_progress>True</has_progress>
+      <has_status>True</has_status>
       <child>
 	<padding>0</padding>
 	<expand>False</expand>

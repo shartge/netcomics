@@ -336,6 +336,8 @@ distclean::
 	$(RM) debian/netcomics-modules -R
 	$(RM) debian/tmp -R
 	$(RM) debian/files debian/*.debhelper debian/*substvars
+	$(RM) comic_page/ -Rf
+	$(RM) comicpage.glade.bak comicpage.glade2perl.xml -f
 
 etc/$(RCFILE): $(RCFILE)
 	@$(SUBPATHS)

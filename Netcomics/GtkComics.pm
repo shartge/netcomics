@@ -36,10 +36,11 @@ sub create_main_window {
     
 	my ($forms, $widgets, $data, $work, $info);
 
+
     #
     # Construct a GtkWindow 'window_comic_page'
     $widgets->{'window_comic_page'} = new Gtk::Window;
-    $widgets->{'window_comic_page'}->set_title('Comic Page' );
+    $widgets->{'window_comic_page'}->set_title( ('Comic Page') );
     $widgets->{'window_comic_page'}->position('none' );
     $widgets->{'window_comic_page'}->set_policy(0, 1, 0 );
     $widgets->{'window_comic_page'}->set_modal(0 );
@@ -65,41 +66,60 @@ sub create_main_window {
 	    $forms->{'window_comic_page'}{'menubar1'} = $widgets->{'menubar1'};
 		#
 		# Construct a GtkMenuItem 'file1'
-		$widgets->{'file1'} = new Gtk::MenuItem('_File');
+		$widgets->{'file1'} = new Gtk::MenuItem( ('_File'));
 		$forms->{'window_comic_page'}{'menubar1'}->append($widgets->{'file1'} );
 		$widgets->{'file1'}->show;
 		$forms->{'window_comic_page'}{'file1'} = $widgets->{'file1'};
-		$forms->{'window_comic_page'}{'file1-key'} = $forms->{'window_comic_page'}{'file1'}->child->parse_uline('_File');
+		$forms->{'window_comic_page'}{'file1-key'} = $forms->{'window_comic_page'}{'file1'}->child->parse_uline(('_File') );
 		$forms->{'window_comic_page'}{'file1'}->add_accelerator('activate_item', $forms->{'window_comic_page'}{'accelgroup'}, $forms->{'window_comic_page'}{'file1-key'}, 'mod1_mask', ['visible', 'locked'] );
 		    #
-		    # Construct a GtkMenu 'menu_file'
-		    $widgets->{'menu_file'} = new Gtk::Menu;
-		    $forms->{'window_comic_page'}{'file1'}->set_submenu($widgets->{'menu_file'} );
-		    $forms->{'window_comic_page'}{'menu_file'} = $widgets->{'menu_file'};
+		    # Construct a GtkMenu 'file1_menu'
+		    $widgets->{'file1_menu'} = new Gtk::Menu;
+		    $forms->{'window_comic_page'}{'file1'}->set_submenu($widgets->{'file1_menu'} );
+		    $forms->{'window_comic_page'}{'file1_menu'} = $widgets->{'file1_menu'};
 			#
 			# Construct a GtkPixmapMenuItem 'menu_file_exit'
-			$widgets->{'menu_file_exit'} = Gnome::Stock->menu_item('Menu_Quit', 'Exit');
-			$forms->{'window_comic_page'}{'accelgroup'}->add(81, ['control_mask'], ['visible', 'locked'], $widgets->{'menu_file_exit'}, 'activate');
-			$forms->{'window_comic_page'}{'menu_file'}->append($widgets->{'menu_file_exit'} );
+			$widgets->{'menu_file_exit'} = Gnome::Stock->menu_item('Menu_Quit', ('Exit'));
+			$forms->{'window_comic_page'}{accelgroup}->add(81, ['control_mask'], ['visible', 'locked'], $widgets->{'menu_file_exit'}, 'activate');
+			$forms->{'window_comic_page'}{'file1_menu'}->append($widgets->{'menu_file_exit'} );
 			$widgets->{'menu_file_exit'}->show;
 			$forms->{'window_comic_page'}{'menu_file_exit'} = $widgets->{'menu_file_exit'};
 		#
+		# Construct a GtkMenuItem 'settings1'
+		$widgets->{'settings1'} = new Gtk::MenuItem(('_Settings'));
+		$forms->{'window_comic_page'}{'menubar1'}->append($widgets->{'settings1'} );
+		$widgets->{'settings1'}->show;
+		$forms->{'window_comic_page'}{'settings1'} = $widgets->{'settings1'};
+		$forms->{'window_comic_page'}{'settings1-key'} = $forms->{'window_comic_page'}{'settings1'}->child->parse_uline(('_Settings') );
+		$forms->{'window_comic_page'}{'settings1'}->add_accelerator('activate_item', $forms->{'window_comic_page'}{'accelgroup'}, $forms->{'window_comic_page'}{'settings1-key'}, 'mod1_mask', ['visible', 'locked'] );
+		    #
+		    # Construct a GtkMenu 'settings1_menu'
+		    $widgets->{'settings1_menu'} = new Gtk::Menu;
+		    $forms->{'window_comic_page'}{'settings1'}->set_submenu($widgets->{'settings1_menu'} );
+		    $forms->{'window_comic_page'}{'settings1_menu'} = $widgets->{'settings1_menu'};
+			#
+			# Construct a GtkPixmapMenuItem 'preferences1'
+			$widgets->{'preferences1'} = Gnome::Stock->menu_item('Menu_Preferences', ('Preferences'));
+			$forms->{'window_comic_page'}{'settings1_menu'}->append($widgets->{'preferences1'} );
+			$widgets->{'preferences1'}->show;
+			$forms->{'window_comic_page'}{'preferences1'} = $widgets->{'preferences1'};
+		#
 		# Construct a GtkMenuItem 'help1'
-		$widgets->{'help1'} = new Gtk::MenuItem('_Help');
+		$widgets->{'help1'} = new Gtk::MenuItem(('_Help'));
 		$forms->{'window_comic_page'}{'menubar1'}->append($widgets->{'help1'} );
 		$widgets->{'help1'}->show;
 		$forms->{'window_comic_page'}{'help1'} = $widgets->{'help1'};
-		$forms->{'window_comic_page'}{'help1-key'} = $forms->{'window_comic_page'}{'help1'}->child->parse_uline('_Help');
+		$forms->{'window_comic_page'}{'help1-key'} = $forms->{'window_comic_page'}{'help1'}->child->parse_uline(('_Help') );
 		$forms->{'window_comic_page'}{'help1'}->add_accelerator('activate_item', $forms->{'window_comic_page'}{'accelgroup'}, $forms->{'window_comic_page'}{'help1-key'}, 'mod1_mask', ['visible', 'locked'] );
 		    #
-		    # Construct a GtkMenu 'menu_help'
-		    $widgets->{'menu_help'} = new Gtk::Menu;
-		    $forms->{'window_comic_page'}{'help1'}->set_submenu($widgets->{'menu_help'} );
-		    $forms->{'window_comic_page'}{'menu_help'} = $widgets->{'menu_help'};
+		    # Construct a GtkMenu 'help1_menu'
+		    $widgets->{'help1_menu'} = new Gtk::Menu;
+		    $forms->{'window_comic_page'}{'help1'}->set_submenu($widgets->{'help1_menu'} );
+		    $forms->{'window_comic_page'}{'help1_menu'} = $widgets->{'help1_menu'};
 			#
 			# Construct a GtkPixmapMenuItem 'menu_help_about'
-			$widgets->{'menu_help_about'} = Gnome::Stock->menu_item('Menu_About', 'About');
-			$forms->{'window_comic_page'}{'menu_help'}->append($widgets->{'menu_help_about'} );
+			$widgets->{'menu_help_about'} = Gnome::Stock->menu_item('Menu_About', ('About'));
+			$forms->{'window_comic_page'}{'help1_menu'}->append($widgets->{'menu_help_about'} );
 			$widgets->{'menu_help_about'}->show;
 			$forms->{'window_comic_page'}{'menu_help_about'} = $widgets->{'menu_help_about'};
 	    $forms->{'window_comic_page'}{'vbox1'}->set_child_packing($forms->{'window_comic_page'}{'menubar1'}, 0, 0, 0, 'start' );
@@ -132,7 +152,7 @@ sub create_main_window {
 			#
 			# Construct a GtkCalendar 'calendar_date_comic_selection'
 			$widgets->{'calendar_date_comic_selection'} = new Gtk::Calendar;
-			$widgets->{'calendar_date_comic_selection'}->display_options(['show_heading', 'show_day_names'] );
+			$widgets->{'calendar_date_comic_selection'}->display_options(['show_heading', 'show_day_names', 'show_week_numbers'] );
 			$work->{'calendar_date_comic_selection-date'} = [localtime];
 			$widgets->{'calendar_date_comic_selection'}->select_day($work->{'calendar_date_comic_selection-date'}[3] );
 			$widgets->{'calendar_date_comic_selection'}->select_month($work->{'calendar_date_comic_selection-date'}[4], $work->{'calendar_date_comic_selection-date'}[5] + 1900);
@@ -142,34 +162,60 @@ sub create_main_window {
 			$forms->{'window_comic_page'}{'calendar_date_comic_selection'}->can_focus(1 );
 			$forms->{'window_comic_page'}{'hbox1'}->set_child_packing($forms->{'window_comic_page'}{'calendar_date_comic_selection'}, 1, 1, 0, 'start' );
 			#
-			# Construct a GtkScrolledWindow 'scrolledwindow1'
-			$widgets->{'scrolledwindow1'} = new Gtk::ScrolledWindow( undef, undef);
-			$widgets->{'scrolledwindow1'}->set_policy('never', 'always' );
-			$widgets->{'scrolledwindow1'}->border_width(0 );
-			$widgets->{'scrolledwindow1'}->hscrollbar->set_update_policy('continuous' );
-			$widgets->{'scrolledwindow1'}->vscrollbar->set_update_policy('continuous' );
-			$forms->{'window_comic_page'}{'hbox1'}->add($widgets->{'scrolledwindow1'} );
-			$widgets->{'scrolledwindow1'}->show;
-			$forms->{'window_comic_page'}{'scrolledwindow1'} = $widgets->{'scrolledwindow1'};
+			# Construct a GtkVBox 'vbox6'
+			$widgets->{'vbox6'} = new Gtk::VBox(0, 0 );
+			$forms->{'window_comic_page'}{'hbox1'}->add($widgets->{'vbox6'} );
+			$widgets->{'vbox6'}->show;
+			$forms->{'window_comic_page'}{'vbox6'} = $widgets->{'vbox6'};
 			    #
-			    # Construct a GtkViewport 'viewport1'
-			    $widgets->{'viewport1'} = new Gtk::Viewport(new Gtk::Adjustment( 0.0, 0.0, 101.0, 0.1, 1.0, 1.0), new Gtk::Adjustment( 0.0, 0.0, 101.0, 0.1, 1.0, 1.0) );
-			    $widgets->{'viewport1'}->set_shadow_type('in' );
-			    $forms->{'window_comic_page'}{'scrolledwindow1'}->add_with_viewport($widgets->{'viewport1'} );
-			    $widgets->{'viewport1'}->show;
-			    $forms->{'window_comic_page'}{'viewport1'} = $widgets->{'viewport1'};
+			    # Construct a GtkOptionMenu 'optionmenu1'
+			    $widgets->{'optionmenu1'} = new Gtk::OptionMenu;
+			    $forms->{'window_comic_page'}{'vbox6'}->add($widgets->{'optionmenu1'} );
+			    $widgets->{'optionmenu1'}->show;
+			    $forms->{'window_comic_page'}{'optionmenu1'} = $widgets->{'optionmenu1'};
+			    $forms->{'window_comic_page'}{'optionmenu1'}->can_focus(1 );
+			    $widgets->{'optionmenu1_menu'} = new Gtk::Menu;
+			    $forms->{'window_comic_page'}{'optionmenu1'}->set_menu($widgets->{'optionmenu1_menu'} );
+			    $forms->{'window_comic_page'}{'optionmenu1_menu'} = $widgets->{'optionmenu1_menu'};
+			    $widgets->{'optionmenu1_item0'} = new Gtk::MenuItem('All' );
+				$forms->{'window_comic_page'}{'optionmenu1_menu'}->append($widgets->{'optionmenu1_item0'} );
+				$widgets->{'optionmenu1_item0'}->show;
+				$forms->{'window_comic_page'}{'optionmenu1_item0'} = $widgets->{'optionmenu1_item0'};
+			    $forms->{'window_comic_page'}{'optionmenu1_item0'}->activate;
+			    $forms->{'window_comic_page'}{'optionmenu1'}->set_history( 0 );
+			    $forms->{'window_comic_page'}{'vbox6'}->set_child_packing($forms->{'window_comic_page'}{'optionmenu1'}, 0, 0, 0, 'start' );
+			    #
+			    # Construct a GtkScrolledWindow 'scrolledwindow1'
+			    $widgets->{'scrolledwindow1'} = new Gtk::ScrolledWindow( undef, undef);
+			    $widgets->{'scrolledwindow1'}->set_policy('never', 'always' );
+			    $widgets->{'scrolledwindow1'}->border_width(0 );
+			    $widgets->{'scrolledwindow1'}->hscrollbar->set_update_policy('continuous' );
+			    $widgets->{'scrolledwindow1'}->vscrollbar->set_update_policy('continuous' );
+			    $forms->{'window_comic_page'}{'vbox6'}->add($widgets->{'scrolledwindow1'} );
+			    $widgets->{'scrolledwindow1'}->show;
+			    $forms->{'window_comic_page'}{'scrolledwindow1'} = $widgets->{'scrolledwindow1'};
 				#
-				# Construct a GtkList 'list1'
-	            my @titles = ("Title");
-				$widgets->{'list1'} = new_with_titles Gtk::CList( @titles );
-				$widgets->{'list1'}->set_selection_mode('single' );
-              	$widgets->{'list1'}->set_column_width( 0, 275 );
-                $widgets->{'list1'}->set_shadow_type( 'out' );
-
-				$forms->{'window_comic_page'}{'viewport1'}->add($widgets->{'list1'} );
-				$widgets->{'list1'}->show;
-				$forms->{'window_comic_page'}{'list1'} = $widgets->{'list1'};
-			$forms->{'window_comic_page'}{'hbox1'}->set_child_packing($forms->{'window_comic_page'}{'scrolledwindow1'}, 1, 1, 0, 'start' );
+				# Construct a GtkCList 'clist1'
+				$widgets->{'clist1'} = new Gtk::CList(1 );
+				$widgets->{'clist1'}->set_selection_mode('single' );
+				$widgets->{'clist1'}->set_border('in' );
+				$widgets->{'clist1'}->column_titles_show;
+				$widgets->{'clist1'}->set_column_width(0, 275 );
+				$forms->{'window_comic_page'}{'scrolledwindow1'}->add($widgets->{'clist1'} );
+				$widgets->{'clist1'}->show;
+				$forms->{'window_comic_page'}{'clist1'} = $widgets->{'clist1'};
+				$forms->{'window_comic_page'}{'clist1'}->can_focus(1 );
+				    #
+				    # Construct a GtkLabel 'label3'
+				    $widgets->{'label3'} = new Gtk::Label(('Comic Name'));
+				    $widgets->{'label3'}->set_justify('center' );
+				    $widgets->{'label3'}->set_line_wrap(0 );
+				    $forms->{'window_comic_page'}{'clist1'}->set_column_widget(0, $widgets->{'label3'} );
+				    $widgets->{'label3'}->show;
+				    $forms->{'window_comic_page'}{'label3'} = $widgets->{'label3'};
+				    $forms->{'window_comic_page'}{'label3'}->set_alignment(0.5, 0.5 );
+			    $forms->{'window_comic_page'}{'vbox6'}->set_child_packing($forms->{'window_comic_page'}{'scrolledwindow1'}, 1, 1, 0, 'start' );
+			$forms->{'window_comic_page'}{'hbox1'}->set_child_packing($forms->{'window_comic_page'}{'vbox6'}, 1, 1, 0, 'start' );
 		    #
 		    # Construct a GtkVBox 'vbox5'
 		    $widgets->{'vbox5'} = new Gtk::VBox(0, 0 );
@@ -195,14 +241,14 @@ sub create_main_window {
 			    $forms->{'window_comic_page'}{'viewport_comic_archive'} = $widgets->{'viewport_comic_archive'};
 				#
 				# Construct a GnomePixmap 'pixmap1'
-				$widgets->{'pixmap1'} = new_from_file Gnome::Pixmap("" );
+				$widgets->{'pixmap1'} = new_from_file Gnome::Pixmap("$Glade::PerlRun::pixmaps_directory/comicpage.xpm" );
 				$forms->{'window_comic_page'}{'viewport_comic_archive'}->add($widgets->{'pixmap1'} );
 				$widgets->{'pixmap1'}->show;
 				$forms->{'window_comic_page'}{'pixmap1'} = $widgets->{'pixmap1'};
 			$forms->{'window_comic_page'}{'vbox5'}->set_child_packing($forms->{'window_comic_page'}{'scrolledwindow_comic_archive_window'}, 1, 1, 0, 'start' );
 		#
 		# Construct a GtkLabel 'label_comic_archive'
-		$widgets->{'label_comic_archive'} = new Gtk::Label('Comic Archive');
+		$widgets->{'label_comic_archive'} = new Gtk::Label(('Comic Archive'));
 		$widgets->{'label_comic_archive'}->set_justify('center' );
 		$widgets->{'label_comic_archive'}->set_line_wrap(0 );
 		$forms->{'window_comic_page'}{'notebook1'}->append_page($forms->{'window_comic_page'}{'vpaned1'}, $widgets->{'label_comic_archive'} );

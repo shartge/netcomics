@@ -2,6 +2,14 @@
 
 	* comicpage.glade: Initial commit of the glade file used to generate
 	the comicpage interface.
+	* Makefile: Updated (dist_clean) as to clean up more tmp files created
+	by glade.
+	* comicpage (startup): Changes for new form style. 
+	(Display_comic): Will now display caption in the status bar, if 
+	available.
+	* Netcomics/GtkComics.pm: Everything. Redid form style to add support
+	for groups (latter on).
+
 	
 2001-05-25  Elliot Glaysher  <nuriko.chan@home.com>
 
