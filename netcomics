@@ -508,6 +508,7 @@ my %rli_procs = (); #hash of hashes of indexes into @rli.
 my @existing_rli_files = (); #files attributed to being already downloaded
 use vars('$date_fmt'); $date_fmt = "%Y%m%d"; #date format in filenames
 
+my $default_filetype = "gif"; #only used if module didn't supply one.
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
 #default options values
@@ -1517,6 +1518,12 @@ sub get_comics {
 	$back = $rli->{'back'} if exists $rli->{'back'};
 	$title = $rli->{'title'} if exists $rli->{'title'};
 	$referer = $rli->{'referer'} if exists $rli->{'referer'};
+
+	if (!defined($rli->{'type'})) {
+	    $rli->{'type'} = $default_filetype;
+	    print STDERR "$proc: warning, no file type was supplied, " .
+		"defaulting to $default_filetype\n" if $extra_verbose;
+	}
 
 	$rli->{'status'} = 0;
 

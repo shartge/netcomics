@@ -2,7 +2,8 @@
 
 	* netcomics (get_comics): Updated RELURL section so that it would
 	detect when both an rli and relurls were returned, and made it so
-	that it could handle ARRAY refs.
+	that it could handle ARRAY refs. Added defaulting the file type if
+	none was supplied in the rli.
 	* lib/down_earth (downearth): Updated thanks to Martial Michel,
 	plus added an exceptions table, made file extension case
 	insensitive, and added a multi image returning function for the
