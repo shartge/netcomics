@@ -21,7 +21,7 @@ sub real {
     my $day = $ltime[3];
     
     my $base = 'http://reallifecomics.com';
-    my $arc = strftime('/archives%Y.php',@ltime);
+    my $arc = strftime('/archive_%Y.php',@ltime);
     
     my $rec = {
 	'title' => "Real Life",
