@@ -1,3 +1,8 @@
+2001-06-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* README: Updated to reflect the presence of comicpage in the
+	distribution.
+
 2001-05-29  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/GtkComics.pm: Small change to remove $widgets->
