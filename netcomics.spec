@@ -33,7 +33,7 @@ information it needs to download comic strips from the Web.
 * Tue Aug 25 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
 - Added info about new referer and download avoidance capabilities.
 - Added the comics: Whenigrowup, Dr. Fun, Sinfest, Sempai, Everything Jake,
-  Can of the Cats.
+  Can of the Cats, and Gaming U.
 - Added Astronomy Picture of the Day.
 * Sun Apr 23 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.12-1
 - Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
