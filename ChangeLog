@@ -1,3 +1,7 @@
+2002-01-20  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/ucomics (ch): Switched from akami to direct
+
 2002-01-18  Elliot Glaysher  <glaysher@umich.edu>
 
 	* ChangeLog: Fix email address in ChangeLog

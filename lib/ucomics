@@ -81,9 +81,12 @@ sub ga {
 }
 
 #Calvin & Hobbes http://www.calvinandhobbes.com/strips/
+#http://images.ucomics.com/comics/ch/1991/ch910119.gif
 sub ch {
-    return ucomics_akamai(shift(@_), "Calvin and Hobbes", "Bill Watterson",
-			  [600,422], [600,200], "calvinandhobbes", "ch");
+#    return ucomics_akamai(shift(@_), "Calvin and Hobbes", "Bill Watterson",
+#			  [600,422], [600,200], "calvinandhobbes", "ch");
+    return ucomics_direct(shift(@_), "Calvin and Hobbes", "Bill Watterson",
+			  [600,422], [600,200], "ch", "ch");
 }
 
 #Fox Trot http://www.ucomics.com/foxtrot/
