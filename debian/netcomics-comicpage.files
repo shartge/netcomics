@@ -1,0 +1,3 @@
+usr/bin/comicpage
+usr/share/perl5/Netcomics/Comicpage/*
+usr/share/perl5/Netcomics/GtkComics.pm

@@ -7,8 +7,8 @@ Standards-Version: 3.1.1
 
 Package: netcomics
 Architecture: all
-Depends: ${perl:Depends}, libwww-perl, libhtml-parser-perl, libgtk-perl, libgladexml-perl, libglade-gnome0, libgtkxmhtml1
-Suggests: libimage-size-perl
+Depends: ${perl:Depends}, libwww-perl, libhtml-parser-perl, netcomics-modules
+Suggests: libimage-size-perl, netcomics-comicpage
 Description: Retrieve comic strips from the Web
  netcomics is a perl script that can retrieve comic strips from the Web
  that are continuously being updated each day. netcomics utilizes a
@@ -22,3 +22,9 @@ Architecture: all
 Depends: netcomics
 Description: Comic Modules for netcomics
  This package contains the frequently update modules for netcomics.
+
+Package: netcomics-comicpage
+Architecture: all
+Depends: netcomics, libgtk-perl, libgladexml-perl, libglade-gnome0, libgtkxmhtml1
+Description: Gnome interface to netcomics.
+ This package contains Comicpage, a GUI interface to netcomics for Gnome.

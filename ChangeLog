@@ -1,3 +1,20 @@
+2002-01-09  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/control: Added a netcomics-comicpage package to be created.
+	This package is optional and is the only package that depends on 
+	Gnome/GTK+.
+	* debian/netcomics-comicpage.files: Initial commit. 
+	* debian/netcomics.files: Explicitly state which files need to go here.
+	* debian/netcomics-modules.dirs: Small corrections (so this pkg.
+	actually has the netcomics modules in it (instead of netcomics!))
+	* debian/netcomics-modules.files: ""
+	* Netcomics/HTML.pm: Small cleanups to comments
+	* Makefile.PL: Small changes to for cleaning up after package creation
+
+2002-01-08  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot (rpg): Updated @extra list for rpg.
+
 2002-01-04  Elliot Glaysher  <glaysher@umich.edu>
 
 	* TODO: Removed index splitting item

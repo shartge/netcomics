@@ -1,7 +1,13 @@
 usr/bin/netcomics
 usr/bin/display_comics
-usr/bin/comicpage
 usr/bin/show_comics
-usr/share/perl5/Netcomics/*
-
-
+usr/share/perl5/Netcomics/ExternalUserAgent.pm
+usr/share/perl5/Netcomics/HTML/*
+usr/share/perl5/Netcomics/MyResponse.pm
+usr/share/perl5/Netcomics/etc/*
+usr/share/perl5/Netcomics/Factory.pm
+usr/share/perl5/Netcomics/HTML.pm
+usr/share/perl5/Netcomics/RLI.pm
+usr/share/perl5/Netcomics/Config.pm
+usr/share/perl5/Netcomics/MyRequest.pm
+usr/share/perl5/Netcomics/Util.pm

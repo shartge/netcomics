@@ -63,12 +63,10 @@ sub create_archive_webpages {
 	my @selected_comics;
 	foreach (@rli) {
 		my $proc = $_->{'proc'};
-		#print "Checking rli: $proc\n";
 		push(@selected_comics, $proc) if not grep(/$proc/, @selected_comics);
 	}
 
 	foreach my $comic (@selected_comics) {
-#		print "\nTRYING COMIC: $comic\n";
 		my @rlis_to_pass;
 		my $subdir = "";
 		foreach my $rli (@rli) {

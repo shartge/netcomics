@@ -430,6 +430,7 @@ distclean::
 	#$(RM) bin/*
 	$(RM_RF) debian/netcomics
 	$(RM_RF) debian/netcomics-modules
+	$(RM_RF) debian/netcomics-comicpage
 	$(RM_RF) debian/tmp
 	$(RM) debian/files debian/*.debhelper debian/*substvars
 	$(RM_RF) comic_page/
