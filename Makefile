@@ -1,7 +1,7 @@
 APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
-AP4NAME = gtkcomic
+AP4NAME = gtkcomics
 
 MODULE1 = MyResponse.pm
 MODULE2 = MyRequest.pm
@@ -329,7 +329,7 @@ distclean::
 	$(RM) etc/$(RCFILE)
 
 #TAGS for use in emacs
-TAGS: $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME)
+TAGS: $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) $(PERLMODULES:%=Netcomics/%)
 	$(ETAGS) $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
 		$(PERLMODULES:%=Netcomics/%)
 

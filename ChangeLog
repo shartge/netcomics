@@ -1,5 +1,6 @@
 2001-05-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Makefile (AP4NAME): Changed to gtkcomics
 	* netcomics, gtkcomics, Netcomics/*: Removed Perl from emacs mode
 	indicator line to not restrict the major mode of perl or cperl.
 	If you want cperl, put this in your .emacs file:
