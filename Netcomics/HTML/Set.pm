@@ -69,7 +69,7 @@ sub create_set_of_pages {
 	print STDERR "\n" if $verbose;
 	unless ($self->{'webpage_on_stdout'}) {
 		print STDERR "Deleting old webpages (".$self->{'output_dir'} .
-				"/<index.html,comic*.html>).\n" if $verbose;
+				"/<index*.html,comic*.html>).\n" if $verbose;
 		chdir $self->{'output_dir'};
 		unlink <index*.html>;
 		unlink <comic*.html>;

@@ -1,3 +1,11 @@
+2002-01-04  Elliot Glaysher  <glaysher@umich.edu>
+
+	* TODO: Removed index splitting item
+	* Netcomics/HTML/Page.pm (generate): Detect whether we have index1.html
+	or index.html.
+	* Netcomics/HTML.pm (create_archive_webpages): Fixed small bug that was
+	causing other comics to appear on one comics' archive page.
+
 2001-12-29  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/megatokyo (megatokyo): Allow different filetypes in megatokyo.

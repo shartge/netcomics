@@ -76,7 +76,7 @@ sub create_archive_webpages {
 			#print "Succes matching $comic to $rli->{'proc'}" if
 			#grep(/$comic/, $rli->{'proc'});
 			if (defined($rli->{'proc'})) {
-				if (grep(/$comic/, $rli->{'proc'})) {
+				if (grep(/^$comic$/, $rli->{'proc'})) {
 					push(@rlis_to_pass, $rli);
 					$subdir = $rli->{'subdir'};
 				}

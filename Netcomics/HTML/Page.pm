@@ -149,9 +149,15 @@ sub generate {
 			# If we're making indexies, then link to index, else link
 			# to the first page of comics.
 			if ($webpage_index) {
-				$title .= " <A HREF=\"$rli->{'subdir'}/index.html\">" .
-					"<FONT FACE=\"times\">" .
-						"<I>(archives)</I></FONT></A>";
+				if ( -f "$rli->{'subdir'}/index.html" ) {
+					$title .= " <A HREF=\"$rli->{'subdir'}/index.html\">" .
+						"<FONT FACE=\"times\">" .
+							"<I>(archives)</I></FONT></A>";
+				} else {
+					$title .= " <A HREF=\"$rli->{'subdir'}/index1.html\">" .
+						"<FONT FACE=\"times\">" .
+							"<I>(archives)</I></FONT></A>";
+				}
 			} else {
 				$title .= " <A HREF=\"$rli->{'subdir'}/comics1.html\">" .
 					"<FONT FACE=\"times\">" .
