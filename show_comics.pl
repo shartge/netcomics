@@ -283,7 +283,7 @@ lock_file();
 
 #Create a list of files to display
 opendir(DIR,$tmpdir) || die "Could not open the directory to $tmpdir: $!";
-my @files = grep(/\.(gif|jpg|jpeg)$/,readdir(DIR));
+my @files = grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR));
 closedir(DIR);
 if (-f $rcfile && -r $rcfile) {
     open(FILE,"<$rcfile") || die "Could not open the file $rcfile: $!";

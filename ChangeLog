@@ -1,3 +1,7 @@
+2001-03-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics: Patched to allow png files thanks to Shawn Oakey
+
 2001-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/keenspace, lib/reallife (real): Updated thanks to
