@@ -1,4 +1,11 @@
-2004-08-01 Sven Hartge  <hartge at users * sourceforge * net>
+2004-08-02  Sven Hartge  <hartge at users * sourceforge * net>
+
+        * lib/grimmy: New webpage for Mother Goose and Grimm
+        * lib/keenspot: OK, .* _was_ to greedy. Let's try another one. (No,
+          \w is not suitable here, because it does not include '-' and
+          '+'.)
+
+2004-08-01  Sven Hartge  <hartge at users * sourceforge * net>
 
         * lib/keenspot: some keenspot comics add some random characters
           after the date. Adapted the regexp. (Works for me so far, may
