@@ -68,7 +68,7 @@ sub create_archive_webpages {
 	}
 
 	foreach my $comic (@selected_comics) {
-		print "\nTRYING COMIC: $comic\n";
+#		print "\nTRYING COMIC: $comic\n";
 		my @rlis_to_pass;
 		my $subdir = "";
 		foreach my $rli (@rli) {
@@ -90,6 +90,42 @@ sub create_archive_webpages {
 		print "Putting in directory $subdir\n";
 		$HTMLpage->create_set_of_pages(@rlis_to_pass);
 	}
+}
+
+sub create_today_page {
+	my $self = shift;
+	my @rli = @_;
+
+	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
+	print "Creating with template $template->{'name'}.\n";
+
+	# Create archives for these comics.
+	my %data = Netcomics::Util::rlis_hash(@rli);
+
+	my @rlis_to_pass;
+	foreach my $comic (keys(%data)) {
+		my $subdir = "";
+
+		my $comic_to_pass;
+		my $highest = 0;
+		foreach my $entry (@{$data{$comic}}) {
+			if (($highest < $entry->{'time'} ) &&
+				$entry->{'status'} != 0) {
+				$highest = $entry->{'time'};
+				$comic_to_pass = $entry;
+			}
+		}
+		push(@rlis_to_pass, $comic_to_pass);
+	}
+
+	my $HTMLpage = Netcomics::HTML::Set->new
+	('output_dir' => "$comics_dir",,
+	 'theme' => $template,
+	 'include_subdir' => 1,
+	 'webpage_filename_tmpl' => "today<NUM>.html",
+	 'link_to_local_archives' => 1
+	);
+	$HTMLpage->create_set_of_pages(@rlis_to_pass);
 }
 
 1;

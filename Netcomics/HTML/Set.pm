@@ -35,6 +35,7 @@ sub new {
 				'webpage_on_stdout' => $webpage_on_stdout,
 				'include_subdir' => 1,
 				'link_to_local_archives' => 0,
+				'webpage_filename_tmpl' => $webpage_filename_tmpl,
 
 				# The templates:
 				'theme' => $HTML_Theme,
@@ -140,7 +141,9 @@ sub create_set_of_pages {
 
 		print STDERR "trying object...\n" if $extra_verbose;
 		print STDERR "first = $first, last = $last\n" if $extra_verbose;
-		(my $filename = $webpage_filename_tmpl) =~ s/<NUM>/$group_num/g;
+		(my $filename = $self->{'webpage_filename_tmpl'}) 
+			=~ s/<NUM>/$group_num/g;
+
 		#print Data::Dumper->Dump([\%rlis],[qw(*%rlis)]);
 		#print keys(%rlis);
 
@@ -161,6 +164,7 @@ sub create_set_of_pages {
 			 'rli_dataset' => \%rlis,
 			 'comics_set' => [@comics_to_pass],
 			 'include_subdir' => $self->{'include_subdir'},
+			 'webpage_filename_tmpl' => $self->{'webpage_filename_tmpl'},
 			 'theme' => $self->{'theme'}
 			);
 

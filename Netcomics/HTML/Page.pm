@@ -38,6 +38,7 @@ sub new {
 				'group_number' => 1,
 				'num_groups' => 1,
 				'link_to_local_archives' => 0,
+				'webpage_filename_tmpl' => $webpage_filename_tmpl,
 
 				# Pass these fields if you want proper pages generated...
 				'first_comic' => 1,
@@ -89,12 +90,13 @@ sub generate {
 	}
 
 	# 
-	my ($nextfile,$prevfile) = ($webpage_filename_tmpl) x 2;
+	my ($nextfile,$prevfile) = ($self->{'webpage_filename_tmpl'}) x 2;
 	my $nextgroup = ($self->{'group_number'} == $self->{'num_groups'})? 1 : $self->{'group_number'} + 1;
 	my $prevgroup = $self->{'group_number'} - 1;
 	if ($self->{'group_number'} == 1) {
 		$prevgroup = $self->{'num_groups'};
 	}
+
 	$nextgroup = 1 if $nextfile =~ s/<NUM>/$nextgroup/g;
 	$prevfile =~ s/<NUM>/$prevgroup/g;
 

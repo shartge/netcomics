@@ -279,6 +279,17 @@ sub samedate {
 	my $t2 = strftime("%Y%m%d",gmtime($_[1]));
 	return ($t1 == $t2);
 }
+
+sub rlis_hash {
+	my @rli = @_;
+	my %rlis = ();
+
+	foreach (@rli) {
+		push(@{$rlis{$_->{'proc'}}}, $_);
+	}
+	return(%rlis);
+}
+
 1;
 
 

@@ -142,6 +142,11 @@ if ($make_webpage) {
 		Netcomics::HTML->create_archive_webpages(@rli);
 		Netcomics::HTML->create_toplevel_page_set(@rli);
 	}
+
+	if ($webpage_today) {
+		Netcomics::HTML->create_today_page(@rli);
+	}
+
 } else {
     my $user_specified_no_comics = 
 	($user_specified_comics && ! @selected_comics) ? 1 : 0;
@@ -156,7 +161,7 @@ if ($make_webpage) {
 					$time +=  $rli->{'behind'}*3600*24;
 				} elsif (defined($factory->days_behind($rli->{'proc'}))) {
 					#backwards compatibility for rlis created with code that
-					#didn't save the days behind in the rli.
+   					#didn't save the days behind in the rli.
 					$time += $factory->days_behind($rli->{'proc'})*3600*24;
 				} else {
 					#this must be an old rli file not created with code

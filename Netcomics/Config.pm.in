@@ -70,7 +70,7 @@ use vars qw(@EXPORT @ISA);
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
-    $webpage_datefmt @html_theme_dirs
+    $webpage_datefmt @html_theme_dirs $webpage_today
 	$webpage_absolute_paths $comicpage_glade_dir
 /; 
 
@@ -154,6 +154,7 @@ use vars ('$webpage_templates');
 $webpage_templates = "/usr/share/perl5/Netcomics/HTML/Themes";
 use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
 use vars ('$webpage_datefmt'); $webpage_datefmt = "%b %d, %Y";
+use vars ('$webpage_today'); $webpage_today = 0;
 
 =head2 new("scriptname")
 
@@ -350,6 +351,11 @@ sub processARGV {
 					"Use -h for usage.\n";
 				exit 1;
 			}
+		}
+
+		#Today's Comics webpage
+		elsif (/(-wT)$/) {
+			$webpage_today = 1;
 		}
 
 		#webpage title
@@ -819,6 +825,7 @@ usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
    -wf:specify the date format used in webpage creation.
        (default: '$webpage_datefmt'; see srtftime manpage for formatters)
    -wt:specify a title for the webpage rather than the default
+   -wT:build a page of "Today's Comics"
    -W: recreate webpage from all files in directory, n comics per page
 END
 	exit 0;

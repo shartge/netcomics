@@ -1,5 +1,15 @@
 2001-11-15  Elliot Glaysher  <glaysher@umich.edu>
 
+	* netcomics: Added a "Today's Comics" feature.
+	* Netcomics/HTML/Set.pm (new): $webpage_filename_tmpl changed to a
+	property of the Set class so it can be overrided.
+	* Netcomics/HTML/Page.pm (new): $webpage_filename_tmpl changed to a
+	property of the Page class so it can be overrided.
+	* Netcomics/Util.pm (rlis_hash): Neccessary for the "Today's Comics"
+	feature.
+	* Netcomics/HTML.pm (create_today_page): Initial commit for this 
+	function.
+	* Netcomics/Config.pm.in: Added control variables for "Today's Comics".
 	* lib/keenspot (elf): updated Elf life missing dates.
 
 2001-11-14  Elliot Glaysher  <glaysher@umich.edu>
