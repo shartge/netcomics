@@ -1,5 +1,28 @@
+2002-04-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL (@modules): Added animation_express
+	* MANIFEST: Added lib/animation_express
+	* lib/animation_express: http://hotwired.lycos.com/animation.
+	This is the first module that downloads shockwave/flash files.
+	* Netcomics/HTML/Themes/CleanRound.pm: Changed to inhert from the
+	default theme so that it doesn't duplicate code
+	* Netcomics/HTML/Page.pm (generate): Added using the new
+	body_el_embed template instead of body_el when the file isn't an
+	image.
+	* Netcomics/Util.pm (image_type): Added this method which returns
+	true if the given file type is an image.
+	* Netcomics/HTML/Themes/Default.pm (body_el_embed): Added this new
+	template which is used for files that need to use <embed> instead
+	of <img>.
+	* Netcomics/ExternalUserAgent.pm (new): Fixed commandline syntax
+	for using wget when the URL has ampersands in it.
+
 2002-04-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* MANIFEST: Added Netcomics/HTML/Themes/OldSchool.pm
+	* Makefile.PL (@pm_to_install): Added HTML/Themes/OldSchool.pm
+	* Netcomics/HTML/Themes/OldSchool.pm: Added, thanks to hossman.
+	* lib/doodie (doodie): Added size attribute.
 	* .group_crontab: Added; initial version.
 	* MANIFEST.SKIP: Updated to handle other group files than just the
 	password file.

@@ -16,6 +16,7 @@ Netcomics/HTML/Theme.pm
 Netcomics/HTML/Themes/CleanRound.pm
 Netcomics/HTML/Themes/Default.pm
 Netcomics/HTML/Themes/NoStatus.pm
+Netcomics/HTML/Themes/OldSchool.pm
 Netcomics/MyRequest.pm
 Netcomics/MyResponse.pm
 Netcomics/RLI.pm
@@ -62,6 +63,7 @@ lib/after_y2k
 lib/alexsrestaurant
 lib/an
 lib/angry_flower
+lib/animation_express
 lib/bad_boys
 lib/badlands
 lib/bruno

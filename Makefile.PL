@@ -37,6 +37,7 @@ HTML/Theme.pm
 HTML/Themes/CleanRound.pm
 HTML/Themes/Default.pm
 HTML/Themes/NoStatus.pm
+HTML/Themes/OldSchool.pm
 MyRequest.pm
 MyResponse.pm
 Util.pm
@@ -63,6 +64,7 @@ after_y2k
 alexsrestaurant
 an
 angry_flower
+animation_express
 bad_boys
 badlands
 bruno
