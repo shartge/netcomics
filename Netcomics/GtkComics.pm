@@ -214,7 +214,9 @@ sub Display_comic {
 	}
 	if (defined($rli) && $rli->{'status'} == 1) {
 		# Display the comic since it downloaded succesfully.
-		my $filename = "$comics_dir/$rli->{'file'}[0]";
+		my $subdir;
+		$subdir = $rli->{'subdir'}."/" if $separate_comics;
+		my $filename = "$comics_dir/$subdir$rli->{'file'}[0]";
 		print "Going to display: $filename \n" if $extra_verbose;
 		my $display_area = $main->get_widget('pixmap1');
 		$display_area->load_file($filename);

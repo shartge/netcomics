@@ -1,5 +1,7 @@
 2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
 
+	* Netcomics/GtkComics.pm (Display_comic): Modified passing the filename
+	so as to make sure the $subdir is in the path, if $seperate_comics;
 	* Netcomics/HTML.pm (create_webpage): Tried to get rid of as much
 	redundant code as possible. Made more things properties of $self.
 	(create_webpage_set): Follow the suit of &create_webpage.
