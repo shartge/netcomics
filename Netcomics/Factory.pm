@@ -187,7 +187,7 @@ sub setup {
 	#
 	#Do the work.
 	#
-	$self->{'get_current'} = $self->build_date_array();
+	$self->build_date_array();
 	if ($extra_verbose) {
 		print "dates: ";
 		my $date;

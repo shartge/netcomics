@@ -1,3 +1,9 @@
+2001-12-02  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Factory.pm (setup): Fixed serious bug which was causing
+	netcomics to ignore the "day's behind" in most situations where 
+	netcomics *should* be offsetting the date by the day's behind.
+
 2001-11-29  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspace (machall): Mac Hall now works better and gets today's
