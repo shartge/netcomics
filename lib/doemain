@@ -38,11 +38,11 @@ sub doemain {
 		'author' => 'Susan M. Parkin',
 		'type' => 'gif',
 		'main' => 'http://www.doemainofourown.com',
-		'archives' => 'http://www.doemainofourown.com/Archives.htm',
+		'archives' => 'http://www.doemainofourown.com/archives.html',
 		'base' => 'http://www.doemainofourown.com/',
 		'page' => strftime("%m%d%y.html",@ltime),
 		'exprs' => {
-			'comic' => [ '(strips/\d+-\w+.gif)' ],
+			'comic' => [ '(strips/\d+-\w+\.gif)' ],
 			'caption' => [ '\*\*\s(.+?)\s\*\*' ],
 		},
 	};
