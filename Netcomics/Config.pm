@@ -138,6 +138,10 @@ sub processARGV {
     my $self = shift;
     my @ARGV = @_;
 
+	#needed for mkgmtime.
+	#can't be used at top of this file because it uses this package.
+	require Netcomics::Util;
+
 	my $smushopt = 0;
 
 	#TODO: preload options that specify verbosity here

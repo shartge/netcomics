@@ -1,5 +1,7 @@
 2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/Config.pm (processARGV): Added require of Util so that
+	mkgmtime is accessible.
 	* Netcomics/Factory.pm (list_comics): Fixed syntax error with how
 	libdate_sort was being called.  Made %hof a class attribute loaded
 	only once for all Factory instances.  Fixed max name & title
