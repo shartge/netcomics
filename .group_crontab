@@ -1,9 +1,12 @@
+#Uncomment to enable mailing to the maintainers list
+#MAILTO=netcomics-maintainers@lists.sourceforge.net
+#
 #Update the crontab
 13 05 * * * cd $HOME/src/netcomics/netcomics; cvs -q update .group_crontab; crontab .group_crontab
 #Update the website
 32 05 * * * cd $HOME/src/netcomics; cvs -q update -d; cd website; make -s all install
 # Generate daily CVS snapshots and copy them into the webspace
-# 40 05 * * * $HOME/src/netcomics/.update_snaps 2>&1 | mail -s "`date +%Y-%m-%d` Snapshot cronjob" netcomics-maintainers@lists.sourceforge.net
+# 40 05 * * * $HOME/src/netcomics/.update_snaps
 40 05 * * * snapsdir=/home/groups/n/ne/netcomics/htdocs/snaps; cd $HOME/src/netcomics; rm -f netcomics-*cvs.*z*; cd netcomics; perl Makefile.PL; make -s archives; cd ..; mkdir $snapsdir.new; cp netcomics-*cvs.*z* $snapsdir.new; date > $snapsdir.new/lastmod; mv $snapsdir $snapsdir.old; mv $snapsdir.new $snapsdir; rm -rf $snapsdir.old; chgrp netcomics $snapsdir/*; chmod g+w $snapsdir/*; chgrp netcomics $snapsdir; chmod g+w $snapsdir
 #
 # Newline at the end is needed, or crond won't execute the last line.
