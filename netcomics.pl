@@ -1295,13 +1295,33 @@ if ($verbose) {
 if ($make_webpage) {
     create_webpage();
 } else {
+    my $user_specified_no_comics = 
+	($user_specified_comics && ! @selected_comics) ? 1 : 0;
     #print filenames or urls.
     foreach (@rli) {
 	my $rli = $_;
 	if ($rli->{'status'} =~ /[12]/) {
-	    unless ($user_specified_comics &&
-		    ! grep(/^$rli->{'proc'}$/, @selected_comics)) {
-		print "$rli->{'title'}:\n" if $verbose;
+	    my $time = $rli->{'time'};
+	    if ($get_current) {
+		if (defined($rli->{'behind'})) {
+		    #get what the current specified date was from days behind
+		    $time +=  $rli->{'behind'}*3600*24;
+		} elsif (defined($hof{$rli->{'proc'}})) {
+		    #backwards compatibility for rlis created with code that
+		    #didn't save the days behind in the rli.
+		    $time += $hof{$rli->{'proc'}}*3600*24;
+		} else {
+		    #this must be an old rli file not created with code
+		    #that saved the days behind info in the rli.
+		    $time = "";
+		}
+	    }
+	    if (!$user_specified_comics || $user_specified_no_comics ||
+		(grep(/^$rli->{'proc'}$/, @selected_comics) &&
+		 grep(/$time/, @dates))) {
+		print "$rli->{'title'} (" . 
+		    strftime("%a, %x",gmtime($rli->{'time'})) . "):\n" 
+			if $verbose;
 		#dont_download is set when user requests urls only
 		if ($dont_download) {
 		    print join("\n",@{$rli->{'url'}})
@@ -1480,10 +1500,11 @@ sub run_rli_func {
     my ($fun,$time,$fun_name,$days) = @_;
     $time -= $days * 24*3600 if defined $days;
 
+    my $days_behind = $hof{$fun};
     # Real date day
     if ($real_date == 1) {
       # Adapt time for this comic "as if" today was ...
-      $time -= $hof{$fun} * 24*3600;
+      $time -= $days_behind * 24*3600;
     }
 
     #get the info from the RLI
@@ -1497,6 +1518,7 @@ sub run_rli_func {
 	if (ref($_) eq "HASH") {
 	    $_->{'time'} = $time;
 	    $_->{'proc'} = $fun_name;
+	    $_->{'behind'} = $days_behind;
 	    if (defined($comics{$fun})) {
 		#copy in user-defined keys
 		my $field;

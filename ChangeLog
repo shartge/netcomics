@@ -2,6 +2,8 @@
 
 	* netcomics (get_comics): Fixed bug introduced with new separate
 	comics feature.
+	(print urls/files): Fixed it so that it would only print out the
+	selected comics for the selected dates.
 
 2001-03-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
