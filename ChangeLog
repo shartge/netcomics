@@ -1,7 +1,9 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* lib/kevin-n-kell: Updated to get every day of the week,
+	* lib/kevin-n-kell: (kk) Updated to get every day of the week,
 	thanks to Shawn Oakey.
+	Changed to use a baseurl, added the size field, and added grabbing
+	of the captions.
 	* lib/farcus: Updated thanks to Shawn Oakey.
 	* lib/fce (fce): Added Fight Cast or Evade thanks to 
 	Benjamin Cordes.  Added an exception & changed to use a baseurl.
