@@ -165,14 +165,14 @@ rm -f /var/spool/netcomics/.*.rli
 
 %post
 cat <<END
-FYI: The -a option now behaves a little differently when used with -c.  See
-     the netcomics manpage and/or usage for details.
+New commandline options for netcomics in this release: -P -Q -nQ.
+See the netcomics manpage for details.
 END
 
 %post data
 LIBDIR=$RPM_INSTALL_PREFIX/share/netcomics
 #The following list is to be kept in sync with that in the Makefile
-OLDMODULES = "\
+OLDMODULES="\
         alice \
         avalon \
         banditbruno \
@@ -243,7 +243,8 @@ if test "x$oldmods" != "x"; then
     echo "  cd $LIBDIR; rm -f $oldmods"
 fi
 cat <<END
-For a list of the new comics, see the NEWS file.
+There are 32 new comics supported by this release.
+See the NEWS file for a list of those new comics.
 END
 
 %files
