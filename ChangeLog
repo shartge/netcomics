@@ -1,3 +1,11 @@
+2001-05-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics, gtkcomics, Netcomics/*: Removed Perl from emacs mode
+	indicator line to not restrict the major mode of perl or cperl.
+	If you want cperl, put this in your .emacs file:
+	(setq interpreter-mode-alist (append '(("perl" . cperl-mode)
+		) interpreter-mode-alist))
+
 2001-05-09  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* gtkcomics: various random changes as I head towards a program 

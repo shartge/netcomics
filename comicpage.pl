@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#-*-mode: CPerl; tab-width: 4 -*-
+#-*- tab-width: 4 -*-
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
