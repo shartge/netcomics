@@ -139,9 +139,11 @@ haven't yet successfully downloaded.
 Add option for modules to utilize that instructs netcomics to derive
 the filetype from the URL used to download the image.
 
-** GnomeTransferManager
+** GnomeTransferManager & FreeNet
 Consider utilizing or extending GnomeTransferManager to download files
 http://gtm.sourceforge.net/
+And consider tapping into freenet to distribute images
+http://freenet.sourceforge.net/
 
 ** Ability to specify a referer for individual URLs
 The current scheme allows a module to specify a referer, but the same
@@ -165,6 +167,23 @@ his/her job! (-;
 ** Keywords/Categories
 Add a field that would contain a list of keywords or categories then
 that could be utilized to select a group of comics.
+
+** Limit -u, the "don't download, but use URLs" option to not work on refers
+This option makes the output webpage contain URLs to the comics at the
+website on which they're published.  For those comics that require a
+specific referer, this doesn't work.  Although it would be nice to
+find someway to tell the browser to fake the referer for specific
+images, I don't think that's possible.  Therefore, this option should
+be enhanced so that it downloads the *minimum* number of comics
+possible: those that require a referer, while simply generating URLs for
+those that don't.
+
+One reason for using -u is to not actually store copyrighted
+material (but to let the webbrowser's cache do that just as if the
+user were browsing the comic's website).  Since a system like freenet
+is designed from the ground up to address this issue, perhaps
+utilization of it would be good technical solution to the referer
+problem.
 
 -----------------------------------------------------------------------
 
