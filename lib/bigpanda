@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(banditb room avalon real hh dt)) {
+foreach (qw(banditb walky hh dt)) {
     $hof{$_} = 0;
 }
 
@@ -30,7 +30,7 @@ sub banditb {
 # http://www.roomies.org/d/19990328.html
 # http://www.roomies.org/comics/19990328a.gif
 
-sub room {
+sub walky {
     my $time = shift @_;
     return undef if $time < mkgmtime(0,0,0,8,8,97);
     my @ltime = gmtime($time);
@@ -49,29 +49,6 @@ sub room {
        'page'     => strftime("d/%Y%m%d.html", @ltime),
        'exprs'    => [strftime("(comics/%Y%m%d\\w*\\.\\w+)\"", @ltime)],
        'size'     => ($ltime[6] == 0 ? [700,497] : [693,212])
-      };
-    
-    return $rec;
-}
-
-# Avalon
-# http://www.avalonhigh.com/comics/avalon20000404.gif
-
-sub avalon {
-    my $time = shift @_;
-    return undef if $time < mkgmtime(0,0,0,8,10,99);
-    my @ltime = gmtime($time);
-
-    my $rec =
-      {
-       'title'    => "Avalon",
-       'author'   => "Josh Phillips",
-       'type'     => 'gif',
-       'main'     => "http://www.avalonhigh.com/",
-       'archives' => "http://www.avalonhigh.com/archive/",
-       'base'     => "http://www.avalonhigh.com/comics/",
-       'page'     => strftime("avalon%Y%m%d.gif", @ltime),
-       'size'     => ($ltime[6] == 0 ? [600,729] : [600,275])
       };
     
     return $rec;
