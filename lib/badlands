@@ -18,7 +18,7 @@ sub badlands  {
 	'archives' => "http://www.stevemcgarry.com/archive/badlands.asp",
 	'base' => "http://www.stevemcgarry.com/badlands/archive/",
 	'size' => [540,170],
-	'page' => strftime("%y%m%d.GIF",@ltime)
+	'page' => strftime("%y%m%d.gif",@ltime)
 	};
     return $rec;
 }

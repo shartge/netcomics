@@ -1,5 +1,11 @@
+2002-10-15  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/kingfeatures: All kingfeatures are set back 14 days.
+
 2002-10-13  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/badlands (badlands): ".gif" != ".GIF" !!! (Module still doesn't
+	work since the comic hasn't been updated since June, though...)
 	* lib/lily_wong: Comic finished. Changed website and reset date.
 
 2002-10-11  Elliot Glaysher  <glaysher@umich.edu>

@@ -5,7 +5,7 @@ foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh
     crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
     jparker mtrail mworth hi pvaliant theydo tiger
     katkids popeye sroper needhelp re schix)) {
-    $hof{$_} = 0;
+    $hof{$_} = 14;
 }
 
 foreach (qw(mandrake ss henry hazel moosem pops trudy)) {
