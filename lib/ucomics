@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#first Calvin & Hobbes strip was November 18, 1985.
+$hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
+
+sub ucomics {
+    my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => 'gif',
+	'main' => "http://www.ucomics.com/$lname/",
+	'archives' => "http://www.ucomics.com/$lname/",
+	'base' => "http://",
+	'page' => strftime("www.ucomics.com/$lname/viewch.cfm?uc_full_date=%Y%m%d&uc_comic=${sname}",@ltime),
+	'exprs' => [strftime("([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/${sname}/%Y/${sname}%y%m%d.gif)",@ltime)],
+	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
+    };
+}
+
+#Calvin & Hobbes http://www.calvinandhobbes.com/strips/
+sub ch {
+    return ucomics(shift(@_), "Calvin and Hobbes", "Bill Watterson",
+		   [600,422], [600,200], "calvinandhobbes", "ch");
+}
+
+1;

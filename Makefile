@@ -72,7 +72,6 @@ MODULES = lib/after_y2k \
 	lib/boxjam \
 	lib/bruno \
 	lib/callahan \
-	lib/calvin-n-hobbes \
 	lib/cartoonweb \
 	lib/ccs \
 	lib/chuck_show \
@@ -153,6 +152,7 @@ MODULES = lib/after_y2k \
 	lib/toytrunk \
 	lib/triangle_robert \
 	lib/tucson \
+	lib/ucomics \
 	lib/uexpress \
 	lib/unitedmedia \
 	lib/user_friendly \
@@ -166,6 +166,7 @@ MODULES = lib/after_y2k \
 OLDMODULES = \
 	banditbruno \
 	bobbins \
+	calvin-n-hobbes \
 	dilbert \
 	glasbergen \
 	goats \
