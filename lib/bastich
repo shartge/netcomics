@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+$hof{"bastich"} = undef;
+
+sub bastich {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $time < 803865600; #1st comic: June 23 1995
+    my $rec = {
+	'title' => "Bastich",
+	'author' => "Joshua Adam Hart", 
+	'type' => 'gif',
+	'main' => "http://www.vaporwarepublishing.com/bastich/",
+	'archives' => "http://www.vaporwarepublishing.com/bastich/Strips/",
+	'base' => "http://www.vaporwarepublishing.com/bastich/Strips/",
+	'page' => "index.html",
+	'exprs' => {
+	    'comic' => [strftime("(ba%y%m%d\\.gif)",@ltime)],
+	    'caption' => [strftime("ba%y%m%d\\.gif\">(.*?)<\\/A>",@ltime)]
+	    }
+    };
+    return $rec;
+}
+
+1;
