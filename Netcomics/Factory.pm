@@ -489,15 +489,15 @@ sub get_comics {
 
         # If $rli->{'pagebase'} is defined, set $pagebase to equal it
         # Otherwise, just set $pagebase to equal $base
-        my $pagebase = defined($rli->{'pagebase'})?$rli->{'pagebase'}:$base;
+        $pagebase = defined($rli->{'pagebase'})?$rli->{'pagebase'}:$base;
         
         # If $rli->{'exprbase'} is defined, set $exprbase to equal it
         # Otherwise, just set $exprbase to equal $base
-        my $exprbase = defined($rli->{'exprbase'})?$rli->{'exprbase'}:$base;
+        $exprbase = defined($rli->{'exprbase'})?$rli->{'exprbase'}:$base;
                         
         # If $rli->{'funcbase'} is defined, set $funcbase to equal it
         # Otherwise, just set $funcbase to equal $base
-        my $funcbase = defined($rli->{'funcbase'})?$rli->{'funcbase'}:$base;
+        $funcbase = defined($rli->{'funcbase'})?$rli->{'funcbase'}:$base;
                         
 		print "$comics_dir/$name\n"
 			if $verbose && ! $extra_verbose && ! $dont_download; 
