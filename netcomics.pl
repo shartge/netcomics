@@ -1048,7 +1048,7 @@ if ($user_specified_comics || $user_unspecified_comics) {
     my %new_hof = ();
     my @bad_lof = ();
     my @hof_keys = keys(%hof);
-    @hof_keys = () unless defined(@hof_keys);
+    @hof_keys = () unless @hof_keys;
     my $fun;
     foreach $fun (@selected_comics) {
 	$fun = quotemeta($fun);
@@ -1459,8 +1459,11 @@ sub skip_rli {
     # if the URL was successfully determined and we're still not downloading or
     # if it's reached the max number of retries
     if (! defined($rli) || 
-	(@selected_comics && ! $always_download &&
-	 ! grep(/^$rli->{'proc'}$/, @selected_comics)) ||
+	(@selected_comics && ! $always_download && 
+		(($user_specified_comics && ! grep(/^$rli->{'proc'}$/,
+		@selected_comics)) || ($user_unspecified_comics &&
+		grep(/^$rli->{'proc'}$/, @selected_comics)))
+		) ||
 	(defined($rli->{'status'}) && 
 	 ($rli->{'status'} == 1 ||
 	  $rli->{'status'} == 2 && $dont_download)) ||

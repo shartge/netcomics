@@ -1,3 +1,8 @@
+2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (skip_rli): Added logic to catch when the user
+	unspecified some comics (thanks to Jeremy Bettis).
+
 2001-02-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/sourcewars: Added Daemon News' "Source Wars".
