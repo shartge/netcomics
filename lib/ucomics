@@ -108,7 +108,7 @@ sub ucross {
 sub kudzu {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,1,4,99); #May 1, 1999
-    return ucomics_direct($time, "Kudzu", "Doug Marlette",[600,412],[300,310],
+    return ucomics_direct($time, "Kudzu", "Doug Marlette",[600,412],[600,184],
 			  "tmkud","tmkud");
 }
 
@@ -229,7 +229,7 @@ sub ob {
 #PSMueller http://www.ucomics.com/psmueller/
 sub psmueller {
     return ucomics(shift(@_),"PSMueller","P.S.Mueller","psmueller","psm",
-           [600,276],[600,200],"psmueller");
+           [600,276],[500,360],"psmueller");
 }
 
 
@@ -271,7 +271,7 @@ sub wiley {
   my $time = shift;
   my @ltime = gmtime($time);
   return ucomics_direct($time,"Non Sequitur","Wiley Miller",undef,
-    [600,789],"nq","nq");
+    [600,193],"nq","nq");
 }
 
 1;

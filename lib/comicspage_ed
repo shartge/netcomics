@@ -7,20 +7,18 @@ foreach (qw(walth paulc chanl sack mikep danas jacko donw waynes jeffd
 
 #comicspage.com http://www.comicspage.com
 sub ComicsPageEd {
-    my ($time,$title,$author,$dir,$file,$wd_type,$sun_type,$wd_size,$sun_size)
+    my ($time,$title,$author,$dir,$file,$wd_type,$sun_type)
 	= @_;
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d",@ltime);
-    my ($size,$type);
+    my $type;
     if ($ltime[6] == 0) {
-        $size = $sun_size;
         $type = $sun_type;
     } else {
-        $size = $wd_size;
         $type = $wd_type;
     }                                                 
     my $baseurl = "http://www.comicspage.com/";
-    return undef unless defined($size) && defined($type);
+    return undef unless defined($type);
 
     my $rec = {
 	    'title' => $title,
@@ -30,7 +28,6 @@ sub ComicsPageEd {
     	'archives' => "$baseurl/$dir/main.html",
     	'base' => "$baseurl", 
     	'page' => "$dir/main.html",
-    	'size' => $size,
     };
 
     $rec->{'func'} = sub {
@@ -61,7 +58,7 @@ sub ComicsPageEd {
 sub  walth {
     my $time = shift;
     return ComicsPageEd($time,"Walt Handelsman Editorial","Walt Handelsman",
-	"handelsman", "han",'gif','gif',[450,351],[450,351]);
+	"handelsman", "han",'gif','gif');
 }
 
 #Paul Conrad ex: http://www.comicspage.com/daily/edcon/0916edcon-a.gif
@@ -69,7 +66,7 @@ sub  walth {
 sub paulc {
     my $time = shift;
     return ComicsPageEd($time,"Paul Conrad Editorial","Paul Conrad",
-	"conrad", "con",'gif','gif',[450,351],[450,351]);
+	"conrad", "con",'gif','gif');
 }
 
 #Matt Davies ex: http://www.comicspage.com/daily/eddav/0916eddav-a.gif
@@ -77,7 +74,7 @@ sub paulc {
 sub mattd {
     my $time = shift;
     return ComicsPageEd($time,"Matt Davies Editorial","Matt Davies",
-	"davies", "dav",'gif','gif',[450,351],[450,351]);
+	"davies", "dav",'gif','gif');
 }
 
 #David Horsey ex: http://www.comicspage.com/daily/edhor/0916edhor-a.gif
@@ -85,7 +82,7 @@ sub mattd {
 sub davidh {
     my $time = shift;
     return ComicsPageEd($time,"David Horsey Editorial","David Horsey",
-	"horsey", "hor",'gif','gif',[450,351],[450,351]);
+	"horsey", "hor",'gif','gif');
 }
 
 #Taylor Jones ex: http://www.comicspage.com/daily/edjon/0916edjon-a.gif
@@ -93,7 +90,7 @@ sub davidh {
 sub taylorj {
     my $time = shift;
     return ComicsPageEd($time,"Taylor Jones Editorial","Taylor Jones",
-	"jones", "jon",'gif','gif',[450,351],[450,351]);
+	"jones", "jon",'gif','gif');
 }
 
 #Dick Locher ex: http://www.comicspage.com/daily/eddik/0916eddik-a.gif
@@ -101,7 +98,7 @@ sub taylorj {
 sub dickl {
     my $time = shift;
     return ComicsPageEd($time,"Dick Locher Editorial","Dick Locher",
-	"locher", "dik",'gif','gif',[450,351],[450,351]);
+	"locher", "dik",'gif','gif');
 }
 
 #Doug Marlette ex: http://www.comicspage.com/daily/edmar/0916edmar-a.gif
@@ -109,7 +106,7 @@ sub dickl {
 sub dougm {
     my $time = shift;
     return ComicsPageEd($time,"Doug Marlette Editorial","Doug Marlette",
-	"marlette", "mar",'gif','gif',[450,351],[450,351]);
+	"marlette", "mar",'gif','gif');
 }
 
 #Dwane Powell ex: http://www.comicspage.com/daily/edpow/0916edpow-a.gif
@@ -117,7 +114,7 @@ sub dougm {
 sub dwanep {
     my $time = shift;
     return ComicsPageEd($time,"Dwane Powell Editorial","Dwane Powell",
-	"powell", "pow",'gif','gif',[450,351],[450,351]);
+	"powell", "pow",'gif','gif');
 }
 
 #Drew Sheneman ex: http://www.comicspage.com/daily/edshe/0916edshe-a.gif
@@ -125,7 +122,7 @@ sub dwanep {
 sub drews {
     my $time = shift;
     return ComicsPageEd($time,"Drew Sheneman Editorial","Drew Sheneman",
-	"sheneman", "she",'gif','gif',[450,351],[450,351]);
+	"sheneman", "she",'gif','gif');
 }
 
 #Ann Telnaes ex: http://www.comicspage.com/daily/edtel/0916edtel-a.gif
@@ -133,7 +130,7 @@ sub drews {
 sub annt {
     my $time = shift;
     return ComicsPageEd($time,"Ann Telnaes Editorial","Ann Telnaes",
-	"telnaes", "tel",'gif','gif',[450,351],[450,351]);
+	"telnaes", "tel",'gif','gif');
 }
 
 #Dan Wasserman ex: http://www.comicspage.com/daily/edwas/0916edwas-a.gif
@@ -141,7 +138,7 @@ sub annt {
 sub danw {
     my $time = shift;
     return ComicsPageEd($time,"Dan Wasserman Editorial","Dan Wasserman",
-	"wasserman", "was",'gif','gif',[450,351],[450,351]);
+	"wasserman", "was",'gif','gif');
 }
 
 #Dick Wright ex: http://www.comicspage.com/daily/eddwr/0916eddwr-a.gif
@@ -149,7 +146,7 @@ sub danw {
 sub dickw {
     my $time = shift;
     return ComicsPageEd($time,"Dick Wright Editorial","Dick Wright",
-	"wrightd", "dwr",'gif','gif',[450,351],[450,351]);
+	"wrightd", "dwr",'gif','gif');
 }
 
 #Jeff Danziger ex: http://www.comicspage.com/daily/eddan/0916eddan-a.gif
@@ -157,7 +154,7 @@ sub dickw {
 sub jeffd {
     my $time = shift;
     return ComicsPageEd($time,"Jeff Danziger Editorial","Jeff Danziger",
-	"danziger", "dan",'gif','gif',[450,351],[450,351]);
+	"danziger", "dan",'gif','gif');
 }
 
 #Chan Lowe ex: http://www.comicspage.com/daily/edlow/0916edlow-a.gif
@@ -165,7 +162,7 @@ sub jeffd {
 sub chanl {
     my $time = shift;
     return ComicsPageEd($time,"Chan Lowe Editorial","Chan Lowe",
-	"lowe", "low",'gif','gif',[450,351],[450,351]);
+	"lowe", "low",'gif','gif');
 }
 
 #Steve Sack ex: http://www.comicspage.com/daily/edsak/0916edsak-a.gif
@@ -173,7 +170,7 @@ sub chanl {
 sub sack {
     my $time = shift;
     return ComicsPageEd($time,"Steve Sack Editorial","Steve Sack",
-	"sack", "sak",'gif','gif',[450,351],[450,351]);
+	"sack", "sak",'gif','gif');
 }
 
 #Mike Peters ex: http://www.comicspage.com/daily/edpet/0916edpet-a.gif
@@ -181,7 +178,7 @@ sub sack {
 sub mikep {
     my $time = shift;
     return ComicsPageEd($time,"Mike Peters Editorial","Mike Peters",
-	"peters", "pet",'gif','gif',[450,351],[450,351]);
+	"peters", "pet",'gif','gif');
 }
 
 #Dana Summers ex: http://www.comicspage.com/daily/edsum/0916edsum-a.gif
@@ -189,7 +186,7 @@ sub mikep {
 sub danas {
     my $time = shift;
     return ComicsPageEd($time,"Dana Summers Editorial","Dana Summers",
-	"summers", "sum",'gif','gif',[450,351],[450,351]);
+	"summers", "sum",'gif','gif');
 }
 
 #Jack Ohman ex: http://www.comicspage.com/daily/edohm/20010522edohm-a.gif
@@ -197,7 +194,7 @@ sub danas {
 sub jacko {
     my $time = shift;
     return ComicsPageEd($time,"Jack Ohman Editorial","Jack Ohman",
-	"ohman", "ohm",'gif','gif',[450,351],[450,351]);
+	"ohman", "ohm",'gif','gif');
 }
 
 #Don Wright ex: http://www.comicspage.com/daily/edwrt/0916edwrt-a.gif
@@ -205,7 +202,7 @@ sub jacko {
 sub donw {
     my $time = shift;
     return ComicsPageEd($time,"Don Wright Editorial","Don Wright",
-	"wright", "wrt",'gif','gif',[450,351],[450,351]);
+	"wright", "wrt",'gif','gif');
 }
 
 #Wayne Stayskal ex: http://www.comicspage.com/daily/edsty/0916edsty-a.gif
@@ -213,7 +210,7 @@ sub donw {
 sub waynes {
     my $time = shift;
     return ComicsPageEd($time,"Wayne Stayskal Editorial","Wayne Stayskal",
-	"stayskal", "sty",'gif','gif',[450,351],[450,351]);
+	"stayskal", "sty",'gif','gif');
 }
 
 1;

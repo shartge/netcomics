@@ -92,7 +92,7 @@ sub fbofw {
 #Geech 
 sub geech {
     return comiczone(shift(@_),"Geech","Jerry Bittle","comics","geech",
-		    [600,190],[600,422],"geech");
+		    [725,536],[600,218],"geech");
 }
 
 #The Grizzwells http://www.comiczone.com/comics/grizzwells/archive
