@@ -1,5 +1,7 @@
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/keenspot (alice): Fixed passing of the size & main.
+	(adventure): Disabled.
 	* lib/elf_life (elf): Fixed the type field regexp
 	(thanks to Jeremy Bettis).
 	* lib/dr_fun (drfun): Disabled the size

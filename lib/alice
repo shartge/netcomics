@@ -2,7 +2,7 @@
 
 #Tack on the names of the subroutines to the list of functions
 $hof{"alice"} = 0;
-$hof{"adventure"} = 7;
+#$hof{"adventure"} = 7; #will restart soon
 
 sub alicecomics {
     my ($time,$title,$type,$size,$main,$dir,$expr) = @_;
@@ -34,7 +34,7 @@ sub alice  {
 			      |0811|11(15|25)|1224)
 			 |200001(04|26))$/);
     my $size = ($ltime[6]==0) ? [650,1080] : [744,1338];
-    return alicecomics($time,"Alice",$type,"today.html",$size,"d",
+    return alicecomics($time,"Alice",$type,$size,"today.html","d",
 		       "comics/alice");
 }
 
