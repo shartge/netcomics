@@ -1,3 +1,11 @@
+2001-08-31  Elliot Glaysher  <glaysher@umich.edu>
+
+	* netcomics: now uses the Netcomics/HTML.pm wrapper.
+	* Netcomics/HTML.pm (create_basic_page_set): Now a wrapper to create
+	a set of webpages at $comic_dir level based from @rli.
+	(create_archive_webpages): Now a wrapper to create webpages in
+	$comic_dir/$subdir, after seperating comics by $subdir.
+
 2001-08-30  Elliot Glaysher  <glaysher@umich.edu>
 
 	* doc/Modify_Webpage_Creation-HOWTO.html: First draft for update.

@@ -129,48 +129,15 @@ if ($verbose) {
 	}
 }
 
-if (!@selected_comics) {
-	foreach (@rli) {
-		my $proc = $_->{'proc'};
-		print "Checking rli: $proc\n";
-		push(@selected_comics, $proc) if not grep(/$proc/, @selected_comics);
-	}
-}
-
 print STDERR "Selected Comics !! : @selected_comics \n" if $extra_verbose;
 
 if ($make_webpage) {
-
 	# Create the webpage.
 	unless ($separate_comics) {
-		my $HTMLpage = Netcomics::HTML::Set->new;
-		$HTMLpage->create_set_of_pages(@rli);
+		Netcomics::HTML->create_basic_page_set(@rli);
 	} else {
-		# Create the archive pages
-		foreach my $comic (@selected_comics) {
-			print "\nTRYING COMIC: $comic\n";
-			my @rlis_to_pass;
-			my $subdir = "";
-			foreach my $rli (@rli) {
-				#print "Trying to match $comic to $rli->{'proc'}\n";
-				#print "Succes matching $comic to $rli->{'proc'}" if
-				#grep(/$comic/, $rli->{'proc'});
-				if (grep(/$comic/, $rli->{'proc'})) {
-					push(@rlis_to_pass, $rli);
-					$subdir = $rli->{'subdir'};
-				}
-			}
-			my $HTMLpage = Netcomics::HTML::Set->new
-			('output_dir' => "$comics_dir/$subdir",
-			 'include_subdir' => 0
-			);
-			print "Putting in directory $subdir\n";
-			$HTMLpage->create_set_of_pages(@rlis_to_pass);
-		}
-
-		# Create a set of normal webpages.
-		my $HTMLpage = Netcomics::HTML::Set->new;
-		$HTMLpage->create_set_of_pages(@rli);
+		Netcomics::HTML->create_archive_webpages(@rli);
+		Netcomics::HTML->create_basic_page_set(@rli);
 	}
 } else {
     my $user_specified_no_comics = 

@@ -26,66 +26,46 @@ my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
 my $files_mode = 0644;
 
-sub new {
-	my ($class,$init) = @_;
-
-}
-
-sub reset_date_attributes {
+sub create_basic_page_set {
 	my $self = shift;
-	$self->{'num_groups'} = undef;
-	$self->{'num_comics'} = undef;
-	$self->{'comics_on_last'} = undef;
-	$self->{'ctime'} = undef;
-}
-
-sub create_webpage {
-
-}
-
-
-=head2 check_rlis(@rli_array)
-
-Use check_rlis to get a hash returned, with only the comics that exist.
-
-=cut
-
-sub check_rlis {
 	my @rli = @_;
-	my %rlis = ();
 
+	my $HTMLpage = Netcomics::HTML::Set->new;
+	$HTMLpage->create_set_of_pages(@rli);
+}
+
+sub create_archive_webpages {
+	my $self = shift;
+	my @rli = @_;
+
+	# Create archive pages
+	my @selected_comics;
 	foreach (@rli) {
-		my $rli = $_;
-
-		next if (!$remake_webpage && defined($rli->{'reloaded'}));
-		my $comic = $rli->{'name'};
-		$_ = $rli->{'status'};
-		if (! defined($_)) {
-			print STDERR "$comic has an undefined status. Skipping.\n" 
-				if $verbose;
-			next;
-		} elsif (/[03]/) {
-			#didn't download (if a backup was tried (3), there's another
-			#rli for the backup).
-			next;
-		} elsif (/1/) {
-			print STDERR "No file for $comic. $inform_maintainer",next
-				unless defined $rli->{'file'};
-			$rli->{'stat'} = "local";
-		} elsif (/2/) {
-			print STDERR "No url for $comic. $inform_maintainer",next
-				unless defined $rli->{'url'};
-			$rli->{'file'} = $rli->{'url'};
-			$rli->{'stat'} = "remote";
-		} else {
-			print STDERR "Unsupported status ($_) for $comic. " .
-				$inform_maintainer;
-			print STDERR "Skipping $comic in operation.\n" if $verbose;
-			next;
-		}
-		$rlis{$comic} = $rli;
+		my $proc = $_->{'proc'};
+		print "Checking rli: $proc\n";
+		push(@selected_comics, $proc) if not grep(/$proc/, @selected_comics);
 	}
-	return(%rlis);
+
+	foreach my $comic (@selected_comics) {
+		print "\nTRYING COMIC: $comic\n";
+		my @rlis_to_pass;
+		my $subdir = "";
+		foreach my $rli (@rli) {
+			#print "Trying to match $comic to $rli->{'proc'}\n";
+			#print "Succes matching $comic to $rli->{'proc'}" if
+			#grep(/$comic/, $rli->{'proc'});
+			if (grep(/$comic/, $rli->{'proc'})) {
+				push(@rlis_to_pass, $rli);
+				$subdir = $rli->{'subdir'};
+			}
+		}
+		my $HTMLpage = Netcomics::HTML::Set->new
+		('output_dir' => "$comics_dir/$subdir",
+		 'include_subdir' => 0
+		);
+		print "Putting in directory $subdir\n";
+		$HTMLpage->create_set_of_pages(@rlis_to_pass);
+	}
 }
 
 1;
