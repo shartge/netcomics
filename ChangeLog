@@ -4,6 +4,7 @@
 	today's comic for that comic.
 	(Display_comic): Commented code and added whitespace. If they suck let
 	me know (It's past midnight and I'm tired...)
+	(comic_selected_from_list): A one line fix to quite an annoying bug...
 	
 2001-05-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

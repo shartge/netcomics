@@ -136,7 +136,7 @@ sub comic_selected_from_list {
 	my $days_behind = $date_lookup{$proc};
 	my @date = localtime((time - (86400*$days_behind)));
 	$calendar->select_month( $date[4], ($date[5] + 1900) );
-	$calendar->select_day( ($date[3] - 1) );
+	$calendar->select_day( ($date[3] ) );
 
 	return;
 }
