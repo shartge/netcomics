@@ -7,6 +7,10 @@
 	* netcomics: Added -G, which puts all RLI information into one
 	file. Thanks for massive help from Ben on this one.
 
+2001-03-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/toonville: Fixed determination of the date for filetype.
+
 2001-03-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Updated formatting to reduce number of lines
