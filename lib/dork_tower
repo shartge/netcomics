@@ -1,54 +1,26 @@
-#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+#-*-Perl-*-
 
-$hof{'dork'} = 0;
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"dork"} = 0;
 
-#Dork Tower - http://www.gamespy.com/comics/january01/dork01 (Tue, Sat)
-#           - http://kovalic.com/dork/dorks/DorkTowerIntWeeknnn.jpg (Mon)
-
+#Dork Tower http://archive.gamespy.com/comics/dorktower/
 sub dork {
-  my $time = shift;
-  my @ltime = gmtime($time);
-  my $date = strftime ("%Y%m%d", @ltime);
-  #First comic Dec. 12, 2000; only mon, tues, sat.
-  return undef if ($ltime[6] !~ m/[126]/ || $date <  20001212);
+    my $time = shift;
+    return undef if $time < 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($time);
 
-  my $rec = {'title' => "Dork Tower",
-	     'author' => "John Kovalic",
-	     'type' => "jpg",
-	     'main' => "http://kovalic.com/dork/index.html",
-	   };
-
-  if ($ltime[6] == 1) { # Fetch Interactive Week comic
-    return undef if ($date == 20010101); #No comic on New Year's
-    my $d = int (($time - 977029200) / 604800);
-    if ($ltime[5] == 100) { $d++; }
-    if ($d < 10) { $d = "0" . $d; }
-    if ($d < 100) { $d = "0" . $d; }
-    
-    $rec->{'base'} = "http://kovalic.com/dork/dorks/";
-    $rec->{'page'} = "DorkTowerIntWeek$d.jpg";
-
-  } else { # Fetch Gamespy.com comic
-    my @month = (qw(January February March April May June July August September
-		    October November December));
-    $ltime[3] -= 10 if ($date < 20010101); #adjust for Dec 2000
-    my $whole = int($ltime[3] / 7);
-    my $part = $ltime[3] % 7;
-    my $stripnum = (2*$whole) + 1;
-    $stripnum-- if ($part == 0);
-    if ($ltime[6] == 2) {
-      $stripnum++ if ($part > 3);
-    } else {
-      $stripnum++ if ($part > 4);
-    }
-    my $page = strftime("$month[$ltime[4]]%y/dork$stripnum",@ltime);
-    
-    $rec->{'base'} = "http://www.gamespy.com/comics/$page/";
-    $rec->{'exprs'} = ["<!-- DORK TOWER -->.*<img src=\"([^\"]*\.jpg)\".*<br>"];
-
-  }
-
-  return $rec;
+    my $rec = {
+        'title' => "Dork Tower",
+        'author' => "John Kovalic",
+        'type' => 'jpg',
+        'main' => "http://archive.gamespy.com/comics/dorktower/",
+        'archives' => "http://archive.gamespy.com/comics/dorktower/",
+        'base' => "http://archive.gamespy.com/comics/dorktower/",
+        'page' => "",
+        'expr' => "(images/comics/[A-Za-z0-9-]+.jpg)",
+        };
+    return $rec;
 }
 
 1;
