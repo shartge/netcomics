@@ -33,6 +33,7 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 library_sort
 			 libdate_sort
 			 mkgmtime
+			 processSyms
 			 reflect_all
 			 samedate
 			 status_message
@@ -88,9 +89,6 @@ sub load_modules {
 
 			my $module;
 			foreach $module (@modules) {
-				if ($module eq "Default.pm") {
-					next;
-				}
 				print "$module " if $extra_verbose;
 				eval "package $namespace; require \"$libdir/$module\""
 					if (-r "$libdir/$module");
@@ -203,6 +201,35 @@ sub libdate_sort {
 
 sub mkgmtime {
 	return mktime(@_) + (3600*$tz);
+}
+
+=head2 processSyms($namespace, $package_regex)
+
+Searches the $namespace for all modules that are derived from module(s)
+whose name matches $package_regex.  Returns a list of all the modules.
+
+=cut
+
+sub processSyms {
+    my ($namespace, $package_regex) = @_;
+	my @modules = ();
+    no strict "refs";
+    foreach (keys(%{$namespace})) {
+		if ($_ =~ /::$/ && $_ ne $namespace) {
+			my $subpkg = "$namespace$_";
+			if (grep(/^ISA$/, keys(%{$subpkg}))) {
+				#print "$subpkg\n";# for debugging
+				if (grep(/$package_regex/, @{"$subpkg\ISA"})) {
+					push(@modules, $subpkg);
+					#print "\t@modules\n"; #for debugging
+				}
+			} else {
+				push(@modules, processSyms($subpkg, $package_regex));
+			}
+		}
+    }
+    use strict "refs";
+	return @modules;
 }
 
 =head2 in_future($day_to_download, $days_behind)

@@ -13,60 +13,35 @@ H1, ADDRESS, .TimeStamp {text-align: center}
 The web page is created from a perl module in the namespace Netcomics::HTML::Themes.
 Don't know what that means? Copy the following template:<br>
 <PRE>
-package Netcomics::HTML::Themes::Default;
+
+package Netcomics::HTML::Themes::ThemeName;
+use vars '@ISA'; @ISA = ("Netcomics::HTML::Themes::Default");
+use strict;
+
+my (%html,%imgs);
+
 sub new {
-	my $class = shift;
-
-my $HTML_HEAD = <<'END_HEAD';
-
-END_HEAD
-
-my $HTML_LINKS = <<'END_LINKS';
-
-END_LINKS
-
-my $HTML_BODY = <<'END_BODY';
-
-END_BODY
-
-my $HTML_BODY_ELEMENT = <<'END_BODY_ELEMENT';
-
-END_BODY_ELEMENT
-
-my $HTML_TAIL = <<'END_TAIL';
-
-END_TAIL
-
-my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';
-
-END_LINKS_INDEX
-
-my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';
-
-END_INDEX_ELEMENT
-
-	my $self = {
-		'head' => $HTML_HEAD,
-		'links' => $HTML_LINKS,
-		'body' => $HTML_BODY,
-		'body_el' => $HTML_BODY_ELEMENT,
-		'tail' => $HTML_TAIL,
-		'links_index' => $HTML_LINKS_INDEX,
-		'index_element' => $HTML_INDEX_ELEMENT,
-	};
-
-	return bless $self, $class;
+    my $class = shift;
+    return $class->SUPER::new("Theme Name",\%imgs,\%html);
 }
 
 1;
 </PRE>
-<P>The webpage is divided into 7 parts:</P>
+<P>Then for each part of the default theme you want to change, copy it
+from the Default.pm theme file into yours and modify it.  If you don't
+want to use any of the Default theme, then make your's ISA line be
+"Netcomics::HTML::Theme".</P>
+
+<P>The html hash has 10 keys, each of which is refered to in here as a
+"section":</P>
 <UL>
-  <LI><I>$HTML_HEAD</I>:
+  <LI><I>head</I>:
       <UL>
-	<LI>The string <B>"&lt;DATE&gt;"</B> is replaced with
-	    the date of the form "mon day, Year"  This can be changed
-	    using the -wf option ($webpage_datefmt in the rc file).</LI>
+	<LI>The string <B>&lt;DATE&gt;</B> is replaced with
+	    the date of the form "mon day, Year".  This can be changed
+	    using the -wf option ($webpage_datefmt in the rc file).
+	    This can be used in any section, though.
+	</LI>
 	<LI>If &lt;DATE&gt; is provided with the optional attribute,
 	    <B>FORMAT=""</B>, the text between the quotes is used
 	    as the format specifier for the POSIX::strftime() function.
@@ -74,55 +49,114 @@ END_INDEX_ELEMENT
 	    string produced by strftime().  Escaped double quotes are
 	    not allowed between the quotes. See the man page for
 	    strftime() on your system.</LI>
+	<li><B>&lt;PAGETITLE&gt;</B>: title of the page.  This can be
+	    used in any section, though.
+	</li>
+	<li><B>&lt;CTIME&gt;</B>: time at which the page is created.
+	    Can be used in any section.
+	</li>
+	<li><B>&lt;NUM=FIRST&gt;</B>: Number of the first comic in the
+	    page of the whole set.
+	</li>
+	<li><B>&lt;NUM=LAST&gt;</B>: Number of the last comics in the page.
+	</li>
+	<li><B>&lt;NUM=TOTAL&gt;</B>: Total number of comics in the
+	    whole set.
+	</li>
+	<li><B>&lt;LINK_COLOR&gt;</B>: User's selection of the color
+	    applied to unvisited links.
+	</li>
+	<li><B>&lt;VLINK_COLOR&gt;</B>: User's selection of the color
+	    applied to visited links. 
+	</li>
+	<li><B>&lt;BACKGROUND&gt;</B>: User's selection for the
+	    background attribute for the page.
+	</li>
       </UL>
   </LI>
       
-  <LI><I>$HTML_BODY_ELEMENT</I>:
-      <UL>
-	<LI><B>"&lt;COMIC_FILE#&gt;"</B> is replaced with the filename of
+  <li><i>links</i>:
+      <ul>
+	<LI><B>&lt;FILE=PREV&gt;</B> is replaced with the filename
+	    of the previous webpage file.</LI>
+	<LI><B>&lt;FILE=NEXT&gt;</B> is replaced with the filename
+	    of the next webpage file.</LI>
+	<li><B>&lt;NUM&gt;</b> is replaced with the number of comics
+	    per page.</li>
+      </ul>
+  </li>
+
+  <li><i>pre_body</i>: include anything you want between the head and
+      the body.  This is usually the start of a TABLE.
+  </li>
+
+    <li><i>body</i>: A body is used to contain a single comic, so this
+	is typically a table row.
+      <ul>
+	<li>
+	<LI><B>&lt;COMIC_ID&gt;</B> is replaced with the id of the
+	    comic so that it can be uniquely hyperlinked to (the date
+	    is also attached to the id).</LI>
+	<LI><B>&lt;COMIC_NAME&gt;</B> is replaced with the name of
 	    the comic.</LI>
-	<LI><B>"&lt;SIZE&gt;"</B> is replaced with the HTML
+	<LI><B>&lt;ELEMENT&gt;</B> is replaced with 1 to n <i>body_el</i>
+	    sections.  A <i>body_el</i> section is used for each image that
+	    makes up the comic.</LI>
+	<LI><B>&lt;CAPTION&gt;</B> is replaced with the <i>caption</i>
+	    section or a blank string if the comic doesn't have a
+	    caption.</LI>
+	</li>
+      </ul>
+  </li>
+
+  <LI><I>body_el</I>:
+      <UL>
+	<LI><B>&lt;COMIC_FILE#&gt;</B> is replaced with the filename of
+	    the comic.</LI>
+	<LI><B>&lt;SIZE&gt;</B> is replaced with the HTML
 	    &lt;IMG&gt; attributes HEIGHT=# and WEIGHT=#.  This will
 	    help make rendering the web page happen more quickly in
 	    most browsers.</LI>
       </UL>
   </LI>
-  <LI><I>$HTML_TAIL</I>: The string <B>"&lt;CTIME&gt;"</B> is replaced with
+
+    <li><i>caption</i>:
+      <ul>
+	<li><B>&lt;CAPTION_DATA&gt;</B>: replaced with the comic's
+	    caption data.
+	</li>
+      </ul>
+  </li>
+
+  <LI><I>tail</I>: The string <B>&lt;CTIME&gt;</B> is replaced with
       the date as returned by POSIX::ctime().
   </LI>
-  <LI><I>$HTML_LINKS</I>:
-      <UL>
-	<LI><B>"&lt;FILE=PREV&gt;"</B> is replaced with the filename
-	    of the previous webpage file.</LI>
-	<LI><B>"&lt;FILE=NEXT&gt;"</B> is replaced with the filename
-	    of the next webpage file.</LI>
-      </UL>
-  </LI>
-  <LI><I>$HTML_LINKS_INDEX</I>: Both of the file types in links.html
-      are also replaced in this one, plus <B>"&lt;FILE=NEXT&gt;"</B>
+
+  <LI><I>links_index</I>: Both of the file types in <i>index_links</i>
+      are also replaced in this one, plus <B>&lt;FILE=NEXT&gt;</B>
       which is replaced with the filename of the next webpage
-      index. This template is used instead of links.html if an index
+      index. This template is used instead of <i>links</i> if an index
       is created (by default).
   </LI>
-  <LI><I>$HTML_INDEX_ELEMENT</I>: When created, an index webpage is
-      constructed using head.html, an instance of this template for
-      each comic, and tail.html. 
+  <LI><I>index_element</I>: When created, an index webpage is
+      constructed using <i>head</i>, an instance of this template for
+      each comic, and <i>tail</i>. 
       <UL>
-	<LI><B>"&lt;FILE=CURRENT&gt;"</B> is replaced with the
+	<LI><B>&lt;FILE=CURRENT&gt;</B> is replaced with the
 	    name of the webpage in which the comic is included.</LI>
-	<LI><B>"&lt;COMIC_ID&gt;"</B> is replaced with the id of the
+	<LI><B>&lt;COMIC_ID&gt;</B> is replaced with the id of the
 	    comic so that it can be uniquely hyperlinked to (the date
 	    is also attached to the id).</LI>
-	<LI><B>"&lt;COMIC_DATE&gt;"</B> is replaced with the date of
+	<LI><B>&lt;COMIC_DATE&gt;</B> is replaced with the date of
 	    the comic.</LI>
-	<LI><B>"&lt;COMIC_NAME&gt;"</B> is replaced with the name of
+	<LI><B>&lt;COMIC_NAME&gt;</B> is replaced with the name of
 	    the comic.</LI>
-	<LI><B>"&lt;COMIC_AUTHOR&gt;"</B> is replaced with author of
+	<LI><B>&lt;COMIC_AUTHOR&gt;</B> is replaced with author of
 	    the comic.</LI>
-	<LI><B>"&lt;COMIC_STATUS&gt;"</B> is replaced with the status
+	<LI><B>&lt;COMIC_STATUS&gt;</B> is replaced with the status
 	    of the comic. If it a local file, "local"; if it is a URL,
 	    "remote".</LI>
-	<LI><B>"&lt;PAGE=CURRENT&gt;"</B> is replaced with number of
+	<LI><B>&lt;PAGE=CURRENT&gt;</B> is replaced with number of
 	    the webpage in which the comic is included.</LI>
       </UL>
   </LI>
@@ -223,7 +257,7 @@ scratch.
 <HR>
 <ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
 <SPAN CLASS=TimeStamp>
-Last modified: Fri Aug 31 11:16:57 CDT 2001
+Last modified: Sun Mar 24 17:01:09 CST 2002
 </SPAN>
 </BODY>
 </HTML>

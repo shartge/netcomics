@@ -1,15 +1,19 @@
 #!/usr/bin/perl
 
+use strict;
+
 package Netcomics::RLI;
 
 package Netcomics::RLI::UserFriendly;
+use vars '@ISA';
 @ISA = ("Netcomics::RLI");
-
+use vars '$id';
 $id = "uf";
 
 package KevinAndKell;
+use vars '@ISA';
 @ISA = ("Netcomics::RLI");
-
+use vars '$id';
 $id = "kk";
 
 package main;
@@ -17,6 +21,7 @@ package main;
 my %modules = ();
 
 sub processSyms {
+    no strict "refs";
     my $package = shift;
     foreach (keys(%{$package})) {
 	if ($_ =~ /::$/ && $_ ne $package) {
@@ -32,6 +37,7 @@ sub processSyms {
 	    }
 	}
     }
+    use strict "refs";
 }
 
 #search the whole namespace for classes of type Netcomics::RLI

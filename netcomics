@@ -44,6 +44,8 @@ $conf->processARGV(@ARGV);
 
 $| = 1; #autoflush on STDERR & STDOUT
 
+Netcomics::HTML::list_themes(1), exit(0) if ($do_list_themes);
+
 #Persistent storage of rli info depends on Data::Dumper
 my $data_dumper_installed = requireDataDumper();
 
@@ -134,9 +136,6 @@ if ($verbose) {
 print STDERR "Selected Comics !! : @selected_comics \n" if $extra_verbose;
 
 if ($make_webpage) {
-	# Load all possible alternative themes modules.
-	load_modules("Netcomics::HTML::Themes", @html_theme_dirs);
-
 	# Create the webpage.
 	unless ($separate_comics) {
 		Netcomics::HTML->create_basic_page_set(@rli);

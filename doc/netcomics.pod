@@ -5,9 +5,9 @@ netcomics - retrieve comics from the Internet
 =head1 SYNOPSIS
 
 B<netcomics> [B<-aAbBDGhiIlLoPsuvv>] [B<-[c|C]> I<"comic ids">] [B<-p> I<url>]
-  [B<-S,-T,-E> I<date>] [B<-R> retries] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>]
+  [B<-S,-T,-E> I<date>] [B<-R> retries] [B<-n,-N> I<days>] [B<-d,-m> I<dir>]
   [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-P>] [B<-W,-w>[=I<n>]] [B<-nw>]
-  [B<-[n]wa>] [B<-wt> I<"webpage title">] [B<-f,-wf> I<"date fmt">]
+  [B<-[n]wa>] [B<-wt> I<"webpage title">] [B<-f,-wf> I<"date fmt">] [-t theme]
 
 =head1 DESCRIPTION
 
@@ -32,11 +32,11 @@ is given without an end date, B<-n> may be used to specify the number
 of days of comics to retrieve starting at the specified start date.
 If an end date is given without a start date, B<-n> will specify the
 number of days of comics to retrieve counting backwards from the end
-date.  If a start date is given without B<-n> or B<-E>, then the end
-date is assumed to be today's date.  If the option given to B<-E>,
-B<-S>, or B<-T> is just an integer, that integer is interpreted as
-the number of days prior to the current day (specify specific dates
-relatively).
+date.  If a start date is specified with B<-S>, but neither B<-n> nor
+B<-E> are used, then the end date of the range is assumed to be
+today's date.  If the option given to B<-E>, B<-S>, or B<-T> is just
+an integer, that integer is interpreted as the number of days prior to
+the current day (i.e. you can specify specific dates relatively).
 
 Another way to specify the dates to download comics, is to use B<-N>
 in conjunction with B<-n>.  The argument to B<-N> is the number of
@@ -62,7 +62,7 @@ B<Important:>  The further east your timezone is from the US, the later
 in the day you'll have to run I<netcomics>.  As a reference, I suggest
 those whose timezone is GMT to wait to run the script at 12:30pm if
 they want to get all the comics at a time that is likely to have
-all of the websites updated.  Use B<-N> if you want to run the
+most of the websites updated.  Use B<-N> if you want to run the
 script early in the morning and are having problems getting comics to
 download. Also, just because a comic failed to download doesn't mean
 that the module for that comic is broken--it may mean the website
@@ -73,6 +73,7 @@ directory you have the comics placed.   If a number is given with
 B<-W> or B<-w>, it will be used to determine the number of comics to
 be placed in each html file.  Each file is named "comic#.html", and an
 "index.html" file is created with a table of pointers into these files.
+You may specify the HTML theme using B<-t>.
 
 I<netcomics> can also maintain archives of comics for you with the use
 of the B<-P> feature. Using this will separate all comics of a single
@@ -196,6 +197,10 @@ in the rc file if need be.
 List supported comics & their identifiers, sorted by name alphabetically.
 Comics will not be downloaded.
 
+=item B<-lt>
+
+List the names of the HTML themes.  Comics will not be downloaded.
+
 =item B<-L>
 
 Sort comics in webpages by date and when using B<-l>, by days behind.
@@ -291,10 +296,11 @@ days prior to today, with which to define the range of days of
 comics to retrieve.  May be used in combination with of B<-E> or
 B<-n>. The date is of the form: M-D-Y.
 
-=item B<-t> I<dir>
+=item B<-t> I<theme>
 
-Specify the location of html template files. Default is 
-/usr/share/perl5/Netcomics/HTML/Themes
+Specify the name of the HTML template theme to use.
+Theme files are located in /usr/share/perl5/Netcomics/HTML/Themes.
+Use B<-lt> to list the installed themes.
 
 =item B<-T> [I<date> | I<days>]
 

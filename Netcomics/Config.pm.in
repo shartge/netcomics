@@ -58,7 +58,8 @@ use vars qw(@EXPORT @ISA);
 @ISA = qw(Exporter);
 @EXPORT = qw/$date_fmt @libdirs $html_theme $comics_dir $system_rc
 	$verbose $extra_verbose $delete_files @selected_comics
-	$do_list_comics $make_webpage $remake_webpage $proxy_url
+	$do_list_comics $do_list_themes
+	$make_webpage $remake_webpage $proxy_url
 	$days_of_comics $days_prior @dates $start_date $end_date
 	$given_options $user_specified_comics $user_unspecified_comics
 	$external_cmd $dont_download $use_filecmd $prefer_color
@@ -101,6 +102,7 @@ use vars ('$extra_verbose'); $extra_verbose = 0; #default to not extra verbose
 use vars ('$delete_files'); $delete_files = 0;
 use vars ('@selected_comics'); @selected_comics = ();
 use vars ('$do_list_comics'); $do_list_comics = 0;
+use vars ('$do_list_themes'); $do_list_themes = 0;
 use vars ('$make_webpage'); $make_webpage = 0; #def to not create the webpage
 use vars ('$remake_webpage'); $remake_webpage = 0;
 use vars ('$proxy_url'); $proxy_url = undef;
@@ -293,7 +295,7 @@ sub processARGV {
 	
 		#List supported comics
 		elsif (/-l/) {
-			$do_list_comics++;
+			$do_list_comics++ unless $do_list_themes;
 			$smushopt = 1;
 		}
 		
@@ -433,9 +435,13 @@ sub processARGV {
 
 		# HTML Theme Name
 		elsif (/(-t)$/) {
-			if (@ARGV > 0) {
+			if ($do_list_comics) {
+				$do_list_comics = 0;
+				$do_list_themes++;
+				$smushopt = 1;
+			} elsif (@ARGV > 0) {
 				$html_theme = shift(@ARGV);
-				#append_to_given_options($1, $html_tmpl_dir);
+				append_to_given_options($1, $html_theme);
 			} else {
 				print STDERR "Need the name of the theme you want to use" .
 					"for -t. Use -h for usage.\n";
@@ -778,9 +784,9 @@ sub usage {
 	print << "END";
 ©2001 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
 usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
-                 [-S,-T,-E date] [-R retries] [-n,-N days] [-d,-m,-t dir]
+                 [-S,-T,-E date] [-R retries] [-n,-N days] [-d,-m dir]
                  [-g [program]] [-nD] [-r rc_file] [-[W|w][=n]] [-nw]
-                 [-[n]wa] [-wt "webpage title"] [-f,-wf "date fmt"]
+                 [-[n]wa] [-wt "webpage title"] [-f,-wf "date fmt"] [-t theme]
    -a: if comics are specified, forcibly try to download them and also try
 	   to download any comics that weren't successfully downloaded.
 	   if comics aren't specified, forcibly (re)download all comics.
@@ -801,6 +807,7 @@ usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
    -i: don't create an index for the webpages
    -I: create an index for the webpages (override rc file setting)
    -l: list supported comics & their identifiers (doesn't download comics)
+   -lt:list the names of all of the installed themes.
    -L: sort comics by date in webpage, days behind when listing them
    -m: add dir to locations of comic modules
        (default /usr/share/perl5/Netcomics/Comic)

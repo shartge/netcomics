@@ -1,3 +1,35 @@
+2002-03-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Added listing themes on stdout.
+	* doc/Modify_Webpage_Creation-HOWTO.html: Updated to reflect new
+	template style & all things that get replaced.
+	* Netcomics/Util.pm (processSyms): New function that provides
+	introspection into the specified namespace to find all packages
+	that have an ISA that matches the given regexp.
+	(load_modules): Removed kludge on not loading Default.pm now that
+	the HTML packages don't "use" it anymore.
+	* Makefile.PL: Added Netcomics/HTML/Theme.pm
+	* MANIFEST: Added Netcomics/HTML/Theme.pm
+	* Netcomics/HTML/Set.pm: Removed dependency on "use"
+	Themes::Default.
+	* Netcomics/HTML.pm: Removed dependency on "use" Themes::Default.
+	(load_theme): new function that's used to load a theme.
+	(list_themes): new function returns the list of themes & prints
+	them if requested to.
+	(load_themes): function that loads all the themes.
+	* Netcomics/Config.pm.in (processARGV): Added option to list themes.
+	* Netcomics/HTML/Theme.pm: Moved things that are common to all
+	themes into this new class all themes are subclassed from directly
+	or indirectly.
+	* Netcomics/HTML/Themes/Default.pm: Made it be a subclass of
+	Netcomics::HTML::Theme 
+	* Netcomics/HTML/Page.pm: Removed dependency on "use"
+	Themes::Default.
+	(generate): Added a caption section.
+	* doc/netcomics.pod: Updated wording describing -E, -S, & -n to be
+	less ambiguous.  Fixed -t item description & added -lt (list themes).
+	Added item about listing themes & updated description of -t.
+	
 2002-03-24  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Factory.pm (build_date_array): Good possibility of fixing

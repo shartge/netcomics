@@ -33,6 +33,7 @@ GtkComics.pm
 HTML.pm
 HTML/Page.pm
 HTML/Set.pm
+HTML/Theme.pm
 HTML/Themes/Default.pm
 MyRequest.pm
 MyResponse.pm

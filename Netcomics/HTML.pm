@@ -21,19 +21,67 @@ use Netcomics::Util;
 use Netcomics::Config;
 use Netcomics::HTML::Set;
 
-# Load the templates into this namespace.
-load_modules("Netcomics::HTML::Themes", @html_theme_dirs);
-
 #class attributes
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
 my $files_mode = 0644;
+my $themes_loaded = 0;
+
+# Load the templates into this namespace.
+sub load_themes {
+	load_modules("main", @html_theme_dirs)
+		unless $themes_loaded;
+	$themes_loaded = 1;
+}
+
+=head2
+
+list_themes($do_print)
+
+Returns a list of HTML Themes and also prints them out if $do_print is 1.
+
+=cut
+
+sub list_themes {
+	my $do_print = shift;
+	load_themes();
+	my @modules = grep(s/.*::([^:]+)::$/$1/,
+					   processSyms("main::", "Netcomics::HTML::Theme"));
+	if (defined($do_print) && $do_print) {
+		print "HTML Themes:\n" if $verbose;
+		my $list_sep = $"; #save the list separator
+		$" = "\n"; #change the list separator
+		print "@modules\n";
+		$" = $list_sep; #restore the list separator"
+	}
+
+	return @modules;
+}
+
+=head2 load_theme($theme_name)
+
+Returns a theme object for the given theme name.
+
+=cut
+
+sub load_theme {
+	my $theme_name = shift;
+	load_themes();
+	my $theme = eval "Netcomics::HTML::Themes::$theme_name->new";
+	if (! defined($theme)) {
+		my @themes = list_themes();
+		die "The specified theme does not exist: $theme_name.\n" .
+			"Valid themes: @themes\n";
+	} else {
+		print "Creating with HTML template $theme->{'name'}.\n" if $verbose;
+	}
+	return $theme;
+}
 
 sub create_basic_page_set {
 	my $self = shift;
 	my @rli = @_;
-	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
-	print "Creating with template $template->{'name'}.\n";
+	my $template = load_theme($html_theme);
 	my $HTMLpage = Netcomics::HTML::Set->new(
 											 'theme' => $template
 											);
@@ -43,8 +91,8 @@ sub create_basic_page_set {
 sub create_toplevel_page_set {
 	my $self = shift;
 	my @rli = @_;
-	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
-	print "Creating with template $template->{'name'}.\n";
+	load_themes();
+	my $template = load_theme($html_theme);
 	my $HTMLpage = Netcomics::HTML::Set->new(
 											 'theme' => $template,
 											 'link_to_local_archives' => 1,
@@ -56,8 +104,7 @@ sub create_archive_webpages {
 	my $self = shift;
 	my @rli = @_;
 
-	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
-	print "Creating with template $template->{'name'}.\n";
+	my $template = load_theme($html_theme);
 
 	# Create archive pages
 	my @selected_comics;
@@ -93,9 +140,8 @@ sub create_archive_webpages {
 sub create_today_page {
 	my $self = shift;
 	my @rli = @_;
-
-	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
-	print STDERR "Creating with template $template->{'name'}.\n" if $verbose;
+	load_themes();
+	my $template = load_theme($html_theme);
 
 	# Create archives for these comics.
 	my %data = Netcomics::Util::rlis_hash(@rli);
