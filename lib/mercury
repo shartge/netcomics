@@ -55,20 +55,6 @@ sub loose {
                        'gif',undef,[252,297],[922,645],117);
 }                                     
 
-#Mary Worth
-sub worth {
-    my $time = shift;
-    return mercury($time,"Mary Worth","John Saunders","mary_worth",
-                       'gif',undef,[525,157],[250,296],70);
-}                             
-
-#Rex Morgan
-sub rex {
-    my $time = shift;
-    return mercury($time,"Rex Morgan","Wilson and DiPreta","rex_morgan",
-                       'gif','gif',[525,157],[620,460],92);
-}                                                   
-
 #Phantom
 sub phantom {
     my $time = shift;
@@ -89,13 +75,6 @@ sub grain {
                        'gif',undef,[525,157],[250,296],70);
 }                                                   
 
-#Bobos Progress
-sub bobo {
-    my $time = shift;
-    return mercury($time,"Bobos Progress","","bobo",
-                       'gif',undef,[525,157],[250,296],126);
-}
-
 # Cats With Hands
 sub catshands {
     my $time = shift;
@@ -115,13 +94,6 @@ sub fairgame {
     my $time = shift;
     return mercury($time,"Fair Game","","fair_game",
                        'gif',undef,[252,331],[250,296],40);
-}
-
-#Hi & Lois
-sub hi {
-    my $time = shift;
-    return mercury($time,"Hi and Lois","Greg & Brian Walker","hi_lois",
-                       'gif',undef,[525,157],[250,296],57);
 }
 
 #Ick

@@ -2,8 +2,8 @@
 
 foreach (qw(ba bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy zt
 	 pc rl ro zp spider apt3g bfriends bonerark bfather buckles claire 
-	 crock curtis dennis dinette familyc fgordon tumble
-	 jparker mtrail henry pvaliant theydo tiger hazel wethel
+	 crock curtis dennis dinette familyc fgordon tumble bobo rmorgan
+	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
 	 katkids mandrake pops popeye sroper mmiller needhelp re schix)) {
     $hof{$_} = 14; #two weeks behind
 }
@@ -107,6 +107,13 @@ sub blondie {
 		       "blondie","Blondie",[480,142]);
 }
 
+# Bobos Prograss
+# http://www.kingfeatures.com/features/comics/bobo/about.htm
+sub bobo {
+    return kingfeature(shift(@_),"Bobos Progress","Dan Wright and Tom Spurgeon",
+                       "bobo","Bobos_Progress",[525,165]);
+}
+
 sub bonerark {
     return kingfeature3(shift(@_),"Boners Ark","Frank Johnson",
 			"bonerark","bot", [480,142]);
@@ -192,6 +199,13 @@ sub henry {
 		       [480,157]);
 }
 
+# Hi and Lois
+# http://www.kingfeatures.com/features/comics/hi_lois/about.htm
+sub hi {
+    return kingfeature(shift(@_),"Hi and Lois","Brian Walker, Greg Walker and Chance Browne",
+                       "hi_lois","Hi_and_Lois",[525,155]);
+}
+
 #Horroscope http://www.kingfeatures.com/comics/horrscpe/
 sub hr {
     return kingfeature2(shift(@_),"Horrorscope","Susan Kelso & Carol Kemp",
@@ -251,6 +265,13 @@ sub ma {
 		       [480,159]);
 }
 
+# Mary Worth
+# http://www.kingfeatures.com/features/comics/mworth/about.htm
+sub worth {
+    return kingfeature(shift(@_),"Mary Worth","John Saunders and Joe Giella",
+                       "mworth","Mary_Worth",[525,156]);
+}
+
 #Moose Miller http://www.kingfeatures.com/comics/mmiller/index.htm
 sub mmiller {
     return kingfeature3(shift(@_),"Moose Miller",
@@ -308,6 +329,14 @@ sub rl {
 sub re {
   return kingfeature(shift(@_),"Red Eye","Bill Yates & Mel Casson",
 		     "redeye","Redeye", [480,140]);
+}
+
+# Rex Morgan
+# http://www.kingfeatures.com/features/comics/rmorgan/about.htm
+sub rex {
+    return kingfeature(shift(@_),"Rex Morgan, M.D.",
+		       "Woody Wilson and Graham Nolan",
+                       "rmorgan","Rex_Morgan",[525,166]);
 }
 
 #Rhymes With Orange http://www.kingfeatures.com/comics/orange/

@@ -1,10 +1,16 @@
 2000-11-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* lib/uexpress: Reenabled now that the United Syndicate comics are
-	no longered carried by comiczone.
+	* lib/mercury: Removed the comics just moved to kingfeatures.
+	* lib/kingfeatures: Moved Mary Worth, Rex Morgan, Bobos Progress,
+	and Hi & Louis to kingfeatures because of the required password
+	for mercury (Thanks to Sven Hartge).
+
+	* lib/unitedmedia: Updated to match new duplicated code in
+	comiczone.
 	* lib/comiczone: Updated so that duplicated code between uexpress
 	and unitedmedia is the same.
-	* lib/unitedmedia: Updated to match new duplicated code in comiczone.
+	* lib/uexpress: Reenabled now that the United Syndicate comics are
+	no longered carried by comiczone.
 
 2000-10-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
