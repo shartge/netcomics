@@ -1,3 +1,8 @@
+2001-07-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* INSTALL: Updated first section to explain in depth about
+	changing install paths.
+
 2001-07-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics.spec (%install): Added compression of some doc files.
