@@ -8,8 +8,6 @@ sub redmeat {
     my $today = shift(@_);
     my @ltime = gmtime($today);
     
-    #These comics aren't dated.  This needs a better way to get older
-    #comics.
     return undef if ($ltime[6] != 2);
     my $rec = {
 	'title' => "Red Meat",
@@ -18,10 +16,10 @@ sub redmeat {
 	'main' => "http://www.redmeat.com/",
 	'archives' => "http://www.redmeat.com/redmeat/locker.html",
 	'base' => "http://www.redmeat.com/redmeat/",
-	'page' => "fresh.html",
-	'expr' => "(comics/rm_\\d+\.gif)\" alt=\"This Week",
-	'size' => [600,262]
-	};
+	'page' => strftime("%Y-%m-%d/index-1.gif",@ltime),
+	'size' => [600,262],
+	'type' => 'gif',
+    };
     return $rec;
 }
 
