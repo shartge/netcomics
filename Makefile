@@ -68,7 +68,6 @@ MODULES = lib/after_y2k \
 	lib/avalon \
 	lib/bad_boys \
 	lib/badlands \
-	lib/bastich \
 	lib/bayside \
 	lib/bigpanda \
 	lib/boatanchor \
@@ -173,6 +172,7 @@ MODULES = lib/after_y2k \
 
 OLDMODULES = \
 	banditbruno \
+	bastich \
 	bobbins \
 	boxjam \
 	calvin-n-hobbes \

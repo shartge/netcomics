@@ -1,3 +1,7 @@
+2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/bastich: Removed because it no longer exists.
+
 2001-04-19  Elliot Glaysher <nuriko.chan@home.com>
 
 	* lib/joyoftech: Added joyoftech, thanks to Max Zomborszki.
