@@ -1737,12 +1737,20 @@ sub get_comics {
 	    }
  
 	    my $j = 0;
-RELURL:	    foreach (@relurls) {
-		my $litem = $_;
+RELURL:	    while (@relurls) {
+		my $litem = pop(@relurls);
 		$_ = ref($litem);
 		if (/HASH/) {
 		    #special rli fields to be added (like with mfeh)
 		    #instead of relative URLs.
+		    if ($j > 0) {
+			#either rli fields or rel urls--both not allowed
+			print STDERR "$name($i): bug found.  Both relative" .
+			    "URLs and RLI fields are not allowed to be " .
+				"returned by functions.\n";
+			next RLI;
+		    }
+		    $j--;
 		    my $key;
 		    foreach $key (keys(%$litem)) {
 			print "$name($i): adding field '$key' => " .
@@ -1751,10 +1759,22 @@ RELURL:	    foreach (@relurls) {
 			$rli->{$key} = $litem->{$key};
 		    }
 		    next RELURL;
+		} elsif (/ARRAY/) {
+		    #push these back onto relurls
+		    push @relurls, @$litem;
+		    next RELURL;
 		} elsif (! /^$/) {
 		    print STDERR "$name($i): list element of type $_ " .
 			"returned by function is not yet supported.\n";
 		    next RELURL;
+		}
+
+		if ($j < 0) {
+		    #either rli fields or rel urls--both not allowed
+		    print STDERR "$name($i): bug found.  Both relative" .
+			"URLs and RLI fields are not allowed to be " .
+			    "returned by functions.\n";
+		    next RLI;
 		}
 
 		my $url = "$base$litem";
@@ -1804,7 +1824,7 @@ RELURL:	    foreach (@relurls) {
 		$rli->{'url'}->[@{$rli->{'url'}}] = $url;
 		$i++; #simply keep track for debugging purposes
 	    }
-	    if (! $j) {
+	    if ($j < 0) {
 		#assume the @relurl returned contained a hash which added
 		#fields to the rli which now need to be reprocessed.
 		goto SETUPDATA;

@@ -1,6 +1,9 @@
 2001-01-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* lib/down_earth (downearth): Updated thanks to Martial Michael,
+	* netcomics (get_comics): Updated RELURL section so that it would
+	detect when both an rli and relurls were returned, and made it so
+	that it could handle ARRAY refs.
+	* lib/down_earth (downearth): Updated thanks to Martial Michel,
 	plus added an exceptions table, made file extension case
 	insensitive, and added a multi image returning function for the
 	one date that has multiple images for it.
