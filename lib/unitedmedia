@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
-	    fatcats bullsnbears grandave duncan reality shirley 
+	    fatcats bullsnbears fae grandave duncan reality shirley 
 	    soupnutz lupo trevor)) {
     $hof{$_} = 0;
 }
@@ -116,6 +116,13 @@ sub flightdeck {
     return unitedmedia(shift(@_),"Flight Deck",
 		       "Peter Waldner","creators","flightdeck",
 		       [725,272],[300,340],"flightdeck");
+}
+
+# Frank and Ernest
+sub fae {
+    return unitedmedia(shift(@_), "Frank and Ernest",
+		       "Bob Thaves","comics","franknernest",
+		       [725,400],[600,200],"franknernest");
 }
 
 # Grand Avenue

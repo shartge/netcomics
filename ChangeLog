@@ -1,3 +1,12 @@
+2004-08-20  Clint Olson  <coandco at users * sourceforge * net>
+
+	* lib/unitedmedia
+	      frankandernest: Frank and Ernest moved the site they
+          host their comics on from www.frankandernest.com to www.comics.com.
+          Removed the file lib/frankandernest and rolled the definition into
+          unitedmedia.
+        * MANIFEST: Updated to reflect the file lib/frankandernest being gone
+
 2004-08-19  Clint Olson  <coandco at users * sourceforge * net>
 
         * Netcomics/Config.pm.in
