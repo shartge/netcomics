@@ -4,9 +4,10 @@ netcomics - retrieve comics from the Internet
 
 =head1 SYNOPSIS
 
-B<netcomics> [B<-abBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [ B<-R> retries]
-  [B<-S,-T,-E> I<date> [B<-A>]] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>]
+B<netcomics> [B<-aAbBDGhiIlLoPsuvv>] [B<-[c|C]> I<"comic ids">] [B<-p> I<url>]
+  [B<-S,-T,-E> I<date>] [B<-R> retries] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>]
   [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-P>] [B<-W,-w>[=I<n>]] [B<-nw>]
+  [B<-[n]wa>] [B<-wt> I<"webpage title">] [B<-f,-wf> I<"date fmt">]
 
 =head1 DESCRIPTION
 
@@ -151,7 +152,7 @@ The date is of the form: M-D-Y.
 
 =item B<-f> I<date_fmt>
 
-Specify the date format used when naming files.  Default is C<'%y%m%d'>.
+Specify the date format used when naming files.  Default is C<'%Y%m%d'>.
 
 =item B<-g> [I<program>]
 
@@ -339,12 +340,27 @@ selected comics will be printed.  If the B<-u> option is used, URLs will
 be printed instead.  Use B<-v> also to include the comic tiles before the
 filenames or URLs.
 
+=item B<-wa>
+
+In the created webpages, use absolute paths for embedded images.
+
+=item B<-nwa>
+
+In the created webpages, use relative paths for embedded images.
+Use this option to override the rc file setting, $webpage_absolute_paths.
+
 =item B<-wt> I<title>
 
 Specify a title for the web page rather than the default
 ("Today's Comics From the Web on E<lt>DATEE<gt>").  This is useful
 for when you download specific comics, and want the title of the
 web page to reflect the actual contents.
+
+=item B<-wf> I<date_fmt>
+
+Specify the date format used to replace occurrences of E<lt>DATEE<gt>
+when creating webpages.  Default is C<'%b %d, %Y'>.  See the strftime(3)
+manpage for a list of available conversion specifiers on your system.
 
 =item B<-W>[=n]
 
@@ -550,7 +566,7 @@ See the TODO file in the source distribution.
 
 =head1 SEE ALSO
 
-show_comics(1) comicpage(1)
+show_comics(1) comicpage(1) strftime(3)
 
 =head1 AUTHOR
 
