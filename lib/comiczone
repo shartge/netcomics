@@ -193,7 +193,7 @@ sub jworld {
     my @ltime = gmtime($time);
     return undef if($ltime[6] == 0);
     return comiczone($time,"Janes World","Paige Braddock","comics",
-        "janesworld",[500,358],[500,358],"jworld");
+        "janesworld",[500,358],[600,203],"jworld");
 }
 
 1;

@@ -16,12 +16,10 @@ foreach (qw(mandrake ss henry hazel moosem pops trudy)) {
 #King Features http://www.kingfeatures.com/comics
 sub kingfeature {
     #get arguments (fp stands for file prefix)
-    my ($time,$title,$author,$dir,$fp,$size,$sfx,$sunday) = @_;
+    my ($time,$title,$author,$dir,$fp,$wd_size,$sun_size,$sfx) = @_;
     my $sf = (defined($sfx)? $sfx : "gif"); #default suffix of gif
     my @ltime = gmtime($time);
-    #there are no more sunday comics available at kingfeatures except for
-    #the ones that are only sunday comics
-    return undef if $ltime[6] == 0 && ! defined($sunday);
+    my $size = $ltime[6] == 0 ? $sun_size : $wd_size;
     my $base = "http://www.kingfeatures.com/comics/$dir/";
     my $rec = {
 	'title' => $title,
@@ -38,7 +36,7 @@ sub kingfeature {
 }
 
 sub kingfeature2 {
-  my ($time,$title,$author,$dir,$fp,$size,$sfx,$sunday) = @_;
+  my ($time,$title,$author,$dir,$fp,$wd_size,$sun_size,$sfx) = @_;
   my $sf = (defined($sfx)? $sfx : "gif"); #default suffix of gif
   my @ltime = gmtime($time);
   my $res = kingfeature(@_);
@@ -49,7 +47,7 @@ sub kingfeature2 {
 }
 
 sub kingfeature3 {
-    my ($time,$title,$author,$dir,$fp,$size,$sfx,$sunday) = @_;
+    my ($time,$title,$author,$dir,$fp,$wd_size,$sun_size,$sfx) = @_;
     my $rec = kingfeature2(@_);
     $rec->{'base'} = "http://www.kingfeatures.com/features/comics/$dir/"
 	if defined $rec;
@@ -60,52 +58,53 @@ sub kingfeature3 {
 # http://www.kingfeatures.com/comics/spidermn/
 sub spider {
     return kingfeature(shift(@_),"The Amazing Spider-Man","Stan Lee",
-		       "spidermn","Spiderman",[480,157]);
+		       "spidermn","Spiderman",[480,157], [700,488]);
 }
 
 # Apartment 3-G
 # http://www.kingfeatures.com/comics/apt3g/
 sub apt3g {
     return kingfeature(shift(@_),"Apartment 3-G",
-		       "Brian Kotzky & Lisa Trusiani","apt3g","Apartment_3-G",[480,150]);
+		       "Brian Kotzky & Lisa Trusiani","apt3g","Apartment_3-G",[480,150],[600,422]);
 }
 
 #Baby Blues http://www.kingfeatures.com/comics/babyblue/
 sub ba {
     return kingfeature(shift(@_),"Baby Blues","Rick Kirkman and Jerry Scott",
-             "babyblue","Baby_Blues", [525,153]);
+             "babyblue","Baby_Blues", [525,153],[600,400]);
 }
 
 # Barney Google and Snuffy Smith
 # http://www.kingfeatures.com/comics/bgoogle/
 sub bg {
     return kingfeature(shift(@_),"Barney Google and Snuffy Smith",
-		       "Fred Lasswell","bgoogle","Barney_Google",[480,135]);
+		       "Fred Lasswell","bgoogle","Barney_Google",[480,135],
+		       [600,414]);
 }
 
 # Beatle Baily
 # http://www.kingfeatures.com/comics/bbailey/
 sub bb {
     return kingfeature(shift(@_),"Beetle Bailey","Mort Walker",
-		       "bbailey","Beetle_Bailey", [480,147]);
+		       "bbailey","Beetle_Bailey", [480,147], [600,402]);
 }
 
 # The Better Half
 # http://www.kingfeatures.com/comics/bet_half/
 sub be {
     return kingfeature(shift(@_),"The Better Half","Randy Glasbergen",
-		       "bet_half","Better_Half",[249,214]);
+		       "bet_half","Better_Half",[249,214], [600,392]);
 }
 
 sub bfriends {
     return kingfeature(shift(@_),"Between Friends","Sandra Bell-Lundy",
-		       "bfriends","Between_Friends",[480,151]);
+		       "bfriends","Between_Friends",[480,151], [600,281]);
 }
 
 #Blondie http://www.kingfeatures.com/comics/blondie/
 sub blondie {
     return kingfeature(shift(@_),"Blondie","Dean Young and Denis Lebrun",
-		       "blondie","Blondie",[480,142]);
+		       "blondie","Blondie",[480,142], [600,406]);
 }
 
 # Wildwood
@@ -113,7 +112,7 @@ sub blondie {
 # http://www.kingfeatures.com/features/comics/wildwood/about.htm
 sub wildwood {
     return kingfeature(shift(@_),"Wildwood","Dan Wright and Tom Spurgeon",
-                       "wildwood","Wildwood",[525,165]);
+                       "wildwood","Wildwood",[525,165], [525,166]);
 }
 
 sub buckles {
@@ -123,22 +122,22 @@ sub buckles {
 
 sub crock {
     return kingfeature(shift(@_),"Crock","Bill Rechin & Don Wilder","crock",
-		       "Crock",[480,155]);
+		       "Crock",[480,155], [600,422]);
 }
 
 sub curtis {
     return kingfeature(shift(@_),"Curtis","Ray Billingsley","curtis","Curtis",
-		       [480,146]);
+		       [480,146], [600,405]);
 }
 
 sub dennis {
     return kingfeature(shift(@_),"Dennis The Menace","Hank Ketcham","dennis",
-		       "Dennis_The_Menace",[251,322]);
+		       "Dennis_The_Menace",[251,322], [600,422]);
 }
 
 sub dinette {
     return kingfeature(shift(@_),"Dinette Set","Julie Larson","dinette",
-		       "Dinette_Set",[251,272]);
+		       "Dinette_Set",[251,272], [600,289]);
 }
 
 #The Family Circus http://www.kingfeatures.com/comics/familyc/
@@ -152,26 +151,26 @@ sub fgordon {
     my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Flash Gordon","Jim Keefe","fgordon","fg",
-		       [600,414],"jpg",1);
+		       [600,414],undef,"jpg");
 }
 
 #Funky Winkerbean http://www.kingfeatures.com/comics/fwinker/
 sub fu {
     return kingfeature(shift(@_),"Funky Winkerbean","Tom Batiuk","fwinker",
-		       "Funky_Winkerbean",[480,154]);
+		       "Funky_Winkerbean",[480,154], [600,402]);
 }
 
 #Grin and Bear It http://www.kingfeatures.com/comics/grinbear/
 sub gb {
     return kingfeature(shift(@_),"Grin and Bear It",
 		       "Fred Wagner & Ralph Dunagin","grinbear",
-		       "Grin_and_Bear_It",[250,315]);
+		       "Grin_and_Bear_It",[250,315], [600,406]);
 }
 
 #Hagar the Horrible http://www.kingfeatures.com/comics/hagar/
 sub hg {
     return kingfeature(shift(@_),"Hagar the Horrible","Chris Browne","hagar",
-		       "Hagar_The_Horrible",[480,148]);
+		       "Hagar_The_Horrible",[480,148], [600,398]);
 }
 
 #Hazel http://www.kingfeatures.com/comics/hazel/index.htm
@@ -193,7 +192,7 @@ sub henry {
 sub hi {
     return kingfeature(shift(@_),"Hi and Lois",
 		       "Brian Walker, Greg Walker and Chance Browne",
-                       "hi_lois","Hi_and_Lois",[525,155]);
+                       "hi_lois","Hi_and_Lois",[525,155], [600,401]);
 }
 
 #Horroscope http://www.kingfeatures.com/comics/horrscpe/
@@ -205,13 +204,13 @@ sub hr {
 #I Need Help http://www.kingfeatures.com/comics/needhelp/index.htm
 sub needhelp {
     return kingfeature(shift(@_),"I Need Help",
-	"Vic Lee", "needhelp","I_Need_Help", [263,258]);
+	"Vic Lee", "needhelp","I_Need_Help", [263,258], [600,280]);
 }
 
 #Judge Parker http://www.kingfeatures.com/comics/jparker/index.htm
 sub jparker {
     return kingfeature(shift(@_),"Judge Parker","Woody Wilson & Harold LeDoux",
-	"jparker","Judge_Parker", [480,157]);
+	"jparker","Judge_Parker", [480,157], [600,405]);
 }
 
 #Katzenjammer Kids http://www.kingfeatures.com/comics/katzkids/index.htm
@@ -221,19 +220,19 @@ sub katkids {
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Katzenjammer Kids",
         "Hy Eisman", "katzkids",
-        "kk",[600,404],"jpg",1);                 
+        "kk",[600,404],undef,"jpg");                 
 }
 
 #The Lockhorns http://www.kingfeatures.com/comics/lockhorn/
 sub lo {
     return kingfeature(shift(@_),"The Lockhorns","Bunny Hoest & John Reiner",
-		       "lockhorn","Lockhorns",[249,175]);
+		       "lockhorn","Lockhorns",[249,175], [600,290]);
 }
 
 #Mallard Fillmore http://www.kingfeatures.com/comics/mallard/
 sub mf {
     return kingfeature(shift(@_),"Mallard Fillmore","Bruce Tinsley","mallard",
-		       "Mallard_Fillmore",[480,157]);
+		       "Mallard_Fillmore",[480,157], [600,288]);
 }
 
 #Mandrake the Magician
@@ -246,13 +245,13 @@ sub mandrake {
 #Mark Trail http://www.kingfeatures.com/comics/mtrail/index.htm
 sub mtrail {
     return kingfeature(shift(@_),"Mark Trail","Jack Elrod",
-	"mtrail","Mark_Trail", [480,157]);
+	"mtrail","Mark_Trail", [480,157], [600,418]);
 }
 
 #Marvin http://www.kingfeatures.com/comics/marvin/
 sub ma {
     return kingfeature(shift(@_),"Marvin","Tom Armstrong","marvin","Marvin",
-		       [480,159]);
+		       [480,159], [600,423]);
 }
 
 # Mary Worth
@@ -272,7 +271,7 @@ sub moosem {
 #Mutts http://www.kingfeatures.com/comics/mutts/
 sub mu {
     return kingfeature(shift(@_),"Mutts","Patrick McDonnell","mutts","Mutts",
-		       [480,147]);
+		       [480,147], [600,293]);
 }
 
 #On The Fastrack http://www.kingfeatures.com/comics/fastrack/
@@ -283,20 +282,20 @@ sub fa {
 
 #Phantom
 sub phantom {
-    return kingfeature(shift(@_),"Phantom","George Olesen and Graham Nolan","phantom",
-                       "Phantom",[525,157]);
+    return kingfeature(shift(@_),"Phantom","George Olesen and Graham Nolan",
+		       "phantom", "Phantom",[525,157], [600,403]);
 }
 
 #The Piranha Club http://www.kingfeatures.com/comics/ernie/
 sub pc {
     return kingfeature(shift(@_),"The Piranha Club",
-		       "Bud Grace","ernie","Piranha",[480,158]);
+		       "Bud Grace","ernie","Piranha",[480,158], [600,417]);
 }
 
 #Popeye http://www.kingfeatures.com/comics/popeye/index.htm
 sub popeye {
     return kingfeature(shift(@_),"Popeye","",
-	"popeye","Popeye", [480,143]);
+	"popeye","Popeye", [480,143], [600,418]);
 }
 
 #Pops Place http://www.kingfeatures.com/comics/popplace/index.htm
@@ -313,14 +312,14 @@ sub  pvaliant{
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Prince Valiant",
 	"John Cullen Murphy & Cullen Murphy", "pvaliant",
-	"val",[750,500],"jpg",1);
+	"val",[750,500],undef,"jpg");
 }  
 
 # RedEye
 # http://www.kingfeatures.com/comics/redeye/Redeye.20000321.gif
 sub re {
   return kingfeature(shift(@_),"Red Eye","Bill Yates & Mel Casson",
-		     "redeye","Redeye", [480,140]);
+		     "redeye","Redeye", [480,140], [600,405]);
 }
 
 # Rex Morgan
@@ -334,7 +333,7 @@ sub rex {
 #Rhymes With Orange http://www.kingfeatures.com/comics/orange/
 sub ro {
   return kingfeature(shift(@_),"Rhymes With Orange","Hilary Price","orange",
-		     "Rhymes_with_Orange",[480,154]);
+		     "Rhymes_with_Orange",[480,154], [600,296]);
 }
 
 #Safe Havens http://www.kingfeatures.com/comics/safehavn/
@@ -353,7 +352,7 @@ sub sh {
 #Sally Forth http://www.kingfeatures.com/comics/sforth/
 sub sf {
     return kingfeature(shift(@_),"Sally Forth","Greg Howard & Craig MacIntosh",
-		       "sforth","Sally_Forth",[525,153]);
+		       "sforth","Sally_Forth",[525,153], [600,288]);
 }
 
 #Sam & Silo http://www.kingfeatures.com/comics/sam_silo/
@@ -366,26 +365,37 @@ sub ss {
 
 # Six Chix
 sub schix {
-    return kingfeature(shift(@_),"Six Chix","Isabella Bannerman, Margaret Shulock, Rina Piccolo, Ann C. Telnaes, Kathryn LeMieux, and Stephanie Piro",
-		       "sixchix","6Chix",[480,145]);
+    my $time = shift(@_);
+    my @ltime = localtime($time);
+    my %author = (0 => "Bannerman, Shulock, Piccolo, Telnaes, LeMieux, Piro",
+		  1 => "Isabella Bannerman",
+		  2 => "Margaret Shulock",
+		  3 => "Rina Piccolo",
+		  4 => "Ann C. Telnaes",
+		  5 => "Kathryn LeMieux",
+		  6 => "Stephanie Piro");
+    
+    return kingfeature($time,"Six Chix",$author{$ltime[6]},
+		       "sixchix","6Chix",[525,165], [600,274]);
 }
 
 #Steve Roper & Mike Nomad http://www.kingfeatures.com/comics/sroper/index.htm
 sub sroper {
     return kingfeature(shift(@_),"Steve Roper and Mike Nomad",
-	"John Saunders & Fran Matera", "sroper","Steve_Roper", [480,149]);
+	"John Saunders & Fran Matera", "sroper","Steve_Roper",
+		       [480,149], [600,403]);
 }
 
 #They Do It Every Time http://www.kingfeatures.com/comics/theydoit/index.htm
 sub theydo {
     return kingfeature(shift(@_),"They Do It Every Time","Al Scaduto",
-	"theydoit","TDIE", [246,275]);
+	"theydoit","TDIE", [246,275], [600,407]);
 }
 
 #Tiger http://www.kingfeatures.com/comics/tiger/index.htm
 sub tiger {
     return kingfeature(shift(@_),"Tiger","Bud Blake",
-	"tiger","Tiger", [480,144]);
+	"tiger","Tiger", [480,144], [600,405]);
 }
 
 #Trudy http://www.kingfeatures.com/comics/trudy/
@@ -398,19 +408,19 @@ sub trudy {
 # Tumbleweeds
 sub tumble {
     return kingfeature(shift(@_),"Tumbleweeds","Tom K. Ryan",
-	"tumblewd","Tumbleweeds", [480,144]);
+	"tumblewd","Tumbleweeds", [480,144], [600,436]);
 }
 
 #Zippy http://www.kingfeatures.com/comics/zippy/
 sub zp {
     return kingfeature(shift(@_),"Zippy","Bill Griffith","zippy",
-		       "Zippy_the_Pinhead", [480,190]);
+		       "Zippy_the_Pinhead", [480,190], [600,142]);
 }
 
 #Zits http://www.kingfeatures.com/comics/zits/
 sub zt {
     return kingfeature(shift(@_),"Zits","Jerry Scott and JimBorgman","zits",
-                       "Zits", [480,166]);
+                       "Zits", [480,166], [600,295]);
 }
 
 1;

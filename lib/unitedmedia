@@ -100,7 +100,7 @@ sub chickw {
 sub bignate {
     return unitedmedia(shift(@_),"Big Nate",
 		       "Lincoln Peirce","comics","bignate",
-		       [725,514],[300,430],"bignate");
+		       [725,514],[600,194],"bignate");
 }
 
 # Bull$ n Bear$ 

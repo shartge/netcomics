@@ -1,5 +1,8 @@
 2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/kingfeatures (schix): Made author associated with her
+	specific weekday.
+	(kingfeatures): added support for sunday & sunday sizes.
 	* lib/dragon (dt): Fixed archives link & removed size attribute
 	because of it being inconsistent.
 	* Netcomics/HTML/Set.pm (create_set_of_pages): Fixed webpage
