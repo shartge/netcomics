@@ -1,3 +1,10 @@
+2002-07-16  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Themes/CleanRoundImbedCaption.pm: Changed status bar's
+	bg colour from black to "#f7f7f7" to match the graphics.
+	* Netcomics/HTML/Themes/CleanRound.pm: Changed status bar's bg colour
+	from black to "#f7f7f7" to match the graphics.
+
 2002-07-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL: Made creating archives less verbose.
