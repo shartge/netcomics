@@ -1,3 +1,12 @@
+2001-06-28  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Updates by Shawn Oakey (Even more! Wow!):
+	* lib/unitedmedia: Various fixes
+	* lib/mrlowe: Now it's own module!
+	* lib/keenspace: Now adds two more comics, and has lot's of nice
+	updates
+	* lib/penny-arcade: Updated.
+
 2001-06-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (pod): Fixed documentation on the -s option to match

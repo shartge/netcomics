@@ -2,13 +2,10 @@
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
 	    fatcats bullsnbears grandave duncan randolph reality shirley 
-	    soupnutz lupo )) {
+	    soupnutz lupo)) {
     $hof{$_} = 0;
 }
-
-# "creators" and "wash" are 1 week behind
-foreach (qw(cheap pcpixel flightdeck grandclause pickles redrover
-	    mrlowe )) {
+foreach (qw(cheap pcpixel pickles flightdeck grandclause redrover)) {
     $hof{$_} = 7;
 }
 
@@ -145,13 +142,6 @@ sub lupo {
 		       [600,276],[600,218],"lupo");
 }
 
-# Mr. Lowe
-sub mrlowe {
-    return unitedmedia(shift(@_),"Mr. Lowe",
-		       "Mark Pett","creators","mrlowe",
-		       [600,276],[600,218],"mrlowe");
-}
-
 # PC And Pixel
 sub pcpixel {
     return unitedmedia(shift(@_),"PC and Pixel",
@@ -191,7 +181,7 @@ sub reality {
 sub redrover {
     return unitedmedia(shift(@_),"Red and Rover",
 		       "Brian Basset","wash","redandrover",
-		       undef,[600,200],"redrover");
+		       [725,357],[600,200],"redrover");
 }
 
 # Shirley and Son
