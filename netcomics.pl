@@ -781,6 +781,7 @@ while (@ARGV)
     #webpage on standard out
     elsif (/-o/) {
 	$webpage_on_stdout = 1;
+	$remake_webpage = 1;
 	$given_options .= " -o";
 	$comics_per_page = undef;
 	$smushopt = 1;

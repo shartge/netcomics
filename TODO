@@ -248,5 +248,7 @@ weird.
 ** -o should imply -W
 When the user specifies to output the webpage on STDOUT, it should
 always create the webpage.
+**** Almost Done?
 
 ** verbose output should always be sent on STDERR.
+

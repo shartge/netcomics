@@ -1,3 +1,8 @@
+2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* netcomics: Fixed small -wo != -Wo bug.
+	* TODO: Removed said bug from the TODO file.
+
 2001-07-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* TODO: Added a few more items identified by Chris Hostetter.
