@@ -180,7 +180,7 @@ problem.
 
 ** Option to prevent status files from being loaded.
 
-** Optionn to delete only those comics & status files that were successful
+** Option to delete only those comics & status files that were successful
 or were unsuccessful and reached the maximum retry limit.
 
 ** Add a signal catcher 
@@ -190,6 +190,10 @@ if Crl-C'd during download, it would stop and then go to webpage creation.
 Allow multiple-file-comics to have different types (sketch, eg: 20001211).
 Use file command to determine image type.
 Else, look for filetype in the url.
+
+** Option & API for selecting the file type.
+Source Wars provides comics in png and gif.  Like color, should be
+able to let the user choose which one to grab.
 
 -----------------------------------------------------------------------
 
