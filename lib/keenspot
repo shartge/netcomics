@@ -531,26 +531,24 @@ sub funny {
 sub gpf {
     my $time = shift;
     my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
     my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
 
-    my $isfirstsunday = 0;
-    if ($ltime[6] == 0 && $ltime[3] < 8) {$isfirstsunday = 1};
+    my $issunday = 0;
+    if ($ltime[6] == 0) {
+	# After Nov 3, 2001 every sunday
+	# First Sunday of each month after Aug 2000
+	$issunday = 1 if ($date >= 20011104 || 
+			  ($date > 20000831 && $ltime[3] < 8));
+    }
 
-   # Last updated July 5, 2001
-    my @missing = (19981206,19990103,19990207,19990307,19990404,19990502,
-      19990606,19990704,19990801,19990905,19991003,19991107,19991205,
-      20000102,20000206,20000305,20000402,20000507,20000604,20000702,
-      20000806);
-    my @extra = ();
+    # Last updated Dec 10, 2001
+    my @missing = ();
+    my @extra = (20010916);
 
-    #M to Sa plus first sunday of month
     return undef if 
-      (($date < 19981102) || #first comic on November 02, 1998
-      (($date >= 19981102 && $date <= $date2) &&
-      ($ltime[6] !~ /[123456]/ && $isfirstsunday == 0 && !grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
+	(($date < 19981102) || #first comic on November 02, 1998
+	 ($ltime[6] !~ /[123456]/ && $issunday == 0 && !grep(/$date/,@extra)) ||
+	 (grep(/$date/,@missing)));
 
     my $title = "General Protection Fault";
     my $author = "Jeffrey T. Darlington";

@@ -1,3 +1,10 @@
+2001-12-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/keenspot: Updated GPF based on changes submitted by
+	Sven Hartge.
+	* Netcomics/Factory.pm: 463946: fixed code that had uninitialized
+	value errors. 
+
 2001-12-02  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/norm (nm): Fixed The Norm's module. Closes:#463945.
