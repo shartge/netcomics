@@ -1,0 +1,602 @@
+2000-07-06  Ben Hochstedler  <ben.hochstedler@med.ge.com>
+
+	* potd/astronomy: Fixed author expression to grab as soon as
+	possible.
+	* netcomics: Made field 'url' not overridden if specified in the
+	module.
+	* potd/astronomy: Fixed date searching in the webpage to work for
+	years prior to 2000.  Generizied expressions to be able to grab
+	all dates.  Changed grabbed image to the linked image and not what
+	is typically a "thumbnail" version of the image.
+	* potd/astronomy: Astronomy Picture of the Day.
+	* netcomics: Changed type to not be applied to the filename until
+	the images have been downloaded.  Made type not a required field.
+
+2000-06-12  Ben Hochstedler  <ben.hochstedler@med.ge.com>
+
+	* lib/superosity: Fixed mktime => mkgmtime.
+	* lib/stuff_this: Fixed mktime => mkgmtime.
+	* lib/bobbins: Fixed mktime => mkgmtime.
+	* lib/sinfest: Added size thanks to Benjamin Cordes.
+	* lib/psmueller: Updated thanks to Martial Michel.
+
+2000-05-17  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/creators_syndicate: Updated for website changes, thanks to
+	Ant.
+	* lib/template: Made template loadable.
+	* netcomics: Fixed UA changes and added option: -M.
+	* TODO: Added reference to bug with recreating webpages and not
+	sorting by date.
+
+2000-05-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Fixed use of redirect() & date format arg parsing
+	option.
+
+2000-05-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile: Added sempai.
+	* lib/sempai: Sempai, contributed by Martial Michel.
+	* lib/alice: Updated thanks to Martial Michel.
+	* netcomics: Made HTTP user agent not redirect on errors
+	(suggested by Martial Michel).
+	* Makefile: Added sinfest.
+	* lib/sinfest: Sinfest, contributed by Sizer.
+	* lib/soaprope: Fixed allowed weekdays thanks to Sizer.
+	* lib/comiczone: Fixed spelling of bizzaro (website update),
+	thanks to ant@sanlam.co.za.
+	* lib/unitedmedia: Updates by Martial Michel: added a new calendar
+	function, removed eek, readded fatcats.
+	* Makefile: Added Dr. Fun and Whenigrowup.
+	* lib/whenigrowup: Whenigrowup, contributed by Shawn (spoky).
+	* lib/dr_fun: Dr. Fun, contributed by Shawn (spoky).
+
+2000-05-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Fixed bug: Not an ARRAY reference at netcomics line 1504.
+
+2000-04-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/creators_syndicate: Updated thanks to Sizer: Removed Color
+	Blind, added Toby, fixed due to website changes-now done by id
+	number.
+	* lib/comicspage_ed: Updated thanks to Sizer.
+	* lib/comicspage: Added start of archive, sunday comics support,
+	and removed Motley's Crew.
+	* lib/comicspage: Updated thanks to Gyles Harvey.
+
+2000-04-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: consolodated code in build_rli_array.
+	* netcomics: Consolodated repeated code that runs backup
+	functions.
+	* lib/newshounds: Updated thanks to Martial Michel.
+	* lib/sluggy_freelance: Updated thanks to Martial Michel.
+	* lib/wfc: Updated thanks to Martial Michel.
+	* netcomics: Added catch of non HASH reference types in running
+	rli functions.  Added option to run_rli_func() to accept the name
+	of the rli function so that in the case of a backup function, it
+	can assigned the rli field, 'proc' with the real name instead of
+	"CODE()".
+
+2000-04-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/penny_arcade: Changed to use exprs field.
+	* doc/Comic_Module-HOWTO.html: Added capability for a relurl func
+	to return a hash to add fields to the rli.
+	* netcomics: Added capability for a relurl func to return a hash
+	to add fields to the rli.
+	* lib/alice: Updated thanks to Martial Michel.
+	* lib/penny_arcade: Updated thanks to Martial Michel.
+
+2000-04-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/wiley: Updated thanks to Shawn <spoky@ns.sympatico.ca>.
+	* Makefile: Reorganized all target with remake_check
+	* lib/gpf: Website restructure update (thanks to Thomas Ribbrock).
+
+2000-04-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* TODO: Added days behind override & restructuring of comic modules.
+	* lib/norm: Updated thanks to Brent Norquist
+	
+2000-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec: Updated for version 0.12.
+	* doc/netcomics.lsm: updated for version 0.12
+	* lib/nando: Fixed bug in bottom.
+	* Makefile: Added step for removing old modules & improved install
+	rules for modules & html templates.
+	* TODO: Removed item already done: change install dir to share.
+	* lib/doodie: Y2K fix.
+	* Makefile: Removed banditbruno (now in bigpanda).
+
+2000-04-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile: Added alice, bigpanda, fika, mom, and wait_bob.
+	* lib/kevin-n-kell: Y2K update submitted by Martial Michel.
+	* lib/comiczone: Removed Bliss.
+	* lib/newshounds: Y2K fix submitted by Martial Michel and added
+	vacation check.
+	* lib/sluggy_freelance: Y2K patch and general comic
+	simplification, submitted by Martial Michel.
+	* lib/madam-n-eve: Site change and Y2K fix submitted by Martial
+	Michel.
+	* lib/fika: Increased the delay time and fixed the size.
+	* lib/wait_bob: Limited days & added start of archive.
+	* Added comics thanks to Kerry Nice:
+	- fika: Out of Fika
+	- wait_bob: Waiting for Bob
+	* lib/tucson: Y2K updated, added check for start of archive, and
+	removed Red Meat.
+	* lib/mom: Changed to run a function to get current comic else to
+	check the archive list.
+	* netcomics: Changed the default date format to include 4 digit
+	years.
+	* doc/Comic_Module-HOWTO.html: Fixed typo.
+	* lib/nando: Updated to reflect new changes at website.
+	* lib/small_world: Y2K fix.
+
+2000-04-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ctoons: Updated, submitted by Kerry Nice.  Removed Boonies.
+	* lib/boatanchor: Updated for Y2K, submitted by Kerry Nice.
+	* lib/alice: Added Alice, contributed by Kerry Nice.
+	* lib/frankandernest: Updates thanks to Martial Michel.
+	* lib/helen: Updates thanks to Martial Michel.
+	* lib/wfc: Updates thanks to Martial Michel.
+	* lib/unitedmedia: Added getfuzzy and disabled Fat Cats.
+	* lib/comiczone: A fix for the change in the URL for the backup
+	Peanuts site in Japan, submitted by Brent Nordquist.
+
+2000-04-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/pvp: Website change adaptations by Martial Michel.
+	* lib/penny_arcade: Website change adaptations by Martial Michel.
+	* lib/bobbins: Website change adaptations by Martial Michel.
+	* lib/superosity: More updates thanks to Martial Michel.
+	* Added the following thanks to Martial Michel:
+	College Roomies from Hell, Avalon, Real Life, Hound's Home, and
+	Dragon Tails.
+	* lib/mercury: Made fix to Kudzu submitted by Martial Michel.
+	* lib/kingfeatures: Fixed Six Chix and Beetle Bailey.
+	* lib/kingfeatures: Updated by Martial Michael. Adapted all
+	entries to the new format.  Added a few missing strips: Redeye,
+	Six Chix, Tumbleweeds, Willy and Ethel, Heart of Juliet Jones, and
+	Walnut.
+
+2000-03-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Removed glasbergen at the request of the artist of Today's Cartoon.
+
+ 2000-01-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec: Updated to version 0.12
+	* lib/kingfeatures: Removed Hi and Lois because mercury has more
+	up-to-date.
+	* lib/ctoons: Removed Kudzu and made it a backup of the one in
+	mercury.
+	* lib/mercury:   Made kudzu use backup in ctoons, renamed Real
+	Life Adventures because uexpress used to have it, and renamed Hi
+	and Lois because it used to be in kingfeatures.
+
+2000-01-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/penny_arcade: Added Penny Arcade and The Bench
+	(submitted by Martial Michel)
+
+2000-01-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/an: Added Absurd Notions (submitted by Martial Michel)
+	* lib/pvp: Updates from Martial Michel
+
+2000-01-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Fixed bug in backup feature where run_rli_func wasn't
+	properly running anonymous subrountines.
+	* netcomicsrc: changed lib to share
+	* Makefile: Removed japanesebeetle.
+	* Added wfc (thanks to Martial Michel). It includes:
+	Wildlife, Gibberish, Chase Villens, and Japanese Beetle.
+	* netcomics: Fixed Y2K bug when using -T, -S, and -E.
+	* lib/superosity: Updated for changes on website (thanks to Martial
+	Michel)
+
+1999-12-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/gpf: Changed to update of website (thanks to Martial Michel)
+
+1999-12-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie: removed unnecessary back slashes
+
+1999-12-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics: added flushing output right away
+
+1999-12-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile: Moved all of uexpress's comics to comiczone.
+	* netcomics: fixed bug where -nw causes =10 to still be output on
+	command line.
+	* Added the following modules thanks to 
+	Kerry Nice <knice@shell.rmi.net>:
+	boatanchor down_earth gilthorp janesworld japanesebeetle mercury
+	mom psmueller pvp small_grey small_world spex suburban toytrunk
+	tucson youdamn unitedmedia badlands
+
+1999-12-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/foxtrot: Updated base URL thanks to Gyles Harvey
+	<gyles@nortelnetworks.com>
+
+1999-12-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/netcomics.lsm: added deb
+	* Makefile: added labeling target
+	* Released version 0.11
+	* Makefile: added preparchive & ispreped targets
+	* netcomics.spec: fixed postinstall message & finished out
+	changelog
+	* debian/copyright: updated maintainer
+	* debian/control: Changed section to contrib/web, moved file size
+	depends to suggests, and updated the maintainer.
+	* debian/changelog: added entry for 0.11-1
+	* Makefile: Added rule to make deb package.
+
+1999-11-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec: Changed /usr/lib/netcomics to
+	/usr/share/netcomics
+	* Makefile: Changed LIBBASE to share
+	* netcomics: Changed /usr/lib/netcomics to /usr/share/netcomics
+
+1999-11-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/nando: Changed sunday type for Alex's Restaurant to gif.
+	* netcomics: Added suppression of error message when -h is used.
+	* lib/doodie: Updated to handle no weekend comics in archive.
+
+1999-11-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: For the purpose of overriding settings in the rc
+	files, added command-line options to not create the webpage,
+	delete files, not create index, and prefer color.
+	* lib/comiczone: Added jpg as possible extension
+	* netcomicsrc: added the rest of the global settings
+	* Makefile: Removed TMPBASE & LIBBASE from regex replacements.
+	Removed goats
+	* lib/kevin-n-kell: added check for weekends
+	* lib/bobbins: Changed back to what Martial originally gave me
+	* lib/superosity: Updated by Martial Michel
+	* lib/newshounds: Updated by Martial Michel
+	* lib/ozy_millie: Corrected by Martial Michel
+	* lib/comiczone: Added Liberty Meadows by Martial Michel
+	* lib/sluggy_freelance: Sunday corrected by Martial Michel
+	* lib/kevin-n-kell: Updated its title by Martial Michel
+	* lib/helen: Fixed by Martial Michel
+	* lib/bobbins: Readjusted to the new location by Martial Michel
+	* netcomics: fixed option to specify rc file name
+
+1999-11-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Added rc file capability
+	* lib/dilbert: Updated color strip retrieval
+
+1999-11-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* debian: imported debinization by Thomas Schoepf <schoepf@debian.org>
+	* netcomics.spec: updated to use new buildroot make variable
+	* Makefile: Added changes to better build debs & RPMs
+
+1999-11-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie: Removed erroneous debugging output, changed from
+	using $mday to strftime, and changed archive start from 0-based to
+	1-based.
+
+1999-10-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added the netcomicsrc file
+
+1999-10-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added these comics thanks to Kerry Nice <nice@roguewave.com>
+	- cartoolweb: Cartoon Web
+	- comicspage: bound&gagged, fred basset, herb & jaamal,
+	  middletons, pluggers, motleys crew 
+	- comicspage_ed: walt_handelsman, bill_day, chan_lowe, steve_sack,
+	  mike_peters, dana_summers, jeff_macnelly, jack_ohman,
+	  don_wright, dick_locher, wayne_stayskal
+	- creators_syndicate: zorro, Liberty meadows, teenage ninja
+	  turtles, ballard street, miss peach, wee pals, raw material,
+	  agnes
+	- ctoons: dr katz, outtake, pcpixel, 9 chickweed lane,
+	  broom-hilda, kudzu, lola, quigmans, rubes, boonies 
+	- kingfeatures: juilet jones, judge parker, mark trail, henry,
+	  prince val, new format, theydoit, walnut cove, tiger, ripkirby,
+	  hazel, katzenjammer kids, mandrake, pops place, popeye, small
+	  society, steve roper, moose miller, needhelp
+	- nando: dick tracy, brenda star, orphan annie, gasoline alley
+	- soaprope: Soap On A Rope
+	- worldviews: World Views
+	* lib/glasbergen: Changed locale-specific weekday name to
+	English-specific. Fixed the size field and calculation for before
+	archive.
+
+1999-10-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): finished updating for new bla-bla webserver.
+
+1999-10-17  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/dysentery (dysen): added Dysentery.
+	* netcomics (create_webpage): added webpage index creation.
+	* lib/doodie (doodie): updated for new bla-bla webserver.
+
+1999-10-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added after Y2K.
+
+Sun Oct  3 11:44:38 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Put netcomics under ClearCase source control and updated the
+	Makefile to work better under the ClearCase environment.
+
+Wed Sep 29 11:08:31 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added Rocky thanks to Max Zomborszki <max@e.kth.se>
+
+1999-09-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Finished updating body element html templates for title and
+	caption adjustments.
+
+1999-09-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added ability to sort by date then by library order.
+
+1999-09-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added Bastich.
+	* Updated netcomics to allow for archive-only comics.
+	* Fixed a Y2K bug in netcomics's date_from_filename().
+
+1999-09-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added caption getter for doodie.
+	* Added multi-field expression hash capability and added example to
+	template module.
+
+1999-09-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Fixed bug in uexpress & moved comic module HOWTOs back to main
+	rpm. Released version 0.10-3
+	* Updated Makefile so that temporary files created from pod2html
+	are removed. Released version 0.10-2.
+	* General cleanup of bugs introduced into modules &
+	netcomics. Released version 0.10.
+
+1999-08-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated show_comics to prepend all messages with its name.
+	* Updated the module HOWTO documentation.
+	* To releave dependancies on the local timezone, added mkgmtime()
+	to netcomics & updated netcomics and its modules to use it and
+	gmtime() instead of mktime() and localtime(); and updated the
+	modules to check against pre-determined values from mkgmtime().
+	* Made Frank and Ernest Y2K compliant.
+	* Added Bliss, The Boondocks, Citizen Dog, The Fusco Brothers,
+	Overboard, Tank McNamara, Real Life Adventures, & Tradin' Paint.
+
+1999-08-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added Animal Crackers & Bottom Liners
+
+1999-08-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added to the RLI structure: title, author, & type.
+	* Added links to titles when creating webpages.
+	* Added author names & links to all of the modules.
+	* Added Strange Brew, For Heaven's Sake, Heathcliff, & Color Blind
+
+1999-08-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated Bobbins & Helen thanks to Martial Michel.
+
+1999-08-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Finished The K Chronicles & made some fixes to Story Minute.
+	* Separated the comic modules into their own rpm, netcomics-data.
+
+1999-08-24  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Fixed Dilbert expr field for today's non-color strip.
+
+1999-08-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated RPM & LSM description.
+	* show_comics: Put building of list of comics before asking for
+	the time, and added check for empty comics list.
+
+Thu Aug 19 09:12:19 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated show_comics to have a lock file mechanism and an option
+	that specifies the time of the day to make sure it's being run
+	after.
+
+1999-08-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated doodie's exceptions lists.
+
+	* Changed how the list of comics is constructed when creating the
+	webpage so that it isn't subject to other bugs and the number of
+	comics is determined correctly in case there were problems
+	downloading a comic.
+
+1999-08-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated Madam & Eve thanks to Anthony Caetano
+	<Anthony.Caetano@sanlam.co.za>
+
+	* Added Drabble thanks to Edvard Majakari
+	<ed@a41c.otanner.ton.tut.fi>
+
+Thu Aug 12 10:57:49 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Updated doodie's exceptions lists. Finished Story Minute.
+
+Thu Aug 10 08:17:32 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Fixed bugs in dilbert module, and added a more explicit state
+	checker to create_webpage() in netcomics.
+
+Mon Aug  9 09:10:17 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Released 0.9.1.
+
+1999-08-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Moved CHANGES to ChangeLog, added NEWS, and added a tags target
+	to the Makefile.
+
+	* Fixed 2 other bugs in the Dilbert & Comiczone modules.
+
+1999-08-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Fixed bug in Flash Gordon's module.
+
+	* Changed html template loading error handling.
+
+	* Fixed bug in the Dilbert & Comiczone modules.
+
+0.9: Mon Jun 21 08:08:49 CDT 1999 - Fri Jul 30 16:29:37 CDT 1999
+* Updated Frank and Ernest to have a complete history of available
+  comics (thanks to Martial Michel)
+* Updated Doodie for the latest exceptions and fixed a bug in it
+* Updated Kingfeatures to add the following comics (thanks to 
+  Jeremy Bettis <jeremy@hksys.com>): The Amazing Spiderman, Apartment
+  3-G, Between Friends, Boners Ark, Bringing Up Father, Buckles,
+  Claire and Weber, Crock, Curtis, Dennis The Menace, Dinette Set, The
+  Family Circus, Flash Gordon, and Free For All.
+* Changed The Norm to use its own website
+* Added an option to show_comics to check to make sure the display can be
+  opened
+* Added support for creating webpages with URLs instead of downloading comics
+* Made -s the opposite of what is was before
+* Made default behavior to put URLs into webpage if possible for
+  comics that are not successfully downloaded
+* Made sorting of comics names ignoring leading A's, An's, and The's
+  (thanks to Brent Nordquist)
+* Removed requirement that -n must be specified with -E if -S isn't.
+* Updated comiczone & dilbert modules
+* Added backup support
+* Added default size support
+* Fixed bug with the argument to -g not being used
+
+0.8: Thu Jun  3 17:23:26 CDT 1999 - Wed Jun 16 05:57:29 CDT 1999
+* Updated bobbins & bruno (thanks to Martial Michel)
+* Updated comiczone & dilbert (thanks to Mathias)
+* Updated user_friendly, wiley, doodie
+* Fixed -N w/ -S & -E bug (again)
+* Fixed -m path push() to shift() (again)
+* Fixed a bug where -N would not work unless -n was supplied
+* Made command-line options be able to be smushed together
+* Added the script, show_comics
+* Added Stuff This (thanks to Martial Michel)
+* Added support for specifying an external program to use instead of
+  LWP, and removed dependencies on libwww-perl, MIME-Base64, MD5, URI,
+  and HTML-Parser.
+* Removed dependency on Image-Size, and if Image-Size isn't installed,
+  for it to default to use the file command to get image sizes.
+ 
+0.7: Tue Apr  6 07:43:27 CDT 1999 - Wed Jun  2 11:50:21 CDT 1999
+* Added comics: Bizzaro, Off The Mark, Today's Comic, 
+  For Dummies Cartoon of the Day, Curiosities, The Falling Dream, Laugh Seeds,
+  Melonpool, Mr. Chuck Show
+* Updated Salon comic strips to use new URLs and split into separate files
+  thanks to Adam Hirsch <adam@baz.org>.  Also changed them to use the new
+  website.
+* Fixed the bad error being reported about using -N with -E & -S.
+* Fixed reconstruction of command-line for -W & -D.
+* Added Ozy & Millie, Bruno the Bandit, and updated Sluggy Freelance thanks
+  to Martial Michel <martial.michel@loria.fr>.
+* Added checks for exceptions to general rules for date validity in doodie
+* Fixed Newshounds, Bruno, and Laughseeds
+
+0.6: Wed Mar 10 08:52:13 CST 1999 - Sun Apr  4 09:37:53 CDT 1999
+* Made expressions match on webpage content as if it were a single line
+* Added calls to binmode() (so it works on DOS & Windows)
+* Changed library paths from being pushed on with push() instead of unshift()
+* Added comics: Madam & Eve
+* Incorporated changes from Martial Michel <martial.michel@loria.fr>:
+  - Added comics: Goats, Lily Wong, Zenon, Alex's restaurant, GPF, Spooner,
+                  Bobbins, Superosity, and Wiley's Non Sequitor
+  - Improved comics: Helen
+  - Makefile changes to allow automatic replacement of paths in scripts.
+* Major Makefile overhaul.
+* Added script: comics_update, contributed by han@tajt.se.
+* Added ability to specify the date format for naming files.
+* Added -C: specify comics to not get.
+* Made it so that you can specify multiple -c & -C's
+* Added multi-file get capability though the new rli field: 'func'.
+* Improved Madam and Eve, Sluggy Freelance, and Goats through the use of the
+  new func field.
+* Fixed listing of id's.
+* Fixed doodie.
+
+0.5: Sun Feb 21 08:34:06 CST 1999 - Sun Mar  7 11:37:51 CST 1999
+* Improved webpage creation features.
+* Added capability to specify ranges of dates & specific dates of comics
+  to retrieve.
+* Added Safe Havens, Jerkcity, Helen Sweethart of the Internet, Callahan, 
+  Norm, The Piranha Club, Ralph, Rhymes with Orange, Zippy, and Doodie.
+* Made it possible to specify multiple directories to find module files.
+* Added 'exprs' key to RLI field so that an array of expressions is used
+  to eventually get to a comic strip instead of there only being one chance.
+* Fixed bug in message of command to run if there were failures where the
+  -n # option was missing if it had been specified.
+
+0.4: Thu Feb 18 11:34:29 CST 1999
+
+* Fixed problems with Dilbert's module.
+* Added -n option to retrieve a specified number of previous days of comics.
+* Added via salonmagazine: Tom the Dancing Bug, The K Chronicles, Story Minute,
+  and This Modern World.
+* Fixed the year in kingfeatures comics' names.
+* Added used of Image::Size for generating web pages.
+* Made html generation use template files so that they can be changed by
+  the user.
+* Added options -m and -t to specify the library and html template dirs.
+* Removed retrieval of Saturday & Sunday's comics on Monday (add specific
+  cronjob on Monday using args: "-n 3" to retrieve them instead)
+* Added documentation on how to personalize the webpage that's created
+
+0.3: Tue Feb 16 15:29:51 CST 1999
+
+* Fixed misspellings in the manpage
+* Added Robotman, Kevin-n-Kell, Red Meat, Sluggy Freelance, & Sherman's Lagoon
+* Added webpage creation ability
+* Added proxy support
+* Added documentation on how to write a comic module
+
+0.2: Mon Feb 15 08:50:39 CST 1999
+
+Added the following comic strips via the comiczone
+ao:     Alley Oop
+aj:     Arlo and Janis
+com:    Committed
+fbofw:  For Better or For Worse
+fae:    Frank and Ernest
+herman: Herman
+js:     JumpStart
+knc:    Kit-n-Carlyle
+mar:    Marmaduke
+meg:    Meg!
+nancy:  Nancy
+oth:    Over The Hedge
+peanuts:        Peanuts
+rose:   Rose is Rose
+bl:     The Born Loser
+grizz:  The Grizzwells
