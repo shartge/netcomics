@@ -776,7 +776,7 @@ sub get_comics {
 		}
 		print STDERR "$given_options\n";
 		print STDERR <<END;
-		Please, before sending in a bug report on a comic that doesn't download,
+Please, before sending in a bug report on a comic that doesn't download,
 try over a period of several days (or weeks, depending on the problem) to
 see if it just happened to be that the website maintainer for that comic
 didn't update the comic promptly.

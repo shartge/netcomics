@@ -1,3 +1,8 @@
+2001-11-25  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Factory.pm (get_comics): Fixed typo in the "Please, before
+	sending in a bug..." message.
+
 2001-11-19  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspace (machall): Fixed error grammer stupid!

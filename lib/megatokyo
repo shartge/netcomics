@@ -20,7 +20,7 @@ sub megatokyo {
 	'author' => "Fred Gallagher & Rodney Caston",
 	'type' => 'gif',
 	'main' => $baseurl,
-	'archives' => "$baseurl/view.php3",
+	'archives' => "$baseurl/index.php",
 	'base' => "$baseurl/",
 	'page' => "index.php",
 	'func' => sub {
@@ -30,6 +30,8 @@ sub megatokyo {
 				$_ = $input_page;
 
 				# Get the strip number.
+				# Looks like this may be broken, or possibly 0000-00-00 is the
+				# code for "today" now...
 				m/$date\s\[(\d+)\]/;
 				my $strip_num = $1;
 
