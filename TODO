@@ -70,6 +70,7 @@ that image.
 ** Change Makefile to use automake and autoconf.
 
 ** Provide a way to automatically download updates to the modules.
+This should probably use CVS revision IDs.
 
 ** Remove dependency of the main rpm on the modules rpm.
 
