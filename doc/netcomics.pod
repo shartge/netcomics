@@ -60,9 +60,8 @@ computers on a network.
 B<Important:>  The further east your timezone is from the US, the later 
 in the day you'll have to run I<netcomics>.  As a reference, I suggest
 those whose timezone is GMT to wait to run the script at 12:30pm if
-they want to get all the comics at a time that's pretty likely to have
-had all of the 
-s updated.  Use B<-N> if you want to run the
+they want to get all the comics at a time that is likely to have
+all of the websites updated.  Use B<-N> if you want to run the
 script early in the morning and are having problems getting comics to
 download. Also, just because a comic failed to download doesn't mean
 that the module for that comic is broken--it may mean the website

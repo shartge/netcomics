@@ -1,3 +1,8 @@
+2001-07-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/netcomics.pod: Fixed missing words in the paragraph about
+	timezones (the one labeled Important).
+
 2001-07-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* NEWS: Updated for 0.13.2
