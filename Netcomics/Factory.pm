@@ -104,6 +104,29 @@ sub new {
 				if (-f "$test_file_name") {
 					push(@{$self->{'existing_rli_files'}},$file);
 				} elsif ($rli->{'status'} == 1) {
+					#print Data::Dumper->Dump([$rli],[qw(*rli)]);
+
+					my @stuff = split(/\//, $file);
+					my $time = "@stuff";
+					$time--;
+					print "Testing $comics_dir/$rli->{'subdir'}/$stuff[1]\n";
+					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[1]") {
+						print "Bad stuff!\n";
+						my @temporary_file_rebuild_array;
+						foreach (@{$rli->{'file'}}) {
+							print "Getting element of rli: $_\n";
+							my @stuff = split(/\//, $_);
+							my $time = "@stuff";
+							$time--;
+							$_ = "$stuff[1]";
+							push(@temporary_file_rebuild_array, $_)
+						}
+						$_ = shift(@temporary_file_rebuild_array);
+						$rli->{'file'} = undef;
+						push(@{$rli->{'file'}}, $_);
+						print Data::Dumper->Dump([$rli],[qw(*rli)]);
+						next;
+					}
 					print STDERR "Warning: $file is missing in $comics_dir\n"
 						if $verbose;
 					#make it so that this one will be retried.
