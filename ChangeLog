@@ -1,3 +1,9 @@
+2002-09-07  Sven Hartge  <netcomics@ds9.argh.org>
+
+	* lib/user_friendly: Fix for bug 605848. Works for me, but because of
+	the ugliness of the fix, I leave the bug open for now, until the
+	maintainer of the module commits a better solution.
+
 2002-09-02  Sven Hartge  <netcomics@ds9.argh.org>
 	
 	* lib/megatokyo: cosmetic change, Rodney 'Largo' Caston is no longer

@@ -5,6 +5,7 @@
 $hof{"uf"} = 0;
 
 #UserFriendly http://www.userfriendly.org/cartoons/
+#             http://ars.userfriendly.org/cartoons/?id=20020907
 sub uf {
     my $time = shift;
     return undef if $time < 879724800; #1st comic: Nov 17, 1997
@@ -13,19 +14,20 @@ sub uf {
                      "jul", "aug", "sep", "oct", "nov", "dec");
     my $b = $monthconv[$ltime[4]];
 
+
     my $rec = {
-	'title' => "User Friendly",
-	'author' => "Illiad",
-	'type' => 'gif',
-	'main' => "http://www.userfriendly.org/static/",
-	'archives' => "http://www.userfriendly.org/cartoons/archives/",
-	'base' => "http://www.userfriendly.org",
-	'page' => strftime("/cartoons/archives/%y$b/%Y%m%d.html",
-			   @ltime),
-	'exprs' => [strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\w+\\.gif)",
-			     @ltime)],
-	'size' => ($ltime[6] == 0 ? [720,529] : [720,274])
-	};
+        'title' => "User Friendly",
+        'author' => "Illiad",
+        'type' => 'gif',
+        'main' => "http://www.userfriendly.org/static/",
+        'archives' => "http://www.userfriendly.org/cartoons/archives/",
+        'base' => "",
+        'page' => strftime("http://ars.userfriendly.org/cartoons/?id=%Y%m%d&mode=classic",
+                           @ltime),
+        'exprs' => [strftime("(http:\\/\\/www\\.userfriendly\\.org\\/cartoons\\/archives\\/
+%y$b\\/(x)?(uf)?\\w+\\.gif)",@ltime)],
+        'size' => ($ltime[6] == 0 ? [720,529] : [720,274])
+        };
     return $rec;
 }
 
