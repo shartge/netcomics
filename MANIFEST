@@ -30,7 +30,6 @@ contrib/local2gmtime
 contrib/localtime
 contrib/make_bruno_hash
 contrib/make_doemain_code
-contrib/make_frankandernest_hash
 contrib/make_helpdesk_dates
 contrib/make_stuffthis_hash
 contrib/mktheme
