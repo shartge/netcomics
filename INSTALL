@@ -4,28 +4,20 @@ To install, type:
   make
   make install    
 
-Files are installed under /usr by default, and a download directory
-(where comic files are placed & the webpages are generated) is created
-at /var/spool/netcomics by default.
+Files are installed under the library path of the perl you used to
+generate the Makefile.  The download directory (where comic files are
+placed & the webpages are generated) is /var/spool/netcomics by default.
 
-If you want to change where perl is, the base prefix to install under,
-or the default download directory, then you can either change their
-definitions in the Makefile or you can specify them on the command
-line when you install:
-
-  make install PREFIX=/usr/local TMPBASE=/home/httpd/html \
-	PERL=/usr/local/bin/perl PERLTK=/usr/local/bin/perl
-
-Note that doing this will cause documentation to be recreated also.
+Take a look a the install_home target in the Makefile to change where
+files are installed.
 
 If you want an rpm, type:
 
   make rpm
   rpm -Uvh /usr/src/redhat/RPMS/noarch/netcomics-<version>.noarch.rpm
 
-You can also set any Makefile variables on the commandline (like
-PREFIX, TMPBASE), and they should get updated in the installed RPM
-spec properly.
+Note that the rpm spec is very specify to perl being installed under a
+prefix of /usr.
 
 See the netcomics & comicpage manpages for examples and instructions
 on how to use them.
