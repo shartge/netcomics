@@ -1,0 +1,31 @@
+#-*-Perl-*-
+
+$hof{"fatjc"} = 0;
+
+# Fat Jesus
+# ex : http://fatjesus.keenspace.com/comics/fatjesus$date.type
+sub fatjc {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    return undef
+        if ($date < 20001003); #first comic on Oct 3, 2000
+ 
+    my $rec = {
+        'title' => "Fat Jesus",
+        'author' => "Mike Leffel",
+        'main' => "http://fatjesus.keenspace.com/",
+        'archives' => "http://fatjesus.keenspace.com",
+        'base' => "http://fatjesus.keenspace.com/",
+        'page' => "d/$date.html",
+        'exprs' => {
+            'comic' => ["(comics/fatjesus$date\\w?\\.(:?(jpg|gif)))"],
+            'type' => ["comics/fatjesus$date\\w?\\.:?(jpg|gif)"],
+        },
+    };
+    return $rec;
+}
+
+1;
+

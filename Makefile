@@ -92,6 +92,7 @@ MODULES = lib/after_y2k \
 	lib/everythingjake \
 	lib/falling_dream \
 	lib/farcus \
+	lib/fatjesus \
 	lib/fce \
 	lib/fika \
 	lib/fordummies \
