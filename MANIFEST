@@ -48,7 +48,6 @@ debian/netcomics.dirs
 debian/netcomics.docs
 debian/netcomics.files
 debian/netcomics.manpages
-debian/netcomics.menu
 debian/rules
 display_comics
 doc/Comic_Module-HOWTO.html
