@@ -870,6 +870,25 @@ unless ($user_specified_comics && @selected_comics == 0 && !$do_list_comics) {
     }
 }
 
+#Persistent storage of rli info depends on Data::Dumper
+my $data_dumper_installed = 1;
+$@ = 1;
+eval {
+    $@ = 0;
+    require Data::Dumper;
+};
+if ($@) {
+    #Data::Dumper not installed.
+    $data_dumper_installed = 0;
+    print "Warning: Data::Dumper not installed.\n" .
+	"Will not be able to store extra comic information.\n"
+	    if $verbose;
+} else {
+    #setup Data::Dumper stuff.
+#    $Data::Dumper::Purity = 1;
+}
+
+
 #kludge @lof into a hash of functions for backwards compatibility
 my %lofhash = ();
 foreach (@lof) {
@@ -930,6 +949,7 @@ unless (-d $comics_dir) {
 } elsif ($delete_files) {
     chdir $comics_dir || die "could not cd to $comics_dir: $!";
     unlink <*.*>;
+    unlink <.*.rli>;
 }
 
 
@@ -964,28 +984,38 @@ if ($remake_webpage)
     #add files to the rli so that create_webpage can use them, too
     my $i = $[ - 1;
     while ($i++ < $#files) {
-	my $rli = {'name' => $files[$i],
-		   'time' => date_from_filename($files[$i]),
-		   'status' => 1,
-		   'file' => [$files[$i]]};
-	my ($title,$type) = parse_name($files[$i]);
-	$rli->{'title'} = $title;
-	$rli->{'type'} = $type;
-	($rli->{'proc'} = $title) =~ s/\s/_/g;
-	if ($files[$i] =~ /^(.*\d+)-(\d+)\.(\w+)$/) {
-	    #this is part of a multi-file comic
-	    my ($name,$num,$ext) = ($1,$2 + 1,$3);
-	    if (grep(/$name\.$ext/,@comics)) {
-		next; #was just downloaded
-	    } else {
-		$rli->{'name'} = "$name.$ext";
-		while ($i < $#files && $files[$i+1] =~ /^$name-$num\.$ext$/) {
-		    #tack on this file to the $rli
-		    $rli->{'file'}->[$num++ - 1] = $files[++$i];
+	next if grep(/^$files[$i]$/,@comics);
+	#First look for an rli status file.
+	print "$files[$i]: " if $extra_verbose;
+	my $rli;
+	$_ = $files[$i];
+	s/\..*$//;
+	$rli = load_rli($_);
+	print "Using rli status file\n" if $extra_verbose && defined($rli);
+	unless (defined($rli)) {
+	    #no rli status file, generate our own rli hash for the file.
+	    $rli = {'name' => $files[$i],
+		    'time' => date_from_filename($files[$i]),
+		    'status' => 1,
+		    'file' => [$files[$i]]};
+	    my ($title,$type) = parse_name($files[$i]);
+	    $rli->{'title'} = $title;
+	    $rli->{'type'} = $type;
+	    ($rli->{'proc'} = $title) =~ s/\s/_/g;
+	    if ($files[$i] =~ /^(.*\d+)-(\d+)\.(\w+)$/) {
+		#this is part of a multi-file comic
+		my ($name,$num,$ext) = ($1,$2 + 1,$3);
+		if (grep(/$name\.$ext/,@comics)) {
+		    next; #was just downloaded
+		} else {
+		    $rli->{'name'} = $name;
+		    while ($i < $#files && 
+			   $files[$i+1] =~ /^$name-$num\.$ext$/) {
+			#tack on this file to the $rli
+			$rli->{'file'}->[$num++ - 1] = $files[++$i];
+		    }
 		}
 	    }
-	} elsif (grep(/^$files[$i]$/,@comics)) {
-	    next; #was just downloaded
 	}
 	push(@rli,$rli);
     }
@@ -1559,8 +1589,8 @@ RELURL:	    foreach (@relurls) {
 	} else  {
 	    #complete the fields for the rli.
 	    #first tack on the file type (it may have been changed thru 'exprs')
-	    $name .= "." . $rli->{'type'};
 	    $rli->{'name'} = $name;
+	    $name .= "." . $rli->{'type'};
 	    $rli->{'file'} = [$name];
 
 	    #save the image to its file if it was successfully downloaded.
@@ -1572,6 +1602,7 @@ RELURL:	    foreach (@relurls) {
 	#by assuming that if it was bad, next RLI or status set to 2 was
 	#done.  If another status state is added, this may have to change.
 	$rli->{'status'} = 1 if $rli->{'status'} == 0;
+	dump_rli($rli);
     }
     
     print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
@@ -1606,6 +1637,48 @@ sub add_back {
     return 0;
 }
 
+#return the name of an rli stat file given the rli's name (Rli_Name-YYYYMMDD)
+sub rli_filename {
+    return '.' . shift(@_) . '.rli';
+}
+
+#persistently store an rli hash.
+sub dump_rli {
+    my $rli = shift;
+    if ($data_dumper_installed) {
+	file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
+		   $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
+    }
+}
+
+use vars '%rli';
+#return the persistenantly stored rli hash.
+sub load_rli {
+    my $rli_name = shift;
+    my $file = $comics_dir . '/' . rli_filename($rli_name);
+    local(%rli);
+    %rli = ();
+    if (-f $file && -r $file) {
+	$@=0;
+	eval {require $file;};
+#	print Data::Dumper->Dump([\%rli],[qw(*rli)]) if $extra_verbose;
+	if ($@) {
+	    print STDERR "Error loading rli status file: '$file':\n$@.\n";
+	    print STDERR "Skipping."
+	} elsif (! defined(%rli)) {
+	    print "Loaded rli status file, $file, resulted in an empty rli\n";
+	} else {
+	    #I'm not sure if this needs to be done or not, but to make sure
+	    #the same hash isn't being passed around, return a reference to
+	    #a locally created copy the rli.
+	    my %rlic = %rli;
+	    return \%rlic;
+	}
+    } elsif ($extra_verbose) {
+	print "No rli status file, $file, found\n";
+    }
+    return undef;
+}
 
 sub image_size {
     my $file = shift;

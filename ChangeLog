@@ -1,3 +1,12 @@
+2000-08-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (dump_rli, load_rli, main): Added ability to
+	persistently store rli hashes using Data::Dumper.  Updated the
+	code that creates rli structures for previously downloaded images
+	to load the persistently stored files (gets utilized when
+	recreated the webpages).  Updated the code that deletes files in
+	the spool directory to also download these persistent rli files.
+
 2000-08-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (build_date_array): Changed so that list of dates
