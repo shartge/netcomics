@@ -4,7 +4,7 @@ foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
    rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
-   cutewendy youdamn chopping fatjc)) {
+   cutewendy youdamn chopping fatjc kpanic)) {
    $hof{"$_"} = 0;
 }
 
@@ -790,6 +790,19 @@ sub greystone {
     return keenspot($title,$author,$date,$url,$index);
 }
 
+#Kernel Panic
+sub kpanic {
+  my $date = strftime("%Y%m%d", gmtime(shift));
+
+  my $title = "Kernel Panic";
+  my $author = "Christopher B. Wright";
+  my $url = "http://www.ubersoft.net/kpanic";
+  my $index = undef;
+  
+  return keenspot($title,$author,$date,$url,$index);
+}
+
+
 #Help Desk
 sub helpdesk {
     my $time = shift;
@@ -875,7 +888,7 @@ sub helpdesk {
       grep(/$date/,@missing));
 
     my $title = "Help Desk";
-    my $author = "Cristopher B. Wright";
+    my $author = "Christopher B. Wright";
     my $url = "http://www.ubersoft.net";
     my $index = undef;
     

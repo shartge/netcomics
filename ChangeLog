@@ -1,3 +1,7 @@
+2004-04-11  Chris Hostetter  <hossman at users * sourceforge * net>
+
+	* Added Kernel Panic to keenspot.
+
 2003-12-02  Chris Hostetter  <hossman at users * sourceforge * net>
 
         * Penny Arcade had a .GIF image, which made the regex go loco
