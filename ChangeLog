@@ -1,3 +1,8 @@
+2001-04-02  Elliot Glaysher <nuriko.chan@home.com>
+
+	* netcomics, display_comics, show_comics, Netcomics/*: Added
+	explicit GPL statements to the 	beginnings of each file.
+	
 2001-03-31  Elliot Glaysher <nuriko.chan@home.com>
 
 	* Netcomics/HTML.pm: Bad Elliot! Bad! Don't leave your debugging
