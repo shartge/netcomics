@@ -11,16 +11,19 @@ RCFILE	= netcomicsrc
 VERSION	= 0.13.1
 PKGVERSION = 1
 
+#Required for building on Debian systems
+DESTDIR=
+
 #The 4 most commonly changed paths.  All occurrances of these in the
 #scripts, documentation, and the RPM spec will be changed if you set
 #these to something different
 PERL	= /usr/bin/perl
 PERLTK	= $(PERL)
 BUILDROOT = 
-PREFIX	= $(BUILDROOT)/usr
-TMPBASE	= $(BUILDROOT)/var/spool
-SYSRCDIR = $(BUILDROOT)/etc
-PERLLIBROOT = $(BUILDROOT)/usr/lib/perl5
+PREFIX	= $(DESTDIR)/usr
+TMPBASE	= $(DESTDIR)/var/spool
+SYSRCDIR = $(DESTDIR)/etc
+PERLLIBROOT = $(DESTDIR)/usr/lib/perl5
 PERLINSTDIR = $(PERLLIBROOT)/site_perl/Netcomics
 
 RM	= rm -f
@@ -247,6 +250,7 @@ distclean:: clean
 #emacs produced backup files
 clean::
 	$(FIND) . \( -name "*~" -o -name ".#*" \) -exec $(RM) {} \;
+	rm *-stamp -f
 
 #Application targets & their associated phony targets
 install:: all
@@ -283,6 +287,10 @@ bin:: bin/$(APPNAME)
 
 distclean::
 	$(RM) bin/$(APPNAME)
+	$(RM) debian/netcomics -R
+	$(RM) debian/netcomics-modules -R
+	$(RM) debian/tmp -R
+	$(RM) debian/files debian/*.debhelper debian/substvars
 
 etc/$(RCFILE): Makefile $(RCFILE)
 	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(RCFILE) \
@@ -465,9 +473,11 @@ archives: preparchive ../$(TARBZ2FILE) ../$(TARGZFILE)
 
 rpm:	$(RHRPMS)/noarch/$(RPMFILE)
 
-deb:	../$(DEBFILE) ../$(DEBFILELINK)
+#deb:	../$(DEBFILE) ../$(DEBFILELINK)
+deb:
+	dpkg-buildpackage -rfakeroot
 
-dist:	archives rpm deb
+dist:	archives rpm
 	@echo "Now do the following:"
 	@echo "* check in any changes still pending"
 	@echo "* make tag"
@@ -493,3 +503,10 @@ install_for_ben:
 
 .PHONY: all doc install clean distclean archives rpm dist install_for_ben \
 devel bin deb install_html install_mods install_pms
+
+
+
+
+
+
+

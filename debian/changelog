@@ -1,3 +1,9 @@
+netcomics (0.14-1) unstable; urgency=low
+
+  * New Maintainer.
+
+ -- Elliot Glaysher <nuriko.chan@home.com>  Mon, 23 Apr 2001 21:51:10 -0400
+
 netcomics (0.13.1-1) unstable; urgency=medium
 
   * Several bug fixes.

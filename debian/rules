@@ -1,18 +1,28 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
+# Sample debian/rules that uses debhelper. 
+# GNU copyright 1997 by Joey Hess.
+#
+# This version is for a hypothetical package that builds an
+# architecture-dependant package, as well as an architecture-independent
+# package.
 
-# Uncomment this to turn on verbose mode.
+# Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
 
 # This is the debhelper compatability version to use.
-export DH_COMPAT=1
+export DH_COMPAT=3
 
-build: build-stamp
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# Add here commands to configure the package.
+	
+	touch configure-stamp
+
+build: configure-stamp build-stamp
 build-stamp:
 	dh_testdir
 
-	
 	# Add here commands to compile the package.
 	$(MAKE)
 
@@ -21,58 +31,53 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp
+	rm -f build-stamp configure-stamp
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) clean
 
 	dh_clean
 
+install: DH_OPTIONS=
 install: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
 
-	# Add here commands to install the package into debian/tmp.
-	$(MAKE) install BUILDROOT=`pwd`/debian/tmp NOREMAKE=1
-	mv `pwd`/debian/tmp/usr/share/netcomics/html_tmpl `pwd`/debian/tmp/etc/netcomics
-	ln -s /etc/netcomics `pwd`/debian/tmp/usr/share/netcomics/html_tmpl
+	# Add here commands to install the package into debian/netcomics.
+	
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+
+	dh_movefiles
 
 # Build architecture-independent files here.
+# Pass -i to all debhelper commands in this target to reduce clutter.
 binary-indep: build install
-# We have nothing to do by default.
+	@echo "BINARY-INDEP"
+	dh_testdir -i
+	dh_testroot -i
+#	dh_installdebconf -i
+	dh_installdocs -i
+	dh_installexamples -i
+	dh_installmenu -i
+#	dh_installlogrotate -i
+#	dh_installpam -i
+#	dh_installmime -i
+#	dh_installinit -i
+#	dh_installcron -i
+#	dh_installman -i
+#	dh_installinfo -i
+#	dh_undocumented -i
+	dh_installchangelogs ChangeLog -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_perl -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
 
-# Build architecture-dependent files here.
-binary-arch: build install
-#	dh_testversion
-	dh_testdir
-	dh_testroot
-#	dh_installdebconf	
-	dh_installdocs
-	dh_installexamples bin/display_comics
-	dh_installmenu
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installinit
-	dh_installcron
-	dh_installmanpages
-	dh_installinfo
-#	dh_undocumented
-	dh_installchangelogs ChangeLog
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-	# You may want to make some executables suid here.
-	dh_suidregister
-#	dh_makeshlibs
-	dh_installdeb
-	dh_perl
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install
+binary: binary-indep
+.PHONY: build clean binary-indep binary install configure
