@@ -15,12 +15,13 @@ PKGVERSION = 1
 #scripts, documentation, and the RPM spec will be changed if you set
 #these to something different
 PERL	= /usr/bin/perl
-PERLSITE = /usr/lib/perl5
 PERLTK	= $(PERL)
 BUILDROOT = 
 PREFIX	= $(BUILDROOT)/usr
 TMPBASE	= $(BUILDROOT)/var/spool
 SYSRCDIR = $(BUILDROOT)/etc
+PERLLIBROOT = $(BUILDROOT)/usr/lib/perl5
+PERLINSTDIR = $(PERLLIBROOT)/site_perl/Netcomics
 
 RM	= rm -f
 FIND	= find
@@ -42,67 +43,8 @@ LIBDIR	= $(LIBBASE)/$(APPNAME)
 MKDIRFLAGS	= -m 755
 TMPDIR	= $(TMPBASE)/$(APPNAME)
 TMPMKDIRFLAGS	= -m 777
-HTMLDIR	= $(LIBDIR)/html_tmpl
-MANDIR1	= $(MANROOT)/man1
-
-BZIP2	= bzip2
-GZIP	= gzip
-TAR	= tar
-TARFILES= "ls -d $(APPNAME)-$(VERSION)/* | \
-	$(PERL) -pe 's/.*(lost\+found|dist).*//gm'"
-RPM	= rpm
-RPMBUILDFLAGS	= -ba
-
-SRCDIR	= /usr/src
-RHDIR	= $(SRCDIR)/redhat
-RHSPECS	= $(RHDIR)/SPECS
-RHSRCS	= $(RHDIR)/SOURCES
-RHRPMS	= $(RHDIR)/RPMS
-RPMSPEC	= $(APPNAME).spec
-RPMFILE	= $(APPNAME)-$(VERSION)-$(PKGVERSION).noarch.rpm
-DEBFILE	= ../$(APPNAME)_$(VERSION)-$(PKGVERSION)_all.deb
-TARBZ2FILE	= $(APPNAME)-$(VERSION).tar.bz2
-TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
-
-
-APPNAME	= netcomics
-AP2NAME	= display_comics
-AP3NAME = show_comics
-RCFILE	= netcomicsrc
-VERSION	= 0.13
-PKGVERSION = 1
-
-#The 4 most commonly changed paths.  All occurrances of these in the
-#scripts, documentation, and the RPM spec will be changed if you set
-#these to something different
-PERL	= /usr/bin/perl
-PERLTK	= $(PERL)
-BUILDROOT =
-PREFIX	= $(BUILDROOT)/usr
-TMPBASE	= $(BUILDROOT)/var/spool
-SYSRCDIR = $(BUILDROOT)/etc
-
-RM	= rm -f
-FIND	= find
-MKDIR	= mkdir -p
-CD      = cd
-POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
-POD2HTML= pod2html
-INSTALL	= install
-ETAGS	= etags
-CT	= cleartool
-
-BININSTALLFLAGS	= -m 755
-LIBINSTALLFLAGS	= -m 644
-
-BINDIR  = $(PREFIX)/bin
-MANROOT	= $(PREFIX)/man
-LIBBASE	= $(PREFIX)/share
-LIBDIR	= $(LIBBASE)/$(APPNAME)
-MKDIRFLAGS	= -m 755
-TMPDIR	= $(TMPBASE)/$(APPNAME)
-TMPMKDIRFLAGS	= -m 777
-HTMLDIR	= $(LIBDIR)/html_tmpl
+HTMLTMPLDIR = html_tmpl
+HTMLDIR	= $(LIBDIR)/$(HTMLTMPLDIR)
 MANDIR1	= $(MANROOT)/man1
 
 BZIP2	= bzip2
@@ -246,11 +188,11 @@ OLDMODULES = \
 	uexpress \
 	worldviews 
 
-PROGRAMMODULES = \
-	Netcomics/MyResponse.pm \
-	Netcomics/MyRequest.pm \
-	Netcomics/ExternalUserAgent.pm \
-	Netcomics/RLI.pm 
+PERLMODULES = \
+	MyResponse.pm \
+	MyRequest.pm \
+	ExternalUserAgent.pm \
+	RLI.pm \
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
@@ -260,7 +202,8 @@ HTMLTEMPLATES = \
 ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
 	$(APPNAME) $(AP2NAME) $(AP3NAME) doc/old_Comic_Module-HOWTO.html \
 	doc/netcomics.lsm doc/Modify_Webpage_Creation-HOWTO.html \
-	doc/Comic_Module-HOWTO.html contrib/comics_update $(MODULES)
+	doc/Comic_Module-HOWTO.html contrib/comics_update $(MODULES) \
+	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%)
 
 #specify the following on the command line so that you can force
 #installation under a different prefix without it remaking everything
@@ -278,7 +221,7 @@ remake_check:
 		[ $(LIBBASE) != /usr/share ] || \
 		[ $(LIBDIR) != /usr/share/netcomics ] || \
 		[ $(TMPDIR) != /var/spool/netcomics ] || \
-		[ $(HTMLDIR) != /usr/share/netcomics/html_tmpl ] || \
+		[ $(HTMLDIR) != /usr/share/netcomics/$(HTMLTMPLDIR) ] || \
 		[ $(APPNAME) != netcomics ] \
 	      ) && ( [ $(NOREMAKE) != 1 ] && [ $(MAKE) != clearmake ] ) ); then\
 		echo "Having documentation & scripts reproduced in doc & bin.";\
@@ -296,15 +239,10 @@ clean::
 install:: all
 	$(MKDIR) $(TMPMKDIRFLAGS) $(TMPDIR)
 	$(MKDIR) $(MKDIRFLAGS) $(BINDIR)
-	$(MKDIR) $(PERLSITE)/Netcomics
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(APPNAME) $(BINDIR)/$(APPNAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP2NAME) $(BINDIR)/$(AP2NAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP3NAME) $(BINDIR)/$(AP3NAME)
-	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE1) $(PERLSITE)/Netcomics/$(MODULE1)
-	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE2) $(PERLSITE)/Netcomics/$(MODULE2)
-	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE3) $(PERLSITE)/Netcomics/$(MODULE3)
-	$(INSTALL) $(LIBINSTALLFLAGS) Netcomics/$(MODULE4) $(PERLSITE)/Netcomics/$(MODULE4)
-	
+
 bin/$(AP2NAME): $(AP2NAME)
 	$(PERL) -pe s%/usr/bin/perl%$(PERL)%gm $(AP2NAME) \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm > $@
@@ -323,7 +261,7 @@ bin/$(APPNAME): Makefile $(APPNAME)
 	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(APPNAME) \
 	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics/html_tmpl%$(HTMLDIR)%gm \
+	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
 	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
 	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
 	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > bin/$(APPNAME)
@@ -337,7 +275,7 @@ etc/$(RCFILE): Makefile $(RCFILE)
 	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $(RCFILE) \
 	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics/html_tmpl%$(HTMLDIR)%gm \
+	| $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
 	| $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
 	| $(PERL) -pe s%netcomics%$(APPNAME)%gm \
 	| $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > etc/$(RCFILE)
@@ -430,8 +368,7 @@ doc::	doc/$(APPNAME).html
 
 doc::	doc/$(AP3NAME).html
 
-install:: install_mods install_html
-
+install:: install_mods install_html install_pms
 
 install_mods:
 	$(MKDIR) $(MKDIRFLAGS) $(LIBDIR)
@@ -439,8 +376,13 @@ install_mods:
 
 install_html:
 	$(MKDIR) $(MKDIRFLAGS) $(HTMLDIR)
-	cd html_tmpl; \
+	$(CD) $(HTMLTMPLDIR); \
 	$(INSTALL) $(LIBINSTALLFLAGS) $(HTMLTEMPLATES) $(HTMLDIR)
+
+install_pms:
+	$(MKDIR) $(MKDIRFLAGS) $(PERLINSTDIR)
+	$(CD) Netcomics; \
+	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR)
 
 install::
 	@oldmods=""; \
@@ -514,17 +456,17 @@ label:
 	$(CT) mklabel -recurse V$(VERSION) .
 
 install_local:
-	$(MAKE) install PREFIX=/usr/local
+	$(MAKE) install PREFIX=/usr/local PERLLIBROOT=/usr/local/lib/perl5
 
 install_home:
-	$(MAKE) install PREFIX=$(HOME) \
-		TMPDIR=$(HOME)/comics SYSRCDIR=$(HOME)/etc
+	$(MAKE) PREFIX=$(HOME) PERLLIBROOT=$(HOME)/lib \
+		TMPDIR=$(HOME)/comics SYSRCDIR=$(HOME)/etc install 
 
 install_for_ben:
-	@perl=`which perl`; tkperl=`which tkperl`; \
-	$(MAKE) install PREFIX=$(HOME) \
-		TMPDIR=$(HOME)/www/comics PERL=$$perl \
-		PERLTK=$$tkperl SYSRCDIR=$(HOME)/etc
+	perl=`which perl`; tkperl=`which tkperl`; \
+	$(MAKE) PREFIX=$(HOME) PERLLIBROOT=$(HOME)/lib \
+		TMPDIR=$(HOME)/www/comics SYSRCDIR=$(HOME)/etc \
+		PERL=$$perl PERLTK=$$tkperl install
 
 .PHONY: all doc install clean distclean archives rpm dist install_for_ben \
-devel bin deb install_html install_mods
+devel bin deb install_html install_mods install_pms
