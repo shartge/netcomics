@@ -46,6 +46,9 @@ For example, all Dilbert strips would be on their own page,
 Foxtrot in its own.  The index page would then have links to
 the pages themselves, and not to the individual comic strips.
 
+** Index of indices
+If the user specified a maximum number of items per index page, then
+an index page for the index pages could be created.
 ----------------------------------------------------------------------
 
 * Comic Modules

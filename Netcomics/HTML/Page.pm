@@ -33,6 +33,7 @@ sub new {
 				'comics_set' => [ ],
 				'datestr' => strftime($webpage_datefmt, gmtime(time())),
 				'ctime' => ctime(time()),
+				'ltime' => 	[localtime(time)],
 				'theme' => undef,
 				'index' => undef,
 				'group_number' => 1,
@@ -77,9 +78,6 @@ sub generate {
 	# Okay, now let's create the header and substitute information
 	# in.
 	my $head = $self->{'theme'}->{'html'}{'head'};
-	$head =~ s/<PAGETITLE>/$webpage_title/g;
-	$head =~ s/<CTIME>/$self->{'ctime'}/g;
-	$head =~ s/<DATE>/$self->{'datestr'}/g;
 	$head =~ s/<NUM=FIRST>/$self->{'first_comic'}/g;
 	$head =~ s/<NUM=LAST>/$self->{'last_comic'}/g;
 	$head =~ s/<NUM=TOTAL>/$self->{'total_comics'}/g;
@@ -89,9 +87,8 @@ sub generate {
 
 	# Code that let's you use custom date strigs.
 	$head =~ s/<DATE>/$self->{'datestr'}/g;
-	my @ltime = localtime(time);
 	while ($head =~ /<DATE FORMAT="([^\"]*)">/) {
-		my $datestr = strftime($1,@ltime);
+		my $datestr = strftime($1,@{$self->{'ltime'}});
 		$head =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
 	}
 
@@ -106,15 +103,27 @@ sub generate {
 	$nextgroup = 1 if $nextfile =~ s/<NUM>/$nextgroup/g;
 	$prevfile =~ s/<NUM>/$prevgroup/g;
 
+
 	# Now create the header with links to previous page, next page, and up
 	# if we have multiple groups. Otherwise leave $links blank.
 	my $links = "";
 	if ($self->{'num_groups'} > 1) {
-		$links = $self->{'theme'}->{'html'}{'links'};
+		my $links_tmpl_type = $webpage_index ? 'links_index' : 'links';
+		$links = $self->{'theme'}->{'html'}{$links_tmpl_type};
 		$links =~ s/<FILE=PREV>/$prevfile/g;
 		$links =~ s/<FILE=NEXT>/$nextfile/g;
 		$links =~ s/<NUM>/$comics_per_page/g;
 	}
+
+	#Create a top & bottom links.  The link to the index can be different
+	#between the top & bottom if the number of comics per index is different
+	#than the number of comics per page.
+	my ($links_top, $links_bottom) = ($links) x 2;
+	my $index_filename = $self->index_for_comic($self->{'first_comic'});
+	$links_top =~ s/<FILE=INDEX>/$index_filename/g;
+	$index_filename = $self->index_for_comic($self->{'last_comic'});
+	$links_bottom =~ s/<FILE=INDEX>/$index_filename/g;
+
 
 	# Make the index body.
 	my $index_body_el_tmpl;
@@ -149,32 +158,27 @@ sub generate {
 		}
 
 		# Archive Information
+		my $archivelink = $rli->{'archives'};
 		if ($self->{'link_to_local_archives'}) {
 			# link to local archives
 
 			# If we're making indexies, then link to index, else link
 			# to the first page of comics.
+			my $fname;
 			if ($webpage_index) {
-				if ( -f "$rli->{'subdir'}/index.html" ) {
-					$title .= " <A HREF=\"$rli->{'subdir'}/index.html\">" .
-						"<FONT FACE=\"times\">" .
-							"<I>(archives)</I></FONT></A>";
-				} else {
-					$title .= " <A HREF=\"$rli->{'subdir'}/index1.html\">" .
-						"<FONT FACE=\"times\">" .
-							"<I>(archives)</I></FONT></A>";
-				}
+				$fname = $index_filename;
 			} else {
-				$title .= " <A HREF=\"$rli->{'subdir'}/comics1.html\">" .
-					"<FONT FACE=\"times\">" .
-						"<I>(archives)</I></FONT></A>";
+				($fname = $self->{'webpage_filename_tmpl'}) =~ s/<NUM>/1/;
 			}
+			$archivelink = "$rli->{'subdir'}/$fname";
 		} else {
-			if (defined($_ = $rli->{'archives'})) {
-				#link to the site's archives
-				$title .= " <A HREF=\"$_\"><FONT FACE=\"times\">" .
-					"<I>(archives)</I></FONT></A>";
-			}
+			#link to the site's archives
+			$archivelink = $rli->{'archives'};
+		}
+		if (defined($archivelink)) {
+			#link to the site's archives
+			$title .= " <A HREF=\"$archivelink\"><FONT FACE=\"times\">" .
+				"<I>(archives)</I></FONT></A>";
 		}
 		print STDERR "$rli->{'title'} ($date)" if $extra_verbose;
 
@@ -203,8 +207,7 @@ sub generate {
 			$size = image_size( ($comics_dir . "/$image") ) 
 				if $rli->{'status'} == 1;
 			if (! defined($size) && defined($rli->{'size'})) {
-				my $size = $rli->{'size'};
-				if (ref($size) ne "ARRAY") {
+				if (ref($rli->{'size'}) ne "ARRAY") {
 					# If this code is executed, something is REALLY wrong :-P
 					print STDERR "$rli->{'title'}: size is not an array:" .
 						"\"$size\".  Please inform the comic maintainer.\n"
@@ -212,8 +215,8 @@ sub generate {
 				} else {
 					#get the size from the specified default since this
 					#is either a URL or the size couldn't be determined
-					$size = "WIDTH=" . $size->[0] .
-						" HEIGHT=" . $size->[1];
+					$size = "WIDTH=" . $rli->{'size'}[0] .
+						" HEIGHT=" . $rli->{'size'}[1];
 				}
 			}
 			#my $width = (defined($size) && $size =~ /(WIDTH=\d+)/) ? 
@@ -276,20 +279,27 @@ sub generate {
 		print STDERR "\n" if $extra_verbose;
 	}
 
-	# Create it for the sole purpose of returning it.
-	my $tail_tmpl = $self->{'theme'}->{'html'}{'tail'};
+	#Other stuff that all we need to change in them are the
+	#common elements.
+	my $tail = $self->{'theme'}->{'html'}{'tail'};
+	my $pre_body = $self->{'theme'}->{'html'}{'pre_body'};
+	my $post_body = $self->{'theme'}->{'html'}{'post_body'};
 
 	# Catch all for common elements.
-	foreach (\$body, \$links, \$tail_tmpl) {
+	foreach (\$head, \$links_top, \$pre_body, \$body, \$post_body,
+			 \$links_bottom, \$tail) {
 		$$_ =~ s/<PAGETITLE>/$webpage_title/g;
 		$$_ =~ s/<CTIME>/$self->{'ctime'}/g;
 		$$_ =~ s/<DATE>/$self->{'datestr'}/g;
 	}
 
-	return({'head' => "$head",
-			'links' => "$links",
-			'body' => "$body",
-			'tail_tmpl' => "$tail_tmpl",
+	return({'head' => $head,
+			'links_top' => $links_top,
+			'pre_body' => $pre_body,
+			'body' => $body,
+			'post_body' => $post_body,
+			'links_bottom' => $links_bottom,
+			'tail' => $tail,
 			'index' => \@index
 		   });
 }
@@ -297,6 +307,24 @@ sub generate {
 sub stripout {
 	$_ = $_[0];
 	s/$_[1]//g;
+}
+
+#returns the filename for the index of the comic number.
+sub index_for_comic {
+	my $self = shift;
+	my $cnum = shift;
+
+	return $webpage_index_filename
+		 if ! defined $comics_per_index_page || $comics_per_index_page < 1 ||
+			 $comics_per_index_page >= $self->{'total_comics'};
+
+	my $group_num = $cnum / $comics_per_index_page;
+	$group_num =~ s/^(\d+)\.?\d*$/$1/;
+	$group_num++; #change to 1-based
+	my $filename = $webpage_indexname_tmpl;
+	$filename =~ s/<NUM>/$group_num/g;
+
+	return $filename;
 }
 
 1;

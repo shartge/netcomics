@@ -105,16 +105,14 @@ sub create_set_of_pages {
 			"comics on last page = $comics_on_last\n"
 				if $extra_verbose;
 
+	my $time = time();
+	my @ltime = localtime($time);
+	my $ctime = ctime($time);
+	my $datestr = strftime($webpage_datefmt, @ltime);
+
 	my @index_entries;
-	my $tail;
 
 	for my $group_num (1..$num_groups) {
-		my $singlepage;
-		if ($num_groups >= 2) {
-			$singlepage = 0;
-		} else {
-			$singlepage = 1;
-		}
 
 		# Generate the first and last comic numbers in @sorted_comics.
 		my $first = ($group_num - 1) * $comics_per_page + 1;
@@ -137,6 +135,9 @@ sub create_set_of_pages {
 		# Create our HTML Page object.
 		my $HTML_Page = Netcomics::HTML::Page->new
 			('webpage_title' => "$webpage_title",
+			 'ctime' => $ctime,
+			 'ltime' => \@ltime,
+			 'datestr' => $datestr,
 			 'num_groups' => $num_groups,
 			 'group_number' => $group_num,
 			 'first_comic' => $first,
@@ -155,10 +156,9 @@ sub create_set_of_pages {
 
 		my %returned = %{$HTML_Page->generate};
 
-		my $page = "$returned{'head'}$returned{'links'}$self->{'theme'}->{'html'}{'pre_body'}$returned{'body'}$self->{'theme'}->{'html'}{'post_body'}" .
-		"$returned{'links'}$returned{'tail_tmpl'}";
-
-		$tail = $returned{'tail_tmpl'};
+		my $page = $returned{'head'} . $returned{'links_top'} .
+			$returned{'pre_body'} . $returned{'body'}. $returned{'post_body'} .
+				$returned{'links_bottom'} . $returned{'tail'};
 
 		push(@index_entries, @{$returned{'index'}});
 
@@ -179,23 +179,18 @@ sub create_set_of_pages {
 		# best way, but /me shrugs...
 		my $comics_per_index_page = $comics_per_index_page;
 
-		# Determine number of index pages for comics. Yes this was ripped from
-		# above, yes this should be a sub. So sue me.
+		# Determine number of index pages for comics.  This does not
+		# necessarily match up with the number of groups of comics since
+		# the group sizes can be different.
 		$comics_per_index_page = $num_comics
 			unless defined($comics_per_index_page); 
-		
+
 		my $num_groups = $num_comics / $comics_per_index_page;
-		$num_groups =~ s/^(\d+)\.?\d*$/$1/;
+		$num_groups =~ s/^(\d+)\.\d*$/$1/;
 		my $comics_on_last = $num_comics % $comics_per_index_page;
 		$num_groups++ if $comics_on_last > 0;
 
 		for my $group_num (1..$num_groups) {
-			my $singlepage;
-			if ($num_groups >= 2) {
-				$singlepage = 0;
-			} else {
-				$singlepage = 1;
-			}
 
 			# Generate the first and last comic numbers in @sorted_comics.
 			my $first = ($group_num - 1) * $comics_per_index_page + 1;
@@ -203,27 +198,23 @@ sub create_set_of_pages {
 			$last = $first + $comics_on_last - 1 
 				if ($group_num == $num_groups && $comics_on_last > 0);
 
-			# Create what's going to be the index.
-			my $index;
-			my $index_head;
 			#index head global info
-			$index_head = $self->{'theme'}->{'html'}{'head'};
-			$index_head =~ s/<PAGETITLE>/$webpage_title/g;
-			$index_head =~ s/<NUM=FIRST>/$first/g;
-			$index_head =~ s/<NUM=LAST>/$last/g;
-			$index_head =~ s/<NUM=TOTAL>/$num_comics/g;
-			$index_head =~ s/<PAGETITLE>/$webpage_title/g;
-			$index_head =~ s/<LINK_COLOR>/$link_color/g;
-			$index_head =~ s/<VLINK_COLOR>/$vlink_color/g;
-			$index_head =~ s/<BACKGROUND>/$background/g;
+			my $head = $self->{'theme'}->{'html'}{'head'};
+			$head =~ s/<PAGETITLE>/$webpage_title/g;
+			$head =~ s/<CTIME>/$ctime/g;
+			$head =~ s/<NUM=FIRST>/$first/g;
+			$head =~ s/<NUM=LAST>/$last/g;
+			$head =~ s/<NUM=TOTAL>/$num_comics/g;
+			$head =~ s/<PAGETITLE>/$webpage_title/g;
+			$head =~ s/<LINK_COLOR>/$link_color/g;
+			$head =~ s/<VLINK_COLOR>/$vlink_color/g;
+			$head =~ s/<BACKGROUND>/$background/g;
 
 			# Code that let's you use custom date strigs.
-			my $date = strftime("%b %d, %Y",gmtime(time()));
-			$index_head =~ s/<DATE>/$date/g;
-			my @ltime = localtime(time);
-			while ($index_head =~ /<DATE FORMAT="([^\"]*)">/) {
+			$head =~ s/<DATE>/$datestr/g;
+			while ($head =~ /<DATE FORMAT="([^\"]*)">/) {
 				my $datestr = strftime($1,@ltime); 
-				$index_head =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
+				$head =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
 			}
 
 			# Now create the header with links to previous page, next page, and
@@ -246,24 +237,45 @@ sub create_set_of_pages {
 				$links =~ s/<NUM>/$comics_per_index_page/g;
 			}
 
+			my $body = "";
 			for my $comic_number ($first .. $last ) {
-				$index .= $index_entries[$comic_number - 1];
+				$body .= $index_entries[$comic_number - 1];
+			}
+
+			#Other stuff that all we need to change in them are the
+			#common elements.
+			my $tail = $self->{'theme'}->{'html'}{'tail'};
+			my $pre_body = $self->{'theme'}->{'html'}{'pre_body'};
+			my $post_body = $self->{'theme'}->{'html'}{'post_body'};
+
+			# Catch all for common elements.
+			foreach (\$head, \$links, \$pre_body, \$body, \$post_body, \$tail) {
+				$$_ =~ s/<PAGETITLE>/$webpage_title/g;
+				$$_ =~ s/<CTIME>/$ctime/g;
+				$$_ =~ s/<DATE>/$datestr/g;
 			}
 
 			my $filename;
-			unless($num_groups == 1) {
+			if ($num_groups > 1) {
 				($filename = $webpage_indexname_tmpl ) =~ s/<NUM>/$group_num/g;
-				file_write("$self->{'output_dir'}/$filename",
-						   0664, "$index_head$links$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$links$tail");
+			} else {
+				$filename = $webpage_index_filename;
 			}
-			else {
-				($filename = $webpage_indexname_tmpl ) =~ s/<NUM>//g;
-				file_write("$self->{'output_dir'}/$filename",
-						   0664, "$index_head$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$tail");
-			}
+
+			file_write("$self->{'output_dir'}/$filename",
+					   0664, "$head$links$pre_body$body$post_body$links$tail");
+
+		}
+
+		#create a link to the main index if groups
+		if ($num_groups > 1) {
+			my $first_index = $webpage_indexname_tmpl;
+			$first_index =~ s/<NUM>/1/g;
+			symlink($first_index, $webpage_index_filename);
 		}
 	}
 	$self->{'theme'}->generate_images($self->{'output_dir'});
+
 }
 
 sub check_rlis {

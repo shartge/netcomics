@@ -6,6 +6,15 @@
 
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Updated elements
+	to replace to match everything in Page.pm.  Added replacing common
+	elements & simplified code.  Added creating a symlink to the
+	standard webpage index filename if multiple index pages.
+	* Netcomics/HTML/Page.pm (generate): Fixed links section to grab
+	the one with the link to the index if generated.  Made the top
+	links & bottom links different to match up with the index of the
+	first & last comic on each page.  Made all sections parsed for
+	common elements to replace.
 	* doc/netcomics.pod: Fixed -t not being surrounded by B<>.
 
 2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
