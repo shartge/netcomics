@@ -1,3 +1,6 @@
+2001-02-21  Elliot Glaysher <nuriko.chan@home.com>
+	* lib/doemain: Added A Doemain of Our Own.
+
 2001-02-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (../$(DEBFILELINK)): Added making a symlink to the deb
