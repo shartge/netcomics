@@ -24,7 +24,7 @@ use Netcomics::MyResponse;
 use Netcomics::MyRequest;
 use Netcomics::Util;
 
-use vars qw(%rli @rli); #only used for importing modules & .rli files.
+use vars qw(%rli @rli %hof); #only used for importing modules & .rli files.
 
 #class attributes
 my $files_mode = 0644;
@@ -839,7 +839,7 @@ sub list_comics {
 	my $make_webpage = ($do_list_comics > 1)? 1 : 0;
 	my ($f,$d);
 	print STDERR "Listing comics.\n" if $extra_verbose;
-	while (($f,$d) = each %{$self->{'hof'}}) {
+	while (($f,$d) = each %hof) {
 		my $i = -1;
 		my $rh = undef;
 		my $days = (defined $d) ? $d : 0;
@@ -859,8 +859,7 @@ sub list_comics {
 		$len = length($name);
 		$max_nlen = $len +1 if $len > $max_nlen;
 	}
-	my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1]),
-					  $sort_by_date;} keys(%names));
+	my @names = sort(keys(%names));
 	my $title = 'Comic Name';
 	my $lines = '----------';
 	$names{$title} = ["id","days behind"];
