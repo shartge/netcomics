@@ -1,8 +1,8 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-foreach (qw(adam bliss bz bd cathy cd cth corn cr cs dp hc fw fusco geech itb 
-	    boffo ob rla sc stsp tank paint ziggy)) {
+foreach (qw(adam bliss bz bd cathy cd cth corn cr cs dp hc fw fusco itb 
+	    boffo ob sc stsp tank paint ziggy)) {
     $hof{$_} = 14;
 }
 
@@ -105,12 +105,6 @@ sub fusco {
 		    [600,396],[600,180]);
 }
 
-#Geech http://www.uexpress.com/ups/comics/ge/
-sub geech {
-    return uexpress(shift(@_),"Geech","Jerry Bittle","ge",
-		    [600,422],[600,190]);
-}
-
 #Heart of the City http://www.uexpress.com/ups/comics/hc/
 sub hc {
     return uexpress(shift(@_),"Heart of the City","Mark Tatulli","hc",
@@ -133,12 +127,6 @@ sub boffo {
 sub ob {
     return uexpress(shift(@_),"Overboard","Chip Dunham","ob",
 		    [600,276],[600,200]);
-}
-
-#Real Life Adventures http://www.uexpress.com/ups/comics/rl/
-sub rla {
-    return uexpress(shift(@_),"Real Life Adventures",
-		    "Lance Aldrich & Gary Wise","rl",[600,280],[300,395]);
 }
 
 #Second Chances http://www.uexpress.com/ups/comics/se/

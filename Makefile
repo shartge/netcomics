@@ -77,7 +77,6 @@ MODULES = lib/after_y2k \
 	lib/creators_syndicate \
 	lib/ctoons \
 	lib/curiosities \
-	lib/dilbert \
 	lib/doodie \
 	lib/doonesbury \
 	lib/down_earth \
@@ -127,6 +126,7 @@ MODULES = lib/after_y2k \
 	lib/sluggy_freelance \
 	lib/small_grey \
 	lib/small_world \
+	lib/spaz_labs \
 	lib/spex \
 	lib/spooner \
 	lib/story_minute \

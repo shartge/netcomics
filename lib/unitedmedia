@@ -1,78 +1,88 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-foreach (qw(buckets gf topworld meatloaf tarzan ripleys)) {
+foreach (qw(buckets dilbert gf topworld meatloaf tarzan ripleys)) {
     $hof{$_} = 0;
 }
 
 $hof{"fatcats"} = 1;
 
+#Keep in sync with comiczone.
+#They're exactly the same except for the baseurl.
 sub unitedmedia {
-    #get arguments (fp stands for file prefix)
-    my ($time,$title,$author,$fp,$sun_size,$wd_size,$func) = @_;
+    #get arguments (fp stands for file prefix, syn for syndicate)
+    my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
     my @ltime = gmtime($time);
     my @ntime = gmtime(time);
     my $ntime = mkgmtime(0,0,0,@ntime[3..5]);
     my $first_avail = $ntime - (31 + $hof{$func})*(3600*24);
     my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
     return undef if ! defined $size || $time < $first_avail;
+
+    my $baseurl = "http://www.unitedmedia.com";
     
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => 'gif',
-	'main' => "http://www.unitedmedia.com/comics/$fp/ab.html",
-	'archives' => "http://www.unitedmedia.com/comics/$fp/archive/",
-	'base' => "http://www.unitedmedia.com",
-	'exprs' => [strftime("(/comics/$fp/archive/images/$fp\\d+\\.(gif|jpg))",
+	'main' => "$baseurl/comics/$fp/ab.html",
+	'archives' => "$baseurl/$syn/$fp/archive/",
+	'base' => $baseurl,
+	'exprs' => [strftime("(/$syn/$fp/archive/images/$fp\\d+\\.(gif|jpg))",
 			     @ltime)],
-	'page' => strftime("/comics/$fp/archive/$fp-%Y%m%d.html",@ltime),
+	'page' => strftime("/$syn/$fp/archive/$fp-%Y%m%d.html",@ltime),
 	'size' => $size,
     };
     
     return $rec;
 }
 
-#Buckets http://www.unitedmedia.com/comics/buckets/ab.html
+#Buckets http://www.unitedmedia.com/comics/buckets/
 sub buckets {
-    return unitedmedia(shift(@_),"Buckets","Scott Stantis","buckets", 
+    return unitedmedia(shift(@_),"Buckets","Scott Stantis","comics","buckets", 
 		       [725,380],[600,200],"buckets");
 }
 
-#Fat Cats http://www.unitedmedia.com/comics/fatcats/ab.html
-sub fatcats {
-    return unitedmedia(shift(@_),"Fat Cats","Charlie Podrebarac","fatcats", 
-		       [725,266],[600,210],"fatcats");
+#Dilbert http://www.unitedmedia.com/comics/dilbert/
+sub dilbert {
+    return unitedmedia(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
+		       [725,515],[600,210],"dilbert");
 }
 
-#Get Fuzzy http://www.unitedmedia.com/comics/getfuzzy/ab.html
+#Fat Cats http://www.unitedmedia.com/comics/fatcats/
+sub fatcats {
+    return unitedmedia(shift(@_),"Fat Cats","Charlie Podrebarac","comics",
+		       "fatcats", [725,266],[600,210],"fatcats");
+}
+
+#Get Fuzzy http://www.unitedmedia.com/comics/getfuzzy/
 sub gf {
-    return unitedmedia(shift(@_),"Get Fuzzy","Darby Conley","getfuzzy", 
+    return unitedmedia(shift(@_),"Get Fuzzy","Darby Conley","comics","getfuzzy",
 		       [725,266],[600,210],"gf");
 }
 
-#Top Of The World http://www.unitedmedia.com/comics/topofworld/ab.html
+#Top Of The World http://www.unitedmedia.com/comics/topofworld/
 sub topworld {
-    return unitedmedia(shift(@_),"Top Of This World","Mark Tonra","topofworld", 
-		       [600,382],[600,212],"topworld");
+    return unitedmedia(shift(@_),"Top Of This World","Mark Tonra","comics",
+		       "topofworld", [600,382],[600,212],"topworld");
 }
 
-#Meatloaf Night http://www.unitedmedia.com/comics/meatloaf/ab.html
+#Meatloaf Night http://www.unitedmedia.com/comics/meatloaf/
 sub meatloaf {
-    return unitedmedia(shift(@_),"Meatloaf Night","Mark Buford","meatloaf", 
-		       [725,382],[600,202],"meatloaf");
+    return unitedmedia(shift(@_),"Meatloaf Night","Mark Buford","comics",
+		       "meatloaf", [725,382],[600,202],"meatloaf");
 }
 
-#Tarzan http://www.unitedmedia.com/comics/tarzan/ab.html
+#Tarzan http://www.unitedmedia.com/comics/tarzan/
 sub tarzan {
-    return unitedmedia(shift(@_),"Tarzan","Gray Morrow","tarzan", 
+    return unitedmedia(shift(@_),"Tarzan","Gray Morrow","comics","tarzan", 
 		       [725,524],[600,187],"tarzan");
 }
 
-#Ripleys Believe it or not http://www.unitedmedia.com/comics/ripleys/ab.html
+#Ripleys Believe it or not http://www.unitedmedia.com/comics/ripleys/
 sub ripleys {
     return unitedmedia(shift(@_),"Ripleys Believe It Or Not",
-		       "Don Wimmer and Karen Kemlo","ripleys",
+		       "Don Wimmer and Karen Kemlo","comics","ripleys",
 		       [725,514],[300,430],"ripleys");
 }
 

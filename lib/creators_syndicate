@@ -122,12 +122,6 @@ sub zorro {
 			"zorro",22,[300,343],[600,261]);
 }
 
-#Liberty Meadows http://www.creators.com/comics/lib/
-sub lib {
-    return creators_syn(shift(@_),"Liberty Meadows","Frank Cho","lib",6,
-	[300,343],[600,261]);
-}
-
 #Teenage Ninja Turtles http://www.creators.com/comics/nin/
 sub nin {
     return creators_syn(shift(@_),"Teenage Ninja Turtles",

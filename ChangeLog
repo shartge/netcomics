@@ -1,5 +1,19 @@
+2000-10-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (MODULES): Added spaz_labs and removed dilbert.
+	* lib/comiczone: Removed all Universal Syndicate comics because
+	comiczone no longer carries them.
+	(comiczone): updated so the code would be almost
+	exactly the same as unitedmedia's.
+	* lib/creators_syndicate: Removed Liberty Meadows from here
+	because it is in comiczone.
+	* lib/unitedmedia: Changed the days behind to 0.
+	(dilbert): Moved dilbert into unitedmedia because color weekday
+	comics are no longer offered.
+
 2000-10-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/spaz_labs: Added Spaz Labs (contributed by Benjamin Cordes).
 	* lib/unitedmedia: [bug 119738] Accommodated for the site's update.
 	Removed Eek & Meek.  Made the comics not be a week behind anymore.
 	
