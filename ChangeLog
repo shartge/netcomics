@@ -1,3 +1,10 @@
+2001-05-06  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/GtkComics.pm: Small tweaks to the List widget.
+	* gtkcomics: gtkcomic's list of comics no longer has ${proc} on
+	the list. This forced me to change my solution to lookup of the
+	proc.
+	
 2001-05-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (.PHONY): Updated to include all phony targets
