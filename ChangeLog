@@ -1,5 +1,6 @@
 2001-02-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/elf_life (elf): Fixed expr to not assume the file type.
 	* netcomics (skip_rli): Fixed unit var reads
 	(get_comics): Changed "next RLI"s to "goto FINISH_RLI" so that all
 	comics will have an rli saved.  Moved construction of the comic

@@ -17,12 +17,14 @@ sub elf {
     my $rec = {
 	'title' => "Elf Life",
 	'author' => "Carson Fire",
-	'type' => $type,
 	'main' => "http://www.elflife.com/",
 	'archives' => "http://www.elflife.com/archive.htm",
 	'base' => "http://www.elflife.com",
 	'page' => strftime("/d/%Y%m%d.html",@ltime),
-	'exprs' => [strftime("SRC=\"(/comics/%Y%m%d.*?$type)",@ltime)],
+	'exprs' => {
+	    'comic' => [strftime("SRC=\"(/comics/%Y%m%d.*?)\"",@ltime)],
+	    'type' => [strftime("SRC=\"/comics/%Y%m%d.*?\.(\w+)\"",@ltime)],
+	},
     };
     return $rec;
 }
