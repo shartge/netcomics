@@ -55,7 +55,6 @@ Future updates are announced on:
 * http://www.linuxberg.com
 * http://www.penguinfiles.com
 * the Linux Software Map (http://www.execpc.com/lsm/)
-* Redhat Announce List <redhat-announce-list@redhat.com>
 * Netcomics Announce List <netcomics@lists.sourceforge.net>
 
 There is also another script out there that can get comics for you,
@@ -65,7 +64,7 @@ http://www.everybody.org/mah/hacks/
 And, there is an emacs lisp module: getcomics.el.  You can get it at:
 http://www.lysator.liu.se/~petli/elisp or /ftp.lysator.liu.se:/pub/emacs
 
-    Copyright (C) 1999 Ben Hochstedler
+    Copyright (C) 1999-2001 Ben Hochstedler
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
