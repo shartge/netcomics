@@ -1,0 +1,70 @@
+#-*-Perl-*-
+
+$hof{"dysen"} = 0;
+
+#Dysentery  http://www.angelfire.com/sd/granlund/dysentery.html
+sub dysen {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #use the script, mktime, in contrib (or doc if from the RPM) to
+    #find out what the number should be:
+    #1st comic: Apr 18, 1999, sunday only
+    return undef if $time < 924393600 || $ltime[6] != 0;
+    my $t_day = strftime("%Y%m%d",@ltime);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		     "July", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my %arch_conv = (19990801 => "condom",
+		     19990725 => "gun",
+		     19990718 => "iguana",
+		     19990711 => "jobstress",
+		     19990704 => "mother",
+		     19990627 => "lava",
+		     19990620 => "advertising",
+		     19990613 => "satellite",
+		     19990606 => "meditate",
+		     19990530 => "beans",
+		     19990523 => "rockstar",
+		     19990516 => "juicer",
+		     19990509 => "nipple",
+		     19990502 => "spongie",
+		     19990425 => "enlarger",
+		     19990418 => "sellout");
+    my $base = "http://www.angelfire.com/sd/granlund";
+    my $rec = {
+	'title' => "Dysentery",
+	'author' => "Aaron Granlund",
+	'type' => 'gif',
+	'main' => "$base/dysentery.html",
+	'archives' => "$base/archive.html",
+	'base' => "$base/",
+	'size' => [583,548],
+    };
+    if (grep(/$t_day/,keys(%arch_conv))) {
+	$rec->{'page'} = "archive.html";
+	$rec->{'exprs'} = {
+	    'comic' => ["($arch_conv{$t_day}.html)",'(images\/.*\.gif)'],
+	    'caption' => ["$arch_conv{$t_day}.*?<li>(.*?)<\\/td>",undef],
+	};
+    } else {
+	$rec->{'page'} = "dysentery.html";
+	my $n_day = strftime("%Y%m%d",gmtime(time));
+	my $date = "$monthconv[$ltime[4]] $ltime[3]";
+	my $comic_page_exp = ($n_day == $t_day) ?
+	    "<a href=\"(.*?\.html)\">.*?$date" :
+		"$date.*?<a href=\"(.*?\.html)\">";
+	my $caption_exp = ($n_day == $t_day) ?
+	    "<font color=\"\\w+\">([^<]+)<br>..?<\\/b><font size=.\\d+.>$date" :
+		"$date.*?<font color=\"\\w+\"><b>(.*?)<\\/td>";
+	    
+	$rec->{'exprs'} = {
+	    'comic' => [$comic_page_exp,'(images\/.*\.gif)'],
+	    'caption' => [$caption_exp,undef,undef],
+	};
+    }
+
+    return $rec;
+}
+
+
+
+1;
