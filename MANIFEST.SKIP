@@ -8,7 +8,7 @@
 \.old$
 \.[13]$
 \.out$
-^\..*password.*
+^\.group_*
 ^doc/Config.pod$
 ^doc/netcomics.html$
 ^doc/show_comics.html$

@@ -1,0 +1,4 @@
+#Update the crontab
+13 05 * * * cd $HOME/src/netcomics/netcomics; cvs -q update .group_crontab; crontab < .group_crontab
+#Update the website
+32 05 * * * cd $HOME/src/netcomics; cvs -q update -d; cd website; make -s all install

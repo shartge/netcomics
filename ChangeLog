@@ -1,9 +1,8 @@
 2002-04-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* MANIFEST: Added Netcomics/HTML/Themes/OldSchool.pm
-	* Makefile.PL (@pm_to_install): Added HTML/Themes/OldSchool.pm
-	* Netcomics/HTML/Themes/OldSchool.pm: Added, thanks to hossman.
-	* lib/doodie (doodie): Added size attribute.
+	* .group_crontab: Added; initial version.
+	* MANIFEST.SKIP: Updated to handle other group files than just the
+	password file.
 	* doc/Modify_Webpage_Creation-HOWTO.html: updated links &
 	links_index template descriptions to be clearer (bug 541361).
 
