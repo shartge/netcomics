@@ -1,3 +1,17 @@
+2002-06-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL (@pm_to_install): Added
+	Netcomics/HTML/Themes/CleanRoundImbedCaption.pm.
+	* MANIFEST: Added Netcomics/HTML/Themes/CleanRoundImbedCaption.pm.
+	* Netcomics/HTML/Themes/CleanRoundImbedCaption.pm: Created as a
+	subclass of CleanRound that only changes CleanRound's caption
+	and body html elements.  In the caption element, changed from the
+	previous version in CleanRound by Removing changing the text's
+	font, adding <tr></tr> around it, and adding width & height
+	specifiers.
+	* Netcomics/HTML/Themes/CleanRound.pm: Moved caption back outside
+	of the borders.
+
 2002-06-10  Sven Hartge  <netcomics@ds9.argh.org>
 
         * Netcomics/HTML/Themes/CleanRound.pm: made the comics centered on

@@ -37,9 +37,7 @@ $html{'links'} = <<END_LINKS;
 END_LINKS
 
 $html{'caption'} = <<END_CAPTION;
-<td><img width=20 height=48 src="<THEME_DIR>/left.gif"></td>
-<td><center><font face="Arial,Helvetica,sans-serif" size=+1> <CAPTION_DATA> </font></center></td>
-<td><img width=20 height=48 src="<THEME_DIR>/right.gif"></td>
+<tr><td><center><CAPTION_DATA></center></td></tr>
 END_CAPTION
 
 
@@ -62,13 +60,13 @@ $html{'body'} = <<END_BODY;
 	  <td><ELEMENT></td>
 	  <td><img width=20 <HEIGHT> src="<THEME_DIR>/right.gif"></td>
 	</tr>
-        <CAPTION>
 	<tr>
 	  <td><img width=20 height=20 src="<THEME_DIR>/bot_l.gif"></td>
 	  <td><img <WIDTH> height=20 src="<THEME_DIR>/bot.gif"></td>
 	  <td><img width=20 height=20 src="<THEME_DIR>/bot_r.gif"></td>
 	</tr>
       </table>
+      <CAPTION>
       </center>
   </td></tr>
 END_BODY

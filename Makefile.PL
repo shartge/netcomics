@@ -35,6 +35,7 @@ HTML/Page.pm
 HTML/Set.pm
 HTML/Theme.pm
 HTML/Themes/CleanRound.pm
+HTML/Themes/CleanRoundImbedCaption.pm
 HTML/Themes/Default.pm
 HTML/Themes/NoStatus.pm
 HTML/Themes/OldSchool.pm

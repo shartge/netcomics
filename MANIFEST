@@ -14,6 +14,7 @@ Netcomics/HTML/Page.pm
 Netcomics/HTML/Set.pm
 Netcomics/HTML/Theme.pm
 Netcomics/HTML/Themes/CleanRound.pm
+Netcomics/HTML/Themes/CleanRoundImbedCaption.pm
 Netcomics/HTML/Themes/Default.pm
 Netcomics/HTML/Themes/NoStatus.pm
 Netcomics/HTML/Themes/OldSchool.pm
