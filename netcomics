@@ -1892,7 +1892,7 @@ sub get_comics {
 		@relurls = &$func();
 	    }		
 	    
-	    if (@relurls == 0) {
+	    if (@relurls == 0 || (@relurls == 1 && ! defined($relurls[0]))) {
 		if (defined($back) && 
 		    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 			     "$name($i): function returned no relative urls.")){
@@ -1929,6 +1929,8 @@ RELURL:	    while (@relurls) {
 		} elsif (/ARRAY/) {
 		    #push these back onto relurls
 		    push @relurls, @$litem;
+		    print STDERR "$name($i): adding contents of array ref " .
+			"back onto relurls.\n";
 		    next RELURL;
 		} elsif (! /^$/) {
 		    print STDERR "$name($i): list element of type $_ " .

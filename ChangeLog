@@ -1,3 +1,8 @@
+2001-07-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (get_comics): Fixed improper handling of undef being
+	returned by a module's func.
+
 2001-07-07  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* lib/doemain: Modified so it now works. Uses 'func' to get the archive
