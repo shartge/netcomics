@@ -1,3 +1,8 @@
+2002-06-15  Sven Hartge  <netcomics@ds9.rgh.org>
+
+        * MANIFEST, Makefile.PL, lib/grimmy, lib/toonville: added new
+	  module for Mother Goose and Grimm, Bug #568112
+
 2002-06-12  Sven Hartge  <netcomics@ds9.rgh.org>
 
         * lib/dragon: fix Bug #568073
