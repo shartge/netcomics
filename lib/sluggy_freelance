@@ -11,7 +11,8 @@ sub sluggy {
     my $date2 = strftime("%Y%m%d",@ltime);
 
     # Last updated May 23, 2001
-    my @missing = ();
+    my @missing = (20010806,20010807,20010808,20010809,20010810,20010811,
+				   20010812);
 
     return undef 
       if (($date2 < 19970825) || #first comic on Aug 25, 1997

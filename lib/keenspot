@@ -381,6 +381,7 @@ sub ccs {
     
     return keenspot($title,$author,$date,$url,$index);
 }
+
 #Elf Life
 sub elf {
     my $time = shift;
@@ -475,8 +476,9 @@ sub exploit {
     my $date = strftime("%Y%m%d", @ltime);
     my $date2 = strftime("%Y%m%d", @ltime2);
 
-   # Last updated July 5, 2001
-    my @missing = (20010413);
+   # Last updated November 16, 2001
+    my @missing = (20010413,20010921,20011103,20011104,20011105,20011106,
+				   20011107,20011108,20011109,20011110,20011111);
     my @extra = (20010412);
 
     #MWF until present

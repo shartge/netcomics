@@ -1,3 +1,9 @@
+2001-11-16  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspace (roses): Updated missing comics list.
+	* lib/keenspot (exploit): Updated missing comics list.
+	* lib/sluggy_freelance (sluggy): Updated missing comics list.
+
 2001-11-15  Elliot Glaysher  <glaysher@umich.edu>
 
 	* netcomics: Added a "Today's Comics" feature.
