@@ -127,15 +127,12 @@ through running the function.
 ** Output an error message saying that modules package wasn't installed
 or the module directory path is wrong if no modules are found.
 
-** Have netcomics create persistent info files for each comic downloaded.
-These files would include info like author, caption, download status,
-URLs (main, archives, remote version of comic strip), etc.  Then, add
-support to webpage creation to utilize this info when recreating
-webpages.  The webpage creation could also then be put into another
-script, with the infrastructure for reading persistent info files put
-into a perl module.  This would also make it so that netcomics could
-better work in a daemon mode where it can continually monitor comic
-strips that haven't yet successfully downloaded.
+** Separate webpage creation into its own module 
+The webpage creation could be put into another script, with the
+infrastructure for reading persistent info files put into a perl
+module.  This would also make it so that netcomics could better work
+in a daemon mode where it can continually monitor comic strips that
+haven't yet successfully downloaded.
 
 ** Filetype from final URL
 Add option for modules to utilize that instructs netcomics to derive
