@@ -313,7 +313,7 @@ distclean::
 	$(RM) debian/netcomics -R
 	$(RM) debian/netcomics-modules -R
 	$(RM) debian/tmp -R
-	$(RM) debian/files debian/*.debhelper debian/*.substvars
+	$(RM) debian/files debian/*.debhelper debian/*substvars
 	$(RM) debian/*.1
 
 etc/$(RCFILE): $(RCFILE)
