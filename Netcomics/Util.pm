@@ -167,7 +167,7 @@ sub image_size {
 		eval {require Image::Size; Image::Size->import('html_imgsize');};
 		if ($@) {
 			print "\nWarning: Image::Size not installed. Using the file " .
-				"command instead.\n\n" if $verbose;
+				"command instead.\n\n" if $extra_verbose;
 			$imgsize_loaded = 0;
 		} else {
 			$imgsize_loaded = 1;

@@ -1,5 +1,7 @@
 2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/Util.pm (image_size): Made warning about Image::Size
+	not being installed only printed if extra verbose.
 	* Makefile.PL: Removed spex.
 	* MANIFEST: Removed spex.
 
