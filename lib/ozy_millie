@@ -4,29 +4,39 @@
 #with the number of days from today the comic is available
 $hof{"ozy"} = 0;
 
-#Ozy & Millie http://www.ozyandmillie.com/
+# Ozy & Millie
+# http://www.ozyandmillie.com/
+# Temp : http://ozyandmillie.atomicrhino.com/2000/5/om000519.gif
 sub ozy {
   my @ltime = gmtime(shift(@_));
-  return undef if (($ltime[6] == 0) | ($ltime[6] == 6)); #no sat/sun comics
+# Some strips on WE now
+#  return undef if (($ltime[6] == 0) | ($ltime[6] == 6));
   
   my $day = strftime("%Y%m%d",@ltime);
   my @jpegs = (19991108, 19990807, 19990825, 19990802, 19990701,
 	       19990528, 19990329, 19990308, 19990216);
+  $type = ($ltime[6] == 0) ? "jpg" : "gif";
   my ($type,$s,$size) = grep(/$day/,@jpegs) ? 
       ('jpg',"s",[750,391]) : ('gif',"",[700,240]);
   
-  
-  my $rec = {
-      'title' => "Ozy and Millie",
-      'author' => "D. C. Simpson",
-      'type' => ,$type,
-      'main' => "http://www.ozyandmillie.com/",
-      'archives' => "http://www.ozyandmillie.com/comix1.html",
-      'base' => "http://www.ozyandmillie.com/",
-      'page' => "comix1.html",
-      'exprs' => [strftime("HREF=\"([^\"]+om%y%m%d[^\"]+)",@ltime)],
-      'size' => $size,
-  };
+  my $month = strftime("%m", @ltime);
+  $month =~ s/^0//;
+
+  my $rec = 
+    {
+     'title' => "Ozy and Millie",
+     'author' => "D. C. Simpson",
+     'type' => ,$type,
+#      'main' => "http://www.ozyandmillie.com/",
+     'main' => "http://ozyandmillie.atomicrhino.com/",
+     'archives' => "http://www.ozyandmillie.com/comix1.html",
+#     'base' => "http://www.ozyandmillie.com/",
+     'base' => "http://ozyandmillie.atomicrhino.com/",
+#     'page' => "comix1.html",
+     'page' => strftime("archivedir/%Y/om%y%m%d.$type", @ltime),
+#     'exprs' => [strftime("HREF=\"([^\"]+om%y%m%d[^\"]+)",@ltime)],
+     'size' => $size,
+    };
   
   return $rec;
 }
