@@ -88,7 +88,6 @@ dysentery
 fairgame
 falling_dream
 farcus
-fika
 frankandernest
 freefall
 gaming_u
@@ -118,7 +117,6 @@ offthemark
 penny_arcade
 pvp
 red_meat
-rocky
 sempai
 sourcewars
 shermans_lagoon
