@@ -1,0 +1,49 @@
+netcomics (0.12-1) unstable; urgency=medium
+
+  * Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
+    Alice, Avalon, Badlands, Bobos Progress, Boonies, Broom-Hilda, Buckets,
+    Cats With Hands, Chase Villens, Dilbert Classics, Down To Earth, Dr Katz,
+    Dragon Tails, Eek and Meek, Fair Game, Fat Cats, Gibberish, Gil Thorp,
+    Hound's Home, Ick, Janes World, The Japanese Beetle, K Rat, Kudzu, Lola,
+    Loose Parts, Mary Worth, Meatloaf Night, Mickey Mouse, The New Breed,
+    Out of Fika, Outtake, PC and Pixel, PS Mueller, Penny Arcade, Phantom,
+    Player Versus Player, Pretzel Logic, Quigmans, Random Shots, Rex Morgan,
+    Ripleys Believe It Or Not, Real Life, Roomies, Rubes, Small Grey,
+    Small World, Spex and Wally, Staggering Heights, Suburban Jungle, Sylvia,
+    Tarzan, Thats Life, Top Of This World, Toy Trunk Railroad, Wahm.com Mom,
+    Waiting For Bob, WildLife, You Damn Kid.
+  * Fixed Y2K bugs
+
+ -- Ben Hochstedler <hochstrb@cs.rose-hulman.edu>  Sun, 23 Apr 2000 11:53:42 +0600
+
+netcomics (0.11-1) unstable; urgency=low
+
+  * Added the comics: After Y2K, Dysentery, Cartoon Web, Bound & Gagged,
+    Fred Basset, Herb & Jaamal, Middletons, Pluggers, Motley's Crew,
+    Zorro, Liberty Meadows, Teenage Ninja Turtles, Ballard Street, Miss
+    Peach, Wee Pals, Raw Material, Agnes, Dr Katz, Outtake, Pcpixel, 9
+    Chickweed Lane, Broom-Hilda, Kudzu, Lola, Quigmans, Rubes, Boonies,
+    Juilet Jones, Judge Parker, Mark Trail, Henry, Prince Val, New
+    Format, Theydoit, Walnut Cove, Tiger, Ripkirby, Hazel, Katzenjammer
+    Kids, Mandrake, Pops Place, Popeye, Small Society, Steve Roper,
+    Moose Miller, Needhelp, Dick Tracy, Brenda Star, Orphan Annie,
+    Gasoline Alley, Soap On A Rope, and World Views
+  * Added editorial cartoons by: Walt Handelsman,  Bill Day, Chan Lowe,
+    Steve Sack, Mike Peters, Dana Summers, Jeff Macnelly, Jack Ohman,
+    Don Wright, Dick Locher, Wayne Stayskal
+  * Changed the default installation location for module files to
+    /usr/share/netcomics.
+  * Added rc file capability.
+  * Removed Goats for copyright issues.
+
+ -- Ben Hochstedler <hochstrb@cs.rose-hulman.edu>  Tue, 1 Dec 1999 08:57:42 +0600
+
+netcomics (0.10-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Thomas Schoepf <schoepf@debian.org>  Thu, 18 Nov 1999 12:57:33 +0100
+
+Local variables:
+mode: debian-changelog
+End:
