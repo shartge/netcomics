@@ -13,8 +13,8 @@ sub gpf {
 	'author' => "Jeffrey T. Darlington",
 	'type' => 'gif',
 	'main' => "http://www.gpf-comics.com/",
-	'archives' => "http://www.gpf-comics.com/d/",
-	'base' => "http://www.gpf-comics.com/comics/",
+	'archives' => "http://www.gpf-comics.com/archive/",
+	'base' => "http://www.gpf-comics.com/comics",
 	'page' => strftime("/gpf%Y%m%d.gif",@ltime),
 	'size' => [600,222]
     };
@@ -22,4 +22,3 @@ sub gpf {
 }
 
 1;
-
