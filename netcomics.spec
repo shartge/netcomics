@@ -90,8 +90,7 @@ END
     echo "  cd $LIBDIR; rm -f $oldmods"
 fi
 cat <<END
-There are 32 new comics supported by this release.
-See the NEWS file for a list of those new comics.
+See the NEWS file for a list of the new comics & features.
 END
 
 %files
@@ -123,7 +122,10 @@ END
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.16  2001-09-19 15:32:58  hochstrb
+Revision 1.17  2002-03-31 16:25:21  hochstrb
+updated message displayed after install of data module
+
+Revision 1.16  2001/09/19 15:32:58  hochstrb
 updated install paths & added better proxy handling
 
 Revision 1.15  2001/09/05 14:06:33  hochstrb
