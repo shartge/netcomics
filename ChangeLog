@@ -4,8 +4,10 @@
 	* netcomics, gtkcomics, Netcomics/*: Removed Perl from emacs mode
 	indicator line to not restrict the major mode of perl or cperl.
 	If you want cperl, put this in your .emacs file:
-	(setq interpreter-mode-alist (append '(("perl" . cperl-mode)
-		) interpreter-mode-alist))
+	(setq interpreter-mode-alist 
+		(append '(("perl" . cperl-mode)) interpreter-mode-alist))
+	(setq auto-mode-alist 
+		(append '(("\\.p[lm]$" . cperl-mode)) auto-mode-alist))
 
 2001-05-09  Elliot Glaysher  <nuriko.chan@home.com>
 
