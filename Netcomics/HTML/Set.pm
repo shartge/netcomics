@@ -204,6 +204,11 @@ sub create_set_of_pages {
 		my $comics_on_last = $num_comics % $comics_per_index_page;
 		$num_groups++ if $comics_on_last > 0;
 
+		#shadow the global so that the code is the same where this is
+		#used here and in Page.pm.
+		my $webpage_title = sprintf($webpage_index_title,
+									$Netcomics::Config::webpage_title);
+
 		print STDERR "Creating webpage indices" if $verbose;
 
 		for my $group_num (1..$num_groups) {
@@ -216,8 +221,6 @@ sub create_set_of_pages {
 
 			#index head global info
 			my $head = $self->{'theme'}->{'html'}{'head'};
-			$head =~ s/<PAGETITLE>/$webpage_index_title/g;
-			$head =~ s/<CTIME>/$ctime/g;
 			$head =~ s/<NUM=FIRST>/$first/g;
 			$head =~ s/<NUM=LAST>/$last/g;
 			$head =~ s/<NUM=TOTAL>/$num_comics/g;

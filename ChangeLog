@@ -1,5 +1,11 @@
 2002-05-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* netcomicsrc: Added details for $external_cmd.  Made
+	$webpage_index_title default use %s which is replaced with the
+	$webpage_title.
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Changed
+	The index's title to use sprintf to allow inclusion of the
+	$webpage_title.
 	* Netcomics/ExternalUserAgent.pm (request): Added single quotes
 	around %U when it is appended to the command.
 	* show_comics: Made it use Netcomics::Config to process the system
