@@ -1,0 +1,37 @@
+=head1 NAME
+
+comicpage - GTK interface for viewing comics.
+
+=head1 SYNOPSIS
+
+B<comicpage> [--verbose]
+
+=head1 DESCRIPTION
+
+B<comicpage> is a small program that uses a GTK and Gnome interface for 
+downloading and displaying comics. It uses netcomics as a backend.
+
+=head1 FILES
+
+=over 29
+
+=item ~/.netcomicsrc
+
+Configuration file for netcomics and derivative programs.
+
+=item /var/spool/netcomics
+
+Default directory where comics and the web page are placed by netcomics.
+
+=back
+
+=head1 SEE ALSO
+
+netcomics(1)
+
+=head1 AUTHOR
+
+Elliot Glaysher <nuriko.chan@home.com>
+Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
+
+=cut

@@ -10,10 +10,15 @@ my $HOME = $ENV{'HOME'};
 ## Create downloaded files with the following permissions (default 0644)
 #$files_mode = 0644;
 
+## Store comic download status information in one file (-G).
+## This is helpful for managing a directory that holds many comics,
+## potentially speeding up netcomics' startup time.
+#$single_rli_file = 1;
+
 ## Change the location of the html template directory
 #$html_tmpl_dir = "$HOME/share/netcomics/html_tmpl";
 
-## Change the download directory location (default /var/spool/netcomics)
+## Change the download directory location
 #$comics_dir = "$HOME/comics";
 
 ## Place different comics in their own directories? (default 0)
@@ -141,6 +146,9 @@ my $HOME = $ENV{'HOME'};
 ## Name of the generated index file for the webpages.
 #$webpage_index_filename = "index.html";
 
+## Create the webpages with embedded images linked using full pathnames (1)
+## instead of relative (0; which is the default).
+#$webpage_absolute_paths = 1;
 
 #### Configure Individual and Groups of Comics ####
 

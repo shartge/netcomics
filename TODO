@@ -144,13 +144,6 @@ through running the function.
 ** Output an error message saying that modules package wasn't installed
 or the module directory path is wrong if no modules are found.
 
-** Separate webpage creation into its own module 
-The webpage creation could be put into another script, with the
-infrastructure for reading persistent info files put into a perl
-module.  This would also make it so that netcomics could better work
-in a daemon mode where it can continually monitor comic strips that
-haven't yet successfully downloaded.
-
 ** Filetype from final URL
 Add option for modules to utilize that instructs netcomics to derive
 the filetype from the URL used to download the image.
@@ -251,4 +244,44 @@ always create the webpage.
 **** Almost Done?
 
 ** verbose output should always be sent on STDERR.
+
+** Work on speeding up loading numerous (+1000) RLIs. Glob RLIs into one
+file?
+
+** Fix bug regarding index.html files that are a list of ALL comics while
+using the -P feature. (No clue on this one...)
+
+-----------------------------------------------------------------------
+
+* Comicpage
+** Multiple Columns
+Add support for an optional column to the comics list. Different options
+could include Authors, Days Behind, etc. (Requires update to 
+Factory::comic_names())
+
+** More user control on comics list
+Let the user define which coluns they want to see & allow
+them to filter.
+
+** Highlight downloaded comics
+Add a mode that filters the list of comics or highlights the
+comics & dates in the calendar for those comics that are
+already downloaded
+
+** Groups
+Let the user define custom groups and be able to select the
+group to filter the comic list with. (depends on group support
+in netcomics)
+
+** Delayed Download
+A mode where the user selects multiple comics to download then
+presses a download button.
+
+** Threads
+The user can continue selecting comics to download while a
+comic (or comics) are currently being downloaded. (This will
+require a few changes to Factory and maybe even Config.
+Should a new thread be spawned each time, with it's own
+Factory instance?  Or should Factory be redesigned so that
+rlis are added to a "waiting to be processed" queue?)
 

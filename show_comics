@@ -1,123 +1,24 @@
 #!/usr/bin/perl -w
-
-=head1 NAME
-
-show_comics - Show comics, distributed over a time interval
-
-=head1 SYNOPSIS
-
-B<show_netcomics> [B<-c> I<cmd>] [B<-d> I<dir>] [B<-f> I<rcfile>] [B<-l>|B<-t> I<hh:mm>] [B<-p> [cmd]] [B<-k> I<lockfile>|B<-K>] [B<-s> <hh:mm>]
-
-=head1 DESCRIPTION
-
-show_comics is used to display comics downloaded by netcomics.  It
-first pops up a window to ask you what time you plan on leaving (in 24
-hour time).  Using the time you entered, it will evenly distribute the
-comics to be displayed from the time the script is run to the time you
-specified you will leave.
-
-Specify the comics you want to have displayed in a file called
-~/.comics.  You may specify an alternate file on the command line.  If no
-file exists, all comics will be displayed (all files that end 
-with .gif, .jpg, or .jpeg in the directory).
-
-If you don't have perlTk installed, use B<-l> to specify the time and to make
-show_comics not try to pop up a window.
-
-In a UNIX environment, you can utilize the lockfile mechanism to run
-show_comics from many different places an not have to worry about
-checking to make sure it is already running. For example, you can run
-show_comics from your .xinitrc or .xsession as well as from a
-crontab. If netcomics is run in the morning, say at 7:00 by a crontab,
-then you could run show_comics from a cron job at 7:30, assuming
-netcomics will take no more than 1/2 hour. Then, in your .xinitrc
-file, you could also run show_comics if the time is greater than 7:30
-(see B<-s>). Therefore, if you have logged into your computer before
-7:30, show_comics won't run from your .xinitrc file, but once 7:30 has
-come around, it will be run by your cron job. If you log into your
-computer after 7:30, then show_comics will fail to run at 7:30
-(assuming the program show_comics uses to check to see if the display
-is available failed), and then show_comics will be run by your
-.xinitrc file. 
-
-=head1 OPTIONS
-
-=over 4
-
-=item B<-c> I<command>
-
-Use the specified command to display each comic instead of the default: 
-"nice -19 xv".
-
-=item B<-d> I<dir>
-
-Use the specified location of the comics to be displayed instead of using
-the default directory: /var/spool/netcomics.
-
-=item B<-f> I<filename>
-
-Use the specified file instead of ~/.comics for the list of comics to
-be displayed
-
-=item B<-k> I<filename>
-
-Specify the lock file's name.  Default is ~/.show_comics_lock.
-
-=item B<-l> I<hh:mm>
-
-Don't pop up a window and use the specified time as the time to leave.
-
-=item B<-p> [I<cmd>]
-
-Check to make sure the display is available and if not, quit. Optional
-argument is the name of the program to use.  A non-zero return code
-from this program indicates a failure to open the display. The default
-program used is xdpyinfo.
-
-=item B<-s> I<hh:mm>
-
-Specify a time that if show_comics is run before during the day, it will just 
-exit.
-
-=item B<-t> I<hh:mm>
-
-Specify the default time to be put in the pop-up window.
-
-=item B<-v>
- 
-Output verbose messages.
-
-=head1 FILES
-
-=over 29
-
-=item ~/.comics
-
-Contains the a list of comics you want displayed, one per line.
-
-=item /var/spool/netcomics
-
-Default directory where comics and the web page are placed by netcomics.
-
-=item ~/.show_comics_lock
-
-Default lock file used to make sure only one instance of show_comics is run
-
-=back
-
-=head1 SEE ALSO
-
-netcomics(1)
-
-=head1 AUTHOR
-
-Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
-ICQ: B<15469308> AIM: B<hochstrb>
-
-=cut
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Library General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 use strict;
 use POSIX;
+BEGIN {my $d="/usr/lib/perl5/site_perl"; push(@INC,$d) if ! grep(/^$d$/,@INC);}
+use Netcomics::Config;
+
 #Tk loading is delayed until needed so that this script is usable  w/out 
 #PerlTk can still use this script
 
@@ -126,16 +27,17 @@ $| = 1;
 my $progname = "show_comics";
 my @def_time = ("17","00");
 my $dont_ask = 0;    
-my $tmpdir = "/var/spool/netcomics";
 my $cmd = "nice -19 xv";
 my $check_display_cmd = "xdpyinfo";
 my $rcfile = $ENV{'HOME'} . "/.comics";
 my $lockfile = $ENV{'HOME'} . "/.show_comics_lock";
 my $check_lock = 1;
 my $created_lock = 0;
-my $verbose = 0;
-my $extra_verbose = 0;
 my @start_time = ();
+
+my $conf = new Netcomics::Config($progname);
+
+##all this CLI needs to be put into a subclass of Netcomics::Config.
 
 my $smushopt = 0;
 while (@ARGV)
@@ -155,7 +57,7 @@ while (@ARGV)
     #set the directory
     elsif (/^-d$/) {
 	if (@ARGV > 0) {
-	    $tmpdir = shift(@ARGV);
+	    $comics_dir = shift(@ARGV);
 	} else {
 	    errmsg("Need a directory name. Use -h for usage.\n");
 	    exit 1;
@@ -282,7 +184,8 @@ while (@ARGV)
 lock_file();
 
 #Create a list of files to display
-opendir(DIR,$tmpdir) || die "Could not open the directory to $tmpdir: $!";
+opendir(DIR,$comics_dir) || 
+    die "Could not open the directory to $comics_dir: $!";
 my @files = grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR));
 closedir(DIR);
 if (-f $rcfile && -r $rcfile) {
@@ -335,7 +238,7 @@ infomsg("Displaying $num comics from now until $hour:$minute, one every " .
 #display the comics!
 if (@files > 0) {
     foreach (@files) {
-	my $syscmd = "$cmd $tmpdir/$_";
+	my $syscmd = "$cmd $comics_dir/$_";
 	infomsg("Running '$syscmd'\n") if $verbose;
 	if ($delaytime > 0) {
 	    system("$syscmd &");

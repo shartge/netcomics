@@ -1,6 +1,6 @@
 Name: netcomics
-Version: 0.13.2
-Release: 1
+Version: @VERSION@
+Release: @PKGVERSION@
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
 Group: Applications/Networking
@@ -10,7 +10,7 @@ Prefixes: /usr,/var
 Packager: Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
 BuildArchitectures: noarch
 BuildRoot: /tmp/%{name}-%{version}-root
-Requires: netcomics-data
+Requires: netcomics-data >= 0.14
 
 %description
 netcomics is a perl script that can retrieve comic strips from the Web
@@ -23,7 +23,7 @@ on your workstation. It also can create webpages with the comics.
 %package data
 Summary: Comic modules that instruct netcomics on how to obtain comic strips.
 Group: Applications/Networking
-Requires: netcomics >= 0.13.1
+Requires: netcomics >= 0.14
 Prefix: /usr
 
 %description data
@@ -31,105 +31,39 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Sun Jul  8 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
+- Added a netcomics requires for netcomics-data >= 0.14.
+- Updated for the change in Makefile -> Makefile.PL
+- Trimmed changelog to only include changes to the spec.
 * Fri Jul  6 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.2-1
 - updated version
+* Mon May 21 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
+- Added /usr/lib/perl5 files & comicpage manpage.
+* Fri Apr 27 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
+- Added conf file /etc/netcomicsrc. Made Version, Release, & OLDMODULES
+  to be replaced by the Makefile.
 * Sun Feb 18 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
 - added gzip of manpages, doc files for data pkg, & check for old modules.
-* Wed Feb 7 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
-- Added the comics: Big Nate, The Big Picture, Bizarro, Bobos Progress,
-  The Boondocks, Bulls n Bears, Cartoon Web: BizWit, Cartoon Web: Caricatures,
-  Cartoon Web: Ecotoon, Cartoon Web: Kal, Cartoon Web: Symbolics,
-  Cartoon Web: Views of the World, Cartoon Web: Wit of the World,
-  Cartoon Web: WitWomen, Cartoon Web: World View of the day,
-  Cheap Thrills Cuisine, Dork Tower, Exploitation Now, Fat Jesus,
-  Fight Cast Or Evade, Flight Deck, Grand Avenue, Grandfather Clause,
-  James, Lupo Alberto, Mr. Lowe, Pearls Before Swine, Pickles, Raising Duncan,
-  Randolph Itch 2:00 AM, Reality Check, Red and Rover, Shirley and Son,
-  Soup to Nutz.
 * Tue Aug 25 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
-- Added info about new referer and download avoidance capabilities.
-- Added the comics: Whenigrowup, Dr. Fun, Sinfest, Sempai, Everything Jake,
-  Can of the Cats, and Gaming U.
 - Added Astronomy Picture of the Day.
-* Sun Apr 23 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.12-1
-- Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
-  Alice, Avalon, Badlands, Bobos Progress, Boonies, Broom-Hilda, Buckets,
-  Cats With Hands, Chase Villens, Dilbert Classics, Down To Earth, Dr Katz,
-  Dragon Tails, Eek and Meek, Fair Game, Fat Cats, Gibberish, Gil Thorp,
-  Hound's Home, Ick, Janes World, The Japanese Beetle, K Rat, Kudzu, Lola,
-  Loose Parts, Mary Worth, Meatloaf Night, Mickey Mouse, The New Breed,
-  Out of Fika, Outtake, PC and Pixel, PS Mueller, Penny Arcade, Phantom,
-  Player Versus Player, Pretzel Logic, Quigmans, Random Shots, Rex Morgan,
-  Ripleys Believe It Or Not, Real Life, Roomies, Rubes, Small Grey,
-  Small World, Spex and Wally, Staggering Heights, Suburban Jungle, Sylvia,
-  Tarzan, Thats Life, Top Of This World, Toy Trunk Railroad, Wahm.com Mom,
-  Waiting For Bob, WildLife, You Damn Kid.
-- Fixed Y2K bugs
 * Tue Nov 30 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.11-1
 - Changed /usr/lib/netcomics to /usr/share/netcomics.
 - Added TODO.
-- Added the comics: After Y2K, Dysentery, Cartoon Web, Bound & Gagged,
-  Fred Basset, Herb & Jaamal, Middletons, Pluggers, Motley's Crew,
-  Zorro, Liberty Meadows, Teenage Ninja Turtles, Ballard Street, Miss
-  Peach, Wee Pals, Raw Material, Agnes, Dr Katz, Outtake, Pcpixel, 9
-  Chickweed Lane, Broom-Hilda, Kudzu, Lola, Quigmans, Rubes, Boonies,
-  Juilet Jones, Judge Parker, Mark Trail, Henry, Prince Val, New
-  Format, Theydoit, Walnut Cove, Tiger, Ripkirby, Hazel, Katzenjammer
-  Kids, Mandrake, Pops Place, Popeye, Small Society, Steve Roper,
-  Moose Miller, Needhelp, Dick Tracy, Brenda Star, Orphan Annie,
-  Gasoline Alley, Soap On A Rope, and World Views
-- Added editorial cartoons by: Walt Handelsman,  Bill Day, Chan Lowe,
-  Steve Sack, Mike Peters, Dana Summers, Jeff Macnelly, Jack Ohman,
-  Don Wright, Dick Locher, Wayne Stayskal
-- Removed Goats for copyright issues.
-* Sat Sep 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.10-3
-- Changed new contrib files to use /usr/bin/perl.
-* Sat Sep 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.10-2
-- Update Makefile to have temporary files created by pod2html removed.
-- Added contrib scripts for dealing with time conversions.
 * Sat Sep 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.10-1
-- Use of gmtime() instead of localtime() for code that downloads comics.
-- New fields: title, type, author, main, & archives; name depricated.
-- Created webpages now get links included to the comic's site.
-- Seperated modules into their own RPM.
-- new comics: Bliss, The Boondocks, Citizen Dog, The Fusco Brothers,
-  Overboard, Tank McNamara, Real Life Adventures, Tradin' Paint,
-  Animal Crackers, Bottom Liners, Strange Brew, For Heaven's Sake,
-  Heathcliff, & Color Blind.
+- Separated modules into their own RPM.
 * Wed Aug 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.9.1-1
-- Fixed bugs in the Flash Gordon, Dilbert, and Comiczone modules.
-- Changed html template loading error handling.
 - Made distribution a little more GNU compliant.
-* Fri Jul 30 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.9-1
-- Functionality added: backup scheme, default size, open display check
-  in show_comics, put URLs in webpage if can't download.
-- Fixed bugs in command line processing (including inverting the
-  functionality of -s)
-- Updated many comics and added The Amazing Spiderman, Family
-  Circus, Apartment 3-G, Between Friends, Boners Ark, Bringing Up
-  Father, Buckles, Claire and Weber, Crock, Curtis, Dennis The Menace,
-  Dinette Set, The Family Circus, Flash Gordon, and Free For All.
 * Wed Jun 16 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.8-1
 - Added a new display script: show_comics.  Removed dependancies on perl 
   CPAN modules! Added support for specifying the program to use to fetch URLs.
   Added support for comic Stuff This, and made other various updates.
 - For RPM spec: added BuildRoot
-* Wed Jun 2 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.7-1
-- new comics: Bizzaro, Off The Mark, Today's Comic,
-  For Dummies Cartoon of the Day, Curiosities, The Falling Dream, Laugh Seeds,
-  Melonpool, Mr. Chuck Show, Ozy & Millie, Bruno the Bandit
-- fixed command line options parsing bugs
-- updated comics to reflect changes to websites
 * Mon Apr 5 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.6-1
 - Added contrib/comics_update, updated post install info text
 * Wed Mar 3 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.5-1
 - Added template as document & moved html files to doc directory
-* Fri Feb 19 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.4-1
-- added dependency for perl-Image-Size, html templates & webpage creation HOWTO
 * Wed Feb 17 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.3-1
 - fixed typo in the post-install message & added Howto file
-* Tue Feb 16 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.2-3
-- added perl-HTML-Parser dependency
 * Tue Feb 16 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.2-2
 - added manpage
 * Mon Feb 15 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.2-1
@@ -137,96 +71,43 @@ information it needs to download comic strips from the Web.
 * Sun Feb 14 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.1-1
 - initial version
 
+# Provide perl-specific find-{provides,requires}.
+%define __find_provides /usr/lib/rpm/find-provides.perl
+%define __find_requires /usr/lib/rpm/find-requires.perl
+
+#specify these without the install prefix
+%define installsitelib lib/perl5/site_perl
+
 %prep
 %setup -q
 
 %build
-make
+perl Makefile.PL
+make INSTALLSITELIB=/usr/%{installsitelib}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/usr/$installsitelib
+make PREFIX=$RPM_BUILD_ROOT/usr TMPBASE=$RPM_BUILD_ROOT/var/spool \
+     INSTALLSITELIB=$RPM_BUILD_ROOT/usr/%{installsitelib} install
 
-#To change where netcomics is placed, use something like this
-#from the command line (not from within here unless you update all occurances
-#of them inside this file.  That would be a waste of time, however, because
-#that will automatically be done for you if you do this from the command line):
-#   make PREFIX=/usr/local TMPBASE=/usr/local SYSRCDIR=/usr/local/etc \
-#        PERL=/usr/local/bin/perl dist
-
-make BUILDROOT=$RPM_BUILD_ROOT NOREMAKE=1 install
-gzip -9nvf $RPM_BUILD_ROOT/usr/man/man1/*
+gzip -9nvf `find $RPM_BUILD_ROOT/usr -name '*.[1-9]' -print`
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%preun
-rm -f /var/spool/netcomics/*
-rm -f /var/spool/netcomics/.*.rli
-
 %post
+#get the first prefix
+pfx=`echo $RPM_INSTALL_PREFIX | perl -pe 's/,.*//'`
 cat <<END
-New commandline options for netcomics in this release: -P -Q -nQ.
-See the netcomics manpage for details.
+FYI: Netcomics is now an official CPAN module.  The comic modules are no
+longer stored under $pfx/share/netcomics, but under $pfx/%{installsitelib}.
 END
 
 %post data
-LIBDIR=$RPM_INSTALL_PREFIX/share/netcomics
-#The following list is to be kept in sync with that in the Makefile
-OLDMODULES="\
-        alice \
-        avalon \
-        banditbruno \
-        bastich \
-        bayside \
-        bigpanda \
-        boatanchor \
-        bobbins \
-        boxjam \
-        calvin-n-hobbes \
-        ccs \
-        clan_cats \
-        chuck_show \
-        ctoons \
-        dilbert \
-        elf_life \
-        everythingjake \
-        exploitation \
-        fatjesus \
-        fce \
-        forbez \
-        fordummies \
-        foxtrot \
-        garfield \
-        glasbergen \
-        goats \
-        gpf \
-        greystoneinn \
-        greytown \
-        heaven_and_earth \
-        helpdesk \
-        janesworld \
-        lostfound \
-        melonpool \
-        nukees \
-        ozy_millie \
-        psmueller \
-        reallife \
-        road_waffles \
-        rogues \
-        roomies \
-        roommates \
-        sinfest \
-        sketch \
-        soaprope \
-        suburban \
-        superosity \
-        tom_the_dancing_bug \
-        uexpress \
-        wandering \
-        whenigrowup \
-        worldviews \
-        youdamn \
-	"
+LIBDIR=$RPM_INSTALL_PREFIX/%{installsitelib}/Netcomics/Comic
+#The following is replaced by the list in the Makefile
+OLDMODULES="@OLDMODULES@"
 oldmods=""
 cd $LIBDIR
 for file in $OLDMODULES; do
@@ -252,16 +133,24 @@ END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html
+%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/*.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime netcomicsrc doc/design.dia
 /usr/bin/netcomics
 /usr/bin/show_comics
-%attr(-,root,man) /usr/man/man1/netcomics.1.gz
-%attr(-,root,man) /usr/man/man1/show_comics.1.gz
+/usr/bin/comicpage
+%dir /usr/%{installsitelib}/Netcomics
+/usr/%{installsitelib}/Netcomics/*.pm
+/usr/%{installsitelib}/Netcomics/Comicpage
+%dir /etc
+%attr(-,root,man) /usr/man/man1/*
+%attr(-,root,man) /usr/lib/perl5/man/man3/Netcomics::Config.3.gz
 %config /usr/bin/display_comics
+%config /etc/netcomicsrc
 %attr(-,root,users) %dir /var/spool/netcomics
-%attr(-,root,users) %dir /usr/share/netcomics
+%attr(-,root,users) %dir /usr/%{installsitelib}/Netcomics/Comic
+
 
 %files data
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
-/usr/share/netcomics
+%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
+/usr/%{installsitelib}/Netcomics/Comic
+/usr/%{installsitelib}/Netcomics/html_tmpl

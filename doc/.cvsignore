@@ -1,4 +1,10 @@
-*.1
-*.pod
+Config.pod
+Config.html
+comicpage
+comicpage.html
+netcomics
 netcomics.html
+pod2html-itemcache
+pod2html-dircache
+show_comics
 show_comics.html
