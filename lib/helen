@@ -1,0 +1,110 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"helen"} = 0;
+
+sub helen_skip_zone {
+  my $today = shift @_;
+  
+  return ( # No strips between :
+	   (($today > mkgmtime(0,0,0,30,4,99))
+	    && ($today < mkgmtime(0,0,0,16,7,99))) 
+	   ||
+	   (($today > mkgmtime(0,0,0,5,8,99))
+	    && ($today < mkgmtime(0,0,0,20,8,99)))
+	   ||
+	   (($today > mkgmtime(0,0,0,12,11,99))
+	    && ($today < mkgmtime(0,0,0,7,1,100)))
+	   );
+}
+
+# 6 strips every 14 days (released on mondays) ...
+# Base data : 15 mars 1999 = 410 to 415
+# (other ref : 532=2-7-00/538=21-2-00)
+# Dispatched as one strip a day ...
+# ex : Monday : 410 to Saturday : 415. None on sunday. And none the next week.
+sub helen {
+  my ($today, $color) = @_;
+  my @lt = gmtime($today);
+  $today = mkgmtime(0,0,0,$lt[3], $lt[4], $lt[5]);
+  
+  my $fourteendays = 24 * 3600 * 14;
+  my $sevendays = 24 * 3600 * 7;
+  my $sixdays  = 24 * 3600 * 6;
+  my $oneday = 24 * 3600;
+  my $myvalue = mkgmtime(0,0,0,15,2,99) + $sixdays - $oneday;
+  my $myvalue2 = mkgmtime(0,0,0,7,1,100) + $sixdays;
+  my $mynumber = 415;
+  
+  return undef if helen_skip_zone($today);
+  return undef if ($today == mkgmtime(0,0,0,17,3,99));
+  return undef if ($today == mkgmtime(0,0,0,10,9,99));
+
+  if ($today > $myvalue) { 
+    # After the 14th of March 1999
+    my ($addvalue, $addnumber);
+    while ($today > $myvalue) {
+      if (($myvalue >=  mkgmtime(0,0,0,9,9,99)) &&
+	  ($myvalue < mkgmtime(0,0,0,7,1,100))) {
+	$addnumber = 7;
+	$addvalue = $sevendays;
+      } else {
+	$addnumber = 6;
+	$addvalue  = $fourteendays;
+      }
+      $mynumber += (helen_skip_zone($myvalue)) ? 0 : $addnumber;
+      $myvalue  += (helen_skip_zone($myvalue)) ? $sevendays : $addvalue;
+    }
+    return undef if (($myvalue <= mkgmtime(0,0,0,9,9,99)) && 
+		     ($today <= ($myvalue - $sixdays)));
+    return undef if (($myvalue > mkgmtime(0,0,0,7,1,100)) &&
+		     ($today <= ($myvalue - $sixdays)));
+    while ($today < $myvalue) {
+      $myvalue -= $oneday;
+      $mynumber--;
+    }
+    $mynumber-- if ($today > mkgmtime(0,0,0,17,3,99));
+    $mynumber-- if ($today > mkgmtime(0,0,0,9,9,99));
+  } else { 
+    ## Another time ;)
+    while (($myvalue - $sixdays) > $today) {
+      $myvalue -= $fourteendays;
+      $mynumber -= 6;
+    }
+    $myvalue -= $sixdays;
+    $mynumber -= 6;
+    return undef if ($myvalue >= $today); 
+
+    my $inc = 0;
+    while ($myvalue < $today) {
+      return undef if ($inc++ == 6);
+      $myvalue += $oneday;
+      $mynumber++;
+    }
+  }
+
+  my $ending = "b";
+  $ending = "a" if ($mynumber > 477);
+
+  my %rec = 
+    ('title'    => "Helen Sweetheart of the Internet",
+     'author'   => "Peter Zale",
+     'type'     => 'gif',
+     'main'     => "http://www.peterzale.com/helen/",
+     'archives' => "http://www.peterzale.com/helen/",
+     'base'     => "http://www.peterzale.com/helen-strips/",
+     'page'     => "${mynumber}$ending.gif",
+     'size'     => [365,456],
+     );
+
+  if (($mynumber == 476) || ($mynumber == 477)) {
+    $rec{'func'} = sub { return("${mynumber}a.gif",
+				"${mynumber}b.gif") };
+  }
+
+#  print strftime("%Y%m%d", @lt), " : ${mynumber}\n"; return undef;
+
+  return \%rec;
+}
+
+1;
