@@ -2,6 +2,7 @@
 
 	* lib/ucomics (ucomics): Replaced calvin-n-hobbes with ucomics
 	thanks to Ian Campbell.
+	(ucross): Added ucomics' daily crossword puzzle.
 	* lib/doonesbury (doon): Fixed typos
 	* lib/sketch (sketch): Added Sketch of Love thanks to Max Zomborszki.
 	Added excpetions lists.

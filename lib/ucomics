@@ -3,7 +3,9 @@
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
 
-sub ucomics {
+$hof{"ucross"} = 0;
+
+sub ucomics_akamai {
     my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
     my @ltime = gmtime($time);
     my $rec = {
@@ -19,10 +21,34 @@ sub ucomics {
     };
 }
 
+sub ucomics {
+    my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => 'gif',
+	'main' => "http://www.ucomics.com/$lname/",
+	'archives' => "http://www.ucomics.com/$lname/",
+	'base' => "http://images.ucomics.com/",
+	'page' => strftime("comics/$lname/%Y/${sname}%y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
+    };
+}
+
 #Calvin & Hobbes http://www.calvinandhobbes.com/strips/
 sub ch {
-    return ucomics(shift(@_), "Calvin and Hobbes", "Bill Watterson",
-		   [600,422], [600,200], "calvinandhobbes", "ch");
+    return ucomics_akamai(shift(@_), "Calvin and Hobbes", "Bill Watterson",
+			  [600,422], [600,200], "calvinandhobbes", "ch");
+}
+
+#http://images.ucomics.com/comics/cxpic/1999/cxpic990501.gif
+sub ucross {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,1,4,99); #May 1, 1999
+    return ucomics($time, "United Comics Daily Crossword Puzzle",
+		   "Timothy E. Parker, ed.",[664,860],[664,860],
+		   "cxpic","cxpic");
 }
 
 1;
