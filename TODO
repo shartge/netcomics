@@ -1,5 +1,11 @@
 -*-mode: outline; outline-regexp: "[*\f]+" -*-
 
+* BROKEN MODULES
+(If a module is broken, add it here so we know to add it right away.)
+(Module requests go under * Comic Modules.)
+
+**
+
 ----------------------------------------------------------------------
 
 * Webpage Creation Features
@@ -26,8 +32,6 @@ image couldn't be downloaded.
 ** Finish each of the disabled modules.
 
 ** Add Fat Boy and Little Man: http://www.fatboyandlittleman.com/
-
-** Add Mother Goose & Grimm
 
 ** Change comicspages_ed to use a 'func' to determine what comics to download.
 Should probably base it off of penny_arcade.
