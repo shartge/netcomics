@@ -66,6 +66,9 @@ my $HOME = $ENV{'HOME'};
 #	  mkgmtime(0,0,0,<day>,<month>,<year>)); 
 
 ## External command to use to download URLs if you don't have LWP installed
+## Case insensitive: %U replaced with the URL; %R referrer address; %P proxy
+## When no %P is in this string and a proxy is specified, the command will
+## be prepended with "env http_proxy=<proxy> "
 #$external_cmd = 'wget -q -O - --header="Referer: %R"';
 
 ## Don't actually download the comics, but print the URLs on stdout, and

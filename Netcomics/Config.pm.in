@@ -89,7 +89,7 @@ use vars('$date_fmt'); $date_fmt = "%Y%m%d"; #date format in filenames
 #default options values
 use vars ('@libdirs'); @libdirs = ("/usr/share/perl5/Netcomics/Comic");
 use vars ('@html_theme_dirs'); 
-@html_theme_dirs = ("/usr/share/perl5/Netcomics/HTML/Themes/");
+@html_theme_dirs = ("/usr/share/perl5/Netcomics/HTML/Themes");
 
 use vars ('$html_theme'); $html_theme = "Default";
 use vars ('$comicpage_glade_dir'); 

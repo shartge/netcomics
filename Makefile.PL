@@ -290,11 +290,11 @@ SUBPATHS = \
 	| $(PERL) -pe s%$(INSTALLBIN)/perl%$(PERL)%gm \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
 	| $(PERL) -pe s%/usr/lib/perl5/site_perl%$(INSTALLSITELIB)%gm \
-	| $(PERL) -pe s%/usr/share/netcomics/html_tmpl%$(INSTALLSITELIB)/$(HTML_INST_DIR)%gm \
-    | $(PERL) -pe s%/usr/share/comicpage%$(INSTALLSITELIB)/Netcomics/Comicpage%gm \
-	| $(PERL) -pe s%/usr/share/netcomics%$(INSTALLSITELIB)/$(MOD_INST_DIR)%gm \
+	| $(PERL) -pe s%/usr/share/perl5/Netcomics/HTML/Themes%$(INSTALLSITELIB)/$(HTML_INST_DIR)%gm \
+    | $(PERL) -pe s%/usr/share/perl5/Netcomics/Comicpage%$(INSTALLSITELIB)/Netcomics/Comicpage%gm \
+	| $(PERL) -pe s%/usr/share/perl5/Netcomics/Comic%$(INSTALLSITELIB)/$(MOD_INST_DIR)%gm \
 	| $(PERL) -pe s%netcomics%$(NAME)%gm \
-	| $(PERL) -pe s%/etc%$(INSTALLSITELIB)/$(ETC_INST_DIR)%gm \
+	| $(PERL) -pe s%/usr/share/perl5/Netcomics/etc%$(INSTALLSITELIB)/$(ETC_INST_DIR)%gm \
 	| $(PERL) -pe "s/\@OLDMODULES\@/$(OLDMODULES)/gm" \
 	| $(PERL) -pe "s/\@VERSION\@/$(VERSION)/gm" \
 	| $(PERL) -pe "s/\@PKGVERSION\@/$(PKGVERSION)/gm" \

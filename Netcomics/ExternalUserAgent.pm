@@ -68,14 +68,20 @@ sub request {
 	my $cmdline = $self->{'cmd'};
 	my $referer = $request->referer;
 	$cmdline =~ s/%[Rr]/$referer/ if defined $referer;
-	$cmdline =~ s/%[Pp]/$self->{'proxy'}/ if defined $self->proxy;
+	$cmdline =~ s/%[Pp]/$self->{'proxy'}/ if defined $self->{'proxy'};
+	my $env = "";
+	my $quotedproxy = quotemeta($self->{'proxy'});
+	if ($cmdline !~ /$quotedproxy/) {
+		#proxy not set in commandline, use env.
+		$env = "env http_proxy=$self->{'proxy'} ";
+	}
 	if ($cmdline =~ /%[Uu]/) {
 	    $cmdline =~ s/%[Uu]/$url/;
 	} else {
 	    $cmdline .= " $url";
 	}
-	print "Running: '$cmdline'." if $self->{'extra_verbose'};
-	my $content = `$cmdline`;
+	print "Running: '$env$cmdline'." if $self->{'extra_verbose'};
+	my $content = `$env$cmdline`;
 	my $retval = $?;
 	print " ret=$retval\n" if $self->{'extra_verbose'};
 	return Netcomics::MyResponse->new($retval, $content);

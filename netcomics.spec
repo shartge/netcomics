@@ -103,11 +103,11 @@ END
 %dir /usr/%{installsitelib}/Netcomics
 /usr/%{installsitelib}/Netcomics/*.pm
 /usr/%{installsitelib}/Netcomics/Comicpage
-%dir /etc
+%dir /usr/share/perl5/Netcomics/etc
 %attr(-,root,man) /usr/man/man1/*
 %attr(-,root,man) /usr/lib/perl5/man/man3/Netcomics::Config.3.gz
 %config /usr/bin/display_comics
-%config /etc/netcomicsrc
+%config /usr/share/perl5/Netcomics/etc/netcomicsrc
 %attr(-,root,users) %dir /var/spool/netcomics
 %attr(-,root,users) %dir /usr/%{installsitelib}/Netcomics/Comic
 
@@ -123,7 +123,10 @@ END
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.15  2001-09-05 14:06:33  hochstrb
+Revision 1.16  2001-09-19 15:32:58  hochstrb
+updated install paths & added better proxy handling
+
+Revision 1.15  2001/09/05 14:06:33  hochstrb
 Completed the changes for html_tmpl -> HTML/Themes/Default.pm
 
 Revision 1.14  2001/07/19 17:04:34  hochstrb

@@ -169,6 +169,8 @@ if you want to use the default command which is:
    'wget -q -O - --header="Referer: %R"'.
 
 You'll probably just want to set $external_cmd in your rc file.
+Note that when no %P is in the string and a proxy is specified, the
+command will be prepended with "env http_proxy=<proxy> "
 
 =item B<-G>
 
@@ -292,7 +294,7 @@ B<-n>. The date is of the form: M-D-Y.
 =item B<-t> I<dir>
 
 Specify the location of html template files. Default is 
-/usr/share/netcomics/html_tmpl.
+/usr/share/perl5/Netcomics/HTML/Themes
 
 =item B<-T> [I<date> | I<days>]
 
@@ -433,10 +435,10 @@ available three, four, and five days ago.
 
 Specify the date range of comics to retrieve to be all those that are
 dated three, four, and five days ago.  This example is given to show
-the difference between B<-E> & B<-S>  (when given a number) and -N. All
+the difference between B<-E> & B<-S>  (when given a number) and B<-N>. All
 comics downloaded will have the same 3 dates, while in the previous 
 example, the comics will have varying dates that are determined by
-the 3rd column in the output of -l. Note that since many comics aren't
+the 3rd column in the output of B<-l>. Note that since many comics aren't
 available until 2 weeks have past, many of them will not download
 with this example.
 
@@ -467,9 +469,9 @@ to the comics on the websites they actually are released from) to stdout.
 
 Download the Calvin & Hobbes, Alice and Dragon Tails as if the day the
 download was done was May 1st 2000.
- 
+
    netcomics -T 5-1-00 -A -c "ch alice dt"
- 
+
 This will download Dragon Tails for May 1st 2000 since the strip is available
 the same day, but will download the May 1st 1989 Calvin & Hobbes' strip
 since it is 4018 days back, as well as the April 17th 2000 strip for Alice 
@@ -528,16 +530,16 @@ entries on each page.
 
 =over 4
 
-=item /usr/share/netcomics
+=item /usr/share/perl5/Netcomics/Comic
 
-Directory containing the modules that return RLIs.
+Directory containing the comic modules.
 
-=item /usr/share/netcomics/html_tmpl
+=item /usr/share/perl5/Netcomics/HTML/Themes
 
 Directory containing the HTML template theme files of which one is used
 to create the web page.  Each file contains a different set of templates.
 
-=item /etc/netcomicsrc
+=item /usr/share/perl5/Netcomics/etc/netcomicsrc
 
 System rc file.  This can be copied for each user's own .netcomicsrc file.
 
@@ -566,7 +568,7 @@ See the TODO file in the source distribution.
 
 =head1 SEE ALSO
 
-show_comics(1) comicpage(1) strftime(3)
+show_comics(1) comicpage(1) strftime(3) wget(1) env(1)
 
 =head1 AUTHOR
 
