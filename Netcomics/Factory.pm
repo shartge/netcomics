@@ -74,11 +74,19 @@ sub load_RLI_files {
 	my $self = shift;
 	#Make sure the temp dir exists
 	unless (-d $comics_dir) {
-		mkdir($comics_dir,0777) || die "could not create $comics_dir: $!"; 
+		if (! $show_tasks) {
+			mkdir($comics_dir,0777) || die "could not create $comics_dir: $!";
+		} else if ($extra_verbose) {
+			print "Would have created the directory: $comics_dir";
+		}
 	} elsif ($delete_files) {
-		chdir $comics_dir || die "could not cd to $comics_dir: $!";
-		unlink <*.*>;
-		unlink <.*.rli>;
+		if (! $show_tasks) {
+			chdir $comics_dir || die "could not cd to $comics_dir: $!";
+			unlink <*.*>;
+			unlink <.*.rli>;
+		} else if ($extra_verbose) {
+			print "Would have cleaned the directory: $comics_dir";
+		}
 	} else {
 		#load in the rlis in the directory to find out what comics
 		print "Reading $comics_dir to get list of current comics\n" 
