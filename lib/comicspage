@@ -1,0 +1,85 @@
+#-*-Perl-*-
+
+foreach (qw(bound fredb herb middle plug)) {
+    $hof{$_} = 7;
+}
+
+#comicspage.com http://www.comicspage.com
+sub ComicsPage {
+    my ($time,$title,$author,$dir,$file,$prefix,$wd_type,$sun_type,
+	$wd_size,$sun_size) = @_;
+
+    #on 4/29/2000, start of archive was 1/23/2000, almost 14 weeks ago.
+    #Exception: pluggers had an archive start date of 1/30/2000.
+    return undef if (time() - $time)/(3600*24*7) > 14;
+
+    my @ltime = gmtime($time);
+    my ($size,$type,$year,$postfix);
+    if ($ltime[6] == 0) {
+        $size = $sun_size;
+        $type = $sun_type;
+	$year = "";
+	$postfix = "s";
+    } else {
+        $size = $wd_size;
+        $type = $wd_type;
+	$year = strftime("%Y",@ltime);
+	$postfix = "a";
+    }
+
+    return undef unless defined($size) && defined($type);
+
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://www.comicspage.com/$dir/main.html",
+	'archives' => "http://www.comicspage.com/$dir/main.html",
+	'base' => "http://www.comicspage.com/daily/$prefix$file/",
+	'page' => strftime("$year%m%d$prefix$file-$postfix.$type",@ltime),
+	'size' => $size,
+    };
+    return $rec;
+}
+
+#Bound & Gagged ex: http://www.comicspage.com/daily/csbgg/20000916csbgg-a.gif
+#mon-sat
+sub bound {
+    my $time = shift;
+    return ComicsPage($time,"Bound & Gagged","Dana Summers",
+	"bound", "bgg","cs",'gif','gif',[580,180],[580,180]);
+}
+
+#Fred Basset ex: http://www.comicspage.com/daily/csfbt/20000916csfbt-a.gif
+#mon-sat
+sub fredb {
+    my $time = shift;
+    return ComicsPage($time,"Fred Basset","Alex Graham",
+	"fred", "fbt","cs",'gif','gif',[580,180],[580,180]);
+}
+
+#Herb & Jamaal ex: http://www.comicspage.com/daily/cshjl/20000916cshjl-a.gif
+#mon-sat
+sub herb {
+    my $time = shift;
+    return ComicsPage($time,"Herb & Jamaal","Stephen Bentley",
+	"herb", "hjl","cs",'gif','gif',[580,180],[580,180]);
+}
+
+#Middletons ex: http://www.comicspage.com/daily/csmid/20000916csmid-a.gif
+#mon-sat
+sub middle {
+    my $time = shift;
+    return ComicsPage($time,"The Middletons","Ralph Dunagin & Dana Summers",
+	"middletons", "mid","cs",'gif','gif',[580,180],[580,180]);
+}
+
+#Pluggers ex: http://www.comicspage.com/daily/cpplg/20000916cpplg-a.gif
+#mon-sat
+sub plug {
+    my $time = shift;
+    return ComicsPage($time,"Pluggers","",
+	"pluggers", "plg","cp",'gif','gif',[300,322],[580,180]);
+}
+
+1;
