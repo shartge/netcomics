@@ -1,3 +1,8 @@
+2002-02-24  Elliot Glaysher  <glaysher@umich.edu>
+
+	* MANIFEST, Makefile.PL: removed leftover traces of wiley. Thanks
+	goes to Sven.
+
 2002-02-23  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/ucomics (wiley): wiley is now in ucomics. Thanks to Shawn Oakey!

@@ -134,7 +134,6 @@ unitedmedia
 user_friendly
 wait_bob
 wfc
-wiley
 );
 
 my @old_modules = qw(
