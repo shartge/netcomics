@@ -1,13 +1,15 @@
+2001-03-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/toonville: Zits, Baby Blues, One Big Happy, and
+	Mother Goose and Grimm, thanks to Shawn Oakey.
+
 2001-03-02  Elliot Glaysher <nuriko.chan@home.com>
-	* Finished putting the new toonvile module that Shawn made, but
-	I required assistance from Ben. That's Shawn@mar.dfo-mpo.ca
-	for all of you too lazy to look down four lines...
-	** lib/toonvile created by Shawn.
-	** removed conflicting modules from lib/kingfeatures and
-	lib/creators_syndicate.
+
+	* lib/kingfeatures, lib/creators_syndicate: removed module
+	functions now in toonville.
 
 2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
-	* Thanks to Shawn@mar.dfo-mpo.gc.ca for:
+	* Thanks to Shawn Oakey for:
 	** Putting lib/boxjam, lib/fatjesus, lib/fce,
 	lib/heaven_and_earth, lib/rogues, and lib/sketch into the new
 	lib/keenspace module.

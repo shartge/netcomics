@@ -20,7 +20,7 @@ FIND	= find
 MKDIR	= mkdir -p
 CD      = cd
 POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
-POD2HTML= pod2html
+nPOD2HTML= pod2html
 INSTALL	= install
 ETAGS	= etags
 CVS	= cvs
@@ -152,7 +152,7 @@ MODULES = lib/after_y2k \
 	lib/superosity \
 	lib/this_modern_world \
 	lib/tom_the_dancing_bug \
-	lib/toonvile \
+	lib/toonville \
 	lib/touche \
 	lib/toytrunk \
 	lib/triangle_robert \
@@ -165,7 +165,7 @@ MODULES = lib/after_y2k \
 	lib/wfc \
 	lib/whenigrowup \
 	lib/wiley \
-	lib/youdamn
+	lib/youdamn \
 
 OLDMODULES = \
 	banditbruno \
