@@ -1,7 +1,24 @@
 2000-08-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/nukees: Added Nukees (thanks to Shawn Oakey).
+	* lib/elf_life: Added Elf Life (thanks to Shawn Oakey).
+	* lib/angry_flower: Added Bob the Angry Flower, contributed by
+	Shawn Oakey, but I highly modified.
+	* lib/bayside: Added Life at Bayside (thanks to Shawn Oakey).
+	* lib/alice (adventure): Added Adventure (thanks to Shawn Oakey).
+	and generalized commonalities between it and Alice into alicecomics().
+	* lib/avalon:  Updated Avalon (thanks to Shawn Oakey) and
+	removed it from lib/bigpanda.
+	* lib/reallife:  Updated Real Life (thanks to Shawn Oakey) and
+	removed it from lib/bigpanda.
+	* lib/roommates: Added College Roomies from Hell (thanks to Shawn
+	Oakey).
 	# Makefile: released version 0.13.
-	* lib/an: Added archive end date for Absurd Notion (Aug 20,2000)
+	* lib/template (subname): Changed default of looking for the
+	beginning of a comic archive to use mkgmtime instead of the UTC
+	value.
+	* lib/bigpanda (room): Renamed to It's Walky!
+	* lib/an: Added archive end date for Absurd Notion (Aug 20,2000).
 
 2000-08-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
@@ -357,7 +374,7 @@
 	* lib/comiczone: Added jpg as possible extension
 	* netcomicsrc: added the rest of the global settings
 	* Makefile: Removed TMPBASE & LIBBASE from regex replacements.
-	Removed goats
+	* Removed goats per author's request.
 	* lib/kevin-n-kell: added check for weekends
 	* lib/bobbins: Changed back to what Martial originally gave me
 	* lib/superosity: Updated by Martial Michel

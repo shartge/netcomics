@@ -155,6 +155,19 @@ FYI:
   retry downloading comics, you can simply rerun netcomics with the
   same options instead of using the command given on stdout at the end
   of the download sequence.  See the manpage for details on -q -a -R.
+# New comics:
+  btaf		Bob the Angry Flower
+  cotc		Clan of the Cats
+  crfh		College Roomies from Hell
+  drfun		Dr. Fun
+  evjake	Everything Jake
+  elf		Elf Life
+  gu		Gaming U
+  bayside	Life at Bayside
+  nukees	Nukees
+  sempai	Sempai
+  sinf		Sinfest
+  wigu		Whenigrowup
 END
 
 %files

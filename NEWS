@@ -12,8 +12,19 @@ Major changes in release 0.13:
   the default (derived from the URL) is not correct.
 * The external command specified may now include several macros which
   get replaced.  See the manpage for details.
-* New comics in this release: Whenigrowup, Dr. Fun, Sinfest, Sempai,
-  Everything Jake, Can of the Cats, and Gaming U.
+* New comics in this release: 
+  btaf		Bob the Angry Flower
+  cotc		Clan of the Cats
+  crfh		College Roomies from Hell
+  drfun		Dr. Fun
+  evjake	Everything Jake
+  elf		Elf Life
+  gu		Gaming U
+  bayside	Life at Bayside
+  nukees	Nukees
+  sempai	Sempai
+  sinf		Sinfest
+  wigu		Whenigrowup
 
 Major changes in release 0.12:
 
