@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
-	    fatcats bullsnbears grandave duncan randolph reality shirley 
+	    fatcats bullsnbears grandave duncan reality shirley 
 	    soupnutz lupo trevor)) {
     $hof{$_} = 0;
 }
@@ -153,13 +153,6 @@ sub duncan {
     return unitedmedia(shift(@_),"Raising Duncan",
 		       "Chris Browne","comics","raisingduncan",
 		       [725,377],[600,200],"duncan");
-}
-
-# Randolph Itch 2:00 AM
-sub randolph {
-    return unitedmedia(shift(@_),"Randolph Itch 2:00 AM",
-		       "Tom Toles","comics","randolphitch",
-		       undef,[315,351],"randolph");
 }
 
 # Reality Check

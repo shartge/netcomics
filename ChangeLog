@@ -1,5 +1,6 @@
 2002-10-11  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/unitedmedia: Remove Randolph Itch as it's been discontinued.
 	* lib/keenspot, lib/keenspace: Updates and organizations by Shawn Oakey
 	* lib/moderntales: New module by Shawn Oakey
 	
