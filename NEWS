@@ -1,14 +1,15 @@
 Changes in release 0.14:
 * Multi-page indexing
 * GUI-dependent debian package spun off
-* HTML Theme support (we need people to submit themes)
 * "Today's Comics" feature
 * Many updated comics.
 * Most of the netcomics code has been rewriten/reorganized to be object
   oriented.
-* The HTML theme system has been changed
-  * Themes are now modules.
+* HTML Theme support (we need people to submit themes)
   * Themes are selected by name with the -t option.
+  * List available themes using the -lt option.
+  * See Modify_Webpage_Creation-HOWTO.html for instructions on
+    creating a theme.
 * More bug fixes than you can shake a finger at.
 * New comics:
 	Broom Hilda
