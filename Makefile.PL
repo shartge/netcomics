@@ -300,19 +300,19 @@ ZIPFILE 	= ../$(DISTVNAME).zip
 #Use this macro for creating any template file.
 SUBPATHS = \
 	echo "Generating $@ from $<"; \
-	$(PERL) -pe s%/usr/bin%$(INSTALLBIN)%gm $< \
-	| $(PERL) -pe s%$(INSTALLBIN)/perl%$(PERL)%gm \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
-	| $(PERL) -pe s%/usr/lib/perl5/site_perl%$(INSTALLSITELIB)%gm \
-	| $(PERL) -pe s%/usr/share/perl5/Netcomics/HTML/Themes%$(INSTALLSITELIB)/$(HTML_INST_DIR)%gm \
-    | $(PERL) -pe s%/usr/share/perl5/Netcomics/Comicpage%$(INSTALLSITELIB)/Netcomics/Comicpage%gm \
-	| $(PERL) -pe s%/usr/share/perl5/Netcomics/Comic%$(INSTALLSITELIB)/$(MOD_INST_DIR)%gm \
-	| $(PERL) -pe s%netcomics%$(NAME)%gm \
-	| $(PERL) -pe s%/usr/share/perl5/Netcomics/etc%$(INSTALLSITELIB)/$(ETC_INST_DIR)%gm \
-	| $(PERL) -pe "s/\@OLDMODULES\@/$(OLDMODULES)/gm" \
-	| $(PERL) -pe "s/\@VERSION\@/$(VERSION)/gm" \
-	| $(PERL) -pe "s/\@PKGVERSION\@/$(PKGVERSION)/gm" \
-	> $@
+	$(PERL) -pe "s%/usr/bin%$(INSTALLBIN)%gm; \
+	s%$(INSTALLBIN)/perl%$(PERL)%gm; \
+	s%/var/spool/netcomics%$(TMPDIR)%gm; \
+	s%/usr/lib/perl5/site_perl%$(INSTALLSITELIB)%gm; \
+	s%/usr/share/perl5/Netcomics/HTML/Themes%$(INSTALLSITELIB)/$(HTML_INST_DIR)%gm; \
+    s%/usr/share/perl5/Netcomics/Comicpage%$(INSTALLSITELIB)/Netcomics/Comicpage%gm; \
+	s%/usr/share/perl5/Netcomics/Comic%$(INSTALLSITELIB)/$(MOD_INST_DIR)%gm; \
+	s%netcomics%$(NAME)%gm; \
+	s%/usr/share/perl5/Netcomics/etc%$(INSTALLSITELIB)/$(ETC_INST_DIR)%gm; \
+	s/\@OLDMODULES\@/$(OLDMODULES)/gm; \
+	s/\@VERSION\@/$(VERSION)/gm; \
+	s/\@PKGVERSION\@/$(PKGVERSION)/gm; \
+	" $< > $@
 
 POD2HTMLRULES = cd doc; $(POD2HTML) --infile=../$< --outfile=../$@
 
@@ -339,8 +339,8 @@ sub post_constants {
 		  '@$(MODPODRULES)' . "\n\n";
 	}
 	return $gentext . '
-TAGS: $(TO_INST_PM) $(TO_INST_PL) $(MODULES)
-	$(ETAGS) $(TO_INST_PM) $(TO_INST_PL) $(MODULES)
+TAGS: $(TO_INST_PM) $(TO_INST_PL:%=%.pl) $(MODULES)
+	$(ETAGS) $(TO_INST_PM) $(TO_INST_PL:%=%.pl) $(MODULES)
 
 devel::TAGS
 
@@ -349,7 +349,7 @@ clean::
 
 all:: $(TO_INST_PL:%=bin/%)
 
-bin/%: %
+bin/%: %.pl
 	@$(MKPATH) bin
 	@$(SUBPATHS)
 

@@ -24,7 +24,7 @@ Netcomics/RLI.pm
 Netcomics/Util.pm
 README
 TODO
-comicpage
+comicpage.pl
 contrib/comics_update
 contrib/local2gmtime
 contrib/localtime
@@ -50,7 +50,7 @@ debian/netcomics.files
 debian/netcomics.manpages
 debian/netcomics-comicpage.menu
 debian/rules
-display_comics
+display_comics.pl
 doc/Comic_Module-HOWTO.html
 doc/Modify_Webpage_Creation-HOWTO.html
 doc/comicpage.pod
@@ -153,7 +153,7 @@ lib/unitedmedia
 lib/user_friendly
 lib/wait_bob
 lib/wfc
-netcomics
+netcomics.pl
 netcomics.spec
 netcomicsrc
-show_comics
+show_comics.pl
