@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(walth billd chanl sack mikep danas jeffm jacko donw waynes)) {
+foreach (qw(walth billd chanl sack mikep danas jacko donw waynes)) {
     $hof{$_} = 7;
 }
 
@@ -80,14 +80,6 @@ sub danas {
     my $time = shift;
     return ComicsPageEd($time,"Dana Summers Editorial","Dana Summers",
 	"summers", "sum",'gif','gif',[450,351],[450,351]);
-}
-
-#Jeff MacNelly ex: http://www.comicspage.com/daily/edmac/0916edmac-a.gif
-#random days, checks everyday
-sub jeffm {
-    my $time = shift;
-    return ComicsPageEd($time,"Jeff MacNelly Editorial","Jeff MacNelly",
-	"macnelly", "mac",'gif','gif',[450,351],[450,351]);
 }
 
 #Jack Ohman ex: http://www.comicspage.com/daily/edohm/0916edohm-a.gif

@@ -1,5 +1,6 @@
 2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/comicspage_ed (jeffm): Removed Jeff MacNelly thanks to Sizer.
 	* lib/kingfeatures: Removed Boner's Ark, Bringing Up Father, and
 	Claire and Weber.  Fixed those comics that use kingfeature2 & 3.
 	* lib/heaven_and_earth (heaven): Added Heaven and Earth thanks to
