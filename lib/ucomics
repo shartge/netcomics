@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(adam baldo bigp bz bd cathy cth corn cr cs dp fw fusco hc itb 
+foreach (qw(adam baldo bigp bz bd cathy cth corn cs dp fw fusco hc itb 
 	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
 }
@@ -10,9 +10,10 @@ $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
 $hof{"ucross"} = 0;
 
 sub ucomics {
+
     #get arguments (fp stands for file prefix, syn for syndicate)
     my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
-
+    
     #values unique to this site
     my $oldest = 13*7; #13 weeks of comics available
     my $baseurl = "http://www.ucomics.com";
@@ -33,10 +34,8 @@ sub ucomics {
 	'type' => 'gif',
 	'main' => "$baseurl/$syn/",
 	'archives' => "$baseurl/$syn/",
-	'base' => "http://",
-	'exprs' => [strftime("(images.ucomics.com/comics/$fp/%Y/$fp\\d+\\.(gif|jpg))",
-			     @ltime)],
-	'page' => strftime("www.ucomics.com/$syn/view$fp.cfm?uc_full_date=$datefmt&uc_comics=$fp",@ltime),
+	'base' => "http://images.ucomics.com/",
+	'page' => strftime("comics/$fp/%Y/$fp%y%m%d.gif",@ltime),
 	'size' => $size,
     };
     
@@ -164,12 +163,6 @@ sub cth {
 sub corn {
     return ucomics(shift(@_),"Cornered","Mike Baldwin","cornered","co",
 		    [600,286],[300,368],"corn");
-}
-
-#Crabby Road http://www.ucomics.com/crabbyroad/
-sub cr {
-    return ucomics(shift(@_),"Crabby Road","John Wagner","crabbyroad",
-			"cr",[300,440],[300,440],"cr");
 }
 
 #Crankshaft http://www.ucomics.com/crankshaft/
