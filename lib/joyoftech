@@ -1,0 +1,68 @@
+#-*-mode: Perl; tab-width: 4 -*-
+
+$hof{joyoftech} = 0;
+
+# Joy of Tech http://www.geekculture.com/joyoftech/
+sub joyoftech {
+	my $time = shift;
+	my @ltime = gmtime($time);
+  
+	return undef if ($time < mkgmtime(0,0,0,14,7,100)); #1st comic 2000-Aug-14
+  
+	my $rec = {
+		'title' => "Joy of Tech",
+		'author' => "Nitrozac & Snaggy",
+		'type' => 'gif',
+		'archives' => 'http://www.geekculture.com/joyoftech/joyarchives/archivejoymain.html',
+		'main' => 'http://www.geekculture.com/joyoftech/',
+		'base' => 'http://www.geekculture.com/joyoftech/',
+		'page' => 'joyarchives/archivejoymain.html',
+	};
+
+	my $y = strftime("%Y", @ltime);
+	my $m = strftime("%B", @ltime);
+	my $d = strftime("%d", @ltime); $d =~ s/^0//;
+	my $date = "$m/$d/$y";
+  
+	$rec->{'func'} = sub {
+		my $text = shift;
+		my @lines = split />/, $text;
+		my $line;
+		my $page;
+		my $correct_month_year = 0;
+  
+		my %spec = (
+			'080' => '080animated',
+		);
+
+		foreach $line (@lines) {
+			$line =~ s/^\s*//;
+			if ($line =~ /$m $y/) {
+				# Is this part of the index the current month/year
+				$correct_month_year = 1;
+			} elsif ($y == 2000 && $line =~ /$m/) {
+				# As above but some months of 2000 is not suffixed by year
+				$correct_month_year = 1;
+			} elsif ($line =~ /^(January)|(February)|(March)|(April)|(May)|(June)|(July)|(August)|(September)|(October)|(November)|(December)/ ) {
+				# We are in some other month
+				$correct_month_year = 0;
+			} elsif ($line =~ /<a href=\"([0-9]*).html\"/) {
+				$page = $1;
+			} elsif ($line =~ /^($d)[<\/]/ and $correct_month_year) {
+				# We have found a matching date. 
+				if (defined $spec{$page}) {
+					return "joyimages/" . $spec{$page} . ".gif";
+				} else {
+					return "joyimages/" . $page . ".gif";
+				}
+			}  
+		}
+
+		# Nothing matching found
+		return ();
+	};
+  
+	return $rec;
+}
+
+1;

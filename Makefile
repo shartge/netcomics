@@ -110,6 +110,7 @@ MODULES = lib/after_y2k \
 	lib/helpdesk \
 	lib/janesworld \
 	lib/jerkcity \
+	lib/joyoftech \
 	lib/k_chronicles \
 	lib/keenspace \
 	lib/kevin-n-kell \
