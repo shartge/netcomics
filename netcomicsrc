@@ -66,6 +66,11 @@ my $HOME = $ENV{'HOME'};
 ## Forcibly redownload when set to 1 (default 0)
 ## When set to 0, netcomics skips downloading a comic strip for dates for
 ## which it already successfully downloaded.
+## When no comics are specified (either with -c or @selected_comics), all
+## comics will be forcibly downloaded.  When comics are specified, only
+## those specified are forcibly downloaded and those that had failed in
+## previous download attempts are retried (unless they've reached the
+## retry limit).
 #$always_download = 1;
 
 ## Maxmium number of retries (default 3)
