@@ -1,0 +1,227 @@
+<!-- $Id$ -->
+<HTML><HEAD>
+<CENTER><TITLE>doc/show_comics</TITLE>
+</HEAD>
+<BODY></CENTER><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_name_0">
+NAME</A>
+</H1>
+show_comics - Show comics, distributed over a time interval
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_synopsis_0">
+SYNOPSIS</A>
+</H1>
+<STRONG>show_netcomics</STRONG> [
+<A HREF="doc/show.html#doc/show_comics_c_0">-c</A>
+ <EM>cmd</EM>] [
+<A HREF="doc/show.html#doc/show_comics_d_0">-d</A>
+ <EM>dir</EM>] [
+<A HREF="doc/show.html#doc/show_comics_f_0">-f</A>
+ <EM>rcfile</EM>] [
+<A HREF="doc/show.html#doc/show_comics_l_0">-l</A>
+|
+<A HREF="doc/show.html#doc/show_comics_t_0">-t</A>
+ <EM>hh:mm</EM>] [
+<A HREF="doc/show.html#doc/show_comics_p_0">-p</A>
+ [cmd]] [
+<A HREF="doc/show.html#doc/show_comics_k_0">-k</A>
+ <EM>lockfile</EM>|<STRONG>-K</STRONG>] [
+<A HREF="doc/show.html#doc/show_comics_s_0">-s</A>
+ &lt;hh:mm&gt;]
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_description_0">
+DESCRIPTION</A>
+</H1>
+show_comics is used to display comics downloaded by netcomics.  It
+first pops up a window to ask you what time you plan on leaving (in 24
+hour time).  Using the time you entered, it will evenly distribute the
+comics to be displayed from the time the script is run to the time you
+specified you will leave.
+<p>Specify the comics you want to have displayed in a file called
+~/.comics.  You may specify an alternate file on the command line.  If no
+file exists, all comics will be displayed (all files that end 
+with .gif, .jpg, or .jpeg in the directory).
+<p>If you don't have perlTk installed, use 
+<A HREF="doc/show.html#doc/show_comics_l_0">-l</A>
+ to specify the time and to make
+show_comics not try to pop up a window.
+<p>In a UNIX environment, you can utilize the lockfile mechanism to run
+show_comics from many different places an not have to worry about
+checking to make sure it is already running. For example, you can run
+show_comics from your .xinitrc or .xsession as well as from a
+crontab. If netcomics is run in the morning, say at 7:00 by a crontab,
+then you could run show_comics from a cron job at 7:30, assuming
+netcomics will take no more than 1/2 hour. Then, in your .xinitrc
+file, you could also run show_comics if the time is greater than 7:30
+(see 
+<A HREF="doc/show.html#doc/show_comics_s_0">-s</A>
+). Therefore, if you have logged into your computer before
+7:30, show_comics won't run from your .xinitrc file, but once 7:30 has
+come around, it will be run by your cron job. If you log into your
+computer after 7:30, then show_comics will fail to run at 7:30
+(assuming the program show_comics uses to check to see if the display
+is available failed), and then show_comics will be run by your
+.xinitrc file. 
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_options_0">
+OPTIONS</A>
+</H1>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_c_0">
+-c</A>
+ <EM>command</EM>
+</STRONG>
+<DD>
+Use the specified command to display each comic instead of the default: 
+``nice -19 xv''.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_d_0">
+-d</A>
+ <EM>dir</EM>
+</STRONG>
+<DD>
+Use the specified location of the comics to be displayed instead of using
+the default directory: /home/benh/www/comics.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_f_0">
+-f</A>
+ <EM>filename</EM>
+</STRONG>
+<DD>
+Use the specified file instead of ~/.comics for the list of comics to
+be displayed
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_k_0">
+-k</A>
+ <EM>filename</EM>
+</STRONG>
+<DD>
+Specify the lock file's name.  Default is ~/.show_comics_lock.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_l_0">
+-l</A>
+ <EM>hh:mm</EM>
+</STRONG>
+<DD>
+Don't pop up a window and use the specified time as the time to leave.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_p_0">
+-p</A>
+ [<EM>cmd</EM>]
+</STRONG>
+<DD>
+Check to make sure the display is available and if not, quit. Optional
+argument is the name of the program to use.  A non-zero return code
+from this program indicates a failure to open the display. The default
+program used is xdpyinfo.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_s_0">
+-s</A>
+ <EM>hh:mm</EM>
+</STRONG>
+<DD>
+Specify a time that if show_comics is run before during the day, it will just 
+exit.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_t_0">
+-t</A>
+ <EM>hh:mm</EM>
+</STRONG>
+<DD>
+Specify the default time to be put in the pop-up window.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_v_0">
+-v</A>
+
+</STRONG>
+<DD>
+
+<XMP>
+ 
+Output verbose messages.
+
+</XMP>
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_files_0">
+FILES</A>
+</H1>
+<p>
+<DL COMPACT>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_comics_0">
+~/.comics</A>
+
+</STRONG>
+<DD>
+Contains the a list of comics you want displayed, one per line.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_home_benh_www_comics_0">
+/home/benh/www/comics</A>
+
+</STRONG>
+<DD>
+Default directory where comics and the web page are placed by netcomics.
+<p>
+<DT><STRONG>
+
+<A NAME="doc/show_comics_show_comics_lock_0">
+~/.show_comics_lock</A>
+
+</STRONG>
+<DD>
+Default lock file used to make sure only one instance of show_comics is run
+<p>
+</DL>
+.
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_see_0">
+SEE ALSO</A>
+</H1>
+netcomics(1)
+<p><p><hr>
+
+<H1> 
+<A NAME="doc/show_comics_author_0">
+AUTHOR</A>
+</H1>
+Ben Hochstedler &lt;<A HREF="MAILTO:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt;
+ICQ: <STRONG>15469308</STRONG> AIM: <STRONG>hochstrb</STRONG>
+<p>
+</DL>
+
+</BODY>
+</HTML>
