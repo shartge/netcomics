@@ -7,11 +7,25 @@ $hof{"sketch"} = 0;
 sub sketch {
     my $time = shift;
     my @ltime = gmtime($time);
-    # First comic 2000-Sep-02
-    return undef if ($time < mkgmtime(0,0,0,2,8,100));
+    my $date = strftime("%Y%m%d",@ltime);
+
+    #exception tables last updated Feb. 3, 2001
+    my @every_day_missing = (20000924,20001008,20001009,20001021,
+			     20001105,20001112,20001113,20001119);
+    my @mwf_extra = (20001207);
+    my @mwf_missing = (20001208);
+
+    #Before Nov. 25, 2000, released every day except for some exceptions.
+    #Afterwards, released almost always on Mon Wed Fri
+    return undef if
+	(($date < 20000902) || # First comic 2000-Sep-02
+	 ($date < 20001125 && grep(/$date/,@every_day_missing)) ||
+	 ($ltime[6] !~ /[135]/ && ! grep(/$date/,@mwf_extra)) ||
+	 (grep(/$date/,@mwf_missing)));
+
 
     #As of Oct 02, 2000 comics are in JPEG format
-    my $type = ($time < mkgmtime(0,0,0,2,9,100))? 'gif' : 'jpg';
+    my $type = ($date < 20001002)? 'gif' : 'jpg';
 
     my $rec = {
 	'title' => "Sketch of Love",
