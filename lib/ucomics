@@ -1,9 +1,47 @@
 #-*-Perl-*-
 
+foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb 
+	    jm boffo ob rla stsp tank ziggy)) {
+    $hof{$_} = 0;
+}
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
 
 $hof{"ucross"} = 0;
+
+sub ucomics {
+    #get arguments (fp stands for file prefix, syn for syndicate)
+    my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
+
+    #values unique to this site
+    my $oldest = 13*7; #13 weeks of comics available
+    my $baseurl = "http://www.ucomics.com";
+    my $pagedir = "pages";
+    my $imgdir = "strips";
+    my $datefmt = "%Y%m%d";
+
+    my @ltime = gmtime($time);
+    my @ntime = gmtime(time);
+    my $ntime = mkgmtime(0,0,0,@ntime[3..5]);
+    my $first_avail = $ntime - ($oldest + $hof{$func})*(3600*24);
+    my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
+    return undef if ! defined $size || $time < $first_avail;
+    
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => 'gif',
+	'main' => "$baseurl/$syn/",
+	'archives' => "$baseurl/$syn/",
+	'base' => "http://",
+	'exprs' => [strftime("(images.ucomics.com/comics/$fp/%Y/$fp\\d+\\.(gif|jpg))",
+			     @ltime)],
+	'page' => strftime("www.ucomics.com/$syn/view$fp.cfm?uc_full_date=$datefmt&uc_comics=$fp",@ltime),
+	'size' => $size,
+    };
+    
+    return $rec;
+}
 
 sub ucomics_akamai {
     my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
@@ -21,7 +59,7 @@ sub ucomics_akamai {
     };
 }
 
-sub ucomics {
+sub ucomics_direct {
     my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
     my @ltime = gmtime($time);
     my $rec = {
@@ -46,9 +84,147 @@ sub ch {
 sub ucross {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,1,4,99); #May 1, 1999
-    return ucomics($time, "United Comics Daily Crossword Puzzle",
-		   "Timothy E. Parker, ed.",[664,860],[664,860],
-		   "cxpic","cxpic");
+    return ucomics_direct($time, "United Comics Daily Crossword Puzzle",
+			  "Timothy E. Parker, ed.",[664,860],[664,860],
+			  "cxpic","cxpic");
+}
+
+#Adam@home http://www.ucomics.com/adam/
+sub adam {
+    return ucomics(shift(@_),"Adam at Home","Brian Basset","adamathome","ad",
+		    [600,428],[600,200],"adam");
+}
+
+#Baldo http://www.ucomics.com/baldo/
+sub baldo {
+    return ucomics(shift(@_),"Baldo","Cantu & Castellanos","baldo","ba",
+		    [600,412],[300,310],"baldo");
+}
+
+#The Big Picture http://www.ucomics.com/thebigpicture/
+sub bigp {
+    return ucomics(shift(@_),"The Big Picture","Lennie Peterson","thebigpicture","bi",
+		    [600,412],[300,310],"bigp");
+}
+
+#Bizzaro http://www.ucomics.com/bizarro/
+sub bz {
+    return ucomics(shift(@_),"Bizarro","Dan Piraro","bizarro","bz",
+		    [300,356],[600,312],"bz");
+}
+
+#The Boondocks http://www.ucomics.com/boondocks/
+sub bd {
+    return ucomics(shift(@_),"The Boondocks","Aaron McGruder","boondocks","bo",
+		    [600,275],[600,190],"bd");
+}
+
+#Cathy http://www.ucomics.com/cathy/
+sub cathy {
+    return ucomics(shift(@_),"Cathy","Cathy Guisewite","cathy","ca",
+		    [600,414],[600,192],"cathy");
+}
+
+#Citizen Dog http://www.ucomics.com/citizendog/
+sub cd {
+    return ucomics(shift(@_),"Citizen Dog","Mark O'Hare","citizendog","cd",
+		    [600,275],[600,195],"cd");
+}
+
+#Close to Home http://www.ucomics.com/closetohome/
+sub cth {
+    return ucomics(shift(@_),"Close to Home","John McPherson","closetohome","cl",
+		    [600,280],[300,382],"cth");
+}
+
+#Cornered http://www.ucomics.com/cornered/
+sub corn {
+    return ucomics(shift(@_),"Cornered","Mike Baldwin","cornered","co",
+		    [600,280],[300,330],"corn");
+}
+
+#Crabby Road http://www.ucomics.com/crabbyroad/
+sub cr {
+    return ucomics(shift(@_),"Crabby Road","John Wagner","crabbyroad",
+			"cr",[300,440],[300,440],"cr");
+}
+
+#Crankshaft http://www.ucomics.com/crankshaft/
+sub cs {
+    return ucomics(shift(@_),"Crankshaft","Tom Batiuk & Chuck Ayers",
+			"crankshaft","cs",[600,355],[600,184],"cs");
+}
+
+#The Duplex http://www.ucomics.com/theduplex/
+sub dp {
+    return ucomics(shift(@_),"The Duplex","Glenn McCoy","duplex","dp",
+		    [600,280],[600,190],"dp");
+}
+
+#Fifth Wave http://www.ucomics.com/thefifthwave/
+sub fw {
+    return ucomics(shift(@_),"Fifth Wave","Rich Tennant","thefifthwave","fw",
+		    [500,500],undef,"fw");
+}
+
+#The Fusco Brothers http://www.ucomics.com/thefuscobrothers/
+sub fusco {
+    return ucomics(shift(@_),"The Fusco Brothers","Joe Duffy","thefuscobrothers","fu",
+		    [600,396],[600,180],"fusco");
+}
+
+#Heart of the City http://www.ucomics.com/heartofthecity/
+sub hc {
+    return ucomics(shift(@_),"Heart of the City","Mark Tatulli","heartofthecity","hc",
+		    [600,280],[600,190],"hc");
+}
+
+#In the Bleachers http://www.ucomics.com/inthebleachers/
+sub itb {
+    return ucomics(shift(@_),"In the Bleachers","Steve Moore","inthebleachers","bl",
+		    [600,422],[300,362],"itb");
+}
+
+#James http://www.ucomics.com/james/
+sub jm {
+    return ucomics(shift(@_),"James","Mark Tonra","james","jm",
+		    [600,422],[300,362],"jm");
+}
+
+#Mister Boffo http://www.ucomics.com/misterboffo/
+sub boffo {
+    return ucomics(shift(@_),"Mister Boffo","Joe Martin","misterboffo","mb",
+		    [600,422],[600,180],"boffo");
+}
+
+#Overboard http://www.ucomics.com/overboard/
+sub ob {
+    return ucomics(shift(@_),"Overboard","Chip Dunham","overboard","ob",
+		    [600,276],[600,200],"ob");
+}
+
+#Real Life Adventures http://www.ucomics.com/reallifeadventures/
+sub rla {
+    return ucomics(shift(@_),"Real Life Adventures","Aldrich and Wise",
+		    "reallifeadventures","rl",[600,412],[300,310],"rla");
+}
+
+#Stone Soup http://www.ucomics.com/stonesoup/
+sub stsp {
+    return ucomics(shift(@_),"Stone Soup","Jan Eliot","stonesoup","ss",
+		    [600,280],[600,190],"stsp");
+}
+
+#Tank McNamara http://www.ucomics.com/tankmcnamara/
+sub tank {
+    return ucomics(shift(@_),"Tank McNamara","Jeff Millar & Bill Hinds",
+		    "comics","tm",[600,422],[600,195],"tank");
+}
+
+#Ziggy http://www.ucomics.com/ziggy/
+sub ziggy {
+    return ucomics(shift(@_),"Ziggy","Tom Wilson","ziggy","zi",
+		    [600,412],[300,310],"ziggy");
 }
 
 1;

@@ -1,5 +1,7 @@
 2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/ucomics,uexpress: Moved comics from uexpress to ucomics
+	thanks to Tim Kimber
 	* lib/ozy_millie (ozy): Updated for site change thanks to Sizer.
 
 2001-02-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
