@@ -9,6 +9,7 @@
 \.[13]$
 \.out$
 ^\.group_*
+^\.update_snaps
 ^doc/Config.pod$
 ^doc/netcomics.html$
 ^doc/show_comics.html$
