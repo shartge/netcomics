@@ -1,3 +1,8 @@
+2002-10-11  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot, lib/keenspace: Updates and organizations by Shawn Oakey
+	* lib/moderntales: New module by Shawn Oakey
+	
 2002-09-08  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspot (avalon): Copied the sub code from $keenspot into 

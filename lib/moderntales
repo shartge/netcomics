@@ -1,0 +1,375 @@
+#-*-CPerl-*-
+
+# Modern Tales archives are subscriber only so we can only get the current comic
+# Also they are not archived by date at all so any comic that did not have a
+# posted schedule may be downloaded multiple times over a week. There are also a
+# few flash comics that I believe get downloaded but not but into the web page
+
+foreach (qw(americanbornchinese bittenapple circleweave courtlymanners cuentos 
+ cybercab fancyfroglin fleep flipside fredtheclown hutchowen rocket 
+ magicinkwell miracle narbonic nlex death octoberfalls box ps1 
+ patentpending pewfell radiopolis greenskull rocr shuck shuck2 
+ sketchbook northampton teachingbabyparanoia vs failure johnlaw)) {
+  $hof{$_} = 0;
+};
+
+# moderntales
+sub moderntales {
+    my ($title,$author,$name) = @_;
+    
+    my $baseurl = "http://www.moderntales.com/";
+    my $page = "series.php?name=$name&view=current";
+
+    #deal with special cases
+    if ($name eq "courtlymanners" || $name eq "rogues") {$name = "reinder";}
+    if ($name eq "flipside") {$name = "miracle";}
+    if ($name eq "rocket") {$name = "calebsevcik";}
+    if ($name eq "magicinkwell") {$name = "cuentos";}
+    if ($name eq "teamup") {$name = ".*?";}
+    if ($name eq "box") {$name = "brendan";}
+    if ($name eq "radiopolis") {$name = "aldermans";}
+    if ($name eq "shuck2") {$name = "shuck";}
+    if ($name eq "failure") {$name = "vs";}
+    
+    my $rec = {
+        'title' => "$title",
+        'author' => "$author",
+        'main' => $baseurl,
+        'base' => $baseurl,
+        'page' => $page,
+    };
+    
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      #repeatedly match and replace.  
+      while (1) {
+        if ($text =~ s/src=.*?$baseurl($name\/.*?((jpg)|(gif)|(png)|(swf)))//i) {
+          push(@relurls,$1);
+          $rec->{'type'} = $2;
+        } else {
+          last;
+        }
+      }
+      return reverse @relurls;
+    };
+
+    return $rec;
+}
+
+	
+sub americanbornchinese {
+  #on monday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[1]/) {
+    return moderntales("American Born Chinese","Gene Yang",
+     "americanbornchinese");
+  }
+};   	
+
+sub bittenapple {
+  #on friday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[5]/) {
+    return moderntales("Bitten Apple","Jesse Hamm","bittenapple");
+  }
+};   	
+
+sub circleweave {
+  #on friday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[5]/) {
+    return moderntales("The Circle Weave","Indigo Kelleigh","circleweave");
+  }
+};   	
+
+sub  courtlymanners {
+  #currently not running
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+#    return moderntales("Courtly Manners","Reinder Dijkhuis","courtlymanners");
+  }
+};   	
+
+sub cuentos {
+  # on tuesday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[2]/) {
+    return moderntales("Cuentos de la Frontera","cayetano garza jr","cuentos");
+  }
+};   	
+
+sub  cybercab {
+  #really ever other thursday but that seemed like too much trouble
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[4]/) {
+    return moderntales("CyberCity CabKiller",
+     "Barrett Lombardo and Andy Crestodina","cybercab");
+  }
+};   	
+
+sub fancyfroglin {
+  #on Wednesday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[3]/) {
+    return moderntales("Fancy Froglin","James Kochalka","fancyfroglin");
+  }
+};   	
+
+sub fleep {
+  #on Wednesday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[3]/) {
+    return moderntales("Fleep","Jason Shiga","fleep");
+  }
+};   	
+
+sub flipside {
+  #No set schedule check everyday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Flipside Stories","Jim Zubkavich","flipside");
+  }
+};   	
+
+sub fredtheclown {
+  #on Tuesday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[2]/) {
+    return moderntales("Fred the Clown","Roger Langridge","fredtheclown");
+  }
+};   	
+
+sub hutchowen {
+  #on thursday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[4]/) {
+    return moderntales("HUTCH OWEN - Public Relations!","Tom Hart","hutchowen");
+  }
+};   	
+
+sub rocket {
+  #says tuesday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[2]/) {
+    return moderntales("I Am A Rocket","Caleb Sevcik","rocket");
+  }
+};   	
+
+sub magicinkwell {
+  #on saturdays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[6]/) {
+    return moderntales("Magic Inkwell Saturday Morning Cartoons",
+     "cayetano garza jr.","magicinkwell");
+  }
+};   	
+
+sub miracle {
+  #Monday, Wednesday, Friday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[135]/) {
+    return moderntales("The Makeshift Miracle","Jim Zubkavich","miracle");
+  }
+};   	
+
+sub narbonic {
+  #says everyday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Narbonic","Shaenon K. Garrity","narbonic");
+  }
+};   	
+
+sub nlex {
+  #does not say a schedule check every day
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Near-Life Experience","Lea Hernandez","NLEx");
+  }
+};   	
+
+sub death {
+  #on sundays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0]/) {
+    return moderntales("The New Adventures of Death","Dorothy Gambrell",
+     "death");
+  }
+};   	
+
+sub octoberfalls {
+  #does not say schedule check every day
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("October Falls",
+     "Marc Washington and Kim Larsen","octoberfalls");
+  }
+};   	
+
+sub box {
+  #says monthly but not when going to try the 15 of every month
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[3] =~ /15/) {
+    return moderntales("Outside the Box","Brendan Cahill","box");
+  }
+};   	
+
+#sub oddjobs {
+#  #Still works from keenspace commented out for now
+#  my $time = shift;
+#  my @ltime = gmtime($time);
+#  if ($ltime[6] =~ /[125]/) {
+#    return moderntales("Odd Jobs","Tim Broderick","oddjobs");
+#  }
+#};   	
+
+sub ps1 {
+  # says weekly but not which day check every day
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Paradigm Shift: Act I","Dirk Tiede","ps1");
+  }
+};   	
+
+sub patentpending {
+  #really every other thursday but that seemed like too much trouble
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[4]/) {
+    return moderntales("Patent Pending","Jonathan Rosenberg","patentpending");
+  }
+};   	
+
+sub pewfell {
+  #weekdays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[12345]/) {
+    return moderntales("Pewfell","Chuck Whelon","pewfell");
+  }
+};   	
+
+sub radiopolis {
+  #on saturdays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[6]/) {
+    return moderntales("Radiopolis","The Alderman Brothers","radiopolis");
+  }
+};   	
+
+sub greenskull {
+  #on fridays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[5]/) {
+    return moderntales("Return of the Green Skull","Joe Zabel","greenskull");
+  }
+};   	
+
+sub rocr {
+  #on Monday, Wednesday, Friday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[135]/) {
+    return moderntales("Rogues of Clwyd-Rhan","Reinder Dijkhuis","rogues");
+  }
+};     
+
+sub shuck {
+  #says weekly but not which day check everyday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Shuck Comics - 'Hallowed Seasonings'","Rick Smith",
+     "shuck");
+  }
+};   	
+
+sub shuck2 {
+  #says twice weekly but not which days check everyday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Shuck Comics - 'Purgatory Brews'","Rick Smith","shuck2");
+  }
+};   	
+
+sub sketchbook {
+  # on Tuesday and Thursday
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[24]/) {
+    return moderntales("Sketchbook","Jeff Crowther","sketchbook");
+  }
+};   	
+
+sub northampton {
+  #on tuesdays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[2]/) {
+    return moderntales("Streets of Northampton","Chris Shadoian","northampton");
+  }
+};   	
+
+sub teachingbabyparanoia {
+  #on saturdays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[6]/) {
+    return moderntales("Teaching Baby Paranoia","Bryant Paul Johnson",
+     "teachingbabyparanoia");
+  }
+};   	
+
+sub vs {
+  #says monthly but not when going to try the 15 of every month
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[3] =~ /15/) {
+    return moderntales("Vicious Souvenirs","John Barber","vs");
+  }
+};   	
+
+sub failure {
+  #says weekly but not which day check every day
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0123456]/) {
+    return moderntales("Why Are You A Failure Daddy","John Barber","failure");
+  }
+};   	
+
+sub johnlaw {
+  #on sundays
+  my $time = shift;
+  my @ltime = gmtime($time);
+  if ($ltime[6] =~ /[0]/) {
+    return moderntales("Will Eisners JOHN LAW","Gary Chaloner","johnlaw");
+  }
+};
+
+1;
+
