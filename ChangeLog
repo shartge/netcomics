@@ -4,6 +4,8 @@
 	* gtkcomics: gtkcomic's list of comics no longer has ${proc} on
 	the list. This forced me to change my solution to lookup of the
 	proc.
+	* GtkComics.pm, gtkcomics: On second thought, we don't really need
+	the days behind either...
 	
 2001-05-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

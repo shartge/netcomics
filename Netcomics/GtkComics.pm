@@ -159,11 +159,10 @@ sub create_main_window {
 			    $forms->{'window_comic_page'}{'viewport1'} = $widgets->{'viewport1'};
 				#
 				# Construct a GtkList 'list1'
-	            my @titles = ("Title", "dbh");
+	            my @titles = ("Title");
 				$widgets->{'list1'} = new_with_titles Gtk::CList( @titles );
 				$widgets->{'list1'}->set_selection_mode('single' );
-              	$widgets->{'list1'}->set_column_width( 0, 300 );
-                $widgets->{'list1'}->set_column_width( 1, 25 );
+              	$widgets->{'list1'}->set_column_width( 0, 275 );
                 $widgets->{'list1'}->set_shadow_type( 'out' );
 
 				$forms->{'window_comic_page'}{'viewport1'}->add($widgets->{'list1'} );

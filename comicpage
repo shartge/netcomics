@@ -53,7 +53,7 @@ my @unified_comic_array;
 my %name_lookup;
 foreach my $name (@names) {
 	my ($f, $d) = @{$names{$name}};
-	my $tmpref = [ "$name", "$d" ];
+	my $tmpref = [ "$name" ];
 	$name_lookup{$name} = "$f";
 	push(@unified_comic_array, $tmpref);
 }
