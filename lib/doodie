@@ -35,6 +35,7 @@ sub doodie {
 		   'comic' => ["(pics/[^\"]+\\.gif\\.$cdate)"],
 		   'caption' => ["gif\\.$cdate.*?(<pre.*?</pre>)"],
 	       },
+	       'size' => [224,163],
 	       );
     return \%rec;
 }
