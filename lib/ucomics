@@ -121,19 +121,19 @@ sub adam {
 #Baldo http://www.ucomics.com/baldo/
 sub baldo {
     return ucomics(shift(@_),"Baldo","Cantu & Castellanos","baldo","ba",
-		    [600,412],[300,310],"baldo");
+		    [600,412],[600,191],"baldo");
 }
 
 #The Big Picture http://www.ucomics.com/thebigpicture/
 sub bigp {
     return ucomics_direct(shift(@_),"The Big Picture","Lennie Peterson",
-		    [600,412],[300,310],"bi","bi");
+		    [600,412],[600,192],"bi","bi");
 }
 
 #Bizzaro http://www.ucomics.com/bizarro/
 sub bz {
     return ucomics(shift(@_),"Bizarro","Dan Piraro","bizarro","bz",
-		    [300,356],[600,312],"bz");
+		   [600,405],[300,356],"bz");
 }
 
 #The Boondocks http://www.ucomics.com/boondocks/
@@ -145,7 +145,7 @@ sub bd {
 #Cathy http://www.ucomics.com/cathy/
 sub cathy {
     return ucomics(shift(@_),"Cathy","Cathy Guisewite","cathy","ca",
-		    [600,414],[600,192],"cathy");
+		    [600,414],[600,198],"cathy");
 }
 
 #Citizen Dog http://www.ucomics.com/citizendog/
@@ -157,13 +157,13 @@ sub cathy {
 #Close to Home http://www.ucomics.com/closetohome/
 sub cth {
     return ucomics(shift(@_),"Close to Home","John McPherson","closetohome","cl",
-		    [600,280],[300,382],"cth");
+		    [600,280],[300,397],"cth");
 }
 
 #Cornered http://www.ucomics.com/cornered/
 sub corn {
     return ucomics(shift(@_),"Cornered","Mike Baldwin","cornered","co",
-		    [600,280],[300,330],"corn");
+		    [600,286],[300,368],"corn");
 }
 
 #Crabby Road http://www.ucomics.com/crabbyroad/
