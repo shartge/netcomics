@@ -7,11 +7,13 @@ sub doodie {
     my $today = shift;
     my @ltime = gmtime($today);
     my $date = strftime("%Y%m%d",@ltime);
-    #exception list last updated June 27, 2001.
+    #exception list last updated Dec 27, 2001, but there may be some
+    #missing 'toons missing from the list. ;-)
     #(have only checked back to Dec. 25, 2000)
     my @missing = (19991220,20000124,20000125,20000126,20000218,20000315,
 		   20000518,20001123,20001214,20001222,20001225,20010101,
 		   20010117,20010125,20010202,20010329,20010504,20010626,
+		   20010919,20011109,20011112
 		   );
     my %fix_cdate = (19990930 => "10031999",
 		     20010426 => "04362001",
@@ -31,7 +33,7 @@ sub doodie {
 	       'base' => $urlbase,
 	       'page' => "index.php?date=$date",
 	       'exprs' => {
-		   'comic' => ["(pics/[^\\.]+\\.gif\\.$cdate)"],
+		   'comic' => ["(pics/[^\"]+\\.gif\\.$cdate)"],
 		   'caption' => ["gif\\.$cdate.*?(<pre.*?</pre>)"],
 	       },
 	       );

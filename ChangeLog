@@ -1,3 +1,9 @@
+2001-12-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): Added new items to missing list & fixed the
+	comic matching expression so that it can grab filenames with extra
+	dots in them.
+
 2001-12-26  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/HTML/Set.pm (create_set_of_pages): Fixed small bug in new
@@ -22,9 +28,9 @@
 	THAT been wrong!?
 	* netcomics: Optimized the order in which things happen so RLI files
 	aren't reloaded if all the user wants is a list. Speeds things up
-	immensly if user has +3000 RLI files.
+	immensely if user has +3000 RLI files.
 	* Netcomics/Factory.pm (load_RLI_files): Split off loading RLI files 
-	into a seperate function.
+	into a separate function.
 
 2001-12-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
