@@ -15,6 +15,10 @@ set of file element templates, and a file element template.
 
 ** Include banner ads with comics
 
+** Use image size even if specified
+This means that the only time when the file size is used is when the
+image couldn't be downloaded.
+
 ----------------------------------------------------------------------
 
 * Comic Modules
