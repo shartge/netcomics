@@ -215,16 +215,26 @@ sub trevor {
     $rec->{'func'} = sub {
 	my $text = shift;
 	my $id = "trevor";
-	my @relurls = ();
+	my %relurls = ();
+	my @urls = ();
 	#repeatedly match and replace.  
         while (1) {
-	    if ($text =~ s/\.src = "(\/comics\/$id\/archive\/images\/$id\d+_\d\w?\.gif)"//i) {
-		unshift(@relurls,$1);
+	    if ($text =~ s/\.src = "(\/comics\/$id\/archive\/images\/$id\d+_(\d\w?\.)gif)"//i) {
+		unshift(@urls,$1);
+		$relurls{$1} = $2;
 	    } else {
 		last;
 	    }
         }
-	return sort(@relurls);
+	
+	my @result = sort {
+	    @a = split //, $relurls{$a};
+	    @b = split //, $relurls{$b};
+	    ($b[0] <=> $a[0]) ? ($b[0] <=> $a[0]) : ($a[1] cmp $b[1]);
+	} @urls;
+	
+	return @result;
+	
     };
     $rec->{'exprs'} = undef;
     $rec->{'size'} = undef;
