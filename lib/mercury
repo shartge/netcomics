@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(pretzel phantom fairgame ick newbreed thatlife mickey)) {
+foreach (qw(pretzel phantom fairgame newbreed thatlife)) {
     $hof{$_} = 0;
 }
 
@@ -28,7 +28,7 @@ sub mercury {
 	'type' => $type,
 	'main' => "http://cgi.mercurycenter.com/cgi-bin/comics/show.cgi?ID=$id&DATE=TODAY",
 	'archives' => "http://cgi.mercurycenter.com/cgi-bin/comics/show.cgi?ID=$id&DATE=TODAY",
-	'base' => "http://www.mercurycenter.com/premium/comics/",
+	'base' => "http://cgi.mercurycenter.com/premium/comics/",
 	'page' => strftime("%m_%d/$file.$type",@ltime),
 	'size' => $size
 	};
@@ -40,7 +40,7 @@ sub pretzel {
 #not sure what days, try everyday
     my $time = shift;
     #return if $time < 894240000;
-    return mercury($time,"Pretzel Logic","","pretzel",
+    return mercury($time,"Pretzel Logic","Frank Deale","pretzel",
 		       'gif','gif',[250,296],[250,296],89);
 }
 
@@ -48,7 +48,7 @@ sub pretzel {
 #Phantom
 sub phantom {
     my $time = shift;
-    return mercury($time,"Phantom","Created by Lee Falk","phantom",
+    return mercury($time,"Phantom","Lee Falk","phantom",
                        'gif',undef,[525,157],[250,296],85);
 }
 
@@ -62,36 +62,22 @@ sub dilbertcl {
 #Fair Game
 sub fairgame {
     my $time = shift;
-    return mercury($time,"Fair Game","","fair_game",
+    return mercury($time,"Fair Game","Stephanie Piro","fair_game",
                        'gif',undef,[252,331],[250,296],40);
-}
-
-#Ick
-sub ick {
-    my $time = shift;
-    return mercury($time,"Ick","","ick",
-                       'gif',undef,[525,157],[250,296],59);
 }
 
 #New Breed
 sub newbreed {
     my $time = shift;
-    return mercury($time,"The New Breed","","new_breed",
+    return mercury($time,"The New Breed","Dan Litzinger","nbreed",
                        'gif',undef,[252,313],[250,296],77);
 }
 
 #That's Life
 sub thatlife {
     my $time = shift;
-    return mercury($time,"Thats Life","","thats_life",
+    return mercury($time,"Thats Life","Mike Twohy","thats_life",
                        'gif','gif',[252,310],[620,308],123);
 }
-
-#Mickey Mouse
-sub mickey {
-    my $time = shift;
-    return mercury($time,"Mickey Mouse","","mickey_mouse",
-                       'gif',undef,[525,157],[250,296],72);
-}                                                                                                                                                                                                            
 
 1;
