@@ -26,14 +26,14 @@ sub angst {
 }
 
 # Week-End Warriors
-# ex: http://www.inktank.com/images/WW/cartoons/06-29-01.gif
+# ex: http://www.inktank.com/images/WW/cartoons/07-02-01.gif
 sub ww {
     my $time = shift;
     my @ltime = gmtime($time);
-    # First comic 2001-Jun-29
-    return undef if ($time < mkgmtime(0,0,0,29,05,101));
+    # First comic 2001-Jul-2
+    return undef if ($time < mkgmtime(0,0,0,2,06,101));
     # Only runs on fridays
-    return undef unless (5 == $ltime[6]);
+    return undef unless (1 == $ltime[6]);
 
     my $rec = {
 	'title' => "Week-End Warriors",

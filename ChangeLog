@@ -5,6 +5,7 @@
 
 2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/inktank (ww): Fix for Weekend Warriors by Chris Hostetter.
 	* Netcomics/Factory.pm (build_date_array): Changed way I fixed the
 	time problem.
 
