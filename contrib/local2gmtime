@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+use strict;
+
+$| = 1;
+
+while (@ARGV) {
+    my $file = shift(@ARGV);
+    print "$file ";
+    my $lines = file_read($file);
+    my $i;
+    for $i ($[ .. $#$lines) {
+	$lines->[$i] =~ s/^(.*[^\$])localtime(.*)$/$1\gmtime$2/g;
+    }
+    file_write($file,$lines);
+}
+print "\n";
+
+sub file_write {
+    my ($file,$lines) = @_;
+    open(F, ">$file") || die "Could not open \"$file\" for writing.\n$!";
+    print(F @$lines);
+    close(F);
+}
+
+sub file_read {
+    my $file = shift;
+    open(F, "<$file") || die "Could not open \"$file\" for reading.\n$!";
+    my @lines = <F>;
+    close(F);
+    return \@lines;
+}

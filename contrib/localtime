@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+use POSIX;
+use strict;
+
+print "usage: localtime <time>\n", exit(1) unless @ARGV == 1;
+my $time = $ARGV[0];
+print "local: " . ctime($time);
+@_ = gmtime($time);
+print strftime("GMT:   %a %b %d %H:%M:%S %Y\n",@_);
+
+
+
