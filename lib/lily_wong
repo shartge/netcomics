@@ -7,6 +7,8 @@ $hof{"lily"} = 0;
 # ex : http://www.reuben.org/lilywong/archive/strips/971103.gif
 sub lily {
     my @ltime = gmtime(shift(@_));
+    my $date = strftime("%y%m%d",@ltime);
+    my $year = strftime("%Y",@ltime);
     return undef if $ltime[6] == 0; #no sunday comics
     my $rec = {
         'title' => "Lily Wong",
@@ -14,8 +16,8 @@ sub lily {
 	'type' => 'gif',
 	'main' => "http://www.reuben.org/lilywong/",
         'archives' => "http://www.reuben.org/lilywong/archive/",
-        'base' => "http://www.reuben.org/lilywong/archive/strips",
-        'page' => strftime("/%y%m%d.gif",@ltime),
+        'base' => "http://www.reuben.org/lilywong/archive/",
+        'page' => "$year/$date.gif",
 	'size' => [610,198]
     };
     return $rec;

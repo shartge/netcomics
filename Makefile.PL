@@ -58,22 +58,14 @@ netcomicsrc
 
 my @modules = qw(
 after_y2k
-alice
 an
 angry_flower
 angst
-avalon
 bad_boys
 badlands
-bayside
-bigpanda
-boatanchor
 bruno
 callahan
 cartoonweb
-ccs
-chuck_show
-clan_cats
 comicspage
 comicspage_ed
 comiczone
@@ -84,62 +76,44 @@ doodie
 doonesbury
 dork_tower
 down_earth
+dragon
 dr_fun
 dysentery
-elf_life
-everythingjake
-exploitation
+fairgame
 falling_dream
 farcus
 fika
-forbez
-fordummies
-foxtrot
 frankandernest
 freefall
 gaming_u
 gilthorp
-gpf
-greystoneinn
-greytown
 helen
-helpdesk
-janesworld
 jerkcity
 joyoftech
 k_chronicles
 keenspace
+keenspot
 kevin-n-kell
 kingfeatures
 laughseeds
 lcd
 lily_wong
-lostfound
 madam-n-eve
 megatokyo
-melonpool
 mercury
 mom
 nando
 newshounds
 norm
-nukees
 offthemark
-ozy_millie
 penny_arcade
-psmueller
 pvp
-reallife
 red_meat
-road_waffles
 rocky
-roommates
 sempai
-soaprope
 sourcewars
 shermans_lagoon
 shoe
-sinfest
 sluggy_freelance
 small_grey
 small_world
@@ -148,10 +122,7 @@ spex
 spooner
 story_minute
 stuff_this
-suburban
-superosity
 this_modern_world
-tom_the_dancing_bug
 toonville
 touche
 toytrunk
@@ -161,32 +132,64 @@ ucomics
 unitedmedia
 user_friendly
 wait_bob
-wandering
 wfc
-whenigrowup
 wiley
-youdamn
 );
 
 my @old_modules = qw(
+alice
+avalon
 banditbruno
 bastich
+bayside
+bigpanda
+boatanchor
 bobbins
 boxjam
 calvin-n-hobbes
+ccs
+clan_cats
+chuck_show
 ctoons
 dilbert
+elf_life
+everythingjake
+exploitation
 fatjesus
 fce
+forbez
+fordummies
+foxtrot
 garfield
 glasbergen
 goats
+gpf
+greystoneinn
+greytown
 heaven_and_earth
+helpdesk
+janesworld
+lostfound
+melonpool
+nukees
+ozy_millie
+psmueller
+reallife
+road_waffles
 rogues
 roomies
+roommates
+sinfest
 sketch
+soaprope
+suburban
+superosity
+tom_the_dancing_bug
 uexpress
+wandering
+whenigrowup
 worldviews
+youdamn
 );
 
 package MY;
@@ -489,7 +492,7 @@ my %opts =
 
 if ($ExtUtils::MakeMaker::VERSION >= 5.43) {
 	$opts{'AUTHOR'} = "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu> " .
-		"Elliot Glaysher <nuriko.chan\@home.com>";
+		"Elliot Glaysher <eglayshe\@umich.edu>";
 	$opts{'ABSTRACT'} =
 		"A set of tools that automates downloading & viewing comics from " .
 			"the Web";

@@ -1,11 +1,15 @@
 #-*-Perl-*-
 
-foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy
-	 pc rl ro zp spider apt3g bfriends buckles 
-	 crock curtis dennis dinette familyc fgordon tumble bobo rmorgan
-	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
-	 katkids mandrake pops popeye sroper mmiller needhelp re schix)) {
-    $hof{$_} = 14; #two weeks behind
+foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh 
+    pc ro zp spider apt3g bfriends buckles ba zt phantom
+    crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
+    jparker mtrail mworth hi pvaliant theydo tiger
+    katkids popeye sroper needhelp re schix)) {
+    $hof{$_} = 0;
+}
+
+foreach (qw(mandrake ss henry hazel moosem pops trudy)) {
+    $hof{$_} = 0;
 }
 
 
@@ -66,6 +70,12 @@ sub apt3g {
 		       "Brian Kotzky & Lisa Trusiani","apt3g","Apartment_3-G",[480,150]);
 }
 
+#Baby Blues http://www.kingfeatures.com/comics/babyblue/
+sub ba {
+    return kingfeature(shift(@_),"Baby Blues","Rick Kirkman and Jerry Scott",
+             "babyblue","Baby_Blues", [525,153]);
+}
+
 # Barney Google and Snuffy Smith
 # http://www.kingfeatures.com/comics/bgoogle/
 sub bg {
@@ -98,11 +108,12 @@ sub blondie {
 		       "blondie","Blondie",[480,142]);
 }
 
-# Bobos Prograss
-# http://www.kingfeatures.com/features/comics/bobo/about.htm
-sub bobo {
-    return kingfeature(shift(@_),"Bobos Progress","Dan Wright and Tom Spurgeon",
-                       "bobo","Bobos_Progress",[525,165]);
+# Wildwood
+# was Bobos Progress
+# http://www.kingfeatures.com/features/comics/wildwood/about.htm
+sub wildwood {
+    return kingfeature(shift(@_),"Wildwood","Dan Wright and Tom Spurgeon",
+                       "wildwood","Wildwood",[525,165]);
 }
 
 sub buckles {
@@ -206,7 +217,7 @@ sub jparker {
 #Katzenjammer Kids http://www.kingfeatures.com/comics/katzkids/index.htm
 sub katkids {
     my $time = shift;
-    my @ltime = localtime($time);
+    my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Katzenjammer Kids",
         "Hy Eisman", "katzkids",
@@ -251,11 +262,11 @@ sub worth {
                        "mworth","Mary_Worth",[525,156]);
 }
 
-#Moose Miller http://www.kingfeatures.com/comics/mmiller/index.htm
+#Moose and Molly http://www.kingfeatures.com/comics/moosemol/index.htm
 #http://www.kingfeatures.com/features/comics/moosemol/mot010124.gif
-sub mmiller {
-    return kingfeature3(shift(@_),"Moose Miller",
-	"Bob Weber Sr", "mmiller","mot", [480,149]);
+sub moosem {
+    return kingfeature3(shift(@_),"Moose and Molly",
+	"Bob Weber Sr", "moosemol","mot", [480,149]);
 }
 
 #Mutts http://www.kingfeatures.com/comics/mutts/
@@ -268,6 +279,12 @@ sub mu {
 sub fa {
     return kingfeature(shift(@_),"On The Fastrack","Bill Holbrook","fastrack",
 		       "Fast_Track",[480,143]);
+}
+
+#Phantom
+sub phantom {
+    return kingfeature(shift(@_),"Phantom","George Olesen and Graham Nolan","phantom",
+                       "Phantom",[525,157]);
 }
 
 #The Piranha Club http://www.kingfeatures.com/comics/ernie/
@@ -292,18 +309,12 @@ sub pops {
 #Prince Valiant http://www.kingfeatures.com/comics/pvaliant/index.htm
 sub  pvaliant{
     my $time = shift;
-    my @ltime = localtime($time);
+    my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Prince Valiant",
 	"John Cullen Murphy & Cullen Murphy", "pvaliant",
 	"val",[750,500],"jpg",1);
 }  
-
-#Ralph http://www.kingfeatures.com/comics/ralph/
-sub rl {
-    return kingfeature(shift(@_),"Ralph","Wayne Stayskal","ralph","Ralph",
-		       [248,300]);
-}
 
 # RedEye
 # http://www.kingfeatures.com/comics/redeye/Redeye.20000321.gif
@@ -390,16 +401,16 @@ sub tumble {
 	"tumblewd","Tumbleweeds", [480,144]);
 }
 
-# Willy and Ethel
-sub wethel {
-    return kingfeature(shift(@_),"Willy and Ethel","Joe Martin",
-	"willy","Willy_n_Ethel", [480,144]);
-}
-
 #Zippy http://www.kingfeatures.com/comics/zippy/
 sub zp {
     return kingfeature(shift(@_),"Zippy","Bill Griffith","zippy",
 		       "Zippy_the_Pinhead", [480,190]);
+}
+
+#Zits http://www.kingfeatures.com/comics/zits/
+sub zt {
+    return kingfeature(shift(@_),"Zits","Jerry Scott and JimBorgman","zits",
+                       "Zits", [480,166]);
 }
 
 1;

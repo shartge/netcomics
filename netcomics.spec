@@ -35,6 +35,8 @@ information it needs to download comic strips from the Web.
 - Added a netcomics requires for netcomics-data >= 0.14.
 - Updated for the change in Makefile -> Makefile.PL
 - Trimmed changelog to only include changes to the spec.
+* Fri Jul  6 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.2-1
+- updated version
 * Mon May 21 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
 - Added /usr/lib/perl5 files & comicpage manpage.
 * Fri Apr 27 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
@@ -116,13 +118,17 @@ for file in $OLDMODULES; do
     fi
 done
 if test "x$oldmods" != "x"; then
-    echo "Warning!  You have old modules that should be deleted:"
-    echo "  $oldmods."
-    echo "Run the following commands to remove them:"
+   cat <<END
+Warning!  There may be some old modules installed that need to be
+deleted.  If you are updating this package, chances are they have
+already been removed.  However, run the following commands to make
+sure they are removed:
+END
     echo "  cd $LIBDIR; rm -f $oldmods"
 fi
 cat <<END
-For a list of the new comics, see the NEWS file.
+There are 32 new comics supported by this release.
+See the NEWS file for a list of those new comics.
 END
 
 %files

@@ -1,8 +1,21 @@
 -*-mode: outline; outline-regexp: "[*\f]+" -*-
 
+* BROKEN MODULES
+(If a module is broken, add it here so we know to add it right away.)
+(Module requests go under * Comic Modules.)
+
+**
+
 ----------------------------------------------------------------------
 
 * Webpage Creation Features
+
+** Create a method for retrieving a list of valid days on sporatically
+   updated comics. (This would fix 404s comming from the following comics:)
+*** comicspage_ed*
+*** exploitation
+*** doemain
+*** elf_life
 
 ** Include icon links in webpages.
 
@@ -18,6 +31,19 @@ set of file element templates, and a file element template.
 ** Use image size even if specified
 This means that the only time when the file size is used is when the
 image couldn't be downloaded.
+
+** Option for specifying comics to include in webpage
+This would mean that when the option is specified, only those comics
+selected by the user would be included in the webpage.
+
+** Create webpage with only the latest comics
+This option would have the webpage that's generated include only the
+latest strip of each comic in the repository.
+
+** Group comics by pages, index by comic names
+For example, all Dilbert strips would be on their own page,
+Foxtrot in its own.  The index page would then have links to
+the pages themselves, and not to the individual comic strips.
 
 ----------------------------------------------------------------------
 
@@ -208,6 +234,17 @@ weird.
 
 ** Fix bug where RLIs loaded from files have 'name' which is deprecated.
 
+** Work on speeding up loading numerous (+1000) RLIs.
+*** Glob RLIs into one file?
+*** Use a Berkly DB file for storing persistant data?
+
+** -o should imply -W
+When the user specifies to output the webpage on STDOUT, it should
+always create the webpage.
+**** Almost Done?
+
+** verbose output should always be sent on STDERR.
+
 ** Work on speeding up loading numerous (+1000) RLIs. Glob RLIs into one
 file?
 
@@ -247,13 +284,4 @@ require a few changes to Factory and maybe even Config.
 Should a new thread be spawned each time, with it's own
 Factory instance?  Or should Factory be redesigned so that
 rlis are added to a "waiting to be processed" queue?)
-
-
-
-
-
-
-
-
-
 

@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use strict;
+use POSIX;
+
+my $base = "http://www.ubersoft.net/d";
+my $archiveurl = "$base/archives.html";
+my @text = `wget -q -O - $archiveurl`;
+
+my @dates = grep(s%.*$base/(\d+).*\n%$1%,@text);
+
+#fix 20010611 not in archives page
+unshift(@dates,20010611) if ! grep(/20010611/,@dates);
+
+print "    #This array was produced using make_helpdesk_dates.\n";
+print "    #Last udpated: " . ctime(time);
+print "    my \@dates = (\n";
+my $i = 0; my $dpl = 6;
+my $prevdate = 0;
+while ($_ = shift(@dates)) {
+    next if $_ == $prevdate;
+    $prevdate = $_;
+    print "\t" if $i++ == 0;
+    print "$_";
+    if (@dates) {
+	print ",";
+	if ($i <= $dpl) {
+	    print " ";
+	} else {
+	    print "\n";
+	    $i = 0;
+	}
+    }
+}
+print ");\n";
+
+exit(@dates > 0);
+

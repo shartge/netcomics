@@ -1,0 +1,37 @@
+#-*-Perl-*-
+
+$hof{"fairgame"} = 0;
+
+# Fairgame
+sub fairgame {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $daysago = (time - $time)/(3600*24);
+    $daysago =~ s/\..*$//;
+    my $day = strftime("%e", @ltime);
+    $day =~ s/ (\d)/$1/;
+
+    my @ltime2 = gmtime(time);
+    my $today = strftime("%e", @ltime2);
+    $today =~ s/ (\d)/$1/;
+
+    return undef if (($daysago >= 31+$today)); 
+    #one month of comics plus all in this month
+    
+    my $page = "archive/toons/$day.gif";
+    if (($today - $daysago) > 0 ) {
+      $page = "daily/$day.gif";
+    }  
+    my $rec = {
+  	  'title' => "Fair Game",
+	  'author' => "Stephanie Piro",
+      'type' => "gif",
+	  'main' => "http://www.stephaniepiro.com/fairgame.htm",
+	  'archives' => "http://www.stephaniepiro.com/fairgame.htm",
+	  'base' => "http://www.stephaniepiro.com/",
+      'page' => "$page",
+    };
+    return $rec;
+}
+
+1;

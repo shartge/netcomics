@@ -4,6 +4,13 @@ netcomics (0.14-1) unstable; urgency=low
 
  -- Elliot Glaysher <nuriko.chan@home.com>  Mon, 23 Apr 2001 21:51:10 -0400
 
+netcomics (0.13.2-1) unstable; urgency=medium
+
+  * Several bug fixes.
+  * Many new comics.  See the NEWS file for a list of them.
+
+ -- Ben Hochstedler <hochstrb@cs.rose-hulman.edu>  Wed, 18 Jul 2001 13:17:21 +0600
+
 netcomics (0.13.1-1) unstable; urgency=medium
 
   * Several bug fixes.

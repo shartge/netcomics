@@ -1,3 +1,29 @@
+2001-07-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* NEWS: Updated for 0.13.2
+	* netcomics.spec (%post data): Fixed bug in script.
+
+2001-07-17  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec (%post data): updated oldmodules list
+	(Version): Updated to 0.13.2.
+	* Makefile (VERSION): updated to 0.13.2.
+
+2001-07-17  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* lib/keenspace: Added file back, because keenspot and keenspace
+	are two different services, with different comics hosted on eacd.
+	* Makefile (MODULES): Undid yesterday's changes.
+	(OLDMODULES): Undid yesterday's changes.
+
+2001-07-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/keenspot (wendy): Fixed so that it can update the type
+	correctly.
+	* Makefile (MODULES): Changed keenspace to keenspot.
+	(OLDMODULES): Added keenspace.
+	* lib/keenspace: Removed because of its renaming to keenspot.
+
 2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* .cvsignore: Updated to ignore debian build stuff.
@@ -7,6 +33,24 @@
 	files.
 	* Netcomics/GtkComics.pm: Modified to use the updates in Config.pm.in
 	and Makefile.PL
+
+2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* lib/keenspot: Added (by Shawn Oakey), which removes:
+	** lib/alice, lib/avalon, lib/bayside, lib/bigpanda
+	lib/ccs, lib/chuck_show, lib/clan_cats, lib/elf_life, 
+	lib/everythingjake, lib/exploitation, lib/gpf, lib/greystoneinn,
+	lib/greytown, lib/helpdesk, lib/keenspot, lib/lostfound, lib/melonpool
+	lib/nukees, lib/ozy_millie, lib/reallife, lib/road_waffles, 
+	lib/roommates, lib/sinfest, lib/soaprope, lib/suburban, lib/superosity
+	lib/wandering, lib/whenigrowup, lib/youdamn.
+	* Makefile: Updates old_modules section.
+
+2001-07-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/helpdesk (helpdesk): Bug #438428 wasn't totally fixed with
+	the rewrite back on the 4th.  Added use of sort() which hopefully
+	will truely fix the problem.
 
 2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
 
@@ -21,6 +65,11 @@
 	* debian/netcomics.files: Update to point for new build system.
 	* debian/netcomics.manpages: See debian/netcomics.files.
 	* debian/rules: See debian/netcomics.manpages. :-)
+
+2001-07-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (get_comics): Fixed improper handling of undef being
+	returned by a module's func.
 
 2001-07-11  Elliot Glaysher  <eglayshe@umich.edu>
 
@@ -65,6 +114,12 @@
 	* doc/netcomics.pod (FILES): Added netcomicsrc files.
 	(SEE ALSO): added reference to comicpage.
 
+2001-07-07  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/doemain: Modified so it now works. Uses 'func' to get the archive
+	page and grep it for the date, which if found, returns page date and
+	other nice stuff.
+
 2001-07-06  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* doc/design.dia: Accidently uploaded a binary file last commit. This
@@ -89,6 +144,14 @@
 	* Netcomics/Factory.pm (new): Added check for $subdir if 
 	$separate_comics. [Error in reloading persistant data]
 
+2001-07-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/helpdesk (helpdesk): rewrote so that it uses a single array
+	to store all valid dates & simplified the function that returns
+	the relative urls. Fixed bug #438428.
+	* contrib/make_helpdesk_dates: created to make the dates array in
+	helpdesk.
+
 2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/GtkComics.pm (Display_comic): Modified passing the filename
@@ -101,12 +164,99 @@
 	panel comics, RLIs 'file' => [ "$subdir/$file" ];. Fixed so it's always
 	[ $file ].
 	
+2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* netcomics: Fixed small -wo != -Wo bug.
+	* TODO: Removed said bug from the TODO file.
+
+2001-07-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* TODO: Added a few more items identified by Chris Hostetter.
 
 2001-06-30  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/HTML.pm: Redid the way templates are loaded as the first
 	part of a nice rewrite/restructure of HTML.pm
 
+2001-06-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/mercury (mercury): Updated to only allow downloading a comic
+	if it's newer than 365 days ago (thanks to Shawn Oakey).
+	* Makefile (MODULES): Removed the modules that were missed with
+	Shawn's mass update on 2001-06-27
+	(OLDMODULES): Added forbez.
+	* TODO: Added Chris Hostetter's suggestions on creating webpages.
+
+2001-06-28  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Updates by Shawn Oakey (Even more! Wow!):
+	* lib/unitedmedia: Various fixes
+	* lib/mrlowe: Now its own module!
+	* lib/keenspace: Now adds two more comics, and has lot's of nice
+	updates
+	* lib/penny-arcade: Updated.
+	* REMOVED: lib/forbez: Now in Keenspace!
+
+2001-06-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (pod): Fixed documentation on the -s option to match
+	the change in behavior that was made way back in version 0.9 (bug
+	#436946).
+
+2001-06-27  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/foxtrot: Removed. It's been in lib/ucomics for awhile now. 
+	* Makefile: Updated for all of Oakey's deletions.
+	
+	* Updates by Shawn Oakey:
+	* lib/ucomics (PSMueller): moved psmueller into ucomics.
+	(Tank McNamara): updated. (The Big Picture): Updated
+	(Tom the Dancing Bug): Added
+	* lib/dragon: added (pulled from bigpanda)
+	* lib/comicspage: Pulled Herb and Jamal
+	* lib/comicspage_ed (billed): Removed. Added: paulc jeffd mattd 
+	davidh taylorj dickl dougm dwanep drews annt danw dickw.
+	* lib/mercury (Phantom): Dumped in lib/kingfeatures
+	(Pretzel Logic): Only d/l on TThSa.
+	(Newbreed): Removed. No alernates found.
+	(Fair Game): moved into lib/fairgame
+	* lib/bad_boys: minor fix
+	* lib/comiczone (Robotman): changed to Monty
+	(Jane's World): moved in from lib/janesworld
+	* lib/falling_dream: updates
+	* lib/mom: added list of missing comics.
+	* lib/sluggy_freelance: changed archives format
+	* lib/fika: no longer, updated.
+	* lib/gaming_u: minor changes, no longer updated.
+	* lib/lily_wong: changed location
+	* lib/madam-n-eve: lots of changes
+	* lib/sempai: No longer updated, set back 2 years.
+	* lib/down_earth: lots of changes
+	* lib/kingfeatures (mandrake ss henry hazel moosem pops trudy): Stopped
+	on June 16. (Moose Miller): Now Moose and Molly (Phantom): Put in here,
+	see above. (Willy and Ethel): no longer updated, removed. (Ralph): no
+	longer updated, removed.
+	* lib/boatanchor: Site has gone down. Removed.
+	* lib/fordummies: Not available anymore.
+	* Oakey's updates have made these files redundant and are removed:
+	** lib/psmueller
+	** lib/tom_the_dancing_bug
+	** lib/janesworld
+	** lib/boatanchor
+	** lib/fordummies
+
+2001-06-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): Fixed to handle getting the complete
+	archive with no failures.
+
+2001-06-26  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* TODO: Added a priority section to fix broken modules.
+	* lib/creators_syndicate: Reworked (creators_syn) so it worked, and
+	then fixed the comics as to use it.
+	* lib/megatokyo: fixed megatokyo module.
+	
 2001-06-22  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Comicpage/comicpage.glade: Removed useless tab at top of display.
@@ -126,6 +276,22 @@
 	interface created at runtime!
 	* Netcomics/Config.pm.in: Where the hell did that stray "p" come from?
 	
+2001-06-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/shoe (shoe): Set the file extension based on when it
+	actually changed so that comics earlier than Oct. 1, 1999 can be
+	downloaded.  Also renamed it to "Jeff McNelly's Shoe" and changed
+	the authors to Chris Gassatt & Gary Brookins. See
+	http://macnelly.com/chris_gary.html for details.
+
+2001-06-19  David M orris <bweaver@pionet.net>
+
+	* lib/ucomics (kudzu): Added Kudzu - now that I have found it.
+	* lib/kingfeatures (wildwood): Bobo's Progress has been renamed to
+	Wildwood, so bobo is now wildwood.
+	* lib/shoe (shoe): Shoe was not downloading, changed the target
+	extension from jpeg to jpg.
+
 2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* doc/netcomics.pod: Added an example for recreating webpages with
@@ -135,6 +301,11 @@
 	$webpage_absolute_paths option.
 	* Netcomics/Config.pm.in (processARGV): Added -wa & -nwa for
 	specifying to use absolute paths for image URLs.
+
+2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ucomics (ft): Added FoxTrot to ucomics.
+	* Makefile (MODULES): moved foxtrot into the disabled list.
 
 2001-06-12  Elliot Glaysher  <nuriko.chan@home.com>
 
@@ -146,6 +317,10 @@
 	* README: Updated to reflect the presence of comicpage in the
 	distribution.
 
+2001-05-29  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/bayside, lib/toonvile: Updates by Shawn Oakey.
+	
 2001-05-29  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/GtkComics.pm: Small change to remove $widgets->
@@ -184,6 +359,17 @@
 	(Display_comic): Commented code and added whitespace. If they suck let
 	me know (It's past midnight and I'm tired...)
 	(comic_selected_from_list): A one line fix to quiet an annoying bug...
+	
+2001-05-23  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/css, lib/sluggy_freelance: Updates by Shawn Oakey.
+	** lib/sluggy_freelance: Duble download problem fixed (Closes:408596 on
+	sourceforge) Thanks!
+	* ChangeLog: Fixed various missssspellllings of Shawn Oakey's name.
+	
+2001-05-22  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/toonvile: A nice patch to Mother Goose & Grimm by Shawn Oakey.
 	
 2001-05-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
@@ -236,6 +422,20 @@
 	
 2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
 
+	* lib/kingfeatures: It seems like I'm the first to notice that
+	kingfeatures puts it's comics up now. It's now 0 days behind instead
+	of 14.
+
+2001-05-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/nando (NandoComics): Major update to this module.
+	Reimplimented catching of exceptions, added a missing list for
+	Alex's Restaurant & added start of archives for all of them.
+	* lib/kingfeatures (pvaliant,katkids): changed use of localtime()
+	to gmtime().
+
+2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
+
 	* TODO: Created a comicpage section, at the request of Ben. It's mostly
 	his work, though I did make some minor revisions.
 	* debian/netcomics.menu: Put ComicPage on the Debian menu, under
@@ -243,6 +443,16 @@
 	* debian/netcomics.files: Add "gtkcomics" as a file in this package.
 	* Makefile: small tweak so it cleans up after dpkg-buildpackage fully.
 	
+2001-05-18  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/toonvile, lib/kingfeatures, lib/keenspace, lib/spaz_labs: Let's
+	all give a warm round of applause to Shawn Oakey for updating these
+	modules!
+	** (Zits and Baby Blues moved from toonvile to kingfeatures)
+	** (Keenspace now includes Arrogance in Simplicity, Tangs Comics,
+	    Sporkman, and Todd and Penguine)
+	** (Spaz Labs update)
+
 2001-05-17  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* AUTHORS: Fixed problem with Kai Wurm's name. Oops.

@@ -1,0 +1,57 @@
+#-*-Perl-*-
+
+$hof{"mrlowe"} = (365*1); #minus 1 year;
+
+# Mr Lowe
+sub mrlowe {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%y%m%d", @ltime);
+    my $date3 = strftime("%y%m", @ltime);
+    my $baseurl = "http://www.markpett.com/mrlowe";
+
+    # Last Updated May 30, 2001
+    my @missing = ();
+    my @extra = ();
+    
+    return undef 
+      if (($date < 20000515) || #first comic on May 15, 2000
+      ($date > 20010210) ||     #Last comic on Feb 10, 2001
+      grep(/$date/,@missing));
+   
+    my $comicsdir = "/strips/dailies/$date3/";
+    my $page = "$comicsdir$date2.html";
+    if ($ltime[6] == 0) {
+        $comicsdir = "/strips/sundays/";
+        $page = "$comicsdir$date2.html";
+    }    
+    my $rec = {
+  	  'title' => "Mr Lowe",
+	  'author' => "Mark Pett",
+	  'main' => $baseurl,
+	  'archives' => "$baseurl/dailes",
+	  'base' => $baseurl,
+      'page' => $page,
+    };
+
+    #does not always stick to one image per comic each day
+    $rec->{'func'} = sub {
+ 	 my $text = shift;
+     my @relurls = ();
+  	  #repeatedly match and replace.  
+          while (1) {
+            if ($text =~ s/src="($date2\w?\.((:?jpg)|(:?gif)|(:?png)))"//i) {
+              push(@relurls,$comicsdir.$1);
+              $rec->{'type'} = $2;
+            } else {
+              last;
+            }
+          }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+        
+
+1;

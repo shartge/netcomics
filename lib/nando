@@ -7,10 +7,9 @@ foreach (qw(alex crackers bottom mixed dtracy bstar gas annie)) {
 #Nando Comics http://www.nando.net/nt/comics
 sub NandoComics {
     my ($time,$title,$author,$dir,$file,$wd_type,$sun_type,$wd_size,$sun_size,
-	$noprefix) = @_;
-    return undef if $time < 873849600; #Sept 10, 1997
+	$year_subdir,$preceding_zeros) = @_;
     my @ltime = gmtime($time);
-    my ($size,$type,$datedir);
+    my ($size,$type);
     if ($ltime[6] == 0) {
 	$size = $sun_size;
 	$type = $sun_type;
@@ -20,23 +19,24 @@ sub NandoComics {
     }
     return undef unless defined($size) && defined($type);
 
-    if (($noprefix && $time >= 946684800) || #Jan 1, 2000
-	$time >= 947462400) { #Jan 10, 2000
-	my ($month) = $ltime[4] + 1;
-	$datedir = strftime("$month.$ltime[3].%y",@ltime);
-	$file = strftime("%m%d%y",@ltime) . $file unless $noprefix;
-    } else {
-	$datedir = strftime("%m.%d.%y",@ltime);
+    my $datedir = strftime("%m.%d",@ltime);
+    #remove preceding 0's unless specified not to.
+    unless ($preceding_zeros) {
+	$datedir =~ s/^0//;
+	$datedir =~ s/\.0/\./;
     }
 
+    $datedir = "%Y/$datedir" if $year_subdir;
+
+    my $baseurl = "http://www.nandotimes.com/nt/comics/$dir";
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => $type,
-	'main' => "http://www.nandotimes.com/nt/comics/$dir/today",
-	'archives' => "http://www.nandotimes.com/nt/comics/$dir/archive",
-	'base' => "http://www.nandotimes.com/nt/comics/$dir",
-	'page' => strftime("/archive/$datedir/$file.$type",@ltime),
+	'main' => "$baseurl/today",
+	'archives' => "$baseurl/archive",
+	'base' => $baseurl,
+	'page' => strftime("/archive/$datedir.%y/$file.$type",@ltime),
 	'size' => $size,
     };
     return $rec;
@@ -45,54 +45,75 @@ sub NandoComics {
 #Alex's Restaurant http://www.nandotimes.com/nt/comics/alex/
 sub alex {
     my $time = shift;
-    return undef if ($time < 871257600 || # Aug 11, 1997
-		     $time == 947419200); # Jan 9, 2000
+    my $date = strftime("%Y%m%d",gmtime($time));
+    # archive start Aug 11, 1997, check for missing dates
+    # missing list last updated May 20, 2001
+    return undef 
+	if ($date < 19970811 ||
+	    grep(/^$date$/,(20000109,20000224,20000315,20000307,20000514,
+			    20000525,20000530,20000609,20000807,20000918,
+			    20000924,20001105,20001118,20001119,
+			    20010117,20010122,20010105,20010211,20010323,
+			    20010303,20010415,20010422)));
+    my $year_subdir = ($date >= 20000101? 0 : 1);
     return NandoComics($time,"Alexs Restaurant","Peter Sinclair","alex","full",
-		       'gif','gif',[620,230],[298,230],1);
+		       'gif','gif',[298,230],[620,230],$year_subdir);
 }
 
 #Animal Crackers http://www.nandotimes.com/nt/comics/animal/
 sub crackers {
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
     return NandoComics($_[0],"Animal Crackers","Fred Wagner","animal","animal",
 		       'gif','jpeg',[504,157],[922,640]);
 }
 
 #Bottom Liners http://www.nandotimes.com/nt/comics/bottom/
 sub bottom {
-    my $time = shift;
-    return undef if $time < 873849600; #Sept. 10, 1997 first comic
-    return NandoComics($time,"Bottom Liners","Eric & Bill","bottom","bottom",
-		       'gif',undef,[216,208],undef);
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
+    return NandoComics($_[0],"Bottom Liners","Eric & Bill","bottom","bottom",
+		       'gif',[228,258],undef);
 }
 
 #Mixed Media http://www.nandotimes.com/nt/comics/mixed/
 sub mixed {
-    return NandoComics($_[0],"Mixed Media","","mixed",
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
+    return NandoComics($_[0],"Mixed Media","Scott Willis & Jack Ohman","mixed",
                        "mixed",'gif','jpeg',[504,157],[922,645]);
 }                                                                              
 
 #Dick Tracy http://www.nandotimes.com/nt/comics/dick/
 sub dtracy {
-    return NandoComics($_[0],"Dick Tracy","","dick",
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
+    return NandoComics($_[0],"Dick Tracy","Dick Liyer & Mike Kilian","dick",
                        "dick",'gif','jpeg',[504,157],[922,645]);
 }                                                                              
 
 #Brenda Star http://www.nandotimes.com/nt/comics/brenda/
 sub bstar {
-    return NandoComics($_[0],"Brenda Star","","brenda",
-                       "brenda",'gif','jpeg',[504,157],[922,645]);
+    return undef if $_[0] < mkgmtime(0,0,0,22,0,98); #archive starts Jan 22, '98
+    #preceding zeros used in the archive dir name until Jan 11, 2000
+    my @ltime = gmtime($_[0]);
+    my $date = strftime("%Y%m%d",@ltime);
+    my $preceding_zeros = ($date > 20000110? 0 : 1);
+    #after Nov 17, 2000, the date doesn't prefix the filename.
+    my $file = ($date > 20001117 ? "brenda" : strftime("%m%d%ybrenda",@ltime));
+    return NandoComics($_[0],"Brenda Star","Brigman - Schmich","brenda",
+                       $file,'gif','jpeg',[504,157],[922,645],0,
+		       $preceding_zeros);
 }                                                                              
 
 
 #Orphan Annie http://www.nandotimes.com/nt/comics/annie/
 sub annie {
-    return NandoComics($_[0],"Orphan Annie","","annie",
-                       "annie",'gif','jpeg',[504,157],[922,645]);
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
+    return NandoComics($_[0],"Orphan Annie","Jay Maeder & Alan Kupperberg",
+		       "annie","annie",'gif','jpeg',[504,157],[922,645]);
 }                                                                              
 
 #Gasoline Alley http://www.nandotimes.com/nt/comics/gas/
 sub gas {
-    return NandoComics($_[0],"Gasoline Alley","","gas",
+    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
+    return NandoComics($_[0],"Gasoline Alley","Jim Scancarelli","gas",
                        "gas",'gif','jpeg',[504,157],[922,645]);
 }                                                                              
 

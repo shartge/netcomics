@@ -277,9 +277,10 @@ thing as B<-R 0>.
 
 =item B<-s>
 
-Don't skip bad comics when creating the web page.  This will potentially
-cause the web page to be loaded into a browser more slowly, but it will
-make it evident exactly which websites don't return proper HTTP errors.
+Skip bad comics when creating the web page.  The default behavior will
+potentially cause the web page to be loaded into a browser more slowly,
+so using this option will keep broken embedded image links from being
+included, possibly speeding up loading of the webpage.
 
 =item B<-S> [I<date> | I<days>]
 

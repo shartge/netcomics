@@ -1,13 +1,8 @@
 #-*-Perl-*-
 
-foreach (qw(pretzel phantom fairgame newbreed thatlife)) {
+foreach (qw(pretzel thatlife dilbertcl)) {
     $hof{$_} = 0;
 }
-
-#this should be something like Dec. 13, 1999 minus Aug 30, 1994, but
-#that would be very hard to calculate.
-$hof{'dilbertcl'} = 0;
-
 
 #Mercury Center Comics 	
 sub mercury {
@@ -21,7 +16,12 @@ sub mercury {
         $size = $wd_size;
         $type = $wd_type;
     }                                      
-    return undef unless defined($size) && defined($type);
+    my $daysago = (time - $time)/(3600*24);
+    $daysago =~ s/\..*$//;
+    #since the website uses %m_%d to organize comics, last year's
+    #gets overwritten as the current year's are produced.
+    return undef if ($daysago > 365) ||
+	! defined($size) || ! defined($type);
     my $rec = {
 	'title' => $title,
 	'author' => $author,
@@ -37,40 +37,20 @@ sub mercury {
 
 #Pretzel Logic
 sub pretzel {
-#not sure what days, try everyday
+#appears to be only TThSa
     my $time = shift;
-    #return if $time < 894240000;
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] !~ /[246]/);
     return mercury($time,"Pretzel Logic","Frank Deale","pretzel",
 		       'gif','gif',[250,296],[250,296],89);
 }
 
-
-#Phantom
-sub phantom {
-    my $time = shift;
-    return mercury($time,"Phantom","Lee Falk","phantom",
-                       'gif',undef,[525,157],[250,296],85);
-}
 
 #Dilbert Classics
 sub dilbertcl {
     my $time = shift;
     return mercury($time,"Dilbert Classics","Scott Adams","dilbert",
                        'gif','gif',[725,509],[250,296],116);
-}
-
-#Fair Game
-sub fairgame {
-    my $time = shift;
-    return mercury($time,"Fair Game","Stephanie Piro","fair_game",
-                       'gif',undef,[252,331],[250,296],40);
-}
-
-#New Breed
-sub newbreed {
-    my $time = shift;
-    return mercury($time,"The New Breed","Dan Litzinger","nbreed",
-                       'gif',undef,[252,313],[250,296],77);
 }
 
 #That's Life

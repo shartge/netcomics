@@ -1,47 +1,58 @@
-#-*-Perl-*-
+#-*-CPerl-*-
 
-foreach (qw(ac bc rug wiz pen sb shagg brew fhs heath zorro nin
-	    ballard peach wee raw agnes toby)) {
-    $hof{$_} = 7;
+foreach (qw(ac bc rug wiz pen sb shagg brew fhs heath
+	    ballard peach wee raw agnes)) {
+    $hof{$_} = 2;
 }
+$hof{nin} = 3;
 
 #Creators Syndicate http://www.creators.com/comics/comics.asp
 sub creators_syn {
-    #get arguments ($id is their numerical id for the strip)
-	#               $dir is the directory prefix for main
-    my ($time,$title,$author,$dir,$id,$wd_size,$sun_size) = @_;
+    #get arguments ($dir is the directory prefix for main)
+    my ($time,$title,$author,$proc,$wd_size,$sun_size) = @_;
     my @ltime = gmtime($time);
-    my $main = "http://www.creators.com/comics/$dir/";
+    my $main = "http://www.creators.com/";
+
+	# Set up the $id number which is really the first day of the week
+	my $id;
+	{
+		my $day_of_week = $ltime[6];
+		my $corrected_time = $time - (86400*$day_of_week);
+		$id = strftime("%m%d",gmtime($corrected_time)),
+	}
+
     my $rec = {
-	'title' => $title,
-	'author' => $author,
-	'type' => 'gif',
-	'main' => $main,
-	'archives' => $main,
-	'base' => "http://www.creators.com/",
-	'page' => strftime("images/$id/%Y%m%d.gif",@ltime),
+		'title' => $title,
+		'author' => $author,
+		'type' => 'gif',
+		'main' => $main,
+		'archives' => "$main//comics_show.cfm?comicname=$proc",
+		'base' => "http://www.creators.com/",
+		'page' => strftime("$id/$proc/$proc%m%dg.gif",@ltime),
     };
 
     if ($ltime[6] == 0) {
-	$rec->{'size'} = $sun_size if defined($sun_size);
+		$rec->{'size'} = $sun_size if defined($sun_size);
     } else {
-	$rec->{'size'} = $wd_size if defined($wd_size);
+		$rec->{'size'} = $wd_size if defined($wd_size);
     }
     return $rec;
 }
 
-#AndyCapp http://www.creators.com/comics/capp/
+#AndyCapp (i.e. http://www.creators.com/0624/cap/cap0624g.gif)
+#http://www.creators.com/0617/cap/cap0623g.gif
+#http://www.creators.com/0617/cap/cap0622g.gif
 sub ac {
-    return creators_syn(shift(@_),"Andy Capp","Reg Smiythe","capp",23,
+    return creators_syn(shift(@_),"Andy Capp","Reg Smiythe","cap",
 			[600,180],[650,290]);
 }
 
-#Ask Shagg http://www.creators.com/comics/shag/
+#Ask Shagg (i.e. http://www.creators.com/0624/shg/shg0624g.gif)
 sub shagg {
     my $time = shift;
     my @ltime = gmtime($time);
     if ($ltime[6] < 2) { #only Sunday & Monday
-	return creators_syn($time,"Ask Shagg","Peter Guren","shg",10,
+	return creators_syn($time,"Ask Shagg","Peter Guren","shg",
 			    [700,225],[700,336]);
     } else {
 	return undef;
@@ -50,37 +61,37 @@ sub shagg {
  
 #B.C. http://www.creators.com/comics/bc/
 sub bc {
-    return creators_syn(shift(@_),"B.C.","Johnny Hart","bc",1,
+    return creators_syn(shift(@_),"B.C.","Johnny Hart","bc",
 			[600,185],[650,289]);
 }
 
 #Rugrats http://www.creators.com/comics/rug/
 sub rug {
     return creators_syn(shift(@_),"Rugrats","Scott Gray & Steve Crespo",
-			"rug", 8, [600,221],[650,296]);
+			"rug", [600,221],[650,296]);
 }
 
 #The Wizard of Id http://www.creators.com/comics/wiz/
 sub wiz {
     return creators_syn(shift(@_),"The Wizard of Id","Brant Parker & " .
-			"Johnny Hart","wiz",2,[600,193],[650,296]);
+			"Johnny Hart","wiz",[600,193],[650,296]);
 }
 
 #Speed Bump http://www.creators.com/comics/speed/
 sub sb {
-    return creators_syn(shift(@_),"Speed Bump","Dave Coverly","speed",7,
+    return creators_syn(shift(@_),"Speed Bump","Dave Coverly","bmp","0617",
 			[300,343],[600,261]);
 }
 
 #Strange Brew http://www.creators.com/comics/brew/
 sub brew {
-    return creators_syn(shift(@_),"Strange Brew","John Deering","brew",12,
+    return creators_syn(shift(@_),"Strange Brew","John Deering","brw",
 			[300,343],[600,202]);
 }
 
 #Heathcliff http://www.creators.com/comics/heath/
 sub heath {
-    return creators_syn(shift(@_),"Heathcliff","George Gately","heath",18,
+    return creators_syn(shift(@_),"Heathcliff","George Gately","hth",
 			[300,346],[600,408]);
 }
 
@@ -93,8 +104,8 @@ sub heath {
 #For Heaven's Sake! http://www.creators.com/comics/hev/
 sub fhs {
     my @ltime = gmtime($_[0]);
-    return undef if $ltime[6] != 0; #only sundays
-    return creators_syn(shift(@_),"For Heavens Sake!","Mike Morgan","hev",17,
+    return undef if $ltime[6] != 1; #only sundays
+    return creators_syn(shift(@_),"For Heavens Sake!","Mike Morgan","hev",
 			undef,[600,183]);
 }
 
@@ -104,57 +115,57 @@ sub pen {
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
         gmtime($today);
     if ($wday == 0) {
-	return creators_syn($today,"Penmen","Gary Blehm","pen",14,[700,233]);
+	return creators_syn($today,"Penmen","Gary Blehm","pen",[700,233]);
     } else {
 	return undef;
     }
 }
 
 #Zorro http://www.creators.com/comics/zorro/
-sub zorro {
-    return creators_syn(shift(@_),"Zorro","Don McGregor and Thomas Yeates",
-			"zorro",22,[300,343],[600,261]);
-}
+#sub zorro {
+#    return creators_syn(shift(@_),"Zorro","Don McGregor and Thomas Yeates",
+#			"zorro",[300,343],[600,261]);
+#}
 
 #Teenage Ninja Turtles http://www.creators.com/comics/nin/
 sub nin {
     return creators_syn(shift(@_),"Teenage Ninja Turtles",
-		"Kevin Eastman and Peter Laird","nin",9,[300,343],[600,261]);
+		"Kevin Eastman and Peter Laird","nin",[300,343],[600,261]);
 }
-                          
+
 #Ballard Street http://www.creators.com/comics/balst/
 sub ballard {
     return creators_syn(shift(@_),"Ballard Street",
-        "Jerry Van Amerongen","balst",11,[300,343],[600,261]);
-}                  
+        "Jerry Van Amerongen","bs",[300,343],[600,261]);
+}
 
 #Miss Peach http://www.creators.com/comics/msp/
 sub peach {
     return creators_syn(shift(@_),"Miss Peach",
-        "Mell Lazarus","msp",13,[300,343],[600,261]);
+        "Mell Lazarus","pch",[300,343],[600,261]);
 }
 
 #Wee Pals http://www.creators.com/comics/wee/
 sub wee {
     return creators_syn(shift(@_),"Wee Pals",
-        "Morrie Turner","wee",16,[300,343],[600,261]);
+        "Morrie Turner","wee",[300,343],[600,261]);
 }
 
 #Raw Material http://www.creators.com/comics/raw/
 sub raw {
     return creators_syn(shift(@_),"Raw Material",
-        "Doug Stone","raw",19,[300,343],[600,261]);
-}                  
+        "Doug Stone","raw",[300,343],[600,261]);
+}
 
 #Agnes http://www.creators.com/comics/agnes/
 sub agnes {
     return creators_syn(shift(@_),"Agnes", 
-        "Tony Cochran","agnes", 21, [300,343],[600,261]);
-}                                                      
+        "Tony Cochran","agn", [300,343],[600,261]);
+}
 
 #Toby http://www.creators.com/comics/toby/
-sub toby {
-    return creators_syn(shift(@_),"Toby", 
-        "Bob Gorrell","toby", 15, [300,336],[600,276]);
-}
+#sub toby {
+#    return creators_syn(shift(@_),"Toby", 
+#        "Bob Gorrell","toby", 15, [300,336],[600,276]);
+#}
 1;

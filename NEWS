@@ -1,3 +1,47 @@
+Changes in release 0.13.2:
+* New option, -P, that allows comics to be stored in their own
+  subdirectories. 
+* New option, -Q, that suppresses the message for the command to run
+  when there are errors during download.
+* Several bug fixes.
+* New comics:
+  annt        Ann Telnaes Editorial
+  ais         Arrogance in Simplicity
+  cutewendy   Cute Wendy
+  danw        Dan Wasserman Editorial
+  davidh      David Horsey Editorial
+  doemain     A Doemain of Our Own
+  dougm       Doug Marlette Editorial
+  drews       Drew Sheneman Editorial
+  dwanep      Dwane Powell Editorial
+  roses       Eat The Roses
+  framed      Framed
+  freefall    Freefall
+  funny       Funny Farm
+  helpdesk    Help Desk
+  jeffd       Jeff Danziger Editorial
+  joeav       Joe Average
+  joyoftech   Joy of Tech
+  krazyl      Krazy Larry
+  kudzu       Kudzu
+  forbez      Life on  Forbez
+  lwibh       Look What I Brought Home
+  lostfound   Lost and Found
+  mattd       Matt Davies Editorial
+  monty       Monty
+  grimm       Mother Goose and Grimm
+  newshounds  News Hounds
+  stereo      No Sterotypes
+  paulc       Paul Conrad Editorial
+  ashfield    Prof Ashfield
+  schlock     Schlock Mercenary
+  spork       Sporkman
+  tang        Tangs Comics
+  taylorj     Taylor Jones Editorial
+  wendy       Wendy
+  attwf       And Then There Was Fred
+  rad         Lifes so Rad
+
 Changes in release 0.13.1:
 * Several bug fixes.
 * The option -a ($always_download) when used with -c now only forces
