@@ -1,3 +1,8 @@
+2001-11-29  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspace (machall): Mac Hall now works better and gets today's
+	comic. Problems getting archives, though.
+
 2001-11-27  Elliot Glaysher  <glaysher@umich.edu>
 
 	* netcomics: Fixed really _stupid_ efficiency problem with new today
