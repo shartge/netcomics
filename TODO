@@ -90,6 +90,7 @@ This should probably use CVS revision IDs.
 ** Add mechanism to add support for downloading categories of comics.
 
 ** Create a CGI script that would produce webpages on the fly.
+See the phpComics project.
 
 ** Add a GUI for configuring netcomics & possibly displaying comics
 
@@ -159,7 +160,8 @@ his/her job! (-;
 
 ** Keywords/Categories
 Add a field that would contain a list of keywords or categories then
-that could be utilized to select a group of comics.
+that could be utilized to select a group of comics.  This should tie
+into the separate comics feature somehow.
 
 ** Limit -u, the "don't download, but use URLs" option to not work on refers
 This option makes the output webpage contain URLs to the comics at the
@@ -180,13 +182,13 @@ problem.
 
 ** Username & password authentication mechanisms for websites
 
-** Option to prevent status files from being loaded.
-
 ** Option to delete only those comics & status files that were successful
 or were unsuccessful and reached the maximum retry limit.
 
 ** Add a signal catcher 
-if Crl-C'd during download, it would stop and then go to webpage creation.
+if Crl-C'd during download, it would stop and then go to webpage
+creation.  Also, if saving rli information at the end, it should
+save the rlis.
 
 ** Better file type handling
 Allow multiple-file-comics to have different types (sketch, eg: 20001211).
@@ -216,8 +218,6 @@ the last file.  So the sorting routine must be doing something a bit
 weird.
 
 ** Fix bug where RLIs loaded from files have 'name' which is deprecated.
-
-** Fix the don't download specifier (-C)
 
 ** Work on speeding up loading numerous (+1000) RLIs. Glob RLIs into one
 file?
