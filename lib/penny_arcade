@@ -23,9 +23,9 @@ sub pa {
 	'title' => "Penny Arcade",
 	'author' => "Mike Krahulik and Jerry Holkins",
 	'main' => $baseurl,
-	'archives' => "$baseurl/view.php3",
+	'archives' => "$baseurl/search.php",
 	'base' => "$baseurl/",
-	'page' => "view.php3",
+	'page' => "search.php",
 	'func' => sub {
 	    $_ = shift;
 	    my @relurls = ();
