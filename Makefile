@@ -81,6 +81,7 @@ MODULES = lib/after_y2k \
 	lib/down_earth \
 	lib/dr_fun \
 	lib/dysentery \
+	lib/everythingjake \
 	lib/falling_dream \
 	lib/fika \
 	lib/fordummies \

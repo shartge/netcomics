@@ -1,0 +1,44 @@
+#-*-Perl-*-
+#Tack on the names of the subroutines to the list of functions
+$hof{"evjake"} = 0;
+
+#Everything Jake: http://www.everythingjake.com
+sub evjake {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+        'title' => "Everything Jake",
+        'author' => "Mike Rosenzweig",
+        'main' => "http://www.everythingjake.com/",
+        'archives' => "http://www.everythingjake.com",
+        'base' => "http://www.everythingjake.com",
+    };
+
+    $rec->{'page'} = strftime("/d/%Y%m%d.html",@ltime);
+    $rec->{'type'} = 'jpg';
+    $rec->{'exprs'} = {
+	'type' => ['comics\/jake\d+\w.(\w+)'],
+    };
+    $rec->{'func'} = sub {
+        my $text = shift;
+
+        my $y = strftime("%Y",@ltime);
+        my $m = strftime("%m",@ltime);
+        my $d = strftime("%d",@ltime);
+        my @relurls = ();
+        #repeatedly match and replace.  
+
+        while (1) {
+            if ($text =~ s/src=".*?(\/comics\/jake$y$m$d.*?\.((:?jpg)|(:?gif)))"//i) {
+                $rec->{'type'} = $2;
+                push(@relurls,$1);
+            } else {
+                last;
+            }
+        }
+        return @relurls;
+    };
+
+    return $rec;
+}
+
+1;
