@@ -1,3 +1,11 @@
+2004-08-25  Ben Hochstedler  <hochstrb at users * sf * net>
+
+	* doc/show_comics.pod: Updated description of commandline option
+	to specify command to display the comic.
+	* show_comics: Added ability to use string template macros to
+	specify the command to display the comic.  Changed the default
+	program to display comics to be "display" from ImageMagick.
+
 2004-08-20  Clint Olson  <coandco at users * sourceforge * net>
 
 	* lib/unitedmedia

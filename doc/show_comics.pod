@@ -4,7 +4,7 @@ show_comics - Show comics, distributed over a time interval
 
 =head1 SYNOPSIS
 
-B<show_netcomics> [B<-c> I<cmd>] [B<-d> I<dir>] [B<-f> I<rcfile>] [B<-l>|B<-t> I<hh:mm>] [B<-p> [cmd]] [B<-k> I<lockfile>|B<-K>] [B<-s> <hh:mm>]
+B<show_netcomics> [B<-c> I<cmd>] [B<-d> I<dir>] [B<-f> I<rcfile>] [B<-l>|B<-t> I<hh:mm>] [B<-p> [cmd]] [B<-D> I<cmd>] [B<-k> I<lockfile>|B<-K>] [B<-s> <hh:mm>]
 
 =head1 DESCRIPTION
 
@@ -51,12 +51,21 @@ is available failed), and then show_comics will be run by your
 =item B<-c> I<command>
 
 Use the specified command to display each comic instead of the default: 
-"nice -19 xv".
+"nice -19 display".  The command can include the following template
+strings: %f - filename of comic; %d - comic directory; %% - translates
+to %.  If the command string does not include %f or %d, the comic dir/
+filename will be appended to the command.
 
 =item B<-d> I<dir>
 
 Use the specified location of the comics to be displayed instead of using
 the default directory: /var/spool/netcomics.
+
+=item B<-D> I<command>
+
+The specified command is used to read the directory of comics instead of
+using the built-in perl code for reading a directory accessible via the
+computer's filesystem.
 
 =item B<-f> I<filename>
 
@@ -95,6 +104,21 @@ time is before the start time.
 =item B<-v>
  
 Output verbose messages.
+
+=back
+
+=head1 EXAMPLES
+
+=over
+
+=item show_comics -w -d \\\$HOME/www/comics -c 'ssh -T user@host display' -D 'ssh -T user@host ls www/comics'
+
+If you have a null-password ssh key pair installed, this will use the
+command from the B<-D> option to get the list of comics in the directory
+on the remote host, and the command from the B<-c> option and the directory
+specified from the B<-d> option to display a comic.  The B<-w> option
+tells show_comics to wait until the default start time to actually start
+displaying comics if run prior to the start time.
 
 =back
 
