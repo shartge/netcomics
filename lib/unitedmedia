@@ -6,7 +6,7 @@ foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
     $hof{$_} = 0;
 }
 foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
-    $hof{$_} = 7;
+    $hof{$_} = 0;
 }
 
 #Keep in sync with comiczone.

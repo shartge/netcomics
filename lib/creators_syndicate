@@ -2,7 +2,7 @@
 
 foreach (qw(ac bc rug wiz sb shagg brew fhs heath
 	    ballard peach wee raw agnes)) {
-    $hof{$_} = 2;
+    $hof{$_} = 0;
 }
 
 #Creators Syndicate http://www.creators.com/comics/comics.asp
