@@ -35,6 +35,7 @@ image couldn't be downloaded.
 ** Option for specifying comics to include in webpage
 This would mean that when the option is specified, only those comics
 selected by the user would be included in the webpage.
+(Partially done with rewrite of HTML code)
 
 ** Create webpage with only the latest comics
 This option would have the webpage that's generated include only the
@@ -92,8 +93,6 @@ that image.
 
 ** Create an icon for netcomics.
 
-** Change Makefile to use automake and autoconf.
-
 ** Provide a way to automatically download updates to the modules.
 This should probably use CVS revision IDs.
 
@@ -115,6 +114,7 @@ This should probably use CVS revision IDs.
 See the phpComics project.
 
 ** Add a GUI for configuring netcomics & possibly displaying comics
+(Partially done with comicpage, but needs work)
 
 ** Add a daemonized mode
 
@@ -267,6 +267,7 @@ them to filter.
 Add a mode that filters the list of comics or highlights the
 comics & dates in the calendar for those comics that are
 already downloaded
+(Requires major changes to Netcomics::Factory and the comic modules)
 
 ** Groups
 Let the user define custom groups and be able to select the
