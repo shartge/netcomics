@@ -1,3 +1,10 @@
+Major changes in release 0.13:
+
+* Referers are now handled.  A module may specify its own referer if
+  the default (derived from the URL) is not correct.
+* The external command specified may now include several macros which
+  get replaced.  See the manpage for details.
+
 Major changes in release 0.12:
 
 * Added the comics: 9 Chickweed Lane, Absurd Notion, Against The
