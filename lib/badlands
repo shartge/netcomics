@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"badlands"} = 2;
+
+#Badlands ex: http://www.stevemcgarry.com/badlands/archive/991007.GIF
+sub badlands  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #No Sunday
+    return undef if $ltime[6]==0;
+
+    my $rec = {
+	'title' => "Badlands",
+	'author' => "Steve McGarry",
+	'type' => 'gif',
+	'main' => "http://www.stevemcgarry.com/archive/badlands.asp",
+	'archives' => "http://www.stevemcgarry.com/archive/badlands.asp",
+	'base' => "http://www.stevemcgarry.com/badlands/archive/",
+	'size' => [540,170],
+	'page' => strftime("%y%m%d.GIF",@ltime)
+	};
+    return $rec;
+}
+
+1;
