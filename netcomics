@@ -27,6 +27,7 @@ $0 =~ s,.*/,,;  # use basename only
 use POSIX;
 use strict;
 use Carp;
+BEGIN {my $d="/usr/lib/perl5/site_perl"; push(@INC,$d) if ! grep(/^$d$/,@INC);}
 use Netcomics::MyResponse;
 use Netcomics::MyRequest;
 use Netcomics::ExternalUserAgent;

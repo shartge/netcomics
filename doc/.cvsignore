@@ -1,7 +1,10 @@
-*.1
-*.3
 Config.pod
-netcomics.html
-show_comics.html
-comicpage.html
 Config.html
+comicpage
+comicpage.html
+netcomics
+netcomics.html
+pod2html-itemcache
+pod2html-dircache
+show_comics
+show_comics.html

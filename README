@@ -19,7 +19,8 @@ netcomics homepage (see below). To use the comicpage script, you'll
 also need to have GtkPerl installed.  To use the show_comics script,
 you'll also need to have perlTk installed. 
 
-See INSTALL for instructions on how to setup netcomics.
+To install real quick: % perl Makefile.PL; make; make install
+See INSTALL for complete instructions on how to setup netcomics.
 
 See the manpage for netcomics & comicpage for information on how to
 use them.  HTML versions of the manpages are also created under the

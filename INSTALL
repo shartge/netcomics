@@ -1,6 +1,8 @@
 To install, type:
 
-  make install
+  perl Makefile.PL
+  make
+  make install    
 
 Files are installed under /usr by default, and a download directory
 (where comic files are placed & the webpages are generated) is created
@@ -25,8 +27,8 @@ You can also set any Makefile variables on the commandline (like
 PREFIX, TMPBASE), and they should get updated in the installed RPM
 spec properly.
 
-See the netcomics manpage for examples and instructions on how to use
-it.
+See the netcomics & comicpage manpages for examples and instructions
+on how to use them.
 
 Use show_comics to have a selected list of comics in a ~/.comics files
 to be shown during the day.  show_comics will run in the background

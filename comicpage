@@ -15,4 +15,5 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+BEGIN {my $d="/usr/lib/perl5/site_perl"; push(@INC,$d) if ! grep(/^$d$/,@INC);}
 require Netcomics::GtkComics;

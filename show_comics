@@ -16,6 +16,9 @@
 
 use strict;
 use POSIX;
+BEGIN {my $d="/usr/lib/perl5/site_perl"; push(@INC,$d) if ! grep(/^$d$/,@INC);}
+use Netcomics::Config;
+
 #Tk loading is delayed until needed so that this script is usable  w/out 
 #PerlTk can still use this script
 
@@ -24,16 +27,17 @@ $| = 1;
 my $progname = "show_comics";
 my @def_time = ("17","00");
 my $dont_ask = 0;    
-my $tmpdir = "/var/spool/netcomics";
 my $cmd = "nice -19 xv";
 my $check_display_cmd = "xdpyinfo";
 my $rcfile = $ENV{'HOME'} . "/.comics";
 my $lockfile = $ENV{'HOME'} . "/.show_comics_lock";
 my $check_lock = 1;
 my $created_lock = 0;
-my $verbose = 0;
-my $extra_verbose = 0;
 my @start_time = ();
+
+my $conf = new Netcomics::Config($progname);
+
+##all this CLI needs to be put into a subclass of Netcomics::Config.
 
 my $smushopt = 0;
 while (@ARGV)
@@ -53,7 +57,7 @@ while (@ARGV)
     #set the directory
     elsif (/^-d$/) {
 	if (@ARGV > 0) {
-	    $tmpdir = shift(@ARGV);
+	    $comics_dir = shift(@ARGV);
 	} else {
 	    errmsg("Need a directory name. Use -h for usage.\n");
 	    exit 1;
@@ -180,7 +184,8 @@ while (@ARGV)
 lock_file();
 
 #Create a list of files to display
-opendir(DIR,$tmpdir) || die "Could not open the directory to $tmpdir: $!";
+opendir(DIR,$comics_dir) || 
+    die "Could not open the directory to $comics_dir: $!";
 my @files = grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR));
 closedir(DIR);
 if (-f $rcfile && -r $rcfile) {
@@ -233,7 +238,7 @@ infomsg("Displaying $num comics from now until $hour:$minute, one every " .
 #display the comics!
 if (@files > 0) {
     foreach (@files) {
-	my $syscmd = "$cmd $tmpdir/$_";
+	my $syscmd = "$cmd $comics_dir/$_";
 	infomsg("Running '$syscmd'\n") if $verbose;
 	if ($delaytime > 0) {
 	    system("$syscmd &");
