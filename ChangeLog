@@ -1,5 +1,7 @@
 2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/dragon (dt): Fixed archives link & removed size attribute
+	because of it being inconsistent.
 	* Netcomics/HTML/Set.pm (create_set_of_pages): Fixed webpage
 	printed on stderr instead of stdout when requested.  Added
 	progress dots if verbose. Fixed index title not taken from the

@@ -1,3 +1,5 @@
+#-*-Perl-*-
+
 $hof{dt} = 1;
 # Dragon Tails
 # http://www.dragon-tails.com/comics/000405.jpg
@@ -7,16 +9,18 @@ sub dt {
     return undef if $time < mkgmtime(0,0,0,11,2,99);
     my @ltime = gmtime($time);
 
+    #no size because the author's inconsistent.
+
+    my $baseurl = "http://www.dragon-tails.com";
     my $rec =
       {
        'title'    => "Dragon Tails",
        'author'   => "Tim Dawson",
        'type'     => 'jpg',
-       'main'     => "http://www.dragon-tails.com/",
-       'archives' => "http://www.dragon-tails.com/comics/index.htm",
-       'base'     => "http://www.dragon-tails.com/comics/",
+       'main'     => "$baseurl/",
+       'archives' => strftime("$baseurl/?year=%Y", @ltime),
+       'base'     => "$baseurl/",
        'page'     => strftime("%y%m%d.jpg", @ltime),
-       'size'     => [620,220]
       };
     
     return $rec;
