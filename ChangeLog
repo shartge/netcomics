@@ -1,5 +1,7 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/fce (fce): Added Fight Cast or Evade thanks to 
+	Benjamin Cordes.  Added an exception & changed to use a baseurl.
 	* lib/dork_tower (dork): Added Dork Tower thanks to
 	Benjamin Cordes.  Fixed problems with fetching the start of the
 	archive, removed locale dependency for months, and removed

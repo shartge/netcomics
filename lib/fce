@@ -1,0 +1,35 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+$hof{"fce"} = 0;
+
+#Fight, Cast, or Evade http://fightcastorevade.keenspace.com/
+
+sub fce {
+  my $time = shift;
+  my @ltime = gmtime($time);
+  my $date = strftime("%Y%m%d", @ltime);
+
+  return undef if ($date < 20000731); # First comic: 7/31/2000
+
+  return undef if (($date <  20001202) && ($ltime[6] !~ m/[14]/));
+
+  #exception list last updated Feb. 4, 2001
+  return undef if (($date >= 20001202) && ($ltime[6] !~ m/[135]/) &&
+		   ($date != 20001210)); #extra one
+
+  my $baseurl = "http://fightcastorevade.keenspace.com";
+  my $rec = {
+    'title' => 'Fight Cast Or Evade',
+    'author' => 'Matt Trepal',
+    'type' => 'gif',
+    'main' => "$baseurl/",
+    'archive' => "$baseurl/fcearch.htm",
+    'base' => $baseurl,
+    'page' => "/comics/$date.gif",
+    'size' => [700, 250]
+  };
+
+  return $rec;
+}
+
+1;
