@@ -79,7 +79,7 @@ sub wiz {
 
 #Speed Bump http://www.creators.com/comics/speed/
 sub sb {
-    return creators_syn(shift(@_),"Speed Bump","Dave Coverly","bmp","0617",
+    return creators_syn(shift(@_),"Speed Bump","Dave Coverly","bmp",
 			[300,343],[600,261]);
 }
 

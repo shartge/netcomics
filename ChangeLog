@@ -1,5 +1,6 @@
 2002-02-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/creators_syndicate (sb): Fixed Speed Bump function.
 	* Makefile.PL: Added wiley to the list of old modules.
 
 2002-02-24  Elliot Glaysher  <glaysher@umich.edu>
