@@ -1,7 +1,7 @@
 APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
-AP4NAME = gtkcomics
+AP4NAME = comicapge
 
 MODULE1 = MyResponse.pm
 MODULE2 = MyRequest.pm

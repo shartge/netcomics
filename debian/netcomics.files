@@ -1,6 +1,6 @@
 usr/bin/netcomics
 usr/bin/display_comics
-usr/bin/gtkcomics
+usr/bin/comicpage
 usr/bin/show_comics
 usr/lib/*
 etc/netcomicsrc

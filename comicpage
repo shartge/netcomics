@@ -26,7 +26,7 @@ use Netcomics::Util;
 use Data::Dumper;
 
 $| = 1;
-my $NAME = "Gtkcomics";
+my $NAME = "ComicPage";
 
 init Gnome $NAME;
 set_locale Gtk;
@@ -40,7 +40,7 @@ my $forms = &Netcomics::GtkComics::create_main_window;
 
 print "Creating Netcomics object\n";
 # Create the $factory object, and get the @comic_names .
-my $script_name = "gtkcomics";
+my $script_name = "ComicPage";
 my $conf = Netcomics::Config->new($script_name);
 $conf->load_rcfile($system_rc,$rc_file);
 
@@ -111,7 +111,7 @@ sub about_Form {
 	   "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>", 
 	   "Comic Page is a program that will create a composite image of your favorite online comics. It will also do archiving of these comics if you so wish it to."
 	  );
-	$ab->set_title("About"." gtkcomics" );
+	$ab->set_title("About"."Comic Page" );
 	$ab->position('mouse' );
 	$ab->set_policy(1, 1, 0 );
 	$ab->set_modal(1 );
