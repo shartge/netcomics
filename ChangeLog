@@ -1,3 +1,10 @@
+2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/HTML.pm (create_webpage_set): Fixed use of
+	libdate_sort().
+	* Makefile (install_pms): added substitution of configurable
+	install data in Config.pm
+
 2001-04-23  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics, Netcomics/Config.pm, Netcomics/HTML.pm: HTML.pm now

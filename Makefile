@@ -37,9 +37,11 @@ ETAGS	= etags
 CVS	= cvs
 CHOWN	= chown
 LN	= ln
+CHMOD	= chmod
 
+LIBPERMS = 644
 BININSTALLFLAGS	= -m 755
-LIBINSTALLFLAGS	= -m 644
+LIBINSTALLFLAGS	= -m $(LIBPERMS)
 
 BINDIR  = $(PREFIX)/bin
 MANROOT	= $(PREFIX)/man
@@ -403,7 +405,15 @@ install_html:
 install_pms:
 	$(MKDIR) $(MKDIRFLAGS) $(PERLINSTDIR)
 	$(CD) Netcomics; \
-	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR)
+	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR); \
+	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm Config.pm \
+	  | $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
+	  | $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
+	  | $(PERL) -pe s%/usr/share/netcomics/$(HTMLTMPLDIR)%$(HTMLDIR)%gm \
+	  | $(PERL) -pe s%/usr/share/netcomics%$(LIBDIR)%gm \
+	  | $(PERL) -pe s%netcomics%$(APPNAME)%gm \
+	  | $(PERL) -pe s%/etc%$(SYSRCDIR)%gm > $(PERLINSTDIR)/Config.pm; \
+	$(CHMOD) $(LIBPERMS) $(PERLINSTDIR)/Config.pm
 
 install::
 	@oldmods=""; \

@@ -296,16 +296,10 @@ sub create_webpage_set {
 		my $ctime = ctime($time);
 
 		#create a sorted list of the comics
-		my @sorted_comics;
-		# FIXME. I don't know why the library_sort line fails.
-		#if ($sort_by_date) {
-			@sorted_comics = 
-				sort({libdate_sort($a,$b,$rlis{$a}{'time'},$rlis{$b}{'time'});} 
-					 @comics);
-		#} else {
-		#	print "Beginning sortting @comics\n";
-		#	@sorted_comics = sort(library_sort @comics);
-		#}
+		my @sorted_comics =
+			sort({libdate_sort($a, $b, $rlis{$a}{'time'}, $rlis{$b}{'time'},
+							   $sort_by_date);}
+				 @comics);
 		print "sorted comics: @sorted_comics\n" if $extra_verbose;
 
 		#determine number of groups of comics, and number of comics on each page
