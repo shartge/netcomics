@@ -1,4 +1,4 @@
-#-*-Perl-*-
+#-*-CPerl-*-
 
 $hof{"megatokyo"} = 0;
 
@@ -11,8 +11,11 @@ $hof{"megatokyo"} = 0;
 
 sub megatokyo {
     my $time = shift;
+	my @ltime = gmtime($time);
     return undef if $time < mkgmtime(0,0,0,14,7,100); #1st comic: Aug 14, 2000
-    my @ltime = gmtime($time);
+	return undef unless ($ltime[6] == 1 ||
+						 $ltime[6] == 3 ||
+						 $ltime[6] == 5);
     my $date = strftime("%Y-%m-%d", @ltime);
     my $baseurl = "http://www.megatokyo.com";
     my $rec = {
@@ -22,21 +25,12 @@ sub megatokyo {
 	'main' => $baseurl,
 	'archives' => "$baseurl/view.php3",
 	'base' => "$baseurl/",
-	'page' => "view.php3",
-	'func' => sub {
-	    $_ = shift;
-	    my @relurls = ();
-	    if (/"(index\.php3\?date=$date)">$date (.*)<\/option>/) {
-		push @relurls, {
-		    'caption' => $2,
-		    'page' => $1,
-		    'exprs' => ["IMG SRC=\"(strips/$date\\.\\w+)\""],
-		    'func' => undef,
-		};
-	    }
-	    return @relurls;
-	},
-    };
+	'page' => "index.php?date=$date",
+	'exprs' => {
+				'comic' => ["(strips/$date.gif)"],
+				'caption' => ["date=$date\">$date(.+?)\<\/option\>"]
+			   },
+	};
     return $rec;
 }
 

@@ -1,9 +1,10 @@
 #-*-CPerl-*-
 
-foreach (qw(ac bc rug wiz pen sb shagg brew fhs heath nin
+foreach (qw(ac bc rug wiz pen sb shagg brew fhs heath
 	    ballard peach wee raw agnes)) {
     $hof{$_} = 2;
 }
+$hof{nin} = 3;
 
 #Creators Syndicate http://www.creators.com/comics/comics.asp
 sub creators_syn {
@@ -103,7 +104,7 @@ sub heath {
 #For Heaven's Sake! http://www.creators.com/comics/hev/
 sub fhs {
     my @ltime = gmtime($_[0]);
-    return undef if $ltime[6] != 0; #only sundays
+    return undef if $ltime[6] != 1; #only sundays
     return creators_syn(shift(@_),"For Heavens Sake!","Mike Morgan","hev",
 			undef,[600,183]);
 }

@@ -3,7 +3,8 @@
 	* TODO: Added a priority section to fix broken modules.
 	* lib/creators_syndicate: Reworked (creators_syn) so it worked, and
 	then fixed the comics as to use it.
-
+	* lib/megatokyo: fixed megatokyo module.
+	
 2001-06-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/shoe (shoe): Set the file extension based on when it
