@@ -1,23 +1,62 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"downearth"} = 2;
+$hof{"downearth"} = 0;
 
-#Down to Earth ex: http://downtoearth.bta.com/strips/100399.gif
+#Down to Earth 
+# http://www.downtoearthcomic.com/
+# http://www.downtoearthcomic.com/comics/dte20000523.gif
 sub downearth  {
     my $time = shift;
     my @ltime = gmtime($time);
-#    return undef if $time < 933206400; 
+    my $date = strftime("%Y%m%d",@ltime);
+    my $size = ($ltime[6] == 0? [750,381] : [750,290]);
+
+    #exceptions table last updated Jan 21, 2001
+    return undef 
+	if (($date < 19990928) || #first comic on Sept 28, 1999
+	    ($date == 19991209) ||
+	    ($date == 19991225) ||
+	    ($date == 20000305) ||
+	    ($date == 20000312) ||
+	    ($date == 20000319) ||
+	    ($date == 20000326) ||
+	    ($date == 20000402) ||
+	    ($date == 20000409) ||
+	    ($date == 20000416) ||
+	    ($date == 20000423) ||
+	    ($date >= 20000506 && $ltime[6] == 6 && #no sat. comics since may'00
+	     !($date == 20001014)) || #extra saturday comics
+	    ($date == 20001126) ||
+	    ($date == 20001225) ||
+	    ($date == 20010101));
+
+    my $baseurl = "http://downtoearthcomic.com";
+    my $expr = "(comics/dte$date\\w?.(?i)gif)";
     my $rec = {
 	'title' => "Down To Earth",
 	'author' => "Gavin Chafin & Steve Wood",
 	'type' => 'gif',
-	'main' => "http://downtoearth.bta.com/",
-	'archives' => "http://downtoearth.bta.com/strips.htm",
-	'base' => "http://downtoearth.bta.com/strips/",
-	'size' => [704,243],
-	'page' => strftime("%m%d%y.gif",@ltime)
+	'main' => $baseurl,
+	'archives' => $baseurl,
+	'base' => "$baseurl/",
+	'size' => $size,
+	'page' => "d/$date.html",
+	'exprs' => [$expr],
+    };
+
+    #dates that have multiple images
+    if ($date == 19991219) {
+	$rec->{'exprs'} = undef;
+	$rec->{'func'} = sub {
+	    my $text = shift;
+	    my @relurls = ();
+	    while ($text =~ s/.*?$expr//si) {
+		push @relurls, $1;
+	    }
+	    return \@relurls;
 	};
+    }
     return $rec;
 }
 

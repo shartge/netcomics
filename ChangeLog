@@ -1,5 +1,9 @@
 2001-01-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/down_earth (downearth): Updated thanks to Martial Michael,
+	plus added an exceptions table, made file extension case
+	insensitive, and added a multi image returning function for the
+	one date that has multiple images for it.
 	* Makefile (clean): Added removing tmp files left behind by cvs.
 
 2001-01-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
