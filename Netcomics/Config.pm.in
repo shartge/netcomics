@@ -568,7 +568,14 @@ sub processARGV {
 
 		#no index for webpaegs
 		elsif (/(-i)/i) {
-			$webpage_index = ($1 =~ /I/)? 1 : 0;
+			$webpage_index = 0;
+			$smushopt = 1;
+			append_to_given_options($1);
+		}
+
+		#FORCE index for webpages
+		elsif (/(-I)/) {
+			$webpage_index = 1;
 			$smushopt = 1;
 			append_to_given_options($1);
 		}

@@ -1,5 +1,8 @@
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/Config.pm.in: Strange construct was causing bug. Fixed
+	now. (Seems to be related to how -i was supposed to catch -I. Or not
+	catch it, as the case seemed)
 	* Netcomics/HTML/Page.pm (generate): Fixed REALLY DUMB bug screwing
 	up URLs.
 	* AUTHORS: Corrected email address.
