@@ -36,7 +36,9 @@ Should probably base it off of penny_arcade.
 
 ** Add timezone adjustment logic & include general TZ for each rli.
 
-** Add i18n & L10n for documentation & html templates.
+** Localize documentation
+
+** Internationalize & localize software, including html templates
 
 -----------------------------------------------------------------------
 
@@ -45,6 +47,13 @@ Should probably base it off of penny_arcade.
 ** Find a program that can display animated gifs.
 
 ** Find screen savers that can show the comics.
+
+** Update show_comics to use the Tk image command to display comics
+If jpeg can't be displayed with that command, resort to something else.
+
+** Update show_comics to allow specifying the command to use
+For example, make it so that they can have their background set to
+that image.
 
 -----------------------------------------------------------------------
 
