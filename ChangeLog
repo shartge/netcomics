@@ -10,7 +10,13 @@
 	* Netcomics/Util.pm (in_future): I'm a moron. Date checking now works
 	for comics with a days behind value.
 	
-2001-05-16  Elliot Glaysher  <nuriko.chan@home.com>
+2001-05-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/design.dia: Added this class diagram which describes the
+	design of the current implementation of netcomics & gtkcomics in
+	the OO branch.
+
+2001-05-15  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* AUTHORS: Initial checkin.
 	* AUTHORS: Rewrote second heading with Ben's corrections.
