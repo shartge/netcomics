@@ -1,5 +1,7 @@
 2001-06-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/mercury (mercury): Updated to only allow downloading a comic
+	if it's newer than 365 days ago (thanks to Shawn Oakey).
 	* Makefile (MODULES): Removed the modules that were missed with
 	Shawn's mass update on 2001-06-27
 	(OLDMODULES): Added forbez.
