@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"alice"} = 14;
+$hof{"alice"} = 0;
 $hof{"adventure"} = 7;
 
 sub alicecomics {

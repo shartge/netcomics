@@ -1,3 +1,8 @@
+2001-01-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+        * lib/alice: Changed days behind for Alice to 0 thanks to  
+          Sven Hartge.
+
 2001-01-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (MODULES): Added modules just added: rogues,
