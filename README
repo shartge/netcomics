@@ -1,0 +1,82 @@
+Netcomics is a perl script that can retrieve comic strips from the Web
+that are continuously being updated each day.  Netcomics utilizes a
+modular set of library perl scripts that provide it information on
+where to find each specific comic strip.  It is most often run as a
+cron job, along with display_comics or show_comics.
+
+In order to download comics from the Internet, you will need to either
+have the appropriate Perl modules, or a command-line program that can
+do it.  A commonly used command-line URL fetcher is wget.
+
+If you don't have a command-line program that can retrieve URL's,
+then to run netcomics, the following CSPAN perl modules are required:
+HTML-Parser, libwww-perl, URI, MIME-Base64, and MD5.  You can retrieve
+these as rpms or as sources from the netcomics hompage.  See the
+manpage for CPAN for help on a way to automatically download these
+modules, or goto http://cpan.perl.org/, or get the rpms from the
+netcomics homepage (see below). To use the show_comics script, you'll
+also need to have perlTk installed. 
+
+See INSTALL for instructions on how to setup netcomics.
+
+See the manpage for netcomics for information on how to use it.
+doc/netcomics.html is an HTML version of the manpage.
+
+See the doc/Comic_Modules-HOWTO.html file to learn how to add your
+own comics modules.  See doc/Modify_Webpage_Creation-HOWTO.html
+for how to personalize the webpages that can be created with the
+-w & -W options.
+
+This program does not have to be specific to just comic strips.  If
+you have an idea on how it could be implemented more generally for
+other applications, please let me know.  My unimplemented modules are
+available in the source tree under lib/disabled.  So before making
+additions, be sure to download the source or the SRPM if you've
+installed this from an rpm.
+
+Send email to myself, Ben Hochstedler <hochstrb@cs.rose-hulman.edu>,
+or contact me by ICQ: 15469308 if you wish to submit your own netcomics 
+lib modules for addition in the next release, or to request a specific 
+comic you know the website at which it exists to be added.  Of course, 
+bug reports and suggested enhancements are always welcome.
+
+Make sure you include the version of netcomics you are running when
+sending me a bug report!
+
+Visit the netcomics homepage:
+http://netcomics.familycom.org/
+
+mirror:
+http://www.cs.rose-hulman.edu/~hochstrb/netcomics/
+
+Future updates are announced on:
+* http://www.freshmeat.net
+* http://www.linuxapps.com
+* http://www.linuxberg.com
+* http://www.penguinfiles.com
+* the Linux Software Map (http://www.execpc.com/lsm/)
+* Redhat Announce List <redhat-announce-list@redhat.com>
+* Netcomics Announce List <netcomics-announce@familycom.org>
+
+There is also another script out there that can get comics for you,
+written by Mark Hershberger. You can get it at: 
+http://www.everybody.org/mah/hacks/
+
+And, there is an emacs lisp module: getcomics.el.  You can get it at:
+http://www.lysator.liu.se/~petli/elisp or /ftp.lysator.liu.se:/pub/emacs
+
+    Copyright (C) 1999 Ben Hochstedler
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
