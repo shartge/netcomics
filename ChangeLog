@@ -1,3 +1,9 @@
+2001-05-14  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/Factory.pm (get_comic): Changed code so it doesn't use
+	gotos. I think this fixes it.
+	* gtkcomics: Use the progress bar. Supposedly...
+
 2001-05-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/GtkComics.pm: added using strict;
@@ -27,8 +33,10 @@
 
 2001-05-13  Elliot Glaysher  <nuriko.chan@home.com>
 
-	* gtkcomics (Display_comic) : More updates. On the way to actually 
+	* gtkcomics (Display_comic): More updates. On the way to actually 
 	working. Now can send proc AND date off the $factory.
+	* Netcomics/Config.pm.in (clear_date_settings): Cleared stuff we
+	don't actually need to do.
 	
 2001-05-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

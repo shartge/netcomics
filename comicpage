@@ -77,6 +77,7 @@ for ($i = 0; $i < $#unified_comic_array; $i++) {
 # Set up status bar.
 my $info = $forms->{'window_comic_page'}{'appbar1'};
 $info->set_status("Welcome!");
+$info->set_progress(1);
 
 # Set up signal handelers.
 $forms->{'window_comic_page'}{'window_comic_page'}->signal_connect( 'delete_event', \&shut_me_down );
@@ -85,6 +86,7 @@ $forms->{'window_comic_page'}{'menu_file_exit'}->signal_connect( 'activate', \&s
 $forms->{'window_comic_page'}{'menu_help_about'}->signal_connect( 'activate', \&about_Form );
 $forms->{'window_comic_page'}{'calendar_date_comic_selection'}->signal_connect( 'day_selected', \&Display_comic );
 $forms->{'window_comic_page'}{'list1'}->signal_connect( 'select_row', \&comic_selected_from_list );
+
 
 # Show the window.
 $forms->{'window_comic_page'}{'window_comic_page'}->show();
@@ -132,19 +134,21 @@ sub Display_comic {
 	my $calendar;
 	$calendar = $forms->{'window_comic_page'}{'calendar_date_comic_selection'};
 	(my $year, my $month, my $day) = $calendar->get_date();
+	$info->set_progress(0);
 	print "$year:$month:$day\n";
 	my $day_to_download = mkgmtime(0,0,12,$day,$month,$year-1900);
 	my $comic_name = $procs{$proc};
 
+	$info->set_progress(.10);
 	$info->set_status("Please wait while downloading $comic_name...");
 	my ($rli,$i) = $factory->get_comic($proc, $day_to_download);
+	$info->set_progress(.70);
 	if ($extra_verbose) {
 		print Data::Dumper->Dump([$rli],[qw(*rli)]);
 	}
 	if (defined($rli) && $rli->{'status'} == 1) {
 		my $filename = "$comics_dir/$rli->{'file'}[0]";
 		print "Going to display: $filename \n" if $extra_verbose;
-		
 		$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
 		$forms->{'window_comic_page'}{'pixmap1'}->show();
 		$info->set_status("Displayed: $filename");
@@ -152,6 +156,7 @@ sub Display_comic {
 		$info->set_status(strftime("Could not download $comic_name for %x",
 								   gmtime($day_to_download)));
 	}
+	$info->set_progress(1);
 }
 
 sub shut_me_down {

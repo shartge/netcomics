@@ -797,34 +797,34 @@ sub get_comic {
 	$dont_download = 0 unless defined $dont_download;
 
 	#determine if this comic's been downloaded before
- FINDIT:
-	if (defined($self->{'rli_procs'}{$comic})) {
-		foreach my $time (keys(%{$self->{'rli_procs'}{$comic}})) {
-			if (samedate($date, $time)) {
-				my $rlis_ndx = $self->{'rli_procs'}{$comic}{$time};
-				my $rli = $self->{'rli'}[$rlis_ndx];
-				return ($rli,$rlis_ndx)
-					if $dont_download || $self->skip_rli($rli);
+	while (1) {
+		if (defined($self->{'rli_procs'}{$comic})) {
+			foreach my $time (keys(%{$self->{'rli_procs'}{$comic}})) {
+				if (samedate($date, $time)) {
+					my $rlis_ndx = $self->{'rli_procs'}{$comic}{$time};
+					my $rli = $self->{'rli'}[$rlis_ndx];
+					return ($rli,$rlis_ndx)
+						if $dont_download || $self->skip_rli($rli);
+				}
 			}
 		}
+		return undef if $dont_download;
+
+		#Since we weren't told not to download it, let's try getting that
+		#comic for the specified date!
+		$self->{'conf'}->clear_date_settings();
+		@selected_comics = ($comic);
+		$user_specified_comics = 1;
+		push(@{$self->{'dates'}},$date);
+
+		$self->setup();
+
+		# Let's get the comics!
+		my @rli = $self->get_comics();
+
+		#yah, bad programming style, but it avoids code duplication:
+		$dont_download = 1;
 	}
-	return undef if $dont_download;
-
-	#Since we weren't told not to download it, let's try getting that
-	#comic for the specified date!
-	$self->{'conf'}->clear_date_settings();
-	@selected_comics = ($comic);
-	$user_specified_comics = 1;
-	push(@{$self->{'dates'}},$date);
-
-	$self->setup();
-
-	# Let's get the comics!
-	my @rli = $self->get_comics();
-
-	#yah, bad programming style, but it avoids code duplication:
-	$dont_download = 1;
-	goto FINDIT;
 }
 
 
