@@ -1,5 +1,7 @@
 2001-07-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/keenspot (wendy): Fixed so that it can update the type
+	correctly.
 	* Makefile (MODULES): Changed keenspace to keenspot.
 	(OLDMODULES): Added keenspace.
 	* lib/keenspace: Removed because of its renaming to keenspot.
