@@ -1,0 +1,133 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+$hof{pa} = 0;
+$hof{patb} = 0;
+
+# Penny Arcade
+# http://www.penny-arcade.com/
+sub pa {
+  my $time = shift;
+  return undef if $time < 911347200; #first comic Nov. 18, 1998
+  my @ltime = gmtime($time);
+  
+  # No strips on Tue/Thu/Sat
+  return undef if ($ltime[6] =~ /[246]/);
+  
+  my $rec = {
+    'title' => "Penny Arcade",
+    'author' => "Mike Krahulik and Jerry Holkins",
+    'type' => 'jpg',
+    'main' => 'http://www.penny-arcade.com/',
+    'base' => 'http://www.penny-arcade.com/',
+    'page' => "index.shtml",
+    'size' => [750,347],
+  };
+
+  my $date = strftime("%m/%d/%Y", @ltime);
+
+  if ($time < mkgmtime(0,0,0,17,2,100)) {
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      
+      # Special cases
+      $_ = $date;
+      if (/10\/22\/1999/) {
+	push(@relurls,("img/marko.jpg",
+		       {'caption' => "Don't say it!"}));
+      } elsif (/06\/09\/1999/) {
+	push(@relurls,("img/pasw1.jpg", "img/pasw2.jpg",
+		       {'caption' => "Inspired by the movie!"}));
+      } elsif (/02\/26\/1999/) {
+	push(@relurls,("img/turok2.jpg",
+		       {'caption' => "Turok 2's Wild Fog-O-Rama"}));
+      } elsif (/02\/17\/1999/) {
+	push(@relurls,("img/kara1.jpg",
+		       {'caption' => "A VERY Special Penny Arcade!"}));
+      } elsif (/01\/22\/1999/) {
+	push(@relurls,("img/sport.jpg",
+		       {'caption' => "Saving Private ION"}));
+      } elsif (/12\/21\/1998/) {
+	push(@relurls,("img/blank.jpg",
+		       {'caption' => "The Patch Parade"}));
+      } else {
+	# text will only go up to the beginning of the bench section
+	$text = $1 if ($text =~ m%>Penny Arcade!<(.*)>The Bench!<%);
+
+	while (1) {
+	  if ($text =~ m%value="([^\"]+)\.shtml">$date\s+(.*)</option>%) {
+	    push @relurls, ("img/$1.jpg", {'caption' => $2});
+	    $text = $';
+	  } else {
+	    last;
+	  }
+	}
+      }
+      return @relurls;
+    },
+  } else {
+    $rec->{'exprs'} = {'comic' => [strftime('(view.php3\?date=%Y-%m-%d)', 
+					    @ltime)],
+		       'caption' => [$date . '\s+([^<]*)</option>']};
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      my $year_n_date = strftime("%Y/%Y%m%d", @ltime);
+      while (1) {
+	if ($text =~ m%img\s+src\s*=\s*"(.*$year_n_date.+)"%i) {
+	  push @relurls, $1;
+	  $text = $';
+	} else {
+	  last;
+	}
+      }
+      return @relurls;
+    };
+  }
+
+  return $rec;
+}
+
+# Penny Arcade : The Bench
+# http://www.penny-arcade.com/
+sub patb {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,1,6,99);
+    my @ltime = gmtime($time);
+    my $date = strftime("%m/%d/%Y", @ltime);
+
+    my $ext = ($date eq "02/27/2000") ? "gif" : "jpg";
+
+    my $rec =
+      {
+       'title' => "Penny Arcade Bench",
+       'author' => "Mike Krahulik and Jerry Holkins",
+       'type' => $ext,
+       'main' => 'http://www.penny-arcade.com/',
+       'base' => 'http://www.penny-arcade.com/',
+       'page' => "index.shtml",
+       'func' => sub {
+         my $text = shift;
+         my @relurls = ();
+
+         # text will only start at the beginning of the bench section
+         $text = $' if ($text =~ m%The Bench!%);
+
+         while (1) {
+           if ($text =~ m%value="([^\"]+)\.shtml">$date\s+(.*)</option>%) {
+             push @relurls, ("img/$1.$ext", {'caption' => $2});
+	     $text = $';
+           } else {
+             last;
+           }
+         }
+         return @relurls;
+       },
+       'size' => [750,347]
+      };
+
+    return $rec;
+}
+
+
+1;
