@@ -1,3 +1,8 @@
+2001-05-22  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* debian/netcomics.files: Explicitly declare /usr/lib/perl5/Netcomics*
+	for pkging.
+	
 2001-05-21  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* debian/docs -> debian/netcomics.docs: Moved file so documentation

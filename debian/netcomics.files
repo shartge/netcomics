@@ -2,6 +2,6 @@ usr/bin/netcomics
 usr/bin/display_comics
 usr/bin/comicpage
 usr/bin/show_comics
-usr/lib/*
+usr/lib/perl5/Netcomics/*
 etc/netcomicsrc
 
