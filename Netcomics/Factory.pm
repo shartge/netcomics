@@ -838,15 +838,15 @@ sub add_to_rli_list {
 	$self->{'rli_procs'}->{$proc}->{$time} = $i;
 }
 
-sub list_comics {
+#Returns a hash ref of the comics & days behind indexed by name.
+#Each value is an array, 1st element comic id, 2nd element # of days behind.
+#It also returns the maximum comic id length and the maximum comic name length.
+sub comic_names {
 	my $self = shift;
 	my $today = time;
+	my ($max_flen,$max_nlen) = (0,0);
 	my %names; #indexed by the comic name (not function) to make sorting easy
-	my ($max_flen,$max_nlen) = (0,0,0);
-	my $make_webpage = ($do_list_comics > 1)? 1 : 0;
-	my ($f,$d);
-	print STDERR "Listing comics.\n" if $extra_verbose;
-	while (($f,$d) = each %hof) {
+	while (my ($f,$d) = each %hof) {
 		my $i = -1;
 		my $rh = undef;
 		my $days = (defined $d) ? $d : 0;
@@ -866,6 +866,15 @@ sub list_comics {
 		$len = length($name);
 		$max_nlen = $len if $len > $max_nlen;
 	}
+	return (\%names, $max_flen, $max_nlen);
+}
+
+sub list_comics {
+	my $self = shift;
+	my $make_webpage = ($do_list_comics > 1)? 1 : 0;
+	print STDERR "Listing comics.\n" if $extra_verbose;
+	my ($names_r,$max_flen,$max_nlen) = $self->comic_names;
+	my %names = %$names_r;
 	my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1],
 								   $sort_by_date);} keys(%names));
 	my $title = 'Comic Name';

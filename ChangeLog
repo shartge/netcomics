@@ -2,6 +2,8 @@
 
 	* Netcomics/Factory.pm (init): Made it so that the same Factory
 	instance can be reused for download different sets of comics.
+	(comic_names): Extracted the functionality out of list_comics that
+	builds a hash of the comic ids & days behind, indexed by name.
 	* Makefile (POD2MANRULES,POD2HTMLRULES): Added these rules to
 	produce the manpages & html pages for the pod files.  Generalized
 	the rules for producing man & html pages.
