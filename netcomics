@@ -6,7 +6,7 @@ netcomics - retrieve comics from the Internet
 
 =head1 SYNOPSIS
 
-B<netcomics> [B<-bBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [B<-S,-T,-E> I<date>]
+B<netcomics> [B<-bBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [B<-S,-T,-E> I<date> [B<-A>]]
                  [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>] [B<-g> [I<program>]] [B<-nD>]
                  [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
 
@@ -82,6 +82,12 @@ authorization from each publisher.
 =head1 OPTIONS
 
 =over 4
+
+=item B<-A>
+
+Consider I<today> is the day specified with the B<-S>, B<-T> or B<-E> options.
+Will recalculate dates decalage accordingly.
+This option only makes sense when used with the B<-S>, B<-T> or B<-E> options.
 
 =item B<-b>
 
@@ -432,6 +438,7 @@ use vars ('$dont_download'); $dont_download = 0;
 use vars ('$use_filecmd'); $use_filecmd = 0;
 use vars ('$prefer_color'); $prefer_color = 1;
 use vars ('$reset_libdir'); $reset_libdir = 0;
+use vars ('$real_date'); $real_date = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -672,10 +679,16 @@ while (@ARGV)
 	$smushopt = 1;
     }
 
+    # Real date day
+    elsif (/-A$/) {
+      $real_date = 1;
+    }
+
     #Specified date
-    elsif (/-([STE])$/) {
+    elsif (/-([STEA])$/) {
 	my $type = $1;
 	my $good = 0;
+	
 	if (@ARGV > 0) {
 	    my $ds = shift(@ARGV);
 	    my $ts = undef;
@@ -1105,6 +1118,10 @@ sub build_rli_array_helper {
 sub run_rli_func {
     my ($fun,$time,$fun_name,$days) = @_;
     $time -= $days * 24*3600 if defined $days;
+
+    # Real day date
+    $time -= $hof{$fun} * 24*3600 if ($real_date == 1);
+
     #get the info from the RLI
     if (ref($fun) =~ /(SUB|CODE)/) {
 	$_ = &$fun($time,$prefer_color);
