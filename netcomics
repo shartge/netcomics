@@ -867,109 +867,109 @@ while (@ARGV)
 
     #Number of days of comics to get, going backwards
     elsif (/-N$/) {
-	if (@ARGV > 0) {
-	    $days_prior = shift(@ARGV);
-	    $given_options .= " -N $days_prior";
-	} else {
-	    print STDERR "Need a number for an argument to -N. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		if (@ARGV > 0) {
+		    $days_prior = shift(@ARGV);
+		    $given_options .= " -N $days_prior";
+		} else {
+		    print STDERR "Need a number for an argument to -N. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #external program to use instead of LWP
     elsif (/-g(=(.+))?([^=]+)?$/) {
-	$given_options .= " -g";
-	if (defined($2)) {
-	    $external_cmd = $2;
-	} elsif (! defined($3) && @ARGV > 0 && $ARGV[0] !~ /^-/) {
-	    $external_cmd = shift(@ARGV);
-	} else {
-	    $smushopt = 1;
-	}
-	$given_options .= " '$external_cmd'" if defined $external_cmd;
+		$given_options .= " -g";
+		if (defined($2)) {
+		    $external_cmd = $2;
+		} elsif (! defined($3) && @ARGV > 0 && $ARGV[0] !~ /^-/) {
+		    $external_cmd = shift(@ARGV);
+		} else {
+		    $smushopt = 1;
+		}
+		$given_options .= " '$external_cmd'" if defined $external_cmd;
     }
 
     #print URLs or put them in the webpage?
     elsif (/-u/) {
-	$dont_download = 1;
-	$given_options .= " -u";
-	$smushopt = 1;
+		$dont_download = 1;
+		$given_options .= " -u";
+		$smushopt = 1;
     }
 
     #get b/w if possible
     elsif (/-(b)/i) {
-	$prefer_color = ($1 =~ /B/)? 1 : 0;
-	$given_options .= " -$1";
-	$smushopt = 1;
+		$prefer_color = ($1 =~ /B/)? 1 : 0;
+		$given_options .= " -$1";
+		$smushopt = 1;
     }
 
     #sort by date
     elsif (/-L/) {
-	$sort_by_date = 1;
-	$smushopt = 1;
-	$given_options .= " -L";
+		$sort_by_date = 1;
+		$smushopt = 1;
+		$given_options .= " -L";
     }
 
     #no index for webpaegs
     elsif (/-(i)/i) {
-	$webpage_index = ($1 =~ /I/)? 1 : 0;
-	$smushopt = 1;
-	$given_options .= " -$1";
+		$webpage_index = ($1 =~ /I/)? 1 : 0;
+		$smushopt = 1;
+		$given_options .= " -$1";
     }
 
     #rc filename
     elsif (/-r$/) {
-	#already did the work of checking to make sure its good
-	shift(@ARGV);
-	$given_options .= " -r '$rc_file'";
+		#already did the work of checking to make sure its good
+		shift(@ARGV);
+		$given_options .= " -r '$rc_file'";
     }
 
     #always download
     elsif (/-a$/) {
-	$always_download = 1;
-	$smushopt = 1;
-	#don't add to given options 
+		$always_download = 1;
+		$smushopt = 1;
+		#don't add to given options 
     }
 
     #maximum retries
     elsif (/-(n?R)$/) {
-	my $good = 0;
-	if ($1 eq 'nR') {
-	    $good = 1;
-	    $max_attempts = 0;
-	} elsif (@ARGV > 0) {
-	    $max_attempts = shift(@ARGV);
-	    $good = 1 if $max_attempts =~ /^\d+$/;
-	}
-	if (! $good) {
-	    print STDERR "You must specify a number, 0 or greater, with -R. " .
-		"Use -h for usage.\n";
-	    exit 1;
-	}
+		my $good = 0;
+		if ($1 eq 'nR') {
+		    $good = 1;
+		    $max_attempts = 0;
+		} elsif (@ARGV > 0) {
+		    $max_attempts = shift(@ARGV);
+		    $good = 1 if $max_attempts =~ /^\d+$/;
+		}
+		if (! $good) {
+		    print STDERR "You must specify a number, 0 or greater, with -R. " .
+			"Use -h for usage.\n";
+		    exit 1;
+		}
     }
 
     #show tasks
     elsif (/-q$/) {
-	$show_tasks = 1;
-	$smushopt = 1;
-	$given_options .= " -q";
+		$show_tasks = 1;
+		$smushopt = 1;
+		$given_options .= " -q";
     }
 
     #Usage
     else {
-	print STDERR "Unknown option: $_.\n" unless /-h/;
-	usage();
+		print STDERR "Unknown option: $_.\n" unless /-h/;
+		usage();
     }
 
     #Allow for smushed-together options
     if ($smushopt) {
-	$smushopt = 0;
-	if (/-.(.+)/) {
-	    unshift(@ARGV,"-$1");
-	    print "Pushing -$1 onto command line arguments.\n" 
-		if $extra_verbose;
-	}
+		$smushopt = 0;
+		if (/-.(.+)/) {
+		    unshift(@ARGV,"-$1");
+		    print "Pushing -$1 onto command line arguments.\n" 
+			if $extra_verbose;
+		}
     }
 }
 
@@ -979,14 +979,14 @@ unshift(@libdirs,@newlibdirs);
 #check to make sure proper sets of options were provided
 if (defined($end_date)) {
     if ($start_date > $end_date) {
-	print STDERR "The starting date must be before the ending date. ";
-	print STDERR "Use -h for usage.\n";
-	exit 1;
+		print STDERR "The starting date must be before the ending date. ";
+		print STDERR "Use -h for usage.\n";
+		exit 1;
     } elsif (defined($days_of_comics)) {
-	print STDERR "The number of days of comics to retrieve may not be ";
-	print STDERR "specified when the starting and\nending dates are. ";
-	print STDERR "Use -h for usage.\n";
-	exit 1;
+		print STDERR "The number of days of comics to retrieve may not be ";
+		print STDERR "specified when the starting and\nending dates are. ";
+		print STDERR "Use -h for usage.\n";
+		exit 1;
     }
 }
 if (defined($days_prior) && (defined($end_date) || defined($start_date))) {
@@ -1010,12 +1010,12 @@ unless ($user_specified_comics && @selected_comics == 0 && !$do_list_comics) {
     
     #check to make sure there was some comics defined
     if (keys(%hof) == 0 && @lof == 0) {
-	print STDERR "\nThere were no comic modules succesfully loaded.  ";
-	print STDERR "Please check the setting\nof \@libdirs in the system ";
-	print STDERR "and user rc file and on the command line:\n";
-	print STDERR "\@libdirs = @libdirs\n";
-	print STDERR "Also, check the installation of netcomics.\n";
-	exit 1;
+		print STDERR "\nThere were no comic modules succesfully loaded.  ";
+		print STDERR "Please check the setting\nof \@libdirs in the system ";
+		print STDERR "and user rc file and on the command line:\n";
+		print STDERR "\@libdirs = @libdirs\n";
+		print STDERR "Also, check the installation of netcomics.\n";
+		exit 1;
     }
 }
 
@@ -1056,39 +1056,39 @@ if ($user_specified_comics || $user_unspecified_comics) {
     @hof_keys = () unless @hof_keys;
     my $fun;
     foreach $fun (@selected_comics) {
-	$fun = quotemeta($fun);
-	my @hres = grep(/^$fun$/,@hof_keys);
-	if (@hres > 0) {
-	    $new_hof{$fun} = $hof{$fun};
-	} else {
-	    my @lres = grep(/^$fun$/,@lof);
-	    if (@lres > 0) {
-		push(@new_lof,$fun);
-	    } else {
-		push(@bad_lof,$fun);
-	    }
-	}
+		$fun = quotemeta($fun);
+		my @hres = grep(/^$fun$/,@hof_keys);
+		if (@hres > 0) {
+		    $new_hof{$fun} = $hof{$fun};
+		} else {
+		    my @lres = grep(/^$fun$/,@lof);
+		    if (@lres > 0) {
+				push(@new_lof,$fun);
+		    } else {
+				push(@bad_lof,$fun);
+		    }
+		}
     }
     if (@bad_lof > 0) {
-	print STDERR "No such comics: \"@bad_lof\". ";
-	print STDERR "Use -l to see the list of comics.\n";
-	exit 1;
+		print STDERR "No such comics: \"@bad_lof\". ";
+		print STDERR "Use -l to see the list of comics.\n";
+		exit 1;
     }
     if ($user_specified_comics) {
-	@lof = @new_lof;
-	%hof = %new_hof;
+		@lof = @new_lof;
+		%hof = %new_hof;
     } else {
-	#intersection
-	my @new = ();
-	foreach (@lof) {
-	    if (grep(/^${_}$/,@new_lof) > 0) {
-		push(@new,$_);
-	    }
-	}
-	@lof = @new;
-	foreach (keys %new_hof) {
-	    delete $hof{$_};
-	}
+		#intersection
+		my @new = ();
+		foreach (@lof) {
+		    if (grep(/^${_}$/,@new_lof) > 0) {
+				push(@new,$_);
+		    }
+		}
+		@lof = @new;
+		foreach (keys %new_hof) {
+		    delete $hof{$_};
+		}
     }
 }
 
@@ -1102,32 +1102,32 @@ unless (-d $comics_dir) {
 } else {
     #load in the rlis in the directory to find out what comics
     print "Reading $comics_dir to get list of current comics\n" 
-	if $extra_verbose;
+  	if $extra_verbose;
     opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
     my @files = readdir(DIR);
     closedir(DIR);
     @files = sort(grep(s/\.(.+)\.rli$/$1/,@files));
     for (@files) {
-	my $name = $_;
-	my $rli = load_rli($name);
-	if (! defined($rli)) {
-	    print STDERR "Warning: $name did not load.\n";
-	    next;
-	}
-	$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
-	#save the files managed by this rli status file so we know which
-	#files were already downloaded before we start downloading more.
-	for (@{$rli->{'file'}}) {
-	    my $file = $_;
-	    if (-f "$comics_dir/$file") {
-		push(@existing_rli_files,$file);
-	    } elsif ($rli->{'status'} == 1) {
-		print STDERR "Warning: $name is missing $file in $comics_dir\n"
-		    if $verbose;
-		#make it so that this one will be retried.
-		$rli->{'status'} = 0;
-	    }
-	}
+		my $name = $_;
+		my $rli = load_rli($name);
+		if (! defined($rli)) {
+		    print STDERR "Warning: $name did not load.\n";
+		    next;
+		}
+		$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
+		#save the files managed by this rli status file so we know which
+		#files were already downloaded before we start downloading more.
+		for (@{$rli->{'file'}}) {
+		    my $file = $_;
+		    if (-f "$comics_dir/$file") {
+				push(@existing_rli_files,$file);
+		    } elsif ($rli->{'status'} == 1) {
+			print STDERR "Warning: $name is missing $file in $comics_dir\n"
+  		    if $verbose;
+			#make it so that this one will be retried.
+			$rli->{'status'} = 0;
+		    }
+		}
     }
     print "Rli's reloaded: " . @rli . "\n" if $extra_verbose;
 
@@ -1144,8 +1144,8 @@ if ($extra_verbose) {
     print "dates: ";
     my $date;
     foreach $date (@dates) {
-	print strftime("%m-%d-%y",gmtime($date));
-	print " ";
+		print strftime("%m-%d-%y",gmtime($date));
+		print " ";
     }
     print "\n";
 }
@@ -1154,16 +1154,16 @@ build_rli_array($get_current);
 #stop and print what will be done
 if ($show_tasks) {
     for (@rli) {
-	my $rli = $_;
-	my $name = strftime("$rli->{'title'}-${date_fmt}",
-			    gmtime($rli->{'time'}));
-	my $try = $rli->{'tries'};
-	if (skip_rli($rli)) {
-	    print "Skip ($try): $name ($rli->{'proc'})\n";
-	} else {
-	    $try++;
-	    print "Get  ($try): $name ($rli->{'proc'})\n";
-	}
+		my $rli = $_;
+		my $name = strftime("$rli->{'title'}-${date_fmt}",
+				    gmtime($rli->{'time'}));
+		my $try = $rli->{'tries'};
+		if (skip_rli($rli)) {
+		    print "Skip ($try): $name ($rli->{'proc'})\n";
+		} else {
+		    $try++;
+		    print "Get  ($try): $name ($rli->{'proc'})\n";
+		}
     }
     exit(0);
 }
@@ -1172,10 +1172,9 @@ if ($show_tasks) {
 #if a comic in the directory was just downloaded or not.
 my @comics = get_comics();
     
-if ($remake_webpage)
-{
+if ($remake_webpage) {
     print "Scanning $comics_dir for comics with no associated status file.\n"
-	if $extra_verbose;
+  	if $extra_verbose;
     opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
     my @files = readdir(DIR);
     closedir(DIR);
@@ -1184,48 +1183,49 @@ if ($remake_webpage)
     #first.
     @files = sort(grep(/(xpm|gif|jpe?g|tiff?|png)$/,@files));
 
-RMW: while (@files) {
-	my $file = shift(@files);
-	#although we could check to see if the file is in @comics or
-	#@existing_rli_files right away, we have to first check through
-	#all of the files associated with this one if it is a multi-file comic
-	my ($title,$date,$type,$num) = parse_name($file);
-	my $name = "$title-$date";
-	my $rli = {'title' => $title,
+	RMW: while (@files) {
+		my $file = shift(@files);
+		#although we could check to see if the file is in @comics or
+		#@existing_rli_files right away, we have to first check through
+		#all of the files associated with this one if it is a multi-file comic
+		my ($title,$date,$type,$num) = parse_name($file);
+		my $name = "$title-$date";
+		my $rli = {'title' => $title,
 		   'name' => $name,
 		   'time' => date_from_filename($file),
 		   'status' => 1,
 		   'type' => $type,
-		   'file' => [$file]};
-	if (defined($num)) {
-	    #this is part of a multi-file comic
-	    #recreate the file array because the one we're looking
-	    #at may not be image #1.
-	    $rli->{'file'}->[$num - 1] = $file;
-	    my @multifiles = grep(/^$name(-\d+)?\.\w+$/,@files);
-	    @files = grep(!/^$name(-\d+)?\.\w+$/,@files);
-	    for (@multifiles) {
-		my $file = $_;
-		#make sure that none of the files in the multi-file comic
-		#have an rli status file
-		if (grep(/^$file$/,@comics) ||
-		    grep(/^$file$/,@existing_rli_files)) {
-		    print STDERR "Warning: $name has some stale file(s).\n"
-			if $verbose;
-		    next RMW;
+		   'file' => [$file]
+		};
+		if (defined($num)) {
+		    #this is part of a multi-file comic
+		    #recreate the file array because the one we're looking
+		    #at may not be image #1.
+		    $rli->{'file'}->[$num - 1] = $file;
+		    my @multifiles = grep(/^$name(-\d+)?\.\w+$/,@files);
+		    @files = grep(!/^$name(-\d+)?\.\w+$/,@files);
+		    for (@multifiles) {
+				my $file = $_;
+				#make sure that none of the files in the multi-file comic
+				#have an rli status file
+				if (grep(/^$file$/,@comics) ||
+	  		    grep(/^$file$/,@existing_rli_files)) {
+				    print STDERR "Warning: $name has some stale file(s).\n"
+		 			if $verbose;
+				    next RMW;
+				}
+				#add this file to the $rli's file list
+				my ($title,$date,$type,$num) = parse_name($file);
+				$rli->{'file'}->[$num - 1] = $file;
+		    }
 		}
-		#add this file to the $rli's file list
-		my ($title,$date,$type,$num) = parse_name($file);
-		$rli->{'file'}->[$num - 1] = $file;
-	    }
+		next if grep(/^$file$/,@comics) ||
+	      grep(/^$file$/,@existing_rli_files); #skip this file 
+		#no associated rli status file, generate our own rli hash for the file.
+		print STDERR "Warning: $name has no status file; some " .
+  	    "info about it may be lost.\n" if $verbose;
+		push(@rli,$rli);
 	}
-	next if grep(/^$file$/,@comics) ||
-	    grep(/^$file$/,@existing_rli_files); #skip this file 
-	#no associated rli status file, generate our own rli hash for the file.
-	print STDERR "Warning: $name has no status file; some " .
-	    "info about it may be lost.\n" if $verbose;
-	push(@rli,$rli);
-    }
 }
 
 #check to see if any comics were downloaded or are downloadable
@@ -1233,11 +1233,11 @@ RMW: while (@files) {
 if ($verbose) {
     my $good = 0;
     foreach (@rli) {
-	$good = 1, last if $_->{'status'};
+		$good = 1, last if $_->{'status'};
     }
     unless ($good) {
-	my $m = $dont_download ? "are downloadable" : "were downloaded";
-	print "\nNo comics $m.\n";
+		my $m = $dont_download ? "are downloadable" : "were downloaded";
+		print "\nNo comics $m.\n";
     }
 }
 
@@ -1246,10 +1246,10 @@ if ($make_webpage) {
 } elsif ($dont_download) {
     print "\nURLs for images:\n\n" if $verbose;
     foreach (@rli) {
-	if ($_->{'status'} == 2) {
-	    print join("\n",@{$_->{'url'}});
-	    print "\n";
-	}
+		if ($_->{'status'} == 2) {
+		    print join("\n",@{$_->{'url'}});
+		    print "\n";
+		}
     }
 }
 
@@ -1269,15 +1269,15 @@ sub add_to_rli_list {
 
 sub load_rcfile {
     foreach (@_) {
-	my $file = $_;
-	if (-f $file && -r $file) {
-	    $@=0;
-	    eval {require $file;};
-	    if ($@) {
-		print STDERR "Error loading rcfile: '$file':\n$@.\n";
-		exit 1;
-	    }
-	}
+		my $file = $_;
+		if (-f $file && -r $file) {
+		    $@=0;
+		    eval {require $file;};
+		    if ($@) {
+				print STDERR "Error loading rcfile: '$file':\n$@.\n";
+				exit 1;
+		    }
+		}
     }
 }
 
@@ -1286,61 +1286,61 @@ sub build_date_array {
     $days_of_comics = undef 
 	if defined($days_of_comics) && $days_of_comics == 0;
     if (defined($days_of_comics)) {
-	#incase user specified it with a minus sign.
-	$days_of_comics = abs($days_of_comics);
-	$days_of_comics--; #adjust for 0-base
+		#incase user specified it with a minus sign.
+		$days_of_comics = abs($days_of_comics);
+		$days_of_comics--; #adjust for 0-base
     }
     my $now = time;
     {
-	#adjust the time so it is of this morning just after midnight.
-	my @ltime = localtime($now);
-	$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
+		#adjust the time so it is of this morning just after midnight.
+		my @ltime = localtime($now);
+		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
     }
 
     my $get_current = 0; #use hof & lof or just hof
     #Determine the start & end dates
     if (! defined($end_date) && ! defined($days_of_comics) &&
-	defined($start_date)) {
-	#-S, no -E, no -n
-	$end_date = $now + (get_max_hof() * 24*3600);
+	  defined($start_date)) {
+		#-S, no -E, no -n
+		$end_date = $now + (get_max_hof() * 24*3600);
     } elsif (defined($end_date) && defined($days_of_comics) &&
-	     ! defined($start_date)) {
-	#no -S, -E, -n
-	$start_date = $end_date - ($days_of_comics * 24*3600);
+	  ! defined($start_date)) {
+		#no -S, -E, -n
+		$start_date = $end_date - ($days_of_comics * 24*3600);
     } elsif (! defined($end_date) && defined($days_of_comics) &&
-	     defined($start_date)) {
-	#-S, no -E, -n
-	$end_date = $start_date + ($days_of_comics * 24*3600);
+	  defined($start_date)) {
+		#-S, no -E, -n
+		$end_date = $start_date + ($days_of_comics * 24*3600);
     } elsif (! defined($end_date) && defined($days_of_comics) && 
-	     ! defined($start_date)) {
-	#no -S, no -E, -n
-	$get_current = 1;
-	$end_date = $now - ($days_prior * 24*3600);
-	$start_date = $end_date - ($days_of_comics * 24*3600);
+	  ! defined($start_date)) {
+		#no -S, no -E, -n
+		$get_current = 1;
+		$end_date = $now - ($days_prior * 24*3600);
+		$start_date = $end_date - ($days_of_comics * 24*3600);
     } elsif (! defined($end_date) && ! defined($days_of_comics) && 
-	     ! defined($start_date)) {
-	#no -S, no -E, no -n
-	#we don't need to do anything special
-	#add today's date (minus days prior) to the date array, and return.
-	if (@dates == 0) {
-	    push(@dates,($now - ($days_prior * 24*3600)));
-	    $get_current = 1;
-	}
-	return $get_current;
+	  ! defined($start_date)) {
+		#no -S, no -E, no -n
+		#we don't need to do anything special
+		#add today's date (minus days prior) to the date array, and return.
+		if (@dates == 0) {
+		    push(@dates,($now - ($days_prior * 24*3600)));
+		    $get_current = 1;
+		}
+		return $get_current;
     }
 
     {   #Build up the date array
-	my $time_c = $start_date;
-	my @e_day = gmtime($end_date);
-	my @c_day = gmtime($time_c);
-	my $e_day = strftime("%Y%m%d",@e_day);
-	my $c_day = strftime("%Y%m%d",@c_day);
-	while ($c_day <= $e_day) {
-	    push(@dates,$time_c);
-	    $time_c += 24*3600;
-	    @c_day = gmtime($time_c);
-	    $c_day = strftime("%Y%m%d",@c_day);
-	}
+		my $time_c = $start_date;
+		my @e_day = gmtime($end_date);
+		my @c_day = gmtime($time_c);
+		my $e_day = strftime("%Y%m%d",@e_day);
+		my $c_day = strftime("%Y%m%d",@c_day);
+		while ($c_day <= $e_day) {
+		    push(@dates,$time_c);
+		    $time_c += 24*3600;
+		    @c_day = gmtime($time_c);
+		    $c_day = strftime("%Y%m%d",@c_day);
+		}
     }
     return $get_current;
 }
@@ -1349,11 +1349,11 @@ sub build_date_array {
 sub build_rli_array {
     my $get_current = shift; #accomodate the time for the rli hash function?
     if ($get_current) {
-	build_rli_array_helper(\%lofhash,0,"Adding lof & get_current RLI's");
-	#accomodate the time for the rli hash functions
-	build_rli_array_helper(\%hof,1,"Adding hof & get_current RLI's");
+		build_rli_array_helper(\%lofhash,0,"Adding lof & get_current RLI's");
+		#accomodate the time for the rli hash functions
+		build_rli_array_helper(\%hof,1,"Adding hof & get_current RLI's");
     } else {
-	build_rli_array_helper(\%hof,0,"Adding hof & !get_current RLI's");
+		build_rli_array_helper(\%hof,0,"Adding hof & !get_current RLI's");
     }
     print "\n" if $extra_verbose;
     
@@ -1367,44 +1367,44 @@ sub build_rli_array_helper {
     print "\n$msg: " if $extra_verbose;
     my ($days, $fun, $time,$rli);
     while (($fun,$days) = each %$hof) {
-	next if $usedays && ! defined $days;
-	print "$fun " if $extra_verbose;
-	foreach $time (@dates) {
-	    if ($usedays) {
-		$rli = run_rli_func($fun,$time,$fun,$days);
-	    } else {
-		$rli = run_rli_func($fun,$time,$fun);
-	    }
-	    if (defined($rli)) {
-		#reget the time (incase of $usedays)
-		my $time = $rli->{'time'};
-		#first remove any rli with that date & proc from the list.
-		if (defined($rli_procs{$fun}) && 
-		    defined($rli_procs{$fun}->{$time})) {
-		    my $i = $rli_procs{$fun}->{$time};
-		    #use status info if user didn't specify always download,
-		    #or if the user did specify always download and the user
-		    #specified some comics and this isn't one of them &&
-		    #its status is 1.
-		    if (! $always_download || 
-			(@selected_comics && 
-			 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
-			 $rli[$i]->{'status'} == 1)) {
-			#copy info from old one into new one, thus
-			#if the module changed, more correct info would be
-			#used.
-			$rli->{'file'} = $rli[$i]->{'file'};
-			$rli->{'status'} = $rli[$i]->{'status'};
-			$rli->{'tries'} = $rli[$i]->{'tries'};
+		next if $usedays && ! defined $days;
+		print "$fun " if $extra_verbose;
+		foreach $time (@dates) {
+		    if ($usedays) {
+				$rli = run_rli_func($fun,$time,$fun,$days);
+		    } else {
+				$rli = run_rli_func($fun,$time,$fun);
 		    }
-		    #remove the old one
-		    $rli[$i] = undef;
-		}
-		#add the new one
-		$rli[@rli] = $rli;
+		    if (defined($rli)) {
+			#reget the time (incase of $usedays)
+			my $time = $rli->{'time'};
+			#first remove any rli with that date & proc from the list.
+			if (defined($rli_procs{$fun}) && 
+  		    defined($rli_procs{$fun}->{$time})) {
+			    my $i = $rli_procs{$fun}->{$time};
+			    #use status info if user didn't specify always download,
+			    #or if the user did specify always download and the user
+			    #specified some comics and this isn't one of them &&
+			    #its status is 1.
+			    if (! $always_download || 
+	  			(@selected_comics && 
+	  			 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
+					 $rli[$i]->{'status'} == 1)) {
+					#copy info from old one into new one, thus
+					#if the module changed, more correct info would be
+					#used.
+					$rli->{'file'} = $rli[$i]->{'file'};
+					$rli->{'status'} = $rli[$i]->{'status'};
+					$rli->{'tries'} = $rli[$i]->{'tries'};
+			    }
+			    #remove the old one
+			    $rli[$i] = undef;
+			}
+			#add the new one
+			$rli[@rli] = $rli;
 	    }
 	}
-    }
+	}
 }
 
 sub run_rli_func {
@@ -1419,27 +1419,27 @@ sub run_rli_func {
 
     #get the info from the RLI
     if (ref($fun) =~ /(SUB|CODE)/) {
-	$_ = &$fun($time,$prefer_color);
+		$_ = &$fun($time,$prefer_color);
     } else {
-	$_ = eval "$fun($time,$prefer_color)";
+		$_ = eval "$fun($time,$prefer_color)";
     }
     #remember which RLI that was & save the time
     if (defined($_)) {
-	if (ref($_) eq "HASH") {
-	    $_->{'time'} = $time;
-	    $_->{'proc'} = $fun_name;
-	    if (defined($comics{$fun})) {
-		#copy in user-defined keys
-		my $field;
-		foreach $field (keys(%{$comics{$fun}})) {
-		    $_->{$field} = $comics{$fun}{$field};
+		if (ref($_) eq "HASH") {
+		    $_->{'time'} = $time;
+		    $_->{'proc'} = $fun_name;
+		    if (defined($comics{$fun})) {
+				#copy in user-defined keys
+				my $field;
+				foreach $field (keys(%{$comics{$fun}})) {
+				    $_->{$field} = $comics{$fun}{$field};
+				}
+	    	}
+		} else {
+		    print STDERR "$fun: returned unsupported reference type: " .
+			ref($fun) . ".\n";
+		    $_ = undef;
 		}
-	    }
-	} else {
-	    print STDERR "$fun: returned unsupported reference type: " .
-		ref($fun) . ".\n";
-	    $_ = undef;
-	}
     }
     return $_;
 }
