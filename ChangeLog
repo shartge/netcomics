@@ -6,6 +6,7 @@
 	* debian/netcomics.files: It's no longer /usr/bin/gtkcomics...
 	* debian/netcomics.menu:  "                                  "
 	* comicpage: Changed various instances of gtkcomics to ComicPage
+	* doc/comicpage.pod: Initial commit.
 	
 2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
 
