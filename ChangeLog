@@ -1,5 +1,7 @@
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/norm (nm): Updated the sunday size thanks to 
+	Brent Nordquist.
 	* netcomics (skip_rli): Added logic to catch when the user
 	unspecified some comics (thanks to Jeremy Bettis).
 
