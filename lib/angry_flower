@@ -1,0 +1,37 @@
+#-*-Perl-*-
+
+$hof{"btaf"} = 7;
+
+# The Bob the Angry Flower Archives are not stored by date.  It's usually
+# updated on Friday, and there's roughly 6/week which is why it's a week behind.
+sub btaf {
+    my $time = shift;
+    my $daysago = (time - $time)/(3600*24);
+    $daysago =~ s/\..*$//;
+
+    my $rec = {
+	'title' => "Bob The Angry Flower",
+	'author' => "Stephen Notley",
+	'main' => "http://www.angryflower.com/", 
+	'archives' => "http://www.angryflower.com/long.htm", 
+	'base' => "http://www.angryflower.com/",
+	'page' => "qwik.htm",
+	'type' => 'gif',
+    };
+    
+    $rec->{'func'} = sub {
+	my $text = shift;
+	my $i = -1;
+	my $file;
+	#repeatedly match and replace.  
+	while ($i++ < $daysago && 
+	       $text =~ s/href="(\w+\.((:?jpg)|(:?gif)))"//i) {
+	    # don't use $2, but it could be used to determine the extension.
+	    $file = $1;
+	}
+	return defined($file)? ($file) : ();
+    };
+   return $rec;
+}
+
+1;
