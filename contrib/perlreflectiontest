@@ -27,7 +27,7 @@ sub processSyms {
 	if ($_ =~ /::$/ && $_ ne $package) {
 	    my $subpkg = "$package$_";
 	    if (grep(/^ISA$/, keys(%{$subpkg}))) {
-		if (grep(/Netcomics::RLI/, @{"$subpkg\ISA"})) {
+		if (grep(/Netcomics::RLI/, @{"${subpkg}ISA"})) {
 		    my $class = $subpkg;
 		    $class =~ s/::$//;
 		    $modules{$class} = ${"$subpkg\id"};
