@@ -34,6 +34,11 @@ image couldn't be downloaded.
 ** Change comicspages_ed to use a 'func' to determine what comics to download.
 Should probably base it off of penny_arcade.
 
+** Model these comics off of angry_flower because they're not released by date:
+http://www.kaniamania.com/
+http://www.gibbleguts.com/
+http://www.nic.com/~cheah/limpid.html (Limpidity)
+
 -----------------------------------------------------------------------
 
 * Globalization
@@ -85,13 +90,6 @@ This should probably use CVS revision IDs.
 ** Add an option to specify the umask of the files created.
 
 ** Add mechanism to add support for downloading categories of comics.
-
-** Support randomly released comics.
-In other words, make it so that comics that do not adhere to a time
-schedule for released can be downloaded intuitively.  This includes:
-http://www.kaniamania.com/
-http://www.gibbleguts.com/
-http://www.nic.com/~cheah/limpid.html (Limpidity)
 
 ** Create a CGI script that would produce webpages on the fly.
 
