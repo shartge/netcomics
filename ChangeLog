@@ -1,3 +1,10 @@
+2001-07-05  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/HTML.pm (check_rlis): Created function to reduce code reuse
+	Now used in &create_webpage(s|_set).
+	(create_webpage_set): Fixed bug that caused halting of the whole HTML
+	generation process if there were no comics for a certain comic.
+
 2001-07-04  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/Factory.pm (new): Added check for $subdir if 

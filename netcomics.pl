@@ -129,6 +129,8 @@ if ($verbose) {
 	}
 }
 
+print "Selected Comics !! : @selected_comics \n";
+
 if ($make_webpage) {
 	#Create the HTML object.
 	my $HTMLpage = Netcomics::HTML->new("Webpage");

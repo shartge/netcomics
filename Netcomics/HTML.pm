@@ -81,37 +81,7 @@ sub create_webpage {
 	#create a hash into the rli's
 	my %rlis = ();
 
-	foreach (@rli) {
-		my $rli = $_;
-
-		next if (!$remake_webpage && defined($rli->{'reloaded'}));
-		my $comic = $rli->{'name'};
-		$_ = $rli->{'status'};
-		if (! defined($_)) {
-			print STDERR "$comic has an undefined status. Skipping.\n" 
-				if $verbose;
-			next;
-		} elsif (/[03]/) {
-			#didn't download (if a backup was tried (3), there's another
-			#rli for the backup).
-			next;
-		} elsif (/1/) {
-			print "No file for $comic. $inform_maintainer",next
-				unless defined $rli->{'file'};
-			$rli->{'stat'} = "local";
-		} elsif (/2/) {
-			print "No url for $comic. $inform_maintainer",next
-				unless defined $rli->{'url'};
-			$rli->{'file'} = $rli->{'url'};
-			$rli->{'stat'} = "remote";
-		} else {
-			print STDERR "Unsupported status ($_) for $comic. " .
-				$inform_maintainer;
-			print "Skipping $comic in webpage.\n" if $verbose;
-			next;
-		}
-		$rlis{$comic} = $rli;
-	}
+	%rlis = check_rlis(@rli);
 	my @comics = keys(%rlis);
 	print "comics = @comics\n" if $verbose;
 	$self->{'num_comics'} = @comics;
@@ -139,9 +109,8 @@ sub create_webpage {
 	$self->{'ctime'} = ctime($time);
 
 	#create a sorted list of the comics
-	my @sorted_comics = sort({libdate_sort($a, $b,
-										   $rlis{$a}{'time'}, $rlis{$b}{'time'},
-										   $sort_by_date);} 
+	my @sorted_comics = sort({libdate_sort($a, $b, $rlis{$a}{'time'},
+										   $rlis{$b}{'time'}, $sort_by_date);} 
 							 @comics);
 	print "sorted comics: @sorted_comics\n" if $extra_verbose;
 
@@ -232,49 +201,19 @@ sub create_webpage_set {
 				$comic_title = $rli_scan->{'title'} if defined($rli_scan->{'title'});
 			}
 		}
-		foreach (@current_comic_being_worked_on) {
-			my $rli = $_;
-
-			next if (!$remake_webpage && defined($rli->{'reloaded'}));
-			my $comic = $rli->{'name'};
-			$_ = $rli->{'status'};
-			if (! defined($_)) {
-				print STDERR "$comic has an undefined status. Skipping.\n" 
-				if $verbose;
-				next;
-			} elsif (/[03]/) {
-				#didn't download (if a backup was tried (3), there's another
-				#rli for the backup).
-				next;
-			} elsif (/1/) {
-				print "No file for $comic. $inform_maintainer",next
-				unless defined $rli->{'file'};
-				$rli->{'stat'} = "local";
-			} elsif (/2/) {
-				print "No url for $comic. $inform_maintainer",next
-				unless defined $rli->{'url'};
-				$rli->{'file'} = $rli->{'url'};
-				$rli->{'stat'} = "remote";
-			} else {
-				print STDERR "Unsupported status ($_) for $comic. " .
-				$inform_maintainer;
-				print "Skipping $comic in webpage.\n" if $verbose;
-				next;
-			}
-			$rlis{$comic} = $rli;
-		}
+		%rlis = check_rlis(@current_comic_being_worked_on);
 		my @comics = keys(%rlis);
 		print "comics = @comics\n" if $verbose;
 		$self->{'num_comics'} = @comics;
 		if ($self->{'num_comics'} == 0) {
 			print "\nNot creating a new webpage.\n" if $verbose;
-			return;
+			next;
 		}
 		print "\n" if $verbose;
 		unless ($webpage_on_stdout) {
-			print "Deleting old webpages (".$comics_dir . 
+			print "Deleting old webpages (".$comics_dir . $subdir .
 			"/<index.html,comic*.html>).\n" if $verbose;
-			chdir $comics_dir;
+			chdir "$comics_dir/$subdir/";
 			unlink <index.html>;
 			unlink <comic*.html>;
 		}
@@ -298,8 +237,8 @@ sub create_webpage_set {
 
 		#determine number of groups of comics, and number of comics on
 		#each page
-		$comics_per_page = $self->{'num_comics'}
-		unless defined($comics_per_page); 
+		$comics_per_page = $self->{'num_comics'} unless 
+				defined($comics_per_page); 
 		$self->{'num_groups'} = $self->{'num_comics'} / $comics_per_page;
 		$self->{'num_groups'} =~ s/^(\d+)\.?\d*$/$1/;
 		$self->{'comics_on_last'} = $self->{'num_comics'} % $comics_per_page;
@@ -344,8 +283,8 @@ sub create_webpage_set {
 			$group++;
 			(my $filename = $webpage_filename_tmpl) =~ s/<NUM>/$group/g;
 			my ($page, $index_body) = 
-			generate_HTML_page($self, \%rlis, 
-							   \@sorted_comics, $i);
+				generate_HTML_page($self, \%rlis, 
+								   \@sorted_comics, $i);
 
 			$index .= $index_body;
 
@@ -516,6 +455,50 @@ sub generate_HTML_page {
 	$index =~ s/<DATE>/$self->{'datestr'}/g;
 
 	return("$page", $index);
+}
+
+=head2 check_rlis(@rli_array)
+
+Use check_rlis to get a hash returned, with only the comics that exist.
+
+=cut
+
+sub check_rlis {
+	my @rli = @_;
+	my %rlis = ();
+
+	foreach (@rli) {
+		my $rli = $_;
+
+		next if (!$remake_webpage && defined($rli->{'reloaded'}));
+		my $comic = $rli->{'name'};
+		$_ = $rli->{'status'};
+		if (! defined($_)) {
+			print STDERR "$comic has an undefined status. Skipping.\n" 
+				if $verbose;
+			next;
+		} elsif (/[03]/) {
+			#didn't download (if a backup was tried (3), there's another
+			#rli for the backup).
+			next;
+		} elsif (/1/) {
+			print "No file for $comic. $inform_maintainer",next
+				unless defined $rli->{'file'};
+			$rli->{'stat'} = "local";
+		} elsif (/2/) {
+			print "No url for $comic. $inform_maintainer",next
+				unless defined $rli->{'url'};
+			$rli->{'file'} = $rli->{'url'};
+			$rli->{'stat'} = "remote";
+		} else {
+			print STDERR "Unsupported status ($_) for $comic. " .
+				$inform_maintainer;
+			print "Skipping $comic in operation.\n" if $verbose;
+			next;
+		}
+		$rlis{$comic} = $rli;
+	}
+	return(%rlis);
 }
 
 1;
