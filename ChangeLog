@@ -5,6 +5,9 @@
 
 2002-04-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* MANIFEST.SKIP: Added a line to skip password files.
+	* .group_password.gpg: passwords used by the netcomics development
+	team for administering netcomics website, mailing lists & such.
 	* lib/keenspace (boxjam): Fixed thanks to Shawn.
 	* doc/Modify_Webpage_Creation-HOWTO.html: Added descriptions of
 	the new items added for full theme support: WIDTH, HEIGHT, &
