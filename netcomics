@@ -1921,8 +1921,12 @@ sub parse_name {
 	return($1,$3);
     } elsif (/^([^\.\d]+)$/) {
 	#apparently no date or file type in the name (lack of period or digit)
+	print STDERR "error determining filetype for: $_\n"
+	    if $extra_verbose;
 	return($1,undef);
     } else {
+	print STDERR "error processing filename: $_\n"
+	    if $extra_verbose;
 	return (undef,undef);
     }
 }
