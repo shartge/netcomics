@@ -14,15 +14,16 @@ sub subname {
     #The 5th argument is the month number (January = 0, December = 11).
     #The 6th argument is the year (100 for 2000, 101 for 2001, etc.).
     return undef if $time < mkgmtime(0,0,0,1,0,96); #1st comic: Jan 1, 1996
+    my $baseurl = "http://www.comic-site.com/cartoon";
     my $rec = {
 	'title' => "Comics Name",
 	'author' => "Author's Name", #optional
 	'type' => 'gif',
-	'main' => "http://www.comic-site.com/cartoon/", #optional
-	'archives' => "http://www.comic-site.com/cartoon/archives/", #optional
-	'base' => "http://www.comic-site.com/cartoons/archives/",
-	'page' => strftime("%y%m%d.html",@ltime),
-	'exprs' => ["\\/cartoons\\/archives\\/(\\d+\\.gif)"],
+	'main' => "$baseurl/", #optional
+	'archives' => "$baseurl/archives/", #optional
+	'base' => $baseurl
+	'page' => strftime("%Y%m%d.html",@ltime),
+	'exprs' => ["\\/cartoons\\/(\\d+\\.gif)"],
 	'size' => [$x,$y] #be sure to specify the dimensions (optional)
 	};
     return $rec;
