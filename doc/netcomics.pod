@@ -7,7 +7,7 @@ netcomics - retrieve comics from the Internet
 B<netcomics> [B<-aAbBDGhiIlLoPsuvv>] [B<-[c|C]> I<"comic ids">] [B<-p> I<url>]
   [B<-S,-T,-E> I<date>] [B<-R> retries] [B<-n,-N> I<days>] [B<-d,-m> I<dir>]
   [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-P>] [B<-W,-w>[=I<n>]] [B<-nw>]
-  [B<-[n]wa>] [B<-wt> I<"webpage title">] [B<-f,-wf> I<"date fmt">] [-t theme]
+  [B<-[n]wa>] [B<-wt> I<"webpage title">] [B<-f,-wf> I<"date fmt">] [B<-t> I<theme>]
 
 =head1 DESCRIPTION
 

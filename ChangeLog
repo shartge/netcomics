@@ -6,7 +6,7 @@
 
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* Netcomics/HTML/Theme.pm: Fixed mis-named html_key.
+	* doc/netcomics.pod: Fixed -t not being surrounded by B<>.
 
 2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
 
@@ -2221,7 +2221,7 @@ Wed Sep 29 11:08:31 1999  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Updated show_comics to prepend all messages with its name.
 	* Updated the module HOWTO documentation.
-	* To releave dependancies on the local timezone, added mkgmtime()
+	* To releave dependencies on the local timezone, added mkgmtime()
 	to netcomics & updated netcomics and its modules to use it and
 	gmtime() instead of mktime() and localtime(); and updated the
 	modules to check against pre-determined values from mkgmtime().
