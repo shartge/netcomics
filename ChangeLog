@@ -1,3 +1,15 @@
+2001-02-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (skip_rli): Fixed unit var reads
+	(get_comics): Changed "next RLI"s to "goto FINISH_RLI" so that all
+	comics will have an rli saved.  Moved construction of the comic
+	name earlier so that if skipped, it will still be done (was
+	causing unit var errors in webpage creation).
+	(usage): Changed usage of -a & -c.  When -c is used by itself,
+	only those comics will be downloaded.  Now, -a will only forcibly
+	download those comics specified with -c.  New option: -nR (alias
+	for -R 0).
+
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/exploitation (exploit): Added Exploitation Now thanks to

@@ -93,7 +93,15 @@ directory (use B<-D> to have netcomics clear the directory when it starts).
 By default, netcomics will skip downloading comics you specify to download
 if they are in the directory and they have a good status indicator.  By
 specifying this option, netcomics will skip this step and clobber the
-previously downloaded comic.
+previously downloaded comics.
+
+However, if used with B<-c>, the behavior is different.  Netcomics by default
+will only download the comics you specify with B<-c>.  If B<-c> isn't provided,
+netcomics will download everything.  If both B<-a> and B<-c> are provided,
+it will process both the comics you specify (even if they were already
+successfully downloaded) and the ones that weren't successfully downloaded.
+Note that only the tries counter is ignored for the specified comics in this
+case.  See B<-nR> for changing the maximum number of retries.
 
 =item B<-A>
 
@@ -230,6 +238,13 @@ pick up information on comics it's tried to download previously.  Specify
 1 to this option if you don't want netcomics to retry to download comics
 you don't specify for it to download.  Specify 0 for an infinite number of
 retries.
+
+=item B<-nR>
+
+Specify there is no maximum number of retries.  This will cause netcomics
+to keep trying to download comics that haven't been successfully downloaded
+no matter how many unsuccessful attempts there were.  This is the same
+thing as B<-R 0>.
 
 =item B<-s>
 
@@ -909,18 +924,18 @@ while (@ARGV)
     elsif (/-a$/) {
 	$always_download = 1;
 	$smushopt = 1;
-	$given_options .= " -a";
+	#don't add to given options 
     }
 
     #maximum retries
-    elsif (/-R$/) {
+    elsif (/-(n?R)$/) {
 	my $good = 0;
-	if (@ARGV > 0) {
+	if ($1 eq 'nR') {
+	    $good = 1;
+	    $max_attempts = 0;
+	} elsif (@ARGV > 0) {
 	    $max_attempts = shift(@ARGV);
-	    if ($max_attempts =~ /^\d+$/) {
-		$given_options .= " -f $max_attempts";
-		$good = 1;
-	    }
+	    $good = 1 if $max_attempts =~ /^\d+$/;
 	}
 	if (! $good) {
 	    print STDERR "You must specify a number, 0 or greater, with -R. " .
@@ -1362,7 +1377,14 @@ sub build_rli_array_helper {
 		if (defined($rli_procs{$fun}) && 
 		    defined($rli_procs{$fun}->{$time})) {
 		    my $i = $rli_procs{$fun}->{$time};
-		    if (! $always_download) {
+		    #use status info if user didn't specify always download,
+		    #or if the user did specify always download and the user
+		    #specified some comics and this isn't one of them &&
+		    #its status is 1.
+		    if (! $always_download || 
+			(@selected_comics && 
+			 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
+			 $rli[$i]->{'status'} == 1)) {
 			#copy info from old one into new one, thus
 			#if the module changed, more correct info would be
 			#used.
@@ -1431,19 +1453,23 @@ sub add_referer {
 sub skip_rli {
     my $rli = shift;
     #skip if the rli is undefined or
+    # if the user specified comics, didn't specify always download & 
+    #    didn't specify this comic
     # if it was successfully downloaded or
-    # if the URL was successfully determined and we're still not downloading
-    # or if it's reached the max number of retries
-    if ((! defined($rli) || 
-	     (defined($rli->{'status'}) &&
-	      ($rli->{'status'} == 1 ||
-	       ($rli->{'status'} == 2 && $dont_download)
-	       )
-	      ) || ($max_attempts > 0 && defined($rli->{'tries'}) && 
-		    $rli->{'tries'} >= $max_attempts)
-	 )) {
+    # if the URL was successfully determined and we're still not downloading or
+    # if it's reached the max number of retries
+    if (! defined($rli) || 
+	(@selected_comics && ! $always_download &&
+	 ! grep(/^$rli->{'proc'}$/, @selected_comics)) ||
+	(defined($rli->{'status'}) && 
+	 ($rli->{'status'} == 1 ||
+	  $rli->{'status'} == 2 && $dont_download)) ||
+	(defined($rli->{'tries'}) && 
+	 $max_attempts > 0 && 
+	 $rli->{'tries'} >= $max_attempts)) {
 	return 1;
     } else {
+#	print Data::Dumper->Dump([$rli],[qw(*rli)]);
 	return 0;
     }
 }
@@ -1504,11 +1530,23 @@ sub get_comics {
     my @rli_queue = @rli;
   RLI: while (@rli_queue) {
 	my $rli = pop(@rli_queue);
-	next if skip_rli($rli);
 	my $proc = $rli->{'proc'};
 	my $time = $rli->{'time'};
-	my ($title,$name,$base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) =
-	    (undef)x10;
+	my $name = undef;
+	#first construct the name because this is also used by webpage creation
+	if (defined($rli->{'title'})) {
+	    #todo: stick in here, using options to determine how to
+	    #name the file.
+	    $name = strftime("$rli->{'title'}-${date_fmt}",gmtime($time));
+	} else { 
+	    print STDERR "Error: No name or title provided for the " .
+		"comic identified by $proc. Not using $proc\n";
+	    next;
+	}
+	$name =~ s/\s/_/g;
+	$rli->{'name'} = $name;
+	next if skip_rli($rli);
+	my ($base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
       SETUPDATA:
 	$base = $rli->{'base'} if exists $rli->{'base'};
 	$page = $rli->{'page'} if exists $rli->{'page'};
@@ -1516,7 +1554,6 @@ sub get_comics {
 	$exprs = $rli->{'exprs'} if exists $rli->{'exprs'};
 	$func = $rli->{'func'} if exists $rli->{'func'};
 	$back = $rli->{'back'} if exists $rli->{'back'};
-	$title = $rli->{'title'} if exists $rli->{'title'};
 	$referer = $rli->{'referer'} if exists $rli->{'referer'};
 
 	if (!defined($rli->{'type'})) {
@@ -1532,18 +1569,6 @@ sub get_comics {
 		"identified by $proc. Not using $proc.\n";
 	    next;
 	}
-      CONFIGNAME:
-	if (defined($title)) {
-	    #todo: stick in here, using options to determine how to
-	    #name the file.
-	    $name = strftime("${title}-${date_fmt}",gmtime($time));
-	} else { 
-	    print STDERR "Error: No name or title provided for the " .
-		"comic identified by $proc. Not using $proc\n";
-	    next;
-	}
-	$name =~ s/\s/_/g;
-	$rli->{'name'} = $name;
 	print "$comics_dir/$name\n"
 	    if $verbose && ! $extra_verbose && ! $dont_download; 
 	
@@ -1621,7 +1646,7 @@ sub get_comics {
 		    if (defined($back) && 
 			add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				 "$name($i): fetching '$url' failed.")) {
-			next RLI;
+			goto FINISH_RLI;
 		    }
 		    print STDERR 
 			"failure fetching '$url' for $name ($i).\n";
@@ -1634,7 +1659,7 @@ sub get_comics {
 			    if $verbose;
 			$rli->{'status'} = 2;
 		    } else {
-			next RLI;
+			goto FINISH_RLI;
 		    }
 		}
 	    }
@@ -1651,13 +1676,13 @@ sub get_comics {
 		    if (defined($back) && 
 			add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				 "$name($i): match for '$exp' in $url failed")){
-			next RLI;
+			goto FINISH_RLI;
 		    }
 		    print STDERR "failed to match against '$exp' ($i) for ";
 		    print STDERR "$name in $url.\n";
 		    push(@bad_images,$proc) 
 			unless grep {/^$proc$/} @bad_images;
-		    next RLI;
+		    goto FINISH_RLI;
 		}
 		$url = "$base$1";
 		
@@ -1696,7 +1721,7 @@ sub get_comics {
 			if (defined($back) && 
 			    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				     "$name($i): fetching '$url' failed.")) {
-			    next RLI;
+			    goto FINISH_RLI;
 			}
 			print STDERR 
 			    "failure fetching '$url' for $name ($i).\n";
@@ -1709,7 +1734,7 @@ sub get_comics {
 				if $verbose;
 			    $rli->{'status'} = 2;
 			} else {
-			    next RLI;
+			    goto FINISH_RLI;
 			}
 		    }
 		    $i++; #simply keep track for debugging purposes
@@ -1736,11 +1761,11 @@ sub get_comics {
 		if (defined($back) && 
 		    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 			     "$name($i): function returned no relative urls.")){
-		    next RLI;
+		    goto FINISH_RLI;
 		}
 		print "$name($i): function returned no relative urls.\n" 
 		    if $extra_verbose;
-		next RLI;
+		goto FINISH_RLI;
 	    }
  
 	    my $j = 0;
@@ -1804,7 +1829,7 @@ RELURL:	    while (@relurls) {
 			if (defined($back) && 
 			    add_back($back,$time,$proc,$rli,\@rli_queue,\@rli,
 				     "$name($i): fetching '$url' failed.")) {
-			    next RLI;
+			    goto FINISH_RLI;
 			}
 			print STDERR 
 			    "failure fetching '$url' for $mname ($i).\n";
@@ -1816,7 +1841,7 @@ RELURL:	    while (@relurls) {
 				if $verbose;
 			    $rli->{'status'} = 2;
 			} else {
-			    next RLI;
+			    goto FINISH_RLI;
 			}
 		    } else {
 			$mname .= ".$rli->{'type'}";
@@ -1848,9 +1873,10 @@ RELURL:	    while (@relurls) {
 		unless $dont_download || $rli->{'status'} == 2;
 	}
 	#Eliminate the need to put mulitple status sets to 1 in the code
-	#by assuming that if it was bad, next RLI or status set to 2 was
-	#done.  If another status state is added, this may have to change.
+	#by assuming that if it was bad, jumped to FINISH_RLI or status set
+	#to 2.  If another status state is added, this may have to change.
 	$rli->{'status'} = 1 if $rli->{'status'} == 0;
+FINISH_RLI:
 	$rli->{'tries'} = 0 unless defined $rli->{'tries'};
 	$rli->{'tries'}++;
 	dump_rli($rli) unless $rli->{'status'} == 3;
@@ -1860,17 +1886,23 @@ RELURL:	    while (@relurls) {
 	if $extra_verbose && !$dont_download;
     if (@bad_images > 0) {
 	print "To try retrieving the images that failed, run this command:\n";
-	print "$script_name -c \"@bad_images\"";
-	print " -n $days_of_comics" if ++$days_of_comics > 1;
-	print " -W" if $make_webpage;
-	print "=$comics_per_page" if defined $comics_per_page && $make_webpage;
+	print "$script_name -nR";
+	if (! $data_dumper_installed) {
+	    print " -c \"@bad_images\"";
+	    print " -n $days_of_comics" if ++$days_of_comics > 1;
+	}
+	if ($make_webpage) {
+	    print " -W";
+	    print "=$comics_per_page" if defined $comics_per_page;
+	}
 	print $given_options;
 	print "\n";
-	print "Please, before sending in a bug report on a comic that doesn't";
-	print " download,\ntry over a period of several days (or weeks, ";
-	print "depending on the problem) to\nsee if it just happened to be ";
-	print "that the website maintainer for that comic\n";
-	print "didn't update the comic promptly.\n";
+	print <<END;
+Please, before sending in a bug report on a comic that doesn't download,
+try over a period of several days (or weeks, depending on the problem) to
+see if it just happened to be that the website maintainer for that comic
+didn't update the comic promptly.
+END
     }
     return @images;
 }
@@ -2184,10 +2216,17 @@ sub create_webpage {
 		$size = image_size("$comics_dir/$image") 
 		    if $rli->{'status'} == 1;
 		if (! defined($size) && defined($rli->{'size'})) {
-		    #get the size from the specified default since this
-		    #is either a URL or the size couldn't be determined
-		    $size = "WIDTH=" . $rli->{'size'}->[0] .
-			" HEIGHT=" . $rli->{'size'}->[1];
+		    my $size = $rli->{'size'};
+		    if (ref($size) ne "ARRAY") {
+			print STDERR "$rli->{'title'}: size is not an array:" .
+			    "\"$size\".  Please inform the comic maintainer.\n"
+				if $verbose;
+		    } else {
+			#get the size from the specified default since this
+			#is either a URL or the size couldn't be determined
+			$size = "WIDTH=" . $size->[0] .
+			    " HEIGHT=" . $size->[1];
+		    }
 		}
 		my $width = (defined($size) && $size =~ /(WIDTH=\d+)/) ? 
 		    $1 : "";
@@ -2624,12 +2663,14 @@ sub usage
 usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
                  [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
                  [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw]
-   -a: always download, even if a comic was successfully downloaded before
+   -a: if comics are specified, forcibly try to download them and also try
+       to download any comics that weren't successfully downloaded.
+       if comics aren't specified, forcibly (re)download all comics.
    -A: act as if the days specified with S, T or E were today
    -b: specify that you prefer the comics to be in black & white--not color
    -B: specify that you prefer the comics color (override rc file setting)
-   -c: get the listed comics (ids are seperated by white spaces)
-   -C: don't get the listed comics (ids are seperated by white spaces)
+   -c: get the listed comics (ids are separated by white spaces)
+   -C: don't get the listed comics (ids are separated by white spaces)
    -d: put comics into directory (default /var/spool/netcomics)
    -D: delete files in directory before retreiving
    -nD:don't delete files in directory (override rc file setting)
@@ -2650,6 +2691,7 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -q: show what comics would be downloaded; don't actually do anything.
    -r: specify the rc filename (default ~/.netcomicsrc)
    -R: specify the max attempts to download a comic between invocations
+   -nR:specify there's no maximum number of attempts (same as -R 0).
    -s: skip bad comics when creating the webpage
    -S: specify a starting date of a range of days of comics to retrieve
    -t: location of html tmpl files (default /usr/share/netcomics/html_tmpl)
