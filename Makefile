@@ -101,7 +101,6 @@ MODULES = lib/after_y2k \
 	lib/foxtrot \
 	lib/frankandernest \
 	lib/gaming_u \
-	lib/garfield \
 	lib/gilthorp \
 	lib/gpf \
 	lib/greystoneinn \
@@ -179,6 +178,7 @@ OLDMODULES = \
 	dilbert \
 	fatjesus \
 	fce \
+	garfield \
 	glasbergen \
 	goats \
 	heaven_and_earth \
