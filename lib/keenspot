@@ -1893,7 +1893,7 @@ sub wendy {
 		  20020213,20020215);
 
     # Old wendy had a very irregular release cycle, therefor using an exists
-    # list. The new wendy seems to be released every monday.
+    # list. The new wendy is released every monday until end of cutewendy.
     # After the end of cutewendy, wendy is planned to be released
     # every MWF.
 
@@ -1902,7 +1902,8 @@ sub wendy {
 	 ($date < 19900711) || #first comic on July 11, 1990 (?!)
 	 ($date < 20020216 && ! grep(/$date/,@exists)) || # old wendy
 	 ($date >= 20020216 && $date < 20020513 && $ltime[6] !~ /[1]/) || # wendy since 20020218
-	 ($date >= 20020513 && $ltime[6] !~ /[135]/) # wendy after may 13th 2002
+	 ($date >= 20020513 && $date < 20020519) || # week w/o wendy
+	 ($date >= 20020520 && $ltime[6] !~ /[135]/) # wendy after may 20th 2002
 	);
 
     my $title = "Wendy";
