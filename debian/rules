@@ -50,6 +50,14 @@ install: configure build
 	$(MAKE) TMPDIR=/var/cache/netcomics PREFIX=/usr SITEPREFIX=/usr
 	$(MAKE) PREFIX=$(CURDIR)/debian/tmp/usr SITEPREFIX=$(CURDIR)/debian/tmp/usr TMPDIR=$(CURDIR)/debian/tmp/var/cache/netcomics install
 
+	mkdir $(CURDIR)/debian/tmp/etc/
+	mv $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/etc/netcomicsrc $(CURDIR)/debian/tmp/etc/netcomicsrc
+
+	# We need to use a temp file because otherwise Config.pm gets cut off to
+	# 8166 bytes.
+	mv $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp
+	cat $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp | perl -pe "s%/usr/share/perl5/Netcomics/etc%/etc%gm" > $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm
+	rm $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp
 	# 
 
 	dh_movefiles

@@ -1,6 +1,20 @@
+2002-02-21  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/rules: Add code outside the Makefiles to put files in the
+	right place for a Debian system. One less policy violation.
+
 2002-02-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/littlegamers: Added thanks to Garry Glendown
+	
+2002-02-17  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/rules: Bring netcomics one step closser to being compliant
+	with Debian policy. Moved netcomicsrc from /usr.../perl5/Netcomics/etc
+	to /etc.
+	* debian/netcomics.files: We should install netcomicsrc :)
+	* debian/netcomics.conffiles: Changed etc/netcomicsrc to 
+	/etc/netcomicsrc
 
 2002-02-11  Elliot Glaysher  <glaysher@umich.edu>
 

@@ -1,10 +1,10 @@
+etc/netcomicsrc
 usr/bin/netcomics
 usr/bin/display_comics
 usr/bin/show_comics
 usr/share/perl5/Netcomics/ExternalUserAgent.pm
 usr/share/perl5/Netcomics/HTML/*
 usr/share/perl5/Netcomics/MyResponse.pm
-usr/share/perl5/Netcomics/etc/*
 usr/share/perl5/Netcomics/Factory.pm
 usr/share/perl5/Netcomics/HTML.pm
 usr/share/perl5/Netcomics/RLI.pm
