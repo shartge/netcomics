@@ -1,3 +1,8 @@
+2001-05-13  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* gtkcomics (Display_comic) : More updates. On the way to actually 
+	working. Now can send proc AND date off the $factory.
+	
 2001-05-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (AP4NAME): Changed to gtkcomics

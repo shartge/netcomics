@@ -21,7 +21,7 @@
 #To add your own comic lib modules, first visit the comic strip resource at:
 #http://comics.kurle.com/resource/
 #to find the comic you want.
-				 
+
 $0 =~ s,.*/,,;  # use basename only
 
 use POSIX;
@@ -51,7 +51,7 @@ my $factory = Netcomics::Factory->new($conf);
 $factory->setup;
 
 $factory->list_comics(), exit(0) if ($do_list_comics);
-	
+
 #get_comics returns a list of comics which is used to help determine
 #if a comic in the directory was just downloaded or not.
 #dump_rli(\@rli) if $single_rli_file;
@@ -69,7 +69,7 @@ if ($remake_webpage) {
 	#with the same comic-date, that the multi-file comics can be processed
 	#first.
 	@files = sort(grep(/(xpm|gif|jpe?g|tiff?|png)$/,@files));
-	
+
   RMW:
 	while (@files) {
 		my $file = shift(@files);

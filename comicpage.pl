@@ -134,13 +134,26 @@ sub Display_comic {
 
 	#$conf->clear_date_settings();
 	@selected_comics = ( "$proc" );
-	@dates = ( mkgmtime(0,0,12,$day,$month,$year) );
+	my $day_to_download = mkgmtime(0,0,12,$day,$month,$year-1900);
+	&Netcomics::Config::clear_date_settings;
+
+	$end_date = $day_to_download; # (no -E)
+	$start_date = $day_to_download; # (no -S)
+
 	$factory->setup();
 
+	# Let's get the comics!
 	my @rli = $factory->get_comics();
 	my @comics = $factory->files_retrieved();
 	my @existing_rli_files = $factory->existing_rli_files();
 	my $get_current = $factory->get_current();
+	print Data::Dumper->Dump([@comics],[qw(*@comics)]);
+	print Data::Dumper->Dump([$factory->{'rli'}],[qw(*$factory->{'rli'})]);
+	print Data::Dumper->Dump([$get_current],[qw(*$get_current)]);
+
+	#my %retrieved = @comics[0];
+	#my $filename = $comics_dir.$retrieved{'file'}[0];
+	#print "Going to display: $filename \n";
 
 	#$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
 	#$forms->{'window_comic_page'}{'pixmap1'}->show();

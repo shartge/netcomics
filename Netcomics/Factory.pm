@@ -130,7 +130,7 @@ sub setup {
 	$self->{'existing_rli_files'} = [];
 	$self->{'files_retrieved'} = [];
 	$self->{'get_current'} = undef;
-		
+
 	#make sure user specified existing functions
 	#and set the %hof to those the user specified
 	if ($user_specified_comics || $user_unspecified_comics) {
@@ -155,15 +155,12 @@ sub setup {
 		}
 	}
 
-	#print Data::Dumper->Dump([$self->{'hof'}],[qw(*$self->{'hof'})]);
-
 	print Data::Dumper->Dump([$self->{'rli_procs'}],[qw(*$self->{'rli_procs'})])
 	if $data_dumper_installed && $extra_verbose && $show_tasks;
-	
+
 	#
 	#Do the work.
 	#
-
 	$self->{'get_current'} = $self->build_date_array();
 	if ($extra_verbose) {
 		print "dates: ";
