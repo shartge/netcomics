@@ -21,7 +21,7 @@ sub doodie {
 	       'page' => "index.php?date=$date",
 	       'exprs' => {
 		   'comic' => ["(pics/[^\\.]+\\.gif\\.$date)"],
-		   'caption' => ["$date.*?(<div.*?</div>)"],
+		   'caption' => ["gif\\.$date.*?(<pre.*?</pre>)"],
 	       },
 	       );
     return \%rec;
