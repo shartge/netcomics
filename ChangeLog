@@ -1,5 +1,11 @@
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/elf_life (elf): Fixed the type field regexp
+	(thanks to Jeremy Bettis).
+	* lib/dr_fun (drfun): Disabled the size
+	(thanks to Jeremy Bettis).
+	* lib/clan_cats: file type can also be jpg
+	(thanks to Jeremy Bettis).
 	* lib/norm (nm): Updated the sunday size thanks to 
 	Brent Nordquist.
 	* netcomics (skip_rli): Added logic to catch when the user

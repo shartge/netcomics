@@ -21,7 +21,7 @@ sub cotc {
 	'archives' => 'http://www.clanofthecats.com/Archives.htm',
 	'base' => "http://www.clanofthecats.com",
 	'page' => ($tdiff == 0) ? "/" : "/d/$page.html",
-	'exprs' => ["SRC=\"(/comics/$page\[^\\.\]*\\.[Gg][Ii][Ff])\""],
+	'exprs' => ["SRC=\"(/comics/$page\[^\\.\]*\\.[GgJj][IiPp][FfGg])\""],
 	'size' => [675,($ltime[6]==0? 735 : 255)],
     };
     return $rec;

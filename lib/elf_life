@@ -23,7 +23,7 @@ sub elf {
 	'page' => strftime("/d/%Y%m%d.html",@ltime),
 	'exprs' => {
 	    'comic' => [strftime("SRC=\"(/comics/%Y%m%d.*?)\"",@ltime)],
-	    'type' => [strftime("SRC=\"/comics/%Y%m%d.*?\.(\w+)\"",@ltime)],
+	    'type' => [strftime("SRC=\"/comics/%Y%m%d.*?\\.(\\w+)\"",@ltime)],
 	},
     };
     return $rec;

@@ -21,7 +21,7 @@ sub drfun {
 	'archives' => "http://metalab.unc.edu/Dave/archive.html",
 	'base' => "http://metalab.unc.edu/Dave/Dr-Fun",
 	'page' => strftime($page_fmt,@ltime),
-	'size' => ($ltime[6] == 0 ? [614,1080] : [744,1338])
+	#'size' => ($ltime[6] == 0 ? [614,1080] : [744,1338])
     };
     return $rec;
 }
