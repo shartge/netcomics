@@ -1,3 +1,8 @@
+2002-03-27  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/sluggy_freelance (sluggy): Note to self: Remove your debugging
+	messages BEFORE making a commit.
+
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/HTML/Theme.pm: Fixed mis-named html_key.

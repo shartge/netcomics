@@ -33,7 +33,6 @@ sub sluggy {
   	  #repeatedly match and replace.  
           while (1) {
             if ($text =~ s/src=".*?(\/comics\/.*?$date.*?\.((:?jpg)|(:?gif)|(:?png)))"//i) {
-				print "Found $1\n!";
               push(@relurls,$1);
               $rec->{'type'} = $2;
               #last if ($date2 == strftime("%Y%m%d",@ltime2) && $ltime2[6] != 0);
