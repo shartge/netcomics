@@ -1,0 +1,183 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+foreach (qw(adam bliss bz bd cathy cd cth corn cr cs dp hc fw fusco geech itb 
+	    boffo ob rla sc stsp tank paint ziggy)) {
+    $hof{$_} = 14;
+}
+
+#UExpress http://www.uexpress.com/ups/comics/
+sub uexpress {
+    #get arguments (fp stands for file prefix)
+    my ($time,$title,$author,$fp,$sun_size,$wd_size) = @_;
+    my @ltime = gmtime($time);
+    my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
+    return undef unless defined $size;
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => 'gif',
+	'main' => "http://www.uexpress.com/ups/comics/$fp",
+	'archives' => "http://www.uexpress.com/ups/comics/$fp",
+	'base' => "http://www.uexpress.com",
+	'page' => strftime("/ups/comics/$fp/pages/$fp%y%m%d.html",@ltime),
+	'exprs' => ["(\/ups\/comics\/$fp\/strips\/$fp\\d+\.gif)"],
+	'size' => $size
+    };
+    return $rec;
+}
+
+#Adam@home http://www.uexpress.com/ups/comics/ad/
+sub adam {
+    return uexpress(shift(@_),"Adam at Home","Brian Basset","ad",
+		    [600,428],[600,200]);
+}
+
+#Bizzaro http://www.uexpress.com/ups/comics/bz/
+sub bz {
+    return uexpress(shift(@_),"Bizzaro","Dan Piraro","bz",
+		    [300,356],[600,312]);
+}
+
+#Bliss http://www.uexpress.com/ups/comics/sh/
+sub bliss {
+    return uexpress(shift(@_),"Bliss","Stephen Hersh","sh",
+		    [600,260],[600,190]);
+}
+
+#The Boondocks http://www.uexpress.com/ups/comics/bo/
+sub bd {
+    return uexpress(shift(@_),"The Boondocks","Aaron McGruder","bo",
+		    [600,275],[600,190]);
+}
+
+#Cathy http://www.uexpress.com/ups/comics/ca/
+sub cathy {
+    return uexpress(shift(@_),"Cathy","Cathy Guisewite","ca",
+		    [600,414],[600,192]);
+}
+
+#Citizen Dog http://www.uexpress.com/ups/comics/cd/
+sub cd {
+    return uexpress(shift(@_),"Citizen Dog","Mark O'Hare","cd",
+		    [600,275],[600,195]);
+}
+
+#Close to Home http://www.uexpress.com/ups/comics/cl/
+sub cth {
+    return uexpress(shift(@_),"Close to Home","John McPherson","cl",
+		    [600,280],[300,382]);
+}
+
+#Cornered http://www.uexpress.com/ups/comics/co/
+sub corn {
+    return uexpress(shift(@_),"Cornered","Mike Baldwin","co",
+		    [600,280],[300,330]);
+}
+
+#Crabby Road http://www.uexpress.com/ups/comics/cr/
+sub cr {
+    return uexpress(shift(@_),"Crabby Road","John Wagner","cr",
+		    [300,440],[300,440]);
+}
+
+#Crankshaft http://www.uexpress.com/ups/comics/cs/
+sub cs {
+    return uexpress(shift(@_),"Crankshaft","Tom Batiuk & Chuck Ayers","cs",
+		    [600,355],[600,184]);
+}
+
+#The Duplex http://www.uexpress.com/ups/comics/dp/
+sub dp {
+    return uexpress(shift(@_),"The Duplex","Glenn McCoy","dp",
+		    [600,280],[600,190]);
+}
+
+#Fifth Wave http://www.uexpress.com/ups/comics/fw/
+sub fw {
+    return uexpress(shift(@_),"Fifth Wave","Rich Tennant","fw",
+		    [500,500],undef);
+}
+
+#The Fusco Brothers http://www.uexpress.com/ups/comics/fu/
+sub fusco {
+    return uexpress(shift(@_),"The Fusco Brothers","Joe Duffy","fu",
+		    [600,396],[600,180]);
+}
+
+#Geech http://www.uexpress.com/ups/comics/ge/
+sub geech {
+    return uexpress(shift(@_),"Geech","Jerry Bittle","ge",
+		    [600,422],[600,190]);
+}
+
+#Heart of the City http://www.uexpress.com/ups/comics/hc/
+sub hc {
+    return uexpress(shift(@_),"Heart of the City","Mark Tatulli","hc",
+		    [600,280],[600,190]);
+}
+
+#In the Bleachers http://www.uexpress.com/ups/comics/bl/
+sub itb {
+    return uexpress(shift(@_),"In the Bleachers","Steve Moore","bl",
+		    [600,422],[300,362]);
+}
+
+#Mister Boffo http://www.uexpress.com/ups/comics/mb/
+sub boffo {
+    return uexpress(shift(@_),"Mister Boffo","Joe Martin","mb",
+		    [600,422],[600,180]);
+}
+
+#Overboard http://www.uexpress.com/ups/comics/ob/
+sub ob {
+    return uexpress(shift(@_),"Overboard","Chip Dunham","ob",
+		    [600,276],[600,200]);
+}
+
+#Real Life Adventures http://www.uexpress.com/ups/comics/rl/
+sub rla {
+    return uexpress(shift(@_),"Real Life Adventures",
+		    "Lance Aldrich & Gary Wise","rl",[600,280],[300,395]);
+}
+
+#Second Chances http://www.uexpress.com/ups/comics/se/
+sub sc {
+    return uexpress(shift(@_),"Second Chances","Jeff Millar & Bill Hinds","se",
+		    [600,280],[600,190]);
+}
+
+#Stone Soup http://www.uexpress.com/ups/comics/ss/
+sub stsp {
+    return uexpress(shift(@_),"Stone Soup","Jan Eliot","ss",
+		    [600,280],[600,190]);
+}
+
+#Tank McNamara http://www.uexpress.com/ups/comics/tm/
+sub tank {
+    return uexpress(shift(@_),"Tank McNamara","Jeff Millar & Bill Hinds","tm",
+		    [600,422],[600,195]);
+}
+
+#Tradin' Paint http://www.uexpress.com/ups/comics/tp/
+sub paint {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 6; #only Saturday comics
+    return uexpress($time,"Trading Paint","Geof Brooks","tp",
+		    undef,[600,218]);
+}
+
+#Us & Them http://www.uexpress.com/ups/comics/ut/
+sub uat {
+    return uexpress(shift(@_),"Us and Them","Susan Dewar & Milt Priggee","ut",
+		    [600,260],[600,190]);
+}
+
+#Ziggy http://www.uexpress.com/ups/comics/zi/
+sub ziggy {
+    return uexpress(shift(@_),"Ziggy","Tom Wilson","zi",
+		    [600,412],[300,310]);
+}
+
+1;
