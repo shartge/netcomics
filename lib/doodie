@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"doodie"} = 0;
+
+sub doodie {
+    my $today = shift;
+    my @ltime = gmtime($today);
+    my $daysago = (time - $today)/(3600*24);
+    $daysago =~ s/^(\d+)\./$1/;
+    my $archives = "members/doodie/index.cfm?pid=6226";
+    my $base = "http://www.bla-bla.com/";
+    my %rec = ('title' => "Doodie",
+	       'author' => "Tom Winkler",
+	       'type' => "gif",
+	       'main' => "http://www.doodie.com/",
+	       'archives' => $base . $archives,
+	       'base' => $base,
+	       'tz' => 8,
+	       'hour' => 1);
+
+    #the end of the archive is constantly changing because the dates
+    #assigned to comics change every Monday (or whenever the first 
+    #comic of the week is)
+
+    #none if the day is after Sep 17, 1999 and is Saturday or Sunday 
+    return if ($today >= 937612800 && ($ltime[6] == 0 || $ltime[6] == 6));
+
+    #Because the retrieved webpages are being treated as a single line
+    #in netcomics when being matched on, .*? is used for matching the
+    #mimimum possible.  See the backtracking section in the perlre manpage.
+    my $date_expr = strftime("%m/%d/%Y",@ltime);
+    my $pic_expr = '"(homes/doodie/pics/.*?)"';
+    my $caption_expr = $date_expr . '.*?(<div.*?<\/div>)';
+    if ($daysago == 0) {
+	$rec{'page'} = "members/doodie/index.cfm?pid=5867";
+	$rec{'exprs'} = {'comic' => [$date_expr . '.*?' . $pic_expr],
+			 'caption' => [$caption_expr]};
+    } else {
+	$rec{'page'} = $archives . "&startr=" . ($daysago - 1);
+	$rec{'exprs'} = {
+	    'comic' => ['href="(members/doodie/index\.cfm\?[^"]+)">\s*<[^>]+>' 
+			. $date_expr,$pic_expr],
+	    'caption' => [$caption_expr,undef]};
+    }
+    return \%rec;
+}
+
+1;

@@ -1,0 +1,100 @@
+#-*-Perl-*-
+
+foreach (qw(alex crackers bottom mixed dtracy bstar gas annie)) {
+    $hof{$_} = 0;
+}
+
+#Nando Comics http://www.nando.net/nt/comics
+sub NandoComics {
+    my ($time,$title,$author,$dir,$file,$wd_type,$sun_type,$wd_size,$sun_size,
+	$noprefix) = @_;
+    return undef if $time < 873849600; #Sept 10, 1997
+    my @ltime = gmtime($time);
+    my ($size,$type,$datedir);
+    if ($ltime[6] == 0) {
+	$size = $sun_size;
+	$type = $sun_type;
+    } else {
+	$size = $wd_size;
+	$type = $wd_type;
+    }
+    return undef unless defined($size) && defined($type);
+
+    if (($noprefix && $time >= 946684800) || #Jan 1, 2000
+	$time >= 947462400) { #Jan 10, 2000
+	my ($month) = $ltime[4] + 1;
+	$datedir = strftime("$month.$ltime[3].%y",@ltime);
+	$file = strftime("%m%d%y",@ltime) . $file unless $noprefix;
+    } else {
+	$datedir = strftime("%m.%d.%y",@ltime);
+    }
+
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://www.nandotimes.com/nt/comics/$dir/today",
+	'archives' => "http://www.nandotimes.com/nt/comics/$dir/archive",
+	'base' => "http://www.nandotimes.com/nt/comics/$dir",
+	'page' => strftime("/archive/$datedir/$file.$type",@ltime),
+	'size' => $size,
+    };
+    return $rec;
+}
+
+#Alex's Restaurant http://www.nandotimes.com/nt/comics/alex/
+sub alex {
+    my $time = shift;
+    return undef if ($time < 871257600 || # Aug 11, 1997
+		     $time == 947419200); # Jan 9, 2000
+    return NandoComics($time,"Alexs Restaurant","Peter Sinclair","alex","full",
+		       'gif','gif',[620,230],[298,230],1);
+}
+
+#Animal Crackers http://www.nandotimes.com/nt/comics/animal/
+sub crackers {
+    return NandoComics($_[0],"Animal Crackers","Fred Wagner","animal","animal",
+		       'gif','jpeg',[504,157],[922,640]);
+}
+
+#Bottom Liners http://www.nandotimes.com/nt/comics/bottom/
+sub bottom {
+    my $time = shift;
+    return undef if $time < 873849600; #Sept. 10, 1997 first comic
+    return NandoComics($time,"Bottom Liners","Eric & Bill","bottom","bottom",
+		       'gif',undef,[216,208],undef);
+}
+
+#Mixed Media http://www.nandotimes.com/nt/comics/mixed/
+sub mixed {
+    return NandoComics($_[0],"Mixed Media","","mixed",
+                       "mixed",'gif','jpeg',[504,157],[922,645]);
+}                                                                              
+
+#Dick Tracy http://www.nandotimes.com/nt/comics/dick/
+sub dtracy {
+    return NandoComics($_[0],"Dick Tracy","","dick",
+                       "dick",'gif','jpeg',[504,157],[922,645]);
+}                                                                              
+
+#Brenda Star http://www.nandotimes.com/nt/comics/brenda/
+sub bstar {
+    return NandoComics($_[0],"Brenda Star","","brenda",
+                       "brenda",'gif','jpeg',[504,157],[922,645]);
+}                                                                              
+
+
+#Orphan Annie http://www.nandotimes.com/nt/comics/annie/
+sub annie {
+    return NandoComics($_[0],"Orphan Annie","","annie",
+                       "annie",'gif','jpeg',[504,157],[922,645]);
+}                                                                              
+
+#Gasoline Alley http://www.nandotimes.com/nt/comics/gas/
+sub gas {
+    return NandoComics($_[0],"Gasoline Alley","","gas",
+                       "gas",'gif','jpeg',[504,157],[922,645]);
+}                                                                              
+
+1;
+
