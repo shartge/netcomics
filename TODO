@@ -122,6 +122,10 @@ into a perl module.  This would also make it so that netcomics could
 better work in a daemon mode where it can continually monitor comic
 strips that haven't yet successfully downloaded.
 
+** Filetype from final URL
+Add option for modules to utilize that instructs netcomics to derive
+the filetype from the URL used to download the image.
+
 -----------------------------------------------------------------------
 
 * Bugs
