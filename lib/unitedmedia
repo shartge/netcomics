@@ -1,0 +1,127 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+foreach (qw(eek buckets fatcats gf topworld meatloaf tarzan ripleys)) {
+    $hof{$_} = 7;
+}
+
+sub um_cal {
+  # Based on a copy of "comiczone_cal"
+  my $time = shift;
+  my @ltime = gmtime($time);
+  my $ntime = time;# - (7*3600*24);
+  my @ntime = gmtime($ntime);
+  #determine the length of the previous month (number of days between one
+  #week ago and the same day of the month last month plus one day)
+  my $ptime = mkgmtime(@ntime[0..1],$ntime[2]-1,$ntime[3],
+		       ($ntime[4] == 0 ? 11 : $ntime[4] - 1),
+		       ($ntime[4] == 0 ? $ntime[5] - 1 : $ntime[5]))-24*3600;
+  my $mon_len = ($ntime - $ptime)/(3600*24);
+  $mon_len =~ s/^(\d+)(\.\d+)*/$1/g;
+  
+  #since there's only a month of archive, can't allow past that even if
+  #the cal number is greater than 0.
+  # return 0 if $time < ($ntime - 24*3600*($mon_len));
+  #Monday 6 or 7 weeks ago is cal #1, depending on number of days in month
+  #and the day of the week the same day of the month last month as a week
+  #ago was. Go to a comic's archives to see the current cal #'s for each
+  #day in previous month of comics
+  my @ptime = gmtime($ptime);
+  my $monday_a_month_ago = $ntime - 24*3600*($mon_len) -
+    24*3600*($ptime[6] == 0 ? 7 : $ptime[6]); #sunday is last day in week
+  #add in a half a day to round the division properly
+  my $cal = ($time - $monday_a_month_ago + 12*3600)/(24*3600);
+  $cal =~ s/^(\d+)(\.\d+)*/$1/g;
+  $cal = "0" . $cal if $cal < 10 && $cal > 0;
+  return $cal;
+}
+
+sub unitedmedia {
+  #get arguments (fp stands for file prefix)
+  my ($time,$title,$author,$fp,$sun_size,$wd_size) = @_;
+  my @ltime = gmtime($time);
+  my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
+  return undef unless defined $size;
+
+  my $wday = $ltime[6];
+  my $ntime = time;
+  my $t_day = strftime("%Y%m%d",@ltime);
+  my $n_day = strftime("%Y%m%d",gmtime($ntime - 7*24*3600));
+  my $nwd = ($wday == 0) ? 7 : $wday; #shift sunday to 7
+  my $s_day = substr($t_day,0,$nwd) . '\d+' . substr($t_day,$nwd,8-$nwd);
+  
+  my %rec =
+    (
+     'title' => $title,
+     'author' => $author,
+     'type' => 'gif',
+     'main' => "http://www.unitedmedia.com/comics/$fp/ab.html",
+     'archives' => "http://www.unitedmedia.com/comics/$fp/archive/",
+     'base' => "http://www.unitedmedia.com",
+     'exprs' => ["(\/comics\/$fp\/archive\/images\/$fp$s_day\\.(gif|jpg))"],
+     'size' => $size
+    );
+  
+  if ($t_day == $n_day) {
+    $rec{'page'} = "/comics/$fp/ab.html";
+  } else {
+    my $cal = um_cal($time);
+    return undef if $cal < 1;
+    $rec{'page'} = "/comics/$fp/archive/cal-$cal.html";
+  }
+  
+  return \%rec;
+}
+
+#Eek & Meek http://www.unitedmedia.com/comics/eekmeek/ab.html
+#no Sunday comic
+sub eek {
+#seems to be finished, disabling for now
+return undef;
+    return unitedmedia(shift(@_),"Eek and Meek","Howie Schneider","eeknmeek", 
+	undef,[600,200]);
+}
+
+#Buckets http://www.unitedmedia.com/comics/buckets/ab.html
+sub buckets {
+    return unitedmedia(shift(@_),"Buckets","Scott Stantis","buckets", 
+	[725,382],[600,200]);
+}
+
+#Fat Cats http://www.unitedmedia.com/comics/fatcats/ab.html
+sub fatcats {
+    return unitedmedia(shift(@_),"Fat Cats","Charlie Podrebarac","fatcats", 
+	[725,382],[600,200]);
+}
+
+#Get Fuzzy http://www.unitedmedia.com/comics/getfuzzy/ab.html
+sub gf {
+    return unitedmedia(shift(@_),"Get Fuzzy","Darby Conley","getfuzzy", 
+	[725,371],[600,210]);
+}
+
+#Top Of The World http://www.unitedmedia.com/comics/topofworld/ab.html
+sub topworld {
+    return unitedmedia(shift(@_),"Top Of This World","Mark Tonra","topofworld", 
+	[725,382],[600,212]);
+}
+
+#Meatloaf Night http://www.unitedmedia.com/comics/meatloaf/ab.html
+sub meatloaf {
+    return unitedmedia(shift(@_),"Meatloaf Night","Mark Buford","meatloaf", 
+	[725,382],[600,212]);
+}
+
+#Tarzan http://www.unitedmedia.com/comics/tarzan/ab.html
+sub tarzan {
+    return unitedmedia(shift(@_),"Tarzan","Gray Morrow","tarzan", 
+	[725,382],[600,212]);
+}
+
+#Ripleys Believe it or not http://www.unitedmedia.com/comics/ripleys/ab.html
+sub ripleys {
+    return unitedmedia(shift(@_),"Ripleys Believe It Or Not",
+	"Don Wimmer and Karen Kemlo","ripleys", [725,516],[300,430]);
+}
+
+1;
