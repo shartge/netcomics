@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# written by han@tajt.se
+#
+# example crontab:
+# 0 1 * * * /misc/pkg/netcomics-0.4/bin/comics_update
+# 0 3 * * * /misc/pkg/netcomics-0.4/bin/comics_update update
+# 0 5 * * * /misc/pkg/netcomics-0.4/bin/comics_update update
+
+# used to make directorys to store comics in.
+DATE=`date +%Y-%m-%d`
+
+# dir where your comics get stored
+CCD='/home/tajt/htdocs/comics'
+
+# save this amount of days
+SAVE=7
+
+# the output of the netcomics script gets stored in this file ... (to
+allow updates ocf missing comics)
+OUTPUT="$CCD/current-session"
+
+# this is the comics I'll like to download
+COMICS="dilbert kk ss uf wiz rm oth ma hg ga blondie bb ch ft hi peanuts"
+
+
+##### end och config ######
+
+# if getcomics is called with "update" with argument only update the
+missing comics ...
+if [ "$1" != "update" ] ; then
+  COMICS=`grep netcomics $OUTPUT | sed 's/netcomics -c //' | sed
+'s/\"//g'`
+fi
+
+# check that the specified $CCD dir exist ...
+if [ ! -d $CCD ] ; then
+  echo "$CCD does not exist"
+  exit
+fi
+cd $CCD
+
+# make and check mkdir op.
+mkdir $DATE
+if [ ! -d $DATE ] ; then
+  echo "$DATE does not exist"
+  exit
+fi
+
+cd $DATE
+  /misc/pkg/netcomics-0.4/bin/netcomics -m
+/misc/pkg/netcomics-0.4/lib/netcomics -d $CCD/$DATE -c "$COMICS" 2>&1 >
+$OUTPUT
+  /misc/pkg/netcomics-0.4/bin/netcomics -m
+/misc/pkg/netcomics-0.4/lib/netcomics -d $CCD/$DATE -t
+/misc/pkg/netcomics-0.4/lib/netcomics/html_tmpl -W
+
+cd $CCD
+
+# remove dir with old comics
+WCL=`ls | wc -l | awk '{ print $1 }'`
+
+while [ $SAVE -lt $WCL ] ; do
+  DEL=`ls -rt|head -1`
+  echo "im eracing: $DEL."
+  rm -rf $DEL
+  WCL=`ls | wc -l | awk '{ print $1 }'`
+done
+
+
