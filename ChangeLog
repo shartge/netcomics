@@ -1,3 +1,9 @@
+2001-07-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/helpdesk (helpdesk): Bug #438428 wasn't totally fixed with
+	the rewrite back on the 4th.  Added use of sort() which hopefully
+	will truely fix the problem.
+
 2001-07-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (get_comics): Fixed improper handling of undef being

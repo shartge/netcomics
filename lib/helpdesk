@@ -102,7 +102,7 @@ sub helpdesk {
 	    #for each image.
 	    my @relurls = 
 		grep(s/.*src=".*?(\/comics\/hd$date\w?\.png)".*/$1/si,@text);
-	    return @relurls;
+	    return sort(@relurls);
 	},
     };
 
