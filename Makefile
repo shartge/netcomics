@@ -104,6 +104,7 @@ MODULES = lib/after_y2k \
 	lib/gpf \
 	lib/greystoneinn \
 	lib/greytown \
+	lib/heaven_and_earth \
 	lib/helen \
 	lib/janesworld \
 	lib/jerkcity \

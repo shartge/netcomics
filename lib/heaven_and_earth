@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+$hof{"heaven"} = 0;
+
+# Heaven and Earth
+# ex : http://nemo.keenspace.com/comics/$date.type
+sub heaven {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    return undef
+        if ($date < 20001225); #first comic on Dec 25, 2000
+
+    my $baseurl = "http://nemo.keenspace.com";
+    my $rec = {
+        'title' => "Heaven and Earth",
+        'Jon Sarn' => "Jon Sarn",
+        'main' => "$baseurl/",
+        'archives' => "$baseurl",
+        'base' => "$baseurl/",
+        'page' => "d/$date.html",
+        'exprs' => {
+            'comic' => ["(comics/$date\\w?\\.(:?(jpg|gif)))"],
+            'type' => ["comics/$date\\w?\\.:?(jpg|gif)"],
+        },
+    };
+    return $rec;
+}
+
+1;
+

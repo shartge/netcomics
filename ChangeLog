@@ -1,5 +1,7 @@
 2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/heaven_and_earth (heaven): Added Heaven and Earth thanks to
+	Shawn Oakey.
 	* lib/mercury: Fixed broken comics & removed Ick & Mickey Mouse.
 	* lib/ctoons: removed because the site's gone.
 	* lib/unitedmedia: Updated thanks to Sizer.
