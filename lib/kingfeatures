@@ -38,19 +38,19 @@ sub kingfeature2 {
   my $sf = (defined($sfx)? $sfx : "gif"); #default suffix of gif
   my @ltime = gmtime($time);
   my $res = kingfeature(@_);
-
-  my $month = strftime("%m", @ltime);
-  $month =~ s/^0//;
-
-  $res->{'page'} = strftime("${fp}%y$month%d.$sf", @ltime);
-
+  if (defined($res)) {
+      my $month = strftime("%m", @ltime);
+      $month =~ s/^0//;
+      $res->{'page'} = strftime("${fp}%y$month%d.$sf", @ltime);
+  }
   return $res;
 }
 
 sub kingfeature3 {
     my ($time,$title,$author,$dir,$fp,$size,$sfx,$sunday) = @_;
     my $rec = kingfeature2(@_);
-    $rec->{'base'} = "http://www.kingfeatures.com/comics/$dir/";
+    $rec->{'base'} = "http://www.kingfeatures.com/comics/$dir/"
+	if defined $rec;
     return $rec;
 }
 
@@ -157,8 +157,8 @@ sub fgordon {
     my $time = shift;
     my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
-    return kingfeature2($time,"Flash Gordon","Jim Keefe","fgordon","fg",
-		       [500,348],"jpg",1);
+    return kingfeature3($time,"Flash Gordon","Jim Keefe","fgordon","fg",
+		       [600,414],"jpg",1);
 }
 
 #Funky Winkerbean http://www.kingfeatures.com/comics/fwinker/
@@ -201,7 +201,7 @@ sub hr {
 #I Need Help http://www.kingfeatures.com/comics/needhelp/index.htm
 sub needhelp {
     return kingfeature(shift(@_),"I Need Help",
-	"Vic Lee", "needhelp","I_Need_Help", [489,157]);
+	"Vic Lee", "needhelp","I_Need_Help", [263,258]);
 }
 
 #Judge Parker http://www.kingfeatures.com/comics/jparker/index.htm
@@ -215,9 +215,9 @@ sub katkids {
     my $time = shift;
     my @ltime = localtime($time);
     return undef if $ltime[6] != 0; #sun only
-    return kingfeature2($time,"Katzenjammer Kids",
+    return kingfeature3($time,"Katzenjammer Kids",
         "Hy Eisman", "katzkids",
-        "kk",[500,333],"jpg",1);                 
+        "kk",[600,404],"jpg",1);                 
 }
 
 #The Lockhorns http://www.kingfeatures.com/comics/lockhorn/
@@ -292,9 +292,9 @@ sub  pvaliant{
     my $time = shift;
     my @ltime = localtime($time);
     return undef if $ltime[6] != 0; #sun only
-    return kingfeature2($time,"Prince Valiant",
+    return kingfeature3($time,"Prince Valiant",
 	"John Cullen Murphy & Cullen Murphy", "pvaliant",
-	"val",[500,348],"jpg",1);
+	"val",[750,500],"jpg",1);
 }  
 
 #Ralph http://www.kingfeatures.com/comics/ralph/
