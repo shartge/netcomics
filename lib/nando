@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(alex crackers bottom mixed dtracy bstar gas annie)) {
+foreach (qw(alex)) {
     $hof{$_} = 0;
 }
 
@@ -59,63 +59,6 @@ sub alex {
     return NandoComics($time,"Alexs Restaurant","Peter Sinclair","alex","full",
 		       'gif','gif',[298,230],[620,230],$year_subdir);
 }
-
-#Animal Crackers http://www.nandotimes.com/nt/comics/animal/
-sub crackers {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Animal Crackers","Fred Wagner","animal","animal",
-		       'gif','jpeg',[504,157],[922,640]);
-}
-
-#Bottom Liners http://www.nandotimes.com/nt/comics/bottom/
-sub bottom {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Bottom Liners","Eric & Bill","bottom","bottom",
-		       'gif',[228,258],undef);
-}
-
-#Mixed Media http://www.nandotimes.com/nt/comics/mixed/
-sub mixed {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Mixed Media","Scott Willis & Jack Ohman","mixed",
-                       "mixed",'gif','jpeg',[504,157],[922,645]);
-}                                                                              
-
-#Dick Tracy http://www.nandotimes.com/nt/comics/dick/
-sub dtracy {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Dick Tracy","Dick Liyer & Mike Kilian","dick",
-                       "dick",'gif','jpeg',[504,157],[922,645]);
-}                                                                              
-
-#Brenda Star http://www.nandotimes.com/nt/comics/brenda/
-sub bstar {
-    return undef if $_[0] < mkgmtime(0,0,0,22,0,98); #archive starts Jan 22, '98
-    #preceding zeros used in the archive dir name until Jan 11, 2000
-    my @ltime = gmtime($_[0]);
-    my $date = strftime("%Y%m%d",@ltime);
-    my $preceding_zeros = ($date > 20000110? 0 : 1);
-    #after Nov 17, 2000, the date doesn't prefix the filename.
-    my $file = ($date > 20001117 ? "brenda" : strftime("%m%d%ybrenda",@ltime));
-    return NandoComics($_[0],"Brenda Star","Brigman - Schmich","brenda",
-                       $file,'gif','jpeg',[504,157],[922,645],0,
-		       $preceding_zeros);
-}                                                                              
-
-
-#Orphan Annie http://www.nandotimes.com/nt/comics/annie/
-sub annie {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Orphan Annie","Jay Maeder & Alan Kupperberg",
-		       "annie","annie",'gif','jpeg',[504,157],[922,645]);
-}                                                                              
-
-#Gasoline Alley http://www.nandotimes.com/nt/comics/gas/
-sub gas {
-    return undef if $_[0] < mkgmtime(0,0,0,1,0,101); #archive starts Jan 1, '01
-    return NandoComics($_[0],"Gasoline Alley","Jim Scancarelli","gas",
-                       "gas",'gif','jpeg',[504,157],[922,645]);
-}                                                                              
 
 1;
 

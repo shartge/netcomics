@@ -1,5 +1,22 @@
 2002-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/comicspage: Moved all nando comics into here except Alex's
+	restaurant.  New comics:
+	Broom Hilda
+	Cats with Hands
+	Doodles
+	Lewis
+	Lola
+	Loose Parts
+	Meehan Streak
+	Monkeyhouse
+	Sylvia
+	Willy 'N Ethel
+	9 to 5
+	Compu-toon
+	Quigmans
+	That's Jake
+	* TODO: Added an item in globalization for language preference.
 	* Netcomics/Factory.pm (load_RLI_files): Fixed syntax error
 	introduced in previous version.
 
