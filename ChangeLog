@@ -1,3 +1,7 @@
+2000-08-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Fixed manpage entries for -I and -i.
+
 2000-08-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/nukees: Added Nukees (thanks to Shawn Oakey).

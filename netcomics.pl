@@ -160,9 +160,11 @@ You'll probably just want to set $external_cmd in your rc file.
 Show usage. Comics will not be downloaded.
 
 =item B<-i>
+
 Don't create an index for the webpages.
 
 =item B<-I>
+
 Create an index for the webpages. Specify this to override the setting 
 in the rc file if need be.
 
