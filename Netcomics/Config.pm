@@ -36,7 +36,7 @@ use vars qw(@EXPORT @ISA);
 	$webpage_on_stdout $skip_bad_comics $sort_by_date $webpage_title
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
-	$webpage_filename_tmpl $webpage_index_filename/; 
+	$webpage_filename_tmpl $webpage_templates $webpage_index_filename/; 
 
 #all the config options & their defaults.
 
@@ -108,6 +108,8 @@ use vars ('$webpage_index'); $webpage_index = 1;
 use vars ('$webpage_filename_tmpl'); 
 $webpage_filename_tmpl = "comics<NUM>.html";
 use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
+use vars ('$webpage_templates'); 
+$webpage_templates = "/usr/share/netcomics/html_tmpl";
 
 #pass in a reference to a config object (not yet implemented)
 #or the name of the script.

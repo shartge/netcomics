@@ -18,7 +18,9 @@ package Netcomics::HTML;
 
 use POSIX;
 use strict;
+use Carp;
 use Netcomics::Util;
+use Netcomics::Config;
 
 #class attributes
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
@@ -29,33 +31,6 @@ sub new {
 	my ($class,$init) = @_;
 	my $self = {};
 	bless $self, $class;
-	#Webpage specific options, go see ./netcomics.
-	$self->{'webpage_on_stdout'} = 0;
-	$self->{'skip_bad_comics'} = 0;
-	$self->{'sort_by_date'} = 0;
-	$self->{'webpage_title'} = "Today's Comics From The Web on <DATE>";
-	$self->{'webpage_index_title'} = "Index for " . $self->{'webpage_title'};
-	$self->{'comics_per_page'} = undef;
-	$self->{'link_color'} = "LINK=#9999FF";
-	$self->{'vlink_color'} = "VLINK=#FF99FF";
-	$self->{'index_link_color'} = "";
-	$self->{'index_vlink_color'} = "";
-	$self->{'background'} = "";
-	$self->{'webpage_index'} = 1;
-	$self->{'webpage_filename_tmpl'} = "comics<NUM>.html";
-	$self->{'webpage_index_filename'} = "index.html";
-	$self->{'webpage_on_stdout'} = 0;
-	$self->{'use_filecmd'} = 0;
-
-	#Properties that HTML needs, but aren't part of the HTML subsystem
-	#Per se, but are still necessary.
-	$self->{'templates'} = "/usr/share/netcomics/html_tmpl";
-	$self->{'reamake_webpage'} = 0;
-	$self->{'dont_download'} = 0;
-	$self->{'comics_dir'} = "/var/spool/netcomics/";
-	$self->{'verbose'} = 1;
-	$self->{'extra_verbose'} = 1;
-	$self->{'sort_by_date'} = 0;
 	
 	return $self;
 }
@@ -70,12 +45,12 @@ sub create_webpage {
 	foreach (@rli) {
 		my $rli = $_;
 
-		next if (!$self->{'remake_webpage'} && defined($rli->{'reloaded'}));
+		next if (!$remake_webpage && defined($rli->{'reloaded'}));
 		my $comic = $rli->{'name'};
 		$_ = $rli->{'status'};
 		if (! defined($_)) {
 			print STDERR "$comic has an undefined status. Skipping.\n" 
-				if $self->{'verbose'};
+				if $verbose;
 			next;
 		} elsif (/[03]/) {
 			#didn't download (if a backup was tried (3), there's another
@@ -93,30 +68,30 @@ sub create_webpage {
 		} else {
 			print STDERR "Unsupported status ($_) for $comic. " .
 				$inform_maintainer;
-			print "Skipping $comic in webpage.\n" if $self->{'verbose'};
+			print "Skipping $comic in webpage.\n" if $verbose;
 			next;
 		}
 		$rlis{$comic} = $rli;
 	}
 	my @comics = keys(%rlis);
-	print "comics = @comics\n" if $self->{'verbose'};
+	print "comics = @comics\n" if $verbose;
 	my $num_comics = @comics;
 	if ($num_comics == 0) {
-		print "\nNot creating a new webpage.\n" if $self->{'verbose'};
+		print "\nNot creating a new webpage.\n" if $verbose;
 		return;
 	}
-	print "\n" if $self->{'verbose'};
-	unless ($self->{'webpage_on_stdout'}) {
-		print "Deleting old webpages (".$self->{'comics_dir'} . 
-				"/<index.html,comic*.html>).\n" if $self->{'verbose'};
-		chdir $self->{'comics_dir'};
+	print "\n" if $verbose;
+	unless ($webpage_on_stdout) {
+		print "Deleting old webpages (".$comics_dir . 
+				"/<index.html,comic*.html>).\n" if $verbose;
+		chdir $comics_dir;
 		unlink <index.html>;
 		unlink <comic*.html>;
 	}
 
-	if ($self->{'verbose'}) {
+	if ($verbose) {
 		print "Creating the webpage";
-		print "s" if defined($self->{'comics_per_page'});
+		print "s" if defined($comics_per_page);
 		print ".\n";
 	}
 
@@ -127,41 +102,42 @@ sub create_webpage {
 	#create a sorted list of the comics
 	my @sorted_comics = sort({libdate_sort($a, $b,
 										   $rlis{$a}{'time'}, $rlis{$b}{'time'},
-										   $self->{'sort_by_date'});} 
+										   $sort_by_date);} 
 							 @comics);
-	print "sorted comics: @sorted_comics\n" if $self->{'extra_verbose'};
+	print "sorted comics: @sorted_comics\n" if $extra_verbose;
 
 	#determine number of groups of comics, and number of comics on each page
-	$self->{'comics_per_page'} = $num_comics 
-			unless defined($self->{'comics_per_page'}); 
-	my $num_groups = $num_comics / $self->{'comics_per_page'};
+	$comics_per_page = $num_comics 
+			unless defined($comics_per_page); 
+	my $num_groups = $num_comics / $comics_per_page;
 	$num_groups =~ s/^(\d+)\.?\d*$/$1/;
-	my $comics_on_last = $num_comics % $self->{'comics_per_page'};
+	my $comics_on_last = $num_comics % $comics_per_page;
 	$num_groups++ if $comics_on_last > 0;
 	print "number of groups    = $num_groups\n" .
-		"comics per page     = $self->{'comics_per_page'}\n" .
+		"comics per page     = $comics_per_page\n" .
 			"comics on last page = $comics_on_last\n"
-				if $self->{'extra_verbose'};
+				if $extra_verbose;
 
 	# Load templates into memory.
 	my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
 		&load_templates($self);
 
-	my $index_body_el_tmpl_tmpl=file_read("$self->{'templates'}/index_body_el.html")
-		if $self->{'webpage_index'};
+	my $index_body_el_tmpl_tmpl=
+		file_read("$webpage_templates/index_body_el.html")
+		if $webpage_index;
 
 	# Process the index.
 	my $index;
-	if ($self->{'webpage_index'}) {
+	if ($webpage_index) {
 		#index head global info
 		$index = $head_tmpl;
 		$index =~ s/<NUM=FIRST>/1/g;
 		$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
-		$index =~ s/<PAGETITLE>/$self->{'webpage_title'}/g;
-		$links_tmpl =~ s/<FILE=INDEX>/$self->{'webpage_index'}_filename/g;
+		$index =~ s/<PAGETITLE>/$webpage_title/g;
+		$links_tmpl =~ s/<FILE=INDEX>/${webpage_index}_filename/g;
 	}
 	@_ = (\$head_tmpl);
-	push(@_,\$index) if $self->{'webpage_index'};
+	push(@_,\$index) if $webpage_index;
 	foreach (@_) {
 		$$_ =~ s/<DATE>/$datestr/g;
 		my @ltime = localtime($time);
@@ -170,23 +146,23 @@ sub create_webpage {
 			$$_ =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
 		}
 	}
-	if ($self->{'webpage_index'}) {
+	if ($webpage_index) {
 		#replace index head globals
-		$index =~ s/<LINK_COLOR>/$self->{'index_link_color'}/g;
-		$index =~ s/<VLINK_COLOR>/$self->{'index_vlink_color'}/g;
-		$index =~ s/<BACKGROUND>/$self->{'background'}/g;
+		$index =~ s/<LINK_COLOR>/$index_link_color/g;
+		$index =~ s/<VLINK_COLOR>/$index_vlink_color/g;
+		$index =~ s/<BACKGROUND>/$background/g;
 	}
 
 	my $i = -1;
 	my $first_file;
 	while (++$i < $num_groups) {
 		my $group = $i + 1;
-		my $first = $i * $self->{'comics_per_page'} + 1;
-		my $last  = $first + $self->{'comics_per_page'} - 1;
+		my $first = $i * $comics_per_page + 1;
+		my $last  = $first + $comics_per_page - 1;
 		$last = $first + $comics_on_last -1 
 			if ($group == $num_groups && $comics_on_last > 0);
-		(my $filename = $self->{'webpage_filename_tmpl'}) =~ s/<NUM>/$group/g;
-		my ($nextfile,$prevfile) = ($self->{'webpage_filename_tmpl'}) x 2;
+		(my $filename = $webpage_filename_tmpl) =~ s/<NUM>/$group/g;
+		my ($nextfile,$prevfile) = ($webpage_filename_tmpl) x 2;
 		my $nextgroup = ($group == $num_groups)? 1 : $group +1;
 		my $prevgroup = $group -1;
 		if ($group == 1) {
@@ -197,7 +173,7 @@ sub create_webpage {
 		$prevfile =~ s/<NUM>/$prevgroup/g;
 
 		print "\nCreating $filename ($first to $last of $num_comics)\n" 
-			if $self->{'extra_verbose'} && !$self->{'webpage_on_stdout'};
+			if $extra_verbose && !$webpage_on_stdout;
 
 		#replace group-global info
 		my $head = $head_tmpl;
@@ -210,10 +186,10 @@ sub create_webpage {
 			$links = $links_tmpl;
 			$links =~ s/<FILE=PREV>/$prevfile/g;
 			$links =~ s/<FILE=NEXT>/$nextfile/g;
-			$links =~ s/<NUM>/$self->{'comics_per_page'}/g;
+			$links =~ s/<NUM>/$comics_per_page/g;
 		}
 		my $index_body_el_tmpl;
-		if ($self->{'webpage_index'}) {
+		if ($webpage_index) {
 			$index_body_el_tmpl = $index_body_el_tmpl_tmpl;
 			$index_body_el_tmpl =~ s/<FILE=CURRENT>/$filename/g;
 			$index_body_el_tmpl =~ s/<PAGE=CURRENT>/$group/g;
@@ -227,15 +203,15 @@ sub create_webpage {
 							   $filename, $group);
 		$index .= $index_body;
 
-		unless ($self->{'webpage_on_stdout'}) {
-			file_write("$self->{'comics_dir'}/$filename",$files_mode,
+		unless ($webpage_on_stdout) {
+			file_write("$comics_dir/$filename",$files_mode,
 					   "$head$links$body$links$tail_tmpl");
 		} else {
 			print "$head$links$body$links$tail_tmpl";
 		}
 	}
-	if ($self->{'webpage_index'} && ! $self->{'webpage_on_stdout'}) {
-		file_write("$self->{'comics_dir'}/$self->{'webpage_index_filename'}",
+	if ($webpage_index && ! $webpage_on_stdout) {
+		file_write("$comics_dir/$webpage_index_filename",
 				   $files_mode, "$index$tail_tmpl");
 	}
 
@@ -255,7 +231,7 @@ sub create_webpage_set {
 		my @current_comic_being_worked_on = ( );
 		my $subdir;
 		my $comic_title;
-		print "\nWorking on: $comic_working\n" if $self->{'verbose'};
+		print "\nWorking on: $comic_working\n" if $verbose;
 		foreach my $rli_scan (@rli_work) {
 			if ($comic_working eq $rli_scan->{'proc'}) {
 				push(@current_comic_being_worked_on, $rli_scan);
@@ -266,12 +242,12 @@ sub create_webpage_set {
 		foreach (@current_comic_being_worked_on) {
 			my $rli = $_;
 
-			next if (!$self->{'remake_webpage'} && defined($rli->{'reloaded'}));
+			next if (!$remake_webpage && defined($rli->{'reloaded'}));
 			my $comic = $rli->{'name'};
 			$_ = $rli->{'status'};
 			if (! defined($_)) {
 				print STDERR "$comic has an undefined status. Skipping.\n" 
-					if $self->{'verbose'};
+					if $verbose;
 				next;
 			} elsif (/[03]/) {
 				#didn't download (if a backup was tried (3), there's another
@@ -289,7 +265,7 @@ sub create_webpage_set {
 			} else {
 				print STDERR "Unsupported status ($_) for $comic. " .
 					$inform_maintainer;
-				print "Skipping $comic in webpage.\n" if $self->{'verbose'};
+				print "Skipping $comic in webpage.\n" if $verbose;
 				next;
 			}
 			$rlis{$comic} = $rli;
@@ -297,21 +273,21 @@ sub create_webpage_set {
 		my @comics = keys(%rlis);
 		my $num_comics = @comics;
 		if ($num_comics == 0) {
-			print "\nNot creating a new webpage.\n" if $self->{'verbose'};
+			print "\nNot creating a new webpage.\n" if $verbose;
 			return;
 		}
-		print "\n" if $self->{'verbose'};
-		unless ($self->{'webpage_on_stdout'}) {
-			print "Deleting old webpages (".$self->{'comics_dir'}."/".$subdir .
-				"/<index.html,comic*.html>).\n" if $self->{'verbose'};
-			chdir $self->{'comics_dir'};
+		print "\n" if $verbose;
+		unless ($webpage_on_stdout) {
+			print "Deleting old webpages (".$comics_dir."/".$subdir .
+				"/<index.html,comic*.html>).\n" if $verbose;
+			chdir $comics_dir;
 			unlink <index.html>;
 			unlink <comic*.html>;
 		}
 	
-		if ($self->{'verbose'}) {
+		if ($verbose) {
 			print "Creating the webpage";
-			print "s" if defined($self->{'comics_per_page'});
+			print "s" if defined($comics_per_page);
 			print ".\n";
 		}
 
@@ -321,49 +297,51 @@ sub create_webpage_set {
 
 		#create a sorted list of the comics
 		my @sorted_comics;
-		if ($self->{'sort_by_date'}) {
+		# FIXME. I don't know why the library_sort line fails.
+		#if ($sort_by_date) {
 			@sorted_comics = 
 				sort({libdate_sort($a,$b,$rlis{$a}{'time'},$rlis{$b}{'time'});} 
 					 @comics);
-		} else {
-			@sorted_comics = sort(library_sort @comics);
-		}
-		print "sorted comics: @sorted_comics\n" if $self->{'extra_verbose'};
+		#} else {
+		#	print "Beginning sortting @comics\n";
+		#	@sorted_comics = sort(library_sort @comics);
+		#}
+		print "sorted comics: @sorted_comics\n" if $extra_verbose;
 
 		#determine number of groups of comics, and number of comics on each page
-		$self->{'comics_per_page'} = $num_comics 
-			unless defined($self->{'comics_per_page'}); 
-		my $num_groups = $num_comics / $self->{'comics_per_page'};
+		$comics_per_page = $num_comics 
+			unless defined($comics_per_page); 
+		my $num_groups = $num_comics / $comics_per_page;
 		$num_groups =~ s/^(\d+)\.?\d*$/$1/;
-		my $comics_on_last = $num_comics % $self->{'comics_per_page'};
+		my $comics_on_last = $num_comics % $comics_per_page;
 		$num_groups++ if $comics_on_last > 0;
 		print "number of groups    = $num_groups\n" .
-			"comics per page     = $self->{'comics_per_page'}\n" .
+			"comics per page     = $comics_per_page\n" .
 			"comics on last page = $comics_on_last\n"
-				if $self->{'extra_verbose'};
+				if $extra_verbose;
 
 		# Call &load_templates in order to get templates.
 		my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
 			&load_templates($self);
 
 		my $index_body_el_tmpl_tmpl = 
-			file_read("$self->{'templates'}/index_body_el.html") 
-				if $self->{'webpage_index'};
+			file_read("$webpage_templates/index_body_el.html") 
+				if $webpage_index;
 
 		# Process the index.
 		my $index;
 		my $wepage_title = "$comic_title Archives";
-		if ($self->{'webpage_index'}) {
+		if ($webpage_index) {
 			#index head global info
 			$index = $head_tmpl;
 			$index =~ s/<NUM=FIRST>/1/g;
 			$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
-			$index =~ s/<PAGETITLE>/$self->{'webpage_title'}/g;
-			$links_tmpl =~ s/<FILE=INDEX>/$self->{'webpage_index'}_filename/g;
+			$index =~ s/<PAGETITLE>/$webpage_title/g;
+			$links_tmpl =~ s/<FILE=INDEX>/$webpage_index_filename/g;
 		}
 
 		@_ = (\$head_tmpl);
-		push(@_,\$index) if $self->{'webpage_index'};
+		push(@_,\$index) if $webpage_index;
 		foreach (@_) {
 			$$_ =~ s/<DATE>/$datestr/g;
 			my @ltime = localtime($time);
@@ -372,11 +350,11 @@ sub create_webpage_set {
 				$$_ =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
 			}
 		}
-		if ($self->{'webpage_index'}) {
+		if ($webpage_index) {
 			#replace index head globals
-			$index =~ s/<LINK_COLOR>/$self->{'index_link_color'}/g;
-			$index =~ s/<VLINK_COLOR>/$self->{'index_vlink_color'}/g;
-			$index =~ s/<BACKGROUND>/$self->{'background'}/g;
+			$index =~ s/<LINK_COLOR>/$index_link_color/g;
+			$index =~ s/<VLINK_COLOR>/$index_vlink_color/g;
+			$index =~ s/<BACKGROUND>/$background/g;
 		}
 
 		my $i = -1;
@@ -384,12 +362,12 @@ sub create_webpage_set {
 
 		while (++$i < $num_groups) {
 			my $group = $i + 1;
-			my $first = $i * $self->{'comics_per_page'} + 1;
-			my $last  = $first + $self->{'comics_per_page'} - 1;
+			my $first = $i * $comics_per_page + 1;
+			my $last  = $first + $comics_per_page - 1;
 			$last = $first + $comics_on_last -1 
 				if ($group == $num_groups && $comics_on_last > 0);
-			(my $filename = $self->{'webpage_filename_tmpl'}) =~ s/<NUM>/$group/g;
-			my ($nextfile,$prevfile) = ($self->{'webpage_filename_tmpl'}) x 2;
+			(my $filename = $webpage_filename_tmpl) =~ s/<NUM>/$group/g;
+			my ($nextfile,$prevfile) = ($webpage_filename_tmpl) x 2;
 			my $nextgroup = ($group == $num_groups)? 1 : $group +1;
 			my $prevgroup = $group -1;
 			if ($group == 1) {
@@ -400,7 +378,7 @@ sub create_webpage_set {
 			$prevfile =~ s/<NUM>/$prevgroup/g;
 
 			print "\nCreating $filename ($first to $last of $num_comics)\n" 
-				if $self->{'extra_verbose'} && !$self->{'webpage_on_stdout'};
+				if $extra_verbose && !$webpage_on_stdout;
 
 			#replace group-global info
 			my $head = $head_tmpl;
@@ -413,10 +391,10 @@ sub create_webpage_set {
 				$links = $links_tmpl;
 				$links =~ s/<FILE=PREV>/$prevfile/g;
 				$links =~ s/<FILE=NEXT>/$nextfile/g;
-				$links =~ s/<NUM>/$self->{'comics_per_page'}/g;
+				$links =~ s/<NUM>/$comics_per_page/g;
 			}
 			my $index_body_el_tmpl;
-			if ($self->{'webpage_index'}) {
+			if ($webpage_index) {
 				$index_body_el_tmpl = $index_body_el_tmpl_tmpl;
 				$index_body_el_tmpl =~ s/<FILE=CURRENT>/$filename/g;
 				$index_body_el_tmpl =~ s/<PAGE=CURRENT>/$group/g;
@@ -430,19 +408,19 @@ sub create_webpage_set {
 								   $filename, $group);
 			$index .= $index_body;
 
-			unless ($self->{'webpage_on_stdout'}) {
-				print "Creating file in $self->{'comics_dir'}/$subdir/$filename\n"
-						if $self->{'verbose'};
-				file_write("$self->{'comics_dir'}/$subdir/$filename",$files_mode,
+			unless ($webpage_on_stdout) {
+				print "Creating file in $comics_dir/$subdir/$filename\n"
+						if $verbose;
+				file_write("$comics_dir/$subdir/$filename",$files_mode,
 						   "$head$links$body$links$tail_tmpl");
 			} else {
 				print "$head$links$body$links$tail_tmpl";
 			}
 			
 		}
-		if ($self->{'webpage_index'} && ! $self->{'webpage_on_stdout'}) {
-			file_write("$self->{'comics_dir'}/$subdir/" .
-					   "$self->{'webpage_index_filename'}",
+		if ($webpage_index && ! $webpage_on_stdout) {
+			file_write("$comics_dir/$subdir/" .
+					   "$webpage_index_filename",
 					   $files_mode, "$index$tail_tmpl");
 		}
 	}
@@ -486,7 +464,7 @@ sub generate_HTML_page {
 			$title .= " <A HREF=\"$_\"><FONT FACE=\"times\">" .
 				"<I>(archives)</I></FONT></A>";
 		}
-		print "$rli->{'title'} ($date)" if $self->{'extra_verbose'};
+		print "$rli->{'title'} ($date)" if $extra_verbose;
 		my $caption = "";
 		$caption = "<TR><TD><CENTER>" . $rli->{'caption'} . 
 			"</CENTER></TD></TR>" if defined $rli->{'caption'};
@@ -500,14 +478,14 @@ sub generate_HTML_page {
 			$image = $image;
 			my $size = undef;
 			#get the size from the file (status==1)
-			$size = image_size( ($self->{'comics_dir'} . "/$image") ) 
+			$size = image_size( ($comics_dir . "/$image") ) 
 				if $rli->{'status'} == 1;
 			if (! defined($size) && defined($rli->{'size'})) {
 				my $size = $rli->{'size'};
 				if (ref($size) ne "ARRAY") {
 					print STDERR "$rli->{'title'}: size is not an array:" .
 						"\"$size\".  Please inform the comic maintainer.\n"
-							if $self->{'verbose'};
+							if $verbose;
 				} else {
 					#get the size from the specified default since this
 					#is either a URL or the size couldn't be determined
@@ -519,13 +497,13 @@ sub generate_HTML_page {
 				$1 : "";
 			#catch all for size
 			unless (defined($size)) {
-				if ($self->{'skip_bad_comics'} && $rli->{'status'} == 1) {
+				if ($skip_bad_comics && $rli->{'status'} == 1) {
 					next;
 				} else {
 					$size = "";
 				}
 			}
-			print " $num: $image" if $self->{'extra_verbose'};
+			print " $num: $image" if $extra_verbose;
 			$body_el =~ s/<COMIC_FILE$num>/$image/g;
 			#width should be global, but oh well.
 			$body_el =~ s/<WIDTH>/$width/; 
@@ -533,7 +511,7 @@ sub generate_HTML_page {
 			$body_el =~ s/<SIZE>/$size/; 
 		}
 		$body .= $body_el;
-		if ($self->{'webpage_index'}) {
+		if ($webpage_index) {
 			my $author = defined($rli->{'author'})? $rli->{'author'} : 
 				"(author unknown)";
 			$_ = $index_body_el_tmpl;
@@ -547,7 +525,7 @@ sub generate_HTML_page {
 			$index .= $_;
 		}
 
-		print "\n" if $self->{'extra_verbose'};
+		print "\n" if $extra_verbose;
 	}
 	return($body, $index);
 }
@@ -562,28 +540,28 @@ sub load_templates {
 	my $ctime = ctime($time);
 	my $datestr = strftime("%b %d, %Y",gmtime($time));
 
-	while (-f "$self->{'templates'}/body_el$i.html") {
-		$body_el_tmpl[$i] = file_read("$self->{'templates'}/body_el$i.html");
+	while (-f "$webpage_templates/body_el$i.html") {
+		$body_el_tmpl[$i] = file_read("$webpage_templates/body_el$i.html");
 		$i++;
 	}
 	if ($#body_el_tmpl < 1) {
 		die "Could not find the html body template files under the default " .
-			"directory:\n$self->{'templates'}. Please use -t to specify the " .
+			"directory:\n$webpage_templates. Please use -t to specify the " .
 				"correct location.";
 	}
-	my $head_tmpl=file_read("$self->{'templates'}/head.html");
-	my $links_tmpl=file_read("$self->{'templates'}/links" . 
-							 ($self->{'webpage_index'}? "_index" : "") . ".html");
-	my $tail_tmpl=file_read("$self->{'templates'}/tail.html");
+	my $head_tmpl=file_read("$webpage_templates/head.html");
+	my $links_tmpl=file_read("$webpage_templates/links" . 
+							 ($webpage_index ? "_index" : "") . ".html");
+	my $tail_tmpl=file_read("$webpage_templates/tail.html");
 
 	#replace head & tail template globals
-	$head_tmpl =~ s/<PAGETITLE>/$self->{'webpage_title'}/g;
+	$head_tmpl =~ s/<PAGETITLE>/$webpage_title/g;
 	$tail_tmpl =~ s/<CTIME>/$ctime/g;
 
 	#replace comic webpage head template globals
-	$head_tmpl =~ s/<LINK_COLOR>/$self->{'link_color'}/g;
-	$head_tmpl =~ s/<VLINK_COLOR>/$self->{'vlink_color'}/g;
-	$head_tmpl =~ s/<BACKGROUND>/$self->{'background'}/g;
+	$head_tmpl =~ s/<LINK_COLOR>/$link_color/g;
+	$head_tmpl =~ s/<VLINK_COLOR>/$vlink_color/g;
+	$head_tmpl =~ s/<BACKGROUND>/$background/g;
 
 	return($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl);
 }

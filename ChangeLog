@@ -1,3 +1,9 @@
+2001-04-23  Elliot Glaysher <nuriko.chan@home.com>
+
+	* netcomics, Netcomics/Config.pm, Netcomics/HTML.pm: HTML.pm now
+	uses Ben's nice Config.pm for options, instead of having to set
+	everything manually.
+	
 2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/Config.pm (processARGV): Added require of Util so that

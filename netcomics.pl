@@ -671,32 +671,6 @@ if ($verbose) {
 if ($make_webpage) {
 	#Create the HTML object.
 	my $HTMLpage = Netcomics::HTML->new("Webpage");
-	# Set the properties for $HTMLpage off of ./netcomics' options.
-	$HTMLpage->{'remake_webpage'} = $remake_webpage;
-	$HTMLpage->{'dont_download'} = $dont_download;
-	$HTMLpage->{'webpage_on_stdout'} = $webpage_on_stdout;
-	$HTMLpage->{'comics_dir'} = $comics_dir;
-	$HTMLpage->{'skip_bad_comics'} = $skip_bad_comics;
-	$HTMLpage->{'sort_by_date'} = $sort_by_date;
-	$HTMLpage->{'webpage_title'} = $webpage_title;
-	$HTMLpage->{'webpage_index_title'} = $webpage_index_title;
-	$HTMLpage->{'comics_per_page'} = $comics_per_page;
-	$HTMLpage->{'link_color'} = $link_color;
-	$HTMLpage->{'vlink_color'} = $vlink_color;
-	$HTMLpage->{'index_link_color'} = $index_link_color;
-	$HTMLpage->{'index_vlink_color'} = $index_vlink_color;
-	$HTMLpage->{'background'} = $background;
-	$HTMLpage->{'webpage_index'} = $webpage_index;
-	$HTMLpage->{'webpage_filename_tmpl'} = $webpage_filename_tmpl;
-	$HTMLpage->{'webpage_index_filename'} = $webpage_index_filename;
-	$HTMLpage->{'templates'} = $html_tmpl_dir;
-	$HTMLpage->{'reamake_webpage'} = $remake_webpage;
-	$HTMLpage->{'dont_download'} = $dont_download;
-	$HTMLpage->{'comics_dir'} = $comics_dir;
-	$HTMLpage->{'verbose'} = $verbose;
-	$HTMLpage->{'extra_verbose'} = $extra_verbose;
-	$HTMLpage->{'sort_by_date'} = $sort_by_date;
-	$HTMLpage->{'use_filecmd'} = $use_filecmd;
 
 	# Create the webpage.
 	unless ($separate_comics) {
