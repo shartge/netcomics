@@ -1053,9 +1053,20 @@ sub build_date_array {
 	}
 
 	# Make the time so it's 0:00:00 of today.
-	my $now = time;
-	my @ltime = localtime($now);
-	$now = mktime(0,0,0,$ltime[3],$ltime[4],$ltime[5]);
+	my $now = time + ($tz*60*60);
+
+#	print "Time is ".gmtime($now)."\n";
+	{
+		#adjust the time so it is of this morning just after midnight.
+		my @ltime = gmtime($now);
+		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
+	}
+
+#	print "Time is ".gmtime($now)."\n";
+	
+
+#	my @ltime = localtime($now);
+#	$now = mktime(0,0,0,$ltime[3],$ltime[4],$ltime[5]);
 
 	$self->{'get_current'} = 0; #use hof
 	#Determine the start & end dates

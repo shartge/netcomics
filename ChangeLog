@@ -1,3 +1,8 @@
+2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Factory.pm (build_date_array):  Hopefully fix the date
+	problems for *everybody* this time.
+
 2002-03-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/keenspot (youdamn): Changed to use an "exists" list instead
