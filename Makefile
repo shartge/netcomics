@@ -60,11 +60,14 @@ TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
 MODULES = lib/after_y2k \
 	lib/alice \
 	lib/an \
+	lib/angst \
 	lib/avalon \
+	lib/bad_boys \
 	lib/badlands \
 	lib/bastich \
 	lib/bayside \
 	lib/bigpanda \
+	lib/boxjam \
 	lib/bruno \
 	lib/callahan \
 	lib/calvin-n-hobbes \
@@ -106,6 +109,7 @@ MODULES = lib/after_y2k \
 	lib/laughseeds \
 	lib/lily_wong \
 	lib/madam-n-eve \
+	lib/megatokyo \
 	lib/melonpool \
 	lib/mercury \
 	lib/mom \
@@ -120,7 +124,9 @@ MODULES = lib/after_y2k \
 	lib/pvp \
 	lib/reallife \
 	lib/red_meat \
+	lib/road_waffles \
 	lib/rocky \
+	lib/rogues \
 	lib/roommates \
 	lib/sempai \
 	lib/soaprope \
