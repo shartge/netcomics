@@ -95,7 +95,7 @@ END
 
 %files
 %defattr(-,root,root)
-%doc *.gz doc/*.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime netcomicsrc doc/design.dia
+%doc *.gz doc/*.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktheme contrib/mktime netcomicsrc doc/design.dia
 /usr/bin/netcomics
 /usr/bin/show_comics
 /usr/bin/comicpage
@@ -122,7 +122,10 @@ END
 * %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
 
 $Log$
-Revision 1.17  2002-03-31 16:25:21  hochstrb
+Revision 1.18  2002-04-02 19:08:58  hochstrb
+added contrib/mktheme to %files
+
+Revision 1.17  2002/03/31 16:25:21  hochstrb
 updated message displayed after install of data module
 
 Revision 1.16  2001/09/19 15:32:58  hochstrb
