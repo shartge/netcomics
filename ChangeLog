@@ -1,3 +1,8 @@
+2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile: Added install_home & install_local targets. Redesigned
+	the install_for_ben target to be generic enough others could use it.
+
 2001-02-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/ucomics (ucomics): Replaced calvin-n-hobbes with ucomics
