@@ -6,8 +6,11 @@ $hof{"gpf"} = 0;
 #General Protection Fault http://www.gpf-comics.com/
 # ex: http://www.gpf-comics.com/comics/gpf20000425.gif
 sub gpf {
-    my @ltime = gmtime(shift(@_));
-    return undef if $ltime[6] == 0; #no sunday seen so far
+    my $time = shift;
+    my @ltime = gmtime($time);
+    # First comic 1998-Nov-02 and first sunday comic 2000-Sep-03
+    return undef if (($time < mkgmtime(0,0,0,2,10,98)) || 
+		     ($time < mkgmtime(0,0,0,3,8,100) && $ltime[6] == 0));
     my $rec = {
 	'title' => "General Protection Fault",
 	'author' => "Jeffrey T. Darlington",
@@ -16,7 +19,7 @@ sub gpf {
 	'archives' => "http://www.gpf-comics.com/archive/",
 	'base' => "http://www.gpf-comics.com/comics",
 	'page' => strftime("/gpf%Y%m%d.gif",@ltime),
-	'size' => [600,222]
+	'size' => [600, ($ltime[6]==0? 425 : 255)],
     };
     return $rec;
 }
