@@ -692,11 +692,7 @@ sub get_comics {
 						}
 						push(@images,$mname);
 						$rli->{'file'} = [] unless defined $rli->{'file'};
-						if ($separate_comics) {
-							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
-						} else {
-							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
-						}
+						$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
 					}
 				}
 				$rli->{'url'} = [] unless defined $rli->{'url'};
@@ -716,7 +712,7 @@ sub get_comics {
 			unless ($dont_download || $rli->{'status'} == 2) {
 				#save the image to its file if it was successfully downloaded.
 				if ($separate_comics) {
-					$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+					$rli->{'file'} = [ "$name" ];
 					file_write("$comics_dir/$rli->{'subdir'}/$name",
 							   $files_mode, $response->content);
 				} else {

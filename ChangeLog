@@ -1,3 +1,14 @@
+2001-07-02  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Netcomics/HTML.pm (create_webpage): Tried to get rid of as much
+	redundant code as possible. Made more things properties of $self.
+	(create_webpage_set): Follow the suit of &create_webpage.
+	* Netcomics/Factory.pm (get_comics): Fixed RLI storage problem with
+	$subdir (on multifile comics, RLIs' 'file' => [ $file ], but in single
+	panel comics, RLIs 'file' => [ "$subdir/$file" ];. Fixed so it's always
+	[ $file ].
+	
+
 2001-06-30  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/HTML.pm: Redid the way templates are loaded as the first
