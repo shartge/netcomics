@@ -13,9 +13,6 @@ sub megatokyo {
     my $time = shift;
 	my @ltime = gmtime($time);
     return undef if $time < mkgmtime(0,0,0,14,7,100); #1st comic: Aug 14, 2000
-	return undef unless ($ltime[6] == 1 ||
-						 $ltime[6] == 3 ||
-						 $ltime[6] == 5);
     my $date = strftime("%Y-%m-%d", @ltime);
     my $baseurl = "http://www.megatokyo.com";
     my $rec = {
@@ -25,13 +22,41 @@ sub megatokyo {
 	'main' => $baseurl,
 	'archives' => "$baseurl/view.php3",
 	'base' => "$baseurl/",
-	'page' => "index.php?date=$date",
-	'exprs' => {
-				'comic' => ["(strips/$date.gif)"],
-				'caption' => ["date=$date\">$date(.+?)\<\/option\>"]
-			   },
+	'page' => "index.php",
+	'func' => sub {
+			my $input_page = shift;
+			my @relurls;
+			if (grep(/$date/, $input_page)) {
+				$_ = $input_page;
+
+				# Get the strip number.
+				m/$date\s\[(\d+)\]/;
+				my $strip_num = $1;
+
+				# Strip leading 0 from comics.
+				$strip_num =~ s/^0// if grep(/^0/, $strip_num); 
+				push(@relurls, {
+								'page' => strftime("index.php?strip_id=$strip_num",@ltime),
+								'exprs' => {
+											'comic'=>["(strips/$strip_num.gif)"],
+											'caption'=>["$date\\s\\[\\d+\\]\\s(.+?)\\<\\/option\\>"],
+										   },
+								'func' => undef
+				});
+			} else {
+				push(@relurls, {
+								'page' => undef,
+								'func' => undef,
+								'base' => undef,
+								'status' => 0
+							   }
+					);
+			};
+			return @relurls;
+		}
 	};
     return $rec;
 }
 
 1;
+

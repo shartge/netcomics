@@ -1,3 +1,8 @@
+2001-10-02  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/megatokyo: Updated to meet megatokyo's erratic archive schedule.
+	* lib/doemain: cleared out a non STDERR error message.
+
 2001-10-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* INSTALL: Bug 466330: Changed reference to INSTALLBIN to

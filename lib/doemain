@@ -2,7 +2,6 @@
 $hof{"doemain"} = 0;
 
 #A Doemain of Our Own (http://www.doemainofourown.com)
-#You may blame this ugly disgusting mess on Elliot.
 
 sub doemain {
 	my $time = shift;
@@ -22,7 +21,6 @@ sub doemain {
 			my $input_page = shift;
 			my @relurls;
 			if (grep(/$date2/, $input_page)) {
-				print "Found $date in date array\n";
 				push(@relurls, {
 								'page' => strftime("%m%d%y.html",@ltime),
 								'exprs' => {
