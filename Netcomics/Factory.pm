@@ -1051,12 +1051,11 @@ sub build_date_array {
 		$days_of_comics = abs($days_of_comics);
 		$days_of_comics--; #adjust for 0-base
 	}
+
+	# Make the time so it's 0:00:00 of today.
 	my $now = time;
-	{
-		#adjust the time so it is of this morning just after midnight.
-		my @ltime = gmtime($now);
-		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
-	}
+	my @ltime = localtime($now);
+	$now = mktime(0,0,0,$ltime[3],$ltime[4],$ltime[5]);
 
 	$self->{'get_current'} = 0; #use hof
 	#Determine the start & end dates

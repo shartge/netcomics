@@ -1,3 +1,8 @@
+2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Factory.pm (build_date_array): Changed way I fixed the
+	time problem.
+
 2002-03-25  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/sluggy_freelance (sluggy): Fixed sluggy (wasn't getting all the
