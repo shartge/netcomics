@@ -6,7 +6,8 @@ $hof{"an"} = 0;
 # http://www.cerulean.st/absurdnotions/an19990620.gif
 sub an {
     my $time = shift;
-    return undef if $time < 929836800; #starts Jun 20, 1999
+    return undef if $time < mkgmtime(0,0,0,20,5,99); #starts Jun 20, 1999
+    return udnef if $time >= mkgmtime(0,0,0,21,7,100); #ends  Aug 20, 2000
     my @ltime = gmtime($time);
 
     # No strips on Mon/Wed/Fri
