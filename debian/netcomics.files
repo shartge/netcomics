@@ -11,3 +11,4 @@ usr/share/perl5/Netcomics/RLI.pm
 usr/share/perl5/Netcomics/Config.pm
 usr/share/perl5/Netcomics/MyRequest.pm
 usr/share/perl5/Netcomics/Util.pm
+usr/share/doc/netcomics/contrib/*

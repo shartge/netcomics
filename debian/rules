@@ -58,7 +58,12 @@ install: configure build
 	mv $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp
 	cat $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp | perl -pe "s%/usr/share/perl5/Netcomics/etc%/etc%gm" > $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm
 	rm $(CURDIR)/debian/tmp/usr/share/perl5/Netcomics/Config.pm.tmp
-	# 
+
+	# We now store the contrib folder in the docs folder
+	mkdir $(CURDIR)/debian/tmp/usr/share/doc
+	mkdir $(CURDIR)/debian/tmp/usr/share/doc/netcomics
+	cp -R $(CURDIR)/contrib $(CURDIR)/debian/tmp/usr/share/doc/netcomics/
+	#chmod +x $(CURDIR)/debian/tmp/usr/share/doc/netcomics/contrib/*
 
 	dh_movefiles
 

@@ -1,3 +1,8 @@
+2002-04-02  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/rules [etcetera other debian files]: Make it so that the
+	contrib folder gets included in the debian doc dir.
+
 2002-04-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/keenspace (boxjam): Fixed thanks to Shawn.
