@@ -330,27 +330,10 @@ distclean::
 
 
 #Documentation targets & their associated phony targets
-doc/$(APPNAME).pod: bin/$(APPNAME)
-	@echo Extracting pod text from $?
-	@cat $? \
-	| perl -ne \
-	'$$p += /^=head/; \
-		$$p = 0 if /^=cut/; \
-		print($$_) if $$p;' \
-	> $@
-
-doc/$(AP3NAME).pod: bin/$(AP3NAME)
-	@echo Extracting pod text from $?
-	@cat $? \
-	| perl -ne \
-	'$$p += /^=head/; \
-		$$p = 0 if /^=cut/; \
-		print($$_) if $$p;' \
-	> $@
 
 distclean::
-	$(RM) doc/$(APPNAME).pod
-	$(RM) doc/$(AP3NAME).pod
+#	$(RM) doc/$(APPNAME).pod
+#	$(RM) doc/$(AP3NAME).pod
 
 doc/$(APPNAME).1: doc/$(APPNAME).pod
 	@$(RM) $@

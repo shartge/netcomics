@@ -1,3 +1,8 @@
+2001-04-27  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* netcomics, show_comics -> doc/netcomics.pod, show_comics.pod:
+	Moved docs to there own files
+	
 2001-04-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (SUBPATHS): Added replacing OLDMODULES, VERSION, and
