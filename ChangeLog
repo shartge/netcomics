@@ -1,9 +1,15 @@
+2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Factory.pm (list_comics): Fixed syntax error with how
+	libdate_sort was being called.  Made %hof a class attribute loaded
+	only once for all Factory instances.  Fixed max name & title
+	string length algorithm.
+
 2001-04-22  Elliot Glaysher <nuriko.chan@home.com>
 
 	* Netcomics/Factory.pm: Fixed bug that caused "Sort subroutine
 	didn't return single value at /usr/lib/perl5/Netcomics/Factory.pm
-	line 865." on netcomics -l. (Ben, I may have broken other things
-	while fixing this, please advise.)
+	line 865." on netcomics -l.
 	
 2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

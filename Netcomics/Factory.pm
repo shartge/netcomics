@@ -24,7 +24,8 @@ use Netcomics::MyResponse;
 use Netcomics::MyRequest;
 use Netcomics::Util;
 
-use vars qw(%rli @rli %hof); #only used for importing modules & .rli files.
+use vars qw(%rli @rli); #only used for importing modules & .rli files.
+use vars qw(%hof);
 
 #class attributes
 my $files_mode = 0644;
@@ -66,17 +67,23 @@ sub new {
 sub init {
 	my $self = shift;
 	#only load the modules if needed
-	unless ($user_specified_comics && @selected_comics == 0 && !$do_list_comics) {
-		$self->{'hof'} = load_modules("Netcomics::Factory",@libdirs); 
+	unless ($user_specified_comics && @selected_comics == 0 &&
+			!$do_list_comics) {
+		
+		load_modules("Netcomics::Factory",@libdirs)
+			if keys(%hof) == 0;
 		
 		#check to make sure there was some comics defined
-		if (keys(%{$self->{'hof'}}) == 0) {
+		if (keys(%hof) == 0) {
 			print STDERR "\nThere were no comic modules succesfully loaded.  ";
-			print STDERR "Please check the setting\nof \@libdirs in the system ";
-			print STDERR "and user rc file and on the command line:\n";
+			print STDERR "Please check the setting\nof \@libdirs in the system";
+			print STDERR " and user rc file and on the command line:\n";
 			print STDERR "\@libdirs = @libdirs\n";
 			print STDERR "Also, check the installation of netcomics.\n";
 			exit 1;
+		} else {
+			#copy the hof into this instance of the Factory.
+			%{$self->{'hof'}} = %hof;
 		}
 	}
 	
@@ -855,11 +862,12 @@ sub list_comics {
 		}
 		$names{$name} = [$f,(defined $d ? $d : -1)];
 		my $len = length($f);
-		$max_flen = $len +2 if $len > $max_flen;
+		$max_flen = $len if $len > $max_flen;
 		$len = length($name);
-		$max_nlen = $len +1 if $len > $max_nlen;
+		$max_nlen = $len if $len > $max_nlen;
 	}
-	my @names = sort(keys(%names));
+	my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1],
+								   $sort_by_date);} keys(%names));
 	my $title = 'Comic Name';
 	my $lines = '----------';
 	$names{$title} = ["id","days behind"];
@@ -873,14 +881,14 @@ sub list_comics {
 		my ($f,$d) = @{$names{$name}};
 		print "<TR><TD>" if $make_webpage;
 		print "$f";
-		my $len = $max_flen - length($f);
+		my $len = $max_flen + 1 - length($f);
 		if ($make_webpage) {
 			print "</TD><TD>";
 		} else {
 			print " " x $len;
 		}
 		print "$name";
-		$len = $max_nlen - length($name);
+		$len = $max_nlen + 1 - length($name);
 		if ($make_webpage) {
 			print "</TD><TD>";
 		} else {
