@@ -1,3 +1,8 @@
+2001-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ucomics (ga): Moved Garfield to ucomics thanks to
+	Ian Campbell.
+
 2001-03-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* show_comics: Patched to allow png files thanks to Shawn Oakey

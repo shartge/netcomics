@@ -6,6 +6,7 @@ foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb
 }
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
+$hof{"ga"} = 14;
 
 $hof{"ucross"} = 0;
 
@@ -53,7 +54,7 @@ sub ucomics_akamai {
 	'main' => "http://www.ucomics.com/$lname/",
 	'archives' => "http://www.ucomics.com/$lname/",
 	'base' => "http://",
-	'page' => strftime("www.ucomics.com/$lname/viewch.cfm?uc_full_date=%Y%m%d&uc_comic=${sname}",@ltime),
+	'page' => strftime("www.ucomics.com/$lname/view${sname}.cfm?uc_full_date=%Y%m%d&uc_comic=${sname}",@ltime),
 	'exprs' => [strftime("([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/${sname}/%Y/${sname}%y%m%d.gif)",@ltime)],
 	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
     };
@@ -72,6 +73,12 @@ sub ucomics_direct {
 	'page' => strftime("comics/$lname/%Y/${sname}%y%m%d.gif",@ltime),
 	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
     };
+}
+
+#Garfield http://garfield.ucomics.com/garfield/gaview.htm
+sub ga {
+    return ucomics_akamai(shift(@_), "Garfield", "Jim Davis",
+                          [600,403], [600,178], "garfield", "ga");
 }
 
 #Calvin & Hobbes http://www.calvinandhobbes.com/strips/
