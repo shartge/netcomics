@@ -1042,13 +1042,19 @@ sub build_date_array {
 	$days_of_comics = abs($days_of_comics);
 	$days_of_comics--; #adjust for 0-base
     }
+    my $now = time;
+    {
+	#adjust the time so it is of this morning just after midnight.
+	my @ltime = localtime($now);
+	$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
+    }
 
     my $get_current = 0; #use hof & lof or just hof
     #Determine the start & end dates
     if (! defined($end_date) && ! defined($days_of_comics) &&
 	defined($start_date)) {
 	#-S, no -E, no -n
-	$end_date = time + (get_max_hof() * 24*3600);
+	$end_date = $now + (get_max_hof() * 24*3600);
     } elsif (defined($end_date) && defined($days_of_comics) &&
 	     ! defined($start_date)) {
 	#no -S, -E, -n
@@ -1061,7 +1067,7 @@ sub build_date_array {
 	     ! defined($start_date)) {
 	#no -S, no -E, -n
 	$get_current = 1;
-	$end_date = time - ($days_prior * 24*3600);
+	$end_date = $now - ($days_prior * 24*3600);
 	$start_date = $end_date - ($days_of_comics * 24*3600);
     } elsif (! defined($end_date) && ! defined($days_of_comics) && 
 	     ! defined($start_date)) {
@@ -1069,7 +1075,7 @@ sub build_date_array {
 	#we don't need to do anything special
 	#add today's date (minus days prior) to the date array, and return.
 	if (@dates == 0) {
-	    push(@dates,(time - ($days_prior * 24*3600)));
+	    push(@dates,($now - ($days_prior * 24*3600)));
 	    $get_current = 1;
 	}
 	return $get_current;
