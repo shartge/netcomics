@@ -1,3 +1,7 @@
+2001-06-22  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Comicpage/comicpage.glade: Removed useless tab at top of display.
+
 2001-06-21  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* debian/control: Updated dependencies.
