@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ft"} = 14;
+
+#Fox Trot http://www.foxtrot.com/
+sub ft {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+	'title' => "FoxTrot",
+	'author' => "Bill Amend",
+	'type' => 'gif',
+	'main' => "http://www.foxtrot.com/",
+	'archives' => "http://www.foxtrot.com/",
+	'base' => "http://www.foxtrot.com/comics/strips/",
+	'page' => strftime("ft%y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0? [600,422] : [600,189])
+	};
+    return $rec;
+}
+
+1;
+
+
