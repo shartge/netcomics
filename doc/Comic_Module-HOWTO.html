@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="Author" CONTENT="Ben Hochstedler <hochstrb@cs.rose-hulman.edu>">
+<TITLE>Netcomics: How to Write Comic Modules</TITLE>
+<STYLE TYPE="text/css">
+H1, ADDRESS, .TimeStamp {text-align: center}
+</STYLE>
+</HEAD>
+<BODY>
+<H1>How to Write Your Own Comic Strip Resource Locator Module</H1>
+<P>The following applies to netcomics version 0.10 & higher.  The
+'func' field is new for version 0.6. The 'name' field has been done
+away with, but netcomics will still use it and makes it possible for
+you to not have to supply a 'title' and 'type', but that's not
+recommended for maintaince purposes. Although not recommended, you may
+still use <A HREF="old_Comic_Module-HOWTO.html">the old way</A>
+(versions 0.1 to 0.4) because I've kept netcomics as backwards
+compatible as possible.</P>
+
+<H2>RLI: Resource Locator Information</H2>
+<P>
+The following table describes the <B>RLI</B> (Resource Locator
+Information) hash structure.
+<TABLE BORDER WIDTH=100%>
+  <TR>
+    <TH>Required?</TH>
+    <TH>Field</TH>
+    <TH>Format</TH>
+    <TH>Example</TH>
+    <TH>Description</TH>
+  </TR>
+
+  <TR>
+    <TD>yes</TD>
+    <TD>title</TD>
+    <TD>Full Name</TD>
+    <TD>"My Comic"</TD>
+    <TD>The name of the comic strip.  You may have spaces, but don't
+	include apostrophes or other symbols that don't work well for
+	file names.
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>author</TD>
+    <TD>Full Name(s)</TD>
+    <TD>"Jane Doe & John Doe"</TD>
+    <TD>The name(s) of the author(s) of the comic strip.  You may
+	include practically any characters.  You can embed HTML in it
+	if you want it formatted special or include a special link.
+    </TD>
+  </TR>
+  <TR>
+    <TD>yes</TD>
+    <TD>type</TD>
+    <TD>file type</TD>
+    <TD>'gif'</TD>
+    <TD>The file type of the comic strip to be downloaded.  This field
+	is used to create the name of the file.
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>main</TD>
+    <TD>URL</TD>
+    <TD>"http://www.comp.com/"</TD>
+    <TD>This URL is used only in creating the webpage as the hyperlink
+	of the comic's name.
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>archives</TD>
+    <TD>URL</TD>
+    <TD>"http://www.comp.com/archive/"</TD>
+    <TD>This URL is used only in creating the webpage as the hyperlink
+	for the comic's archives.
+    </TD>
+  </TR>
+  <TR>
+    <TD>yes</TD>
+    <TD>base</TD>
+    <TD>URL</TD>
+    <TD>"http://www.comp.com/"</TD>
+    <TD>This should be the part of the URL that is common between the
+	page's URL and the comic's URL.  Typically, this is just the
+	main URL for the website.
+    </TD>
+  </TR>
+  <TR>
+    <TD>yes</TD>
+    <TD>page</TD>
+    <TD>latter half of<BR>a URL</TD>
+    <TD>strftime("archives/mycomic-<BR>%y%m%d.html",@ltime)</TD>
+    <TD>This field is completes the URL	when appended to <B>base</B>
+	for the comic, or an HTML page that contains a link to another
+	URL used to get the comic.  When it points to the comic
+	itself, the field, <B>exprs</B>, is set to undef, or is not
+	specified at all. When it points to a document containing some
+	other reference that can be used to locate the comic, the
+	field, <B>exprs</B> is used.
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>exprs</TD>
+    <TD>regular<BR>expressions</TD>
+    <TD>"(comics/mycomic-\\d+.gif)"</TD>
+    <TD><P>This field is an array of regular expressions used to find the
+	last part of the URL for the comic. Once a starting web page
+	has been downloaded using the concatenation of <B>base</B> and
+	<B>page</B>, the elements of the array are used, one by one,
+	to match on some text in the page downloaded.  The last
+	regular expression in the array is used as the one to create a
+	URL to download the comic itself.</P>
+	<P>Each element of the array is a regular expression. It is
+	<U>required</U> that a pair of parenthesis is left around the
+	part of the text being matched on to be used as the completing
+	part of the next URL to obtain the comic strip or another
+	web page containing another reference to be matched on. There
+	only needs to be one set of parenthesis in each regular
+	expression.  If more than one pair exists, only the one that
+	causes $1 to be defined in the perl code will be used (IOW,
+	nothing fancy here.  netcomics doesn't have any special logic,
+	and is coded to only deal with $1).</P>
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>func</TD>
+    <TD>subroutine<BR>reference</TD>
+    <TD>sub {<BR>&nbsp;&nbsp;
+	return ("${date}a.gif",<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	"${date}b.gif");<BR>
+	}
+    </TD>
+    <TD><P>This field provides the ability for multiple files to be
+	downloaded from a website for a single comic.  The last field
+	of the RLI to be used, this function pointed to by the
+	subroutine reference is run, being given the text of the
+	last web page downloaded, if there was one.  The function
+	should return a list of strings:  each string being a relative
+	URL, that is finally used to download a comic file.  The
+	function may also return in the list a reference to a hash,
+	like with the field 'exprs', which contains fields & values to
+	be added to RLI.</P>
+	<P>Most often, the function will be created by a module as a
+	closure.  A closure is an anonymous subroutine that is created
+	with some specific data.  For example, if you're writing a
+	closure that is to return two relative URLs, each with some
+	text in it that is created from the date, the data you need to
+	embed in the subroutine when you create it needs to be the
+	date given to the RLI function in some form.</P>
+	<P>Usually, a hash reference would be put in the returned list
+	to provide a caption that would be put in the generated
+	webpage below the comic.  See penny_arcade for an example.</P>
+	<P>See the module files madam-n-eve, sluggy_freelance, doodie,
+	and goats for some examples.  This was introduced in version
+	0.6.</P>
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>size</TD>
+    <TD>array of<BR>2 ints</TD>
+    <TD>600</TD>
+    <TD><P>This is the default width and height of the downloaded
+	image that is used when the webpage is created. If the size of
+	the file cannot be determined (Image::Size not installed,
+	the system's file command doesn't report the image file's
+	dimensions, or it was specified to not download the comics),
+	then this array (width,height), is used.  If not provided,
+	and the comics's image size cannot be determined, then the
+	created webpage will not include the dimensions of the file,
+	and therefore the webpage will not load as quickly depending
+	on the web browser.</P>
+    </TD>
+  </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>back</TD>
+    <TD>subroutine<BR>reference</TD>
+    <TD>sub {}</TD>
+    <TD><P>This is a backup RLI function that will be executed if the
+	comic is failed to be downloaded. The reference to an RLI
+	hash returned by this function will then be used to try
+	and download the comic again.  Be careful to not create the
+	possibility of an infinite loop!  See the peanuts and dibert
+	functions for examples.</P>
+    </TD>
+  </TR>
+</TABLE>
+      
+</P>
+<H2>%hof: Hash of Functions</H2>
+<P>
+The global %hof hash (associative array) contains the names of all of
+the functions that return RLI hashes, and the number of days in the
+past the comic is available using the RLI returned. The keys are the
+names of the functions, and the values are the numbers of days.</P>
+
+Add your function's name to this hash with code like this:
+<PRE>
+$hof{"myfunction"} = 0;
+</PRE>
+That example is for a comic whose latest strip is available on the
+same day. If you have many functions in one module file to add to
+%hof, use code like this:
+<PRE>
+foreach (qw(f1 f2 f3 f4)) {
+    $hof{$_} = 7;
+}
+</PRE>
+In that example, every function returns RLI's whose comics they
+retrieve are available a week after they're published.
+</P>
+<H2>Creating a Module File</H2>
+<P>
+An RLI function takes one argument: the time as returned by time().
+Your function should expect this to be the exact time that it is
+supposed to use to determine the date of the comic to retrieve.
+It is easiest to use the POSIX time functions to create strings using
+the time given.  Here's an example:
+</P>
+<PRE>
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"uf"} = 0;
+
+#UserFriendly http://www.userfriendly.org/cartoons/
+sub uf {
+    my ($time,$color) = @_;
+    return undef if $time &lt; 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($time);
+    my @monthconv = ("jan", "feb", "mar", "apr", "may", "jun",
+                     "jul", "aug", "sep", "oct", "nov", "dec");
+    my $b = $monthconv[$ltime[4]];
+
+    my $rec = {
+	'title' => "User Friendly",
+	'author' => "Illiad",
+	'type' => 'gif',
+	'main' => "http://www.userfriendly.org/static/",
+	'archives' => "http://www.userfriendly.org/cartoons/archives/",
+	'base' => "http://www.userfriendly.org",
+	'page' => strftime("/cartoons/archives/%y$b/%Y%m%d.html",
+			   @ltime),
+	'exprs' => [strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\d+\\.gif)",
+			     @ltime)],
+	'size' => ($ltime[6] == 0 ? [720,529] : [720,274])
+	};
+    return $rec;
+}
+
+1;
+</PRE>
+<P>The values that are passed to the function are the UTC time value
+(number of seconds since 00:00:00, January  1, 1970) as created by
+mkgmtime() in netcomics, and whether or not color is preferred. If
+your comic strip is available in both b/w and color, then use the
+second argument to the function to determine what type to get (1 for
+color, 0 for b/w) (see dilbert for an example).</P>
+
+<P>Note that in the above example, the time is checked against a large
+integer that is described at being Nov 17, 1997.  Use the mktime
+script included in the contrib directory to create this number so you
+can easily & quickly test to make sure the requested date is not past
+the start of the archives.</P>
+
+<P><B>Do not use localtime()!  Use only gmtime() in a module because a
+future enhancement will be to had logic to handle knowing what
+timezone the comic is in and what time during the day it is typically
+updated.</B> (As far as translating the UTC time to a date is
+concerned, both gmtime() and localtime() produce the same results as
+long as everything that deals with dates in netcomics works with the
+same function.) Do not put any special handling of checking the time in
+modules for when the comic is updated during the day.  That special
+handling will be added to netcomics later.  If you want to save that
+information with as best chance as possible to not have to go back and
+edit the module in the future, you can go ahead and add two fields to
+your module's RLI structure: 'tz' and 'hour' (see the doodie
+module). Those fields won't be utilized right now, but those are what
+I think the fields will be when timezone support is added.</P>
+
+<P>Your function should return the RLI (as a reference, not as
+the hash itself), and it will be used by netcomics.  Put the function
+in a file that is readable to all users in /usr/lib/netcomics, and
+<I>netcomics</I> will find it and use it without you needing to make
+any modification to its code.  Or you can put it in some other
+directory like ~/lib/netcomics and use the -m option on the
+commandline with that directory name.</P>
+
+<P>And finally, you must have as the last
+line in the file: 
+<PRE>
+1;
+</PRE>
+If you don't, the module will not load properly.
+</P>
+
+<HR>
+<ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
+<SPAN CLASS=TimeStamp>
+Last modified: Thu Apr 27 08:09:27 CDT 2000
+</SPAN>
+</BODY>
+</HTML>
