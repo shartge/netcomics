@@ -22,6 +22,12 @@ with .gif, .jpg, or .jpeg in the directory).
 If you don't have perlTk installed, use B<-l> to specify the time and to make
 show_comics not try to pop up a window.
 
+Use the B<-w> option to have show_comics sleep until the specified
+allowed start time.  This is useful for having it wait until your
+netcomics cronjob will have most likely have finished so that it
+doesn't try to display yesterday's comics.  If it does wait, it will
+go ahead and first ask for the time you're going to leave.
+
 In a UNIX environment, you can utilize the lockfile mechanism to run
 show_comics from many different places an not have to worry about
 checking to make sure it is already running. For example, you can run
@@ -80,6 +86,11 @@ exit.
 =item B<-t> I<hh:mm>
 
 Specify the default time to be put in the pop-up window.
+
+=item B<-w>
+
+Wait until the specified start time intead of exiting if the current
+time is before the start time.
 
 =item B<-v>
  

@@ -34,6 +34,8 @@ my $lockfile = $ENV{'HOME'} . "/.show_comics_lock";
 my $check_lock = 1;
 my $created_lock = 0;
 my @start_time = ();
+my $wait_until_start_time = 0;
+my $wait_interv = 1; # 1 minute
 
 my $conf = new Netcomics::Config($progname);
 $conf->processARGV(); #this also loads in the rc file.
@@ -72,6 +74,12 @@ while (@ARGV)
 	} else {
 	    $verbose = 1;
 	}
+	$smushopt = 1;
+    }
+
+    #wait until start time
+    elsif (/^-w/) {
+	$wait_until_start_time = 1;
 	$smushopt = 1;
     }
     
@@ -184,6 +192,38 @@ while (@ARGV)
 
 lock_file();
 
+#find out when the user will be leaving for the day, unless don't ask
+#or if not waiting until start time
+my ($leave_hour,$leave_min) = @def_time;
+($leave_hour,$leave_min) = when_leaving_dialog(@def_time)
+    unless $dont_ask || ! $wait_until_start_time;
+
+#check the time
+my $time = time;
+my @ltime = localtime($time);
+if (@start_time > 0) {
+    infomsg("Checking current time against start time.\n") if $extra_verbose;
+    while (($ltime[2] == $start_time[0] && $ltime[1] < $start_time[1]) ||
+	   ($ltime[2] < $start_time[0])) {
+	my $reason = "the time ($ltime[2]:$ltime[1]) is before " .
+	    "the allowed start time ($start_time[0]:$start_time[1])";
+	if (! $wait_until_start_time) {
+	    infomsg("Exiting because $reason.\n") if $verbose;
+	    exit(-1);
+	}
+	infomsg("Sleeping for $wait_interv minutes before checking because " .
+		"$reason.\n") if $verbose;
+	sleep($wait_interv * 60);
+	@ltime = localtime($time);
+    }
+}
+
+#find out when the user will be leaving for the day if didn't wait
+#until start time
+if (! $wait_until_start_time && ! $dont_ask) {
+    ($leave_hour,$leave_min) = when_leaving_dialog(@def_time);
+}
+
 #Create a list of files to display
 opendir(DIR,$comics_dir) || 
     die "Could not open the directory to $comics_dir: $!";
@@ -209,31 +249,14 @@ if (@files == 0) {
 }
 infomsg("Comics to be displayed: @files\n") if $extra_verbose;
 
-#check the time
-my $time = time;
-my @ltime = localtime($time);
-if (@start_time > 0) {
-    infomsg("Checking current time against start time.\n") if $extra_verbose;
-    if (($ltime[2] == $start_time[0] && $ltime[1] < $start_time[1]) ||
-	($ltime[2] < $start_time[0])) {
-	infomsg("Exiting because the time ($ltime[2]:$ltime[1]) is before " .
-	    "the allowed start time ($start_time[0]:$start_time[1]).\n")
-		if $verbose;
-	exit(0);
-    }
-}
-
 #distribute the comics from now until when leaving
-my ($hour,$minute) = @def_time;
-($hour,$minute) = when_leaving_dialog(@def_time) unless $dont_ask;
-infomsg("Time leaving: $hour:$minute\n") if $extra_verbose;
-my $stop_time = mktime(0,$minute,$hour,@ltime[3..6]);
+my $stop_time = mktime(0,$leave_min,$leave_hour,@ltime[3..6]);
 my $delaytime = (($stop_time - $time)/@files); 
 $delaytime =~ s/(\d+).?\d*/$1/;  #make it a whole number
 
 my $num = @files;
-infomsg("Displaying $num comics from now until $hour:$minute, one every " .
-    "$delaytime seconds\n") if $verbose;
+infomsg("Displaying $num comics from now until $leave_hour:$leave_min, " .
+	"one every $delaytime seconds\n") if $verbose;
 
 #display the comics!
 if (@files > 0) {
@@ -316,6 +339,9 @@ END
     
     $hour = "0$hour" if $hour =~ /^\d$/;
     $minute = "0$minute" if $minute =~ /^\d$/;
+
+    infomsg("Time leaving: $leave_hour:$leave_min\n") if $extra_verbose;
+
     return ($hour,$minute);
 }
 
@@ -389,6 +415,7 @@ usage: show_comics [-h] [-c cmd] [-d dir] [-f rcfile] [-l|-t hh:mm] [-p [cmd]]
   -s: don't run if the current time is before the specified time.
   -t: specify the default time to be placed in the dialog box
   -v: be verbose
+  -w: wait until start time instead of exiting.
 
 Be sure to set the DISPLAY variable.
 END

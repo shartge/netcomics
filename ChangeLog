@@ -1,3 +1,7 @@
+2003-07-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics: applied patch #776915, wait until start time.
+
 2003-07-12  Chris Hostetter  <hossman at users * sourceforge * net>
 
 	* patch#708540 new site for Dr. Fun
