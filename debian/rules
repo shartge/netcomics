@@ -19,12 +19,12 @@ configure-stamp:
 	
 	touch configure-stamp
 
-build: configure-stamp build-stamp
+build: build-stamp
 build-stamp:
 	dh_testdir
 
 	# Add here commands to compile the package.
-	$(MAKE)
+	$(MAKE) 
 
 	touch build-stamp
 
@@ -46,15 +46,14 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/netcomics.
-	
-	$(MAKE) BUILDROOT=$(CURDIR)/debian/tmp NOREMAKE=1 install
+	BUILDROOT=$(CURDIR)/debian/tmp
+	$(MAKE) BUILDROOT=$(CURDIR)/debian/tmp PERLINSTDIR=$(CURDIR)/debian/tmp/usr/lib/perl5/Netcomics NOREMAKE=1 install
 
 	dh_movefiles
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.
 binary-indep: build install
-	@echo "BINARY-INDEP"
 	dh_testdir -i
 	dh_testroot -i
 #	dh_installdebconf -i
@@ -81,3 +80,4 @@ binary-indep: build install
 
 binary: binary-indep
 .PHONY: build clean binary-indep binary install configure
+

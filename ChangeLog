@@ -1,3 +1,12 @@
+2001-04-26  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* Makefile (install): Fixed problems installing /etc/netomicsrc
+	when packaging.
+	* debian/conffiles: Added newline at the end of the file so debhelper
+	doesn't barf on reading it.
+	* debian/rules: Redefined PERLINSTDIR so that it places *.pm in a 
+	places that Debian's perl looks for them.
+	
 2001-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* debian/rules (install): Changed to use NOREMAKE & BUILDROOT.
