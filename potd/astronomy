@@ -1,0 +1,33 @@
+#-*-Perl-*-
+
+$hof{"astronomy"} = 0;
+
+sub astronomy {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #use the script, mktime, in contrib (or doc if from the RPM) to
+    #find out what the number should be:
+    return undef if $time < 803260800; #1st picture: June 16, 1995
+    my @month = ("January","February","March","April","May","June","July",
+		 "August","September","October","November","December");
+    my $date = strftime("$month[$ltime[4]]\\s*%e",@ltime);
+    my $rec = {
+	'title' => "Astronomy Picture of the Day",
+	'author' => "Robert Nemiroff & Jerry Bonnell",
+	'main' => "http://antwrp.gsfc.nasa.gov/apod/",
+	'type' => "jpg",
+	'archives' => "http://antwrp.gsfc.nasa.gov/apod/archivepix.html",
+	'base' => "http://antwrp.gsfc.nasa.gov/apod/",
+	'page' => strftime("ap%y%m%d.html",@ltime),
+	'exprs' => {
+	    'comic' => [$date . '.*?.*?<[aA] [hH].*?="(image/.*?\..*?)">'],
+	    'type' => [$date . '.*?.*?<[aA] [hH].*?="image/.*?\.(.*?)">'],
+	    'caption' => ['<[cC][eE][nN][tT][eE][rR]>.*?<[Bb]>\s*(.*?)\s*</[bB]>'],
+	    'author' => ['<[cC][eE][nN][tT][eE][rR]>.*?<[bB]>.*?<[bB]>.*?Credit.*?</[bB]>\s*(.*?)</[cC][eE][nN][tT][eE][rR]>'],
+	}
+    };
+    $rec->{'url'} = [$rec->{'base'} . $rec->{'page'}];
+    return $rec;
+}
+
+1;
