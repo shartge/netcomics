@@ -1,0 +1,33 @@
+#-*-Perl-*-
+
+$hof{"minicorn"} = 0;
+
+sub minicorn {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @comics = (19990305,19990401,19990327,19990311,19990318);
+    my %comics = (19990430 => 1,
+		  19990507 => 2,
+		  19990512 => 3,
+		  19990515 => 4,
+		  19990516 => 5,
+		  19990524 => 6,
+		  19990318 => 7,
+		  19990401 => 8,
+		  19990222 => 9
+		  );
+		  
+    return undef unless grep($date,@comics);
+    my $rec = {
+	'title' => "Cornered Mini Animation",
+	'author' => "Mike Baldwin",
+	'type' => 'gif',
+	'main' => "http://webhome.idirect.com/~cornered/antest.html",
+	'base' => "http://webhome.idirect.com/~cornered/",
+	'page' => strftime("%y%m%d.gif",@ltime),
+	'size' => []
+	};
+    return $rec;
+}
+
+1;
