@@ -56,7 +56,7 @@ $html{'body'} = <<END_BODY;
       <TD BGCOLOR=black ALIGN=CENTER><FONT FACE="Arial,Helvetica" SIZE=+1 COLOR=white><B><A NAME="<COMIC_ID>"><COMIC_NAME></A></B></FONT>
       </TD>
     </TR>
-    <TR><TD><ELEMENT></TD></TR>
+    <TR><TD WIDTH="100%"><ELEMENT></TD></TR>
     <CAPTION>
     </TABLE>
   </TD></TR>

@@ -1,3 +1,12 @@
+2002-09-08  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot (avalon): Copied the sub code from $keenspot into 
+	&avalon so I could modify it to grab the actual @#$!* caption on guest
+	artist days.
+	* Netcomics/HTML/Themes/Default.pm: One line fix for multi-panel 
+	comics. (Can anyone think of a safer way of doing this that would
+	work w/ CleanImbed*?)
+
 2002-09-09  Sven Hartge  <netcomics@ds9.argh.org>
 
 	* lib/user_friendly: fix super stupid line wrapping, causing the

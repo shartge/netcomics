@@ -12,50 +12,50 @@ foreach (qw(avalon ashfield alice banditb crfh cotc menagerie ccs elf
 $hof{"hh"} = 60;
 
 sub keenspot {  
-  my ($title,$author,$date,$url,$index) = @_;
-  if ($url =~ /http:\/\//) {$baseurl = $url;}
-  else {$baseurl = "http://$url.keenspot.com";}
-  if (!defined($index)) {$index = "index.html";}
-  my @ltime2 = gmtime(time);
+	my ($title,$author,$date,$url,$index) = @_;
+	if ($url =~ /http:\/\//) {$baseurl = $url;}
+	else {$baseurl = "http://$url.keenspot.com";}
+	if (!defined($index)) {$index = "index.html";}
+	my @ltime2 = gmtime(time);
+	
+	my $page = "/d/$date.html";
+	if ($index =~ /wander/) {
+		$page = "/D/$date.html";
+		$index = "index.html";
+	}
+	if ($date == strftime("%Y%m%d",@ltime2)) {
+		$page = "/$index";
+	}
   
-  my $page = "/d/$date.html";
-  if ($index =~ /wander/) {
-    $page = "/D/$date.html";
-    $index = "index.html";
-  }
-  if ($date == strftime("%Y%m%d",@ltime2)) {
-      $page = "/$index";
-  }
-  
-  my $rec = {
-    'title' => "$title",
-    'author' => "$author",
-    'main' => $baseurl,
-    'archives' => $baseurl,
-    'base' => $baseurl,
-    'page' => $page,
-  };
+	my $rec = {
+			   'title' => "$title",
+			   'author' => "$author",
+			   'main' => $baseurl,
+			   'archives' => $baseurl,
+			   'base' => $baseurl,
+			   'page' => $page,
+			  };
 
-  $rec->{'func'} = sub {
-   my $text = shift;
-   my @relurls = ();
-    #repeatedly match and replace.  
+	$rec->{'func'} = sub {
+		my $text = shift;
+		my @relurls = ();
+		#repeatedly match and replace.  
         while (1) {
-          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
-			  my $file = $1;
-			  my $type = $5;
-			  push(@relurls,$file) unless grep(/$file/, @relurls);
-			  $rec->{'type'} = $type;
-          } else {
-            last;
-          }
+			if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+				my $file = $1;
+				my $type = $5;
+				push(@relurls,$file) unless grep(/$file/, @relurls);
+				$rec->{'type'} = $type;
+			} else {
+				last;
+			}
         }
-    if ($text =~ s/selected>(.*?)<\/option>//i) {
-      $rec->{'caption'} = $1;
-    }
-    return reverse @relurls;
-  };
-  return $rec;
+		if ($text =~ s/selected>(.*?)<\/option>//i) {
+			$rec->{'caption'} = $1;
+		}
+		return reverse @relurls;
+	};
+	return $rec;
 }
 
 #? - Ashfield online
@@ -186,8 +186,48 @@ sub avalon {
     my $author = "Josh Phillips";
     my $url = "http://www.avalonhigh.com";
     my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
+
+    my $rec = keenspot($title,$author,$date,$url,$index);
+	# Avalon needs some help properly detecting different captions:
+	$rec->{'func'} = sub {
+		my $text = shift;
+		my @relurls = ();
+		#repeatedly match and replace.  
+        while (1) {
+			if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+				my $file = $1;
+				my $type = $5;
+				push(@relurls,$file) unless grep(/$file/, @relurls);
+				$rec->{'type'} = $type;
+			} else {
+				last;
+			}
+        }
+		# First try the normal caption selection:
+		if ($text =~ s/selected>(.*?)<\/option>//i) {
+			$rec->{'caption'} = $1;
+		}
+		# First kind of guest strip caption:
+		if ($text =~ s/(Guest Artist Sunday.*?\n)//) {
+			my $gas = $1;
+			chomp($gas);
+			$gas = "<a href=\"http://www.avalonhigh.com/s/\">" . $gas 
+				if $gas =~ /<\/a>/i;
+			$rec->{'caption'} = $gas;
+		}
+		# Second kind of guest strip caption:
+		if ($text =~ s/(Guest Artist.*?\n)//) {
+			my $gas = $1;
+			chomp($gas);
+			$gas = "<a href=\"http://www.avalonhigh.com/s/\">" . $gas 
+				if $gas =~ /<\/a>/i;
+			$rec->{'caption'} = $gas;
+		}
+
+		return reverse @relurls;
+	};
+	delete $rec->{'text'};
+	return $rec;
 }
 
 #Bruno the Bandit
