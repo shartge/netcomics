@@ -1,0 +1,89 @@
+#-*-Perl-*-
+
+$hof{"storymin"} = 0;
+
+#Carol Lay's Story Minute
+#http://www.salon.com/comics/lay/
+sub storymin {
+    my @ltime = gmtime(shift(@_));
+    my $day = strftime("%Y%m%d",@ltime);
+
+    #exceptions lists last updated Aug 25, 1999
+    #comics not on the typical day of week
+    my @extras = (19990426,19971224,19970528);
+    #dates that don't adhere to the day of week rule
+    my @missing = (19990720,19990504,19990427,19990406,
+		   19981229,19971230,19970527,19970204,
+		   19961230,19961007,19960812,19960415);
+    my @mon = ('jan','feb','march','april','may','june','july','aug',
+	       'sept','oct','nov','dec');
+
+    #The weekday switched from Mon to Tues in Feb 1997
+    my $day_of_week = ($day > 19970201)? 2 : 1;
+
+    my $page_fmt = "comics/lay/";
+	if ($day > 19990921 ) {
+		$page_fmt .= "%Y/%m/%d/lay/story.gif";
+	} elsif ($day > 19990401) {
+		$page_fmt .= "%Y/%m/%d/lay/lay.gif";
+    } elsif ($day >= 19971001) {
+	if ($day == 19981208) {
+	    $page_fmt .= "%Y/%m/src/%m%dlay.gif";
+	} else {
+	    $page_fmt .= "%Y/%m/src/%dlay.gif";
+	}
+    } elsif ($day > 19970209) {
+	$page_fmt = "$mon[$ltime[4]]%y/comics/lay%y%m%d.gif";
+    } elsif ($day > 19960422) {
+	$page_fmt = "comics/lay%y%m%d.gif";
+    } elsif ($day == 19960422) {
+	$page_fmt = "comics/lay.gif";
+    } elsif ($day > 19951119) {
+	#The day switched from every other Sat to Mondays April 15, 1996
+	$day_of_week = 6;
+	$_ = $day;
+	if (/19960406/) {
+	    $page_fmt = "11/comix/lay1.gif";
+	} elsif (/19960323/) {
+	    $page_fmt = "10/comix/lay1.gif";
+	} elsif (/19960309/) {
+	    $page_fmt = "09/comix/lay1.gif";
+	} elsif (/19960224/) {
+	    $page_fmt = "08/comix/laya.gif";
+	} elsif (/19960210/) {
+	    $page_fmt = "07/comix/lay.gif";
+	} elsif (/19960127/) {
+	    $page_fmt = "06/comix/lay.gif";
+	} elsif (/19960113/) {
+	    $page_fmt = "05/comix/lay.gif";
+	} elsif (/19951230/) {
+	    $page_fmt = "30dec1995/comix/lay.gif";
+	} elsif (/19951216/) {
+	    $page_fmt = "16dec1995/comix/carol.gif";
+	} elsif (/19951202/) {
+	    $page_fmt = "02dec1995/comix/lay.gif";
+	} elsif (/19951120/) {
+	    $page_fmt = "12nov1995/comix/comic2.gif";
+	} else {
+	    return undef;
+	}
+    } else {
+	return undef; #before start of archive
+    }
+
+    return undef if grep(/$day/,@missing) || 
+	($ltime[6] != $day_of_week && ! grep(/$day/,@extras));
+
+    return {
+	'title' => "Story Minute",
+	'author' => "Carol Lay",
+	'type' => 'gif',
+	'main' => "http://www.salon.com/comics",
+	'archive' => "http://www.salon.com/archives/to/comics_lay.html",
+	'base' => "http://www.salon.com/",
+	'page' => strftime($page_fmt,@ltime),
+	'size' => [575,760]
+	};
+}
+
+1;
