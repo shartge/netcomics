@@ -72,7 +72,7 @@ use vars qw(@EXPORT @ISA);
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
-    $webpage_absolute_paths
+	$webpage_absolute_paths $comicpage_glade_dir
 /; 
 
 #all the config options & their defaults.
@@ -90,6 +90,8 @@ use vars('$date_fmt'); $date_fmt = "%Y%m%d"; #date format in filenames
 #default options values
 use vars ('@libdirs'); @libdirs = ("/usr/share/netcomics");
 use vars ('$html_tmpl_dir'); $html_tmpl_dir = "$libdirs[0]/html_tmpl";
+use vars ('$comicpage_glade_dir'); 
+$comicpage_glade_dir = "/usr/share/comicpage";
 use vars ('$comics_dir'); $comics_dir = "/var/spool/netcomics";
 use vars ('$system_rc'); $system_rc = "/etc/netcomicsrc";
 use vars ('$verbose'); $verbose = 0; #default to not verbose

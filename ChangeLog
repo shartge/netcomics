@@ -1,3 +1,13 @@
+2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* .cvsignore: Updated to ignore debian build stuff.
+	* debian/.cvsignore: Updated to ignore debian build stuff.
+	* Makefile.PL: Updated to properly install comicpage & support files.
+	* Netcomics/Config.pm.in: Modified to include a path to comicpage glade
+	files.
+	* Netcomics/GtkComics.pm: Modified to use the updates in Config.pm.in
+	and Makefile.PL
+
 2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* debian/rules: Now builds working packages.

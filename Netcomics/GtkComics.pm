@@ -42,7 +42,9 @@ my $true = 1;
 my $proc;
 
 # Create the GUI.
-my $main = new Gtk::GladeXML("Comicpage/comicpage.glade");
+my $file = "$comicpage_glade_dir/comicpage.glade";
+print "Loading GUI file: $file\n";
+my $main = new Gtk::GladeXML("$file");
 $main->signal_autoconnect_from_package('Netcomics::GtkComics');
 
 print "Creating Netcomics object\n";

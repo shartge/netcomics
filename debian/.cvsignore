@@ -8,4 +8,8 @@ substvars
 netcomics-modules.postinst.debhelper
 netcomics-modules
 postrm.debhelper
-netcomics-modules.substvars
+*.substvars
+netcomics.postinst.debhelper
+netcomics.prerm.debhelper
+netcomics.postrm.debhelper
+
