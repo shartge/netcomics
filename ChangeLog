@@ -1,3 +1,16 @@
+2002-04-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* NEWS: Updated for 0.14.1 release.
+	* MANIFEST: Added slowwave
+	* Makefile.PL (@modules): Added slowwave
+	(rpm): Made sure that the rpm spec is rewritten every time.
+	* doc/netcomics.lsm: Updated for 0.14.1 release
+	* Makefile.PL (%opts): updated VERSION to be 0.14.1.
+	* Netcomics/Util.pm (load_modules): Added printing out errors in
+	loading modules.
+	* lib/kingfeatures (fa): Fixed typo causing all kingfeature comics
+	to not load.
+
 2002-04-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL (%opts): updated VERSION to be 0.14cvs.

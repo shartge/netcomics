@@ -1,3 +1,6 @@
+Changes in release 0.14.1:
+Added Slow Wave and fixed kingfeatures module.
+
 Changes in release 0.14:
 * Multi-page indexing
 * GUI-dependent debian package spun off
