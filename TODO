@@ -137,6 +137,10 @@ strips that haven't yet successfully downloaded.
 Add option for modules to utilize that instructs netcomics to derive
 the filetype from the URL used to download the image.
 
+** GnomeTransferManager
+Consider utilizing or extending GnomeTransferManager to download files
+http://gtm.sourceforge.net/
+
 -----------------------------------------------------------------------
 
 * Bugs
