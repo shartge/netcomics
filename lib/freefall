@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"freefall"} = 0;
+
+#Freefall http://www.purrsia.com/freefall/
+sub freefall {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    return undef if $time < 891265205; #1st comic: Mar 30, 1998
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+    
+    my $weeks = (($time - 891265205)/(24*3600)) / 7; 	# Calculate the number of week since the comic started
+    my $cartoonid = int(( $weeks * 3 ) + 1.5 );		# 3 cartoons per week; first one was 00001; add 0.5 
+							# to make sure our int behaves as round in C
+    my $cartoondir = ( int( $cartoonid / 100 ) + 1 ) * 100 ; 
+    $cartoondir -= 100 if ($cartoonid % 100 == 0);
+    my $cartoonstr = "";
+    $cartoonstr = sprintf("%05d", $cartoonid);
+    my $rec = {
+	'title' => "Freefall",
+	'author' => "Mark Stanley",
+	'type' => 'gif',
+	'main' => "http://www.purrsia.com/freefall/",
+	'archives' => "http://www.purrsia.com/freefall/ffdex.htm",
+	'base' => "http://www.purrsia.com/freefall/",
+	'page' => "ff$cartoondir/fv$cartoonstr.gif",
+	};
+    return $rec;
+}
+
+1;
+
+

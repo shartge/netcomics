@@ -55,6 +55,7 @@ sub new {
 		'existing_rli_files' => [],
 		'files_retrieved' => [],
 		'conf' => $conf,
+		'get_current' => undef, #accomodate the time for the rli hash function?
 	};
 
 	bless $self, $class;
@@ -188,7 +189,7 @@ sub init {
 	#Do the work.
 	#
 
-	my $get_current = build_date_array($self->{'dates'},$self->{'hof'});
+	$self->{'get_current'} = $self->build_date_array();
 	if ($extra_verbose) {
 		print "dates: ";
 		my $date;
@@ -198,7 +199,7 @@ sub init {
 		}
 		print "\n";
 	}
-	$self->build_rli_array($get_current);
+	$self->build_rli_array();
 
 	#stop and print what will be done
 	if ($show_tasks) {
@@ -223,12 +224,11 @@ sub init {
 #Build up the list of resource locators
 sub build_rli_array {
 	my $self = shift;
-	my $get_current = shift; #accomodate the time for the rli hash function?
-	if ($get_current) {
+	if ($self->{'get_current'}) {
 		#accomodate the time for the rli hash functions
-		$self->build_rli_array_helper(1,"Adding hof & get_current RLI's");
+		$self->build_rli_array_helper("Adding hof & get_current RLI's");
 	} else {
-		$self->build_rli_array_helper(0,"Adding hof & !get_current RLI's");
+		$self->build_rli_array_helper("Adding hof & !get_current RLI's");
 	}
 	print "\n" if $extra_verbose;
 	
@@ -238,21 +238,21 @@ sub build_rli_array {
 }
 
 sub build_rli_array_helper {
-	my ($self,$usedays,$msg) = @_;
+	my ($self,$msg) = @_;
 	print "\n$msg: " if $extra_verbose;
 	my ($days, $fun, $time, $rli);
 	my $rlis = $self->{'rli'};
 	while (($fun,$days) = each %{$self->{'hof'}}) {
-		next if $usedays && ! defined $days;
+		next if $self->{'get_current'} && ! defined $days;
 		print "$fun " if $extra_verbose;
 		foreach $time (@{$self->{'dates'}}) {
-		    if ($usedays) {
+		    if ($self->{'get_current'}) {
 				$rli = $self->run_rli_func($fun,$time,$fun,$days);
 		    } else {
 				$rli = $self->run_rli_func($fun,$time,$fun);
 		    }
 		    if (defined($rli)) {
-				#reget the time (incase of $usedays)
+				#reget the time (incase of $self->{'get_current'})
 				my $time = $rli->{'time'};
 				#first remove any rli with that date & proc from the list.
 				if (defined($self->{'rli_procs'}{$fun}) && 
@@ -724,33 +724,34 @@ sub get_comics {
 							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
 						}
 					}
-					$rli->{'url'} = [] unless defined $rli->{'url'};
-					$rli->{'url'}->[@{$rli->{'url'}}] = $url;
-					$i++; #simply keep track for debugging purposes
 				}
-				if ($j < 0) {
-					#assume the @relurl returned contained a hash which added
-					#fields to the rli which now need to be reprocessed.
-					goto SETUPDATA;
-				}
+				$rli->{'url'} = [] unless defined $rli->{'url'};
+				$rli->{'url'}->[@{$rli->{'url'}}] = $url;
+				$i++; #simply keep track for debugging purposes
+			}
+			if ($j < 0) {
+				#assume the @relurl returned contained a hash which added
+				#fields to the rli which now need to be reprocessed.
+				goto SETUPDATA;
 			}
 		} else  {
 			#complete the fields for the rli.
 			#first tack on the file type (it may have been changed thru 'exprs')
 			$name .= "." . $rli->{'type'};
 
-			#save the image to its file if it was successfully downloaded.
-			if ($separate_comics) {
-				$rli->{'file'} = [ "$name" ];
-				file_write("$comics_dir/$rli->{'subdir'}/$name",
-						   $files_mode, $response->content);
-			} else {
-				$rli->{'file'} = [ "$name" ];
-				file_write("$comics_dir/$name",
-						   $files_mode, $response->content);
+			unless ($dont_download || $rli->{'status'} == 2) {
+				#save the image to its file if it was successfully downloaded.
+				if ($separate_comics) {
+					$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+					file_write("$comics_dir/$rli->{'subdir'}/$name",
+							   $files_mode, $response->content);
+				} else {
+					$rli->{'file'} = [ "$name" ];
+					file_write("$comics_dir/$name",
+							   $files_mode, $response->content);
+				}
+				push(@images,$name);
 			}
-			push(@images,$name)
-				unless $dont_download || $rli->{'status'} == 2;
 		}
 		#Eliminate the need to put mulitple status sets to 1 in the code
 		#by assuming that if it was bad, jumped to FINISH_RLI or status set
@@ -764,20 +765,20 @@ sub get_comics {
 	
 	print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
 		if $extra_verbose && !$dont_download;
-	if (@bad_images > 0) {
-		print "To try retrieving the images that failed, run this command:\n";
-		print "$self->{'conf'}{'script_name'} -nR";
+    if (@bad_images > 0 && ! $suppress_rerun_command) {
+		print STDERR 
+			"To try retrieving the images that failed, run this command:\n" .
+				"$self->{'conf'}{'script_name'} -nR";
 		if (! $data_dumper_installed) {
-			print " -c \"@bad_images\"";
-			print " -n $days_of_comics" if ++$days_of_comics > 1;
+			print STDERR " -c \"@bad_images\"";
+			print STDERR " -n $days_of_comics" if ++$days_of_comics > 1;
 		}
 		if ($make_webpage) {
-			print " -W";
-			print "=$comics_per_page" if defined $comics_per_page;
+			print STDERR " -W";
+			print STDERR "=$comics_per_page" if defined $comics_per_page;
 		}
-		print $given_options;
-		print "\n";
-		print <<END;
+		print STDERR "$given_options\n";
+		print STDERR <<END;
 		Please, before sending in a bug report on a comic that doesn't download,
 try over a period of several days (or weeks, depending on the problem) to
 see if it just happened to be that the website maintainer for that comic
@@ -788,7 +789,7 @@ END
 	return @$rlis;
 }
 
-#these two functions only return useful info after get_comics has been run
+#these 3 functions only return useful info after get_comics has been run
 sub files_retrieved {
 	my $self = shift;
 	return @{$self->{'files_retrieved'}};
@@ -799,26 +800,40 @@ sub existing_rli_files {
 	return @{$self->{'existing_rli_files'}};
 }
 
+sub get_current {
+	my $self = shift;
+	return $self->{'get_current'};
+}
+
+sub days_behind {
+	my ($self, $proc) = @_;
+	return $self->{'hof'}{$proc};
+}
+
 #persistently store an rli hash, or a bunch of hashes.
 sub dump_rli {
 	my $self = shift;
     my $rli = shift;
     if ($data_dumper_installed) {
-        if (ref($rli) eq "ARRAY") {
-            my @rli = @$rli;
-			# Delete the useless entries in @rli before saving to disk.
-			foreach (@rli) {
+		my @rli; #create an array to go through the rlis
+		my $reftype = ref($rli);
+        if ($reftype eq "ARRAY") {
+            @rli = @$rli;
+		} else {
+			push(@rli, $rli);
+		}
+		foreach (@rli) {
+			#Delete no-longer needed fields for completely download comics
+			if ($_->{'status'} == 1) {
 				delete $_->{'base'};
 				delete $_->{'page'};
 				delete $_->{'exprs'};
 			}
-            file_write($comics_dir . '/' . $netcomics_rli_file,
-                       $files_mode,Data::Dumper->Dump([\@rli],[qw(*rli)]));
+		}
+        if ($reftype eq "ARRAY") {
+			file_write($comics_dir . '/' . $netcomics_rli_file,
+					   $files_mode,Data::Dumper->Dump([\@rli],[qw(*rli)]));
         } else {
-			# Delete the useless entries in @rli before saving to disk.
-			delete $rli->{'base'};
-			delete $rli->{'page'};
-			delete $rli->{'exprs'};
             file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
                        $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
         }
@@ -920,10 +935,11 @@ sub run_rli_func {
 	my ($self,$fun,$time,$fun_name,$days) = @_;
 	$time -= $days * 24*3600 if defined $days;
 
+    my $days_behind = $self->{'hof'}{$fun};
 	# Real date day
 	if ($real_date == 1) {
 		# Adapt time for this comic "as if" today was ...
-		$time -= $self->{'hof'}{$fun} * 24*3600;
+		$time -= $days_behind * 24*3600;
 	}
 
 	#get the info from the RLI
@@ -937,6 +953,7 @@ sub run_rli_func {
 		if (ref($_) eq "HASH") {
 		    $_->{'time'} = $time;
 		    $_->{'proc'} = $fun_name;
+			$_->{'behind'} = $days_behind;
 		    if (defined($comics{$fun})) {
 				#copy in user-defined keys
 				my $field;
@@ -953,8 +970,69 @@ sub run_rli_func {
 	return $_;
 }
 
+#Build the array of dates of comics to get
+sub build_date_array {
+	my $self = shift;
+	$days_of_comics = undef 
+		if defined($days_of_comics) && $days_of_comics == 0;
+	if (defined($days_of_comics)) {
+		#incase user specified it with a minus sign.
+		$days_of_comics = abs($days_of_comics);
+		$days_of_comics--; #adjust for 0-base
+	}
+	my $now = time;
+	{
+		#adjust the time so it is of this morning just after midnight.
+		my @ltime = localtime($now);
+		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
+	}
 
+	$self->{'get_current'} = 0; #use hof
+	#Determine the start & end dates
+	if (! defined($end_date) && ! defined($days_of_comics) &&
+		defined($start_date)) {
+		#-S, no -E, no -n
+		$end_date = $now + (get_max_hof($self->{'hof'}) * 24*3600);
+	} elsif (defined($end_date) && defined($days_of_comics) &&
+			 ! defined($start_date)) {
+		#no -S, -E, -n
+		$start_date = $end_date - ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && defined($days_of_comics) &&
+			 defined($start_date)) {
+		#-S, no -E, -n
+		$end_date = $start_date + ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && defined($days_of_comics) && 
+			 ! defined($start_date)) {
+		#no -S, no -E, -n
+		$self->{'get_current'} = 1;
+		$end_date = $now - ($days_prior * 24*3600);
+		$start_date = $end_date - ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && ! defined($days_of_comics) && 
+			 ! defined($start_date)) {
+		#no -S, no -E, no -n
+		#we don't need to do anything special
+		#add today's date (minus days prior) to the date array, and return.
+		if (@{$self->{'dates'}} == 0) {
+		    push(@{$self->{'dates'}},($now - ($days_prior * 24*3600)));
+		    $self->{'get_current'} = 1;
+		}
+		return;
+	}
 
+	{   #Build up the date array
+		my $time_c = $start_date;
+		my @e_day = gmtime($end_date);
+		my @c_day = gmtime($time_c);
+		my $e_day = strftime("%Y%m%d",@e_day);
+		my $c_day = strftime("%Y%m%d",@c_day);
+		while ($c_day <= $e_day) {
+		    push(@{$self->{'dates'}},$time_c);
+		    $time_c += 24*3600;
+		    @c_day = gmtime($time_c);
+		    $c_day = strftime("%Y%m%d",@c_day);
+		}
+	}
+}
 
 #functions that don't require access to attributes
 
@@ -973,71 +1051,6 @@ sub add_referer {
 	return $request;
 }
 
-
-#Build the array of dates of comics to get
-sub build_date_array {
-	my ($dates, $hof) = @_;
-	$days_of_comics = undef 
-		if defined($days_of_comics) && $days_of_comics == 0;
-	if (defined($days_of_comics)) {
-		#incase user specified it with a minus sign.
-		$days_of_comics = abs($days_of_comics);
-		$days_of_comics--; #adjust for 0-base
-	}
-	my $now = time;
-	{
-		#adjust the time so it is of this morning just after midnight.
-		my @ltime = localtime($now);
-		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
-	}
-
-	my $get_current = 0; #use hof
-	#Determine the start & end dates
-	if (! defined($end_date) && ! defined($days_of_comics) &&
-		defined($start_date)) {
-		#-S, no -E, no -n
-		$end_date = $now + (get_max_hof($hof) * 24*3600);
-	} elsif (defined($end_date) && defined($days_of_comics) &&
-			 ! defined($start_date)) {
-		#no -S, -E, -n
-		$start_date = $end_date - ($days_of_comics * 24*3600);
-	} elsif (! defined($end_date) && defined($days_of_comics) &&
-			 defined($start_date)) {
-		#-S, no -E, -n
-		$end_date = $start_date + ($days_of_comics * 24*3600);
-	} elsif (! defined($end_date) && defined($days_of_comics) && 
-			 ! defined($start_date)) {
-		#no -S, no -E, -n
-		$get_current = 1;
-		$end_date = $now - ($days_prior * 24*3600);
-		$start_date = $end_date - ($days_of_comics * 24*3600);
-	} elsif (! defined($end_date) && ! defined($days_of_comics) && 
-			 ! defined($start_date)) {
-		#no -S, no -E, no -n
-		#we don't need to do anything special
-		#add today's date (minus days prior) to the date array, and return.
-		if (@$dates == 0) {
-		    push(@$dates,($now - ($days_prior * 24*3600)));
-		    $get_current = 1;
-		}
-		return $get_current;
-	}
-
-	{   #Build up the date array
-		my $time_c = $start_date;
-		my @e_day = gmtime($end_date);
-		my @c_day = gmtime($time_c);
-		my $e_day = strftime("%Y%m%d",@e_day);
-		my $c_day = strftime("%Y%m%d",@c_day);
-		while ($c_day <= $e_day) {
-		    push(@$dates,$time_c);
-		    $time_c += 24*3600;
-		    @c_day = gmtime($time_c);
-		    $c_day = strftime("%Y%m%d",@c_day);
-		}
-	}
-	return $get_current;
-}
 
 #return the persistenantly stored rli hash.
 sub load_rli {

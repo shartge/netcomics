@@ -1,5 +1,5 @@
 #-*-Perl-*-
-foreach (qw(boxjam heaven attwf framed stereo rocr fce sketch fatjc)) {
+foreach (qw(boxjam heaven attwf framed stereo rocr fce sketch fatjc roses zap)) {
   $hof{$_} = 0;
 };
 
@@ -48,9 +48,10 @@ sub heaven {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    # Last updated March 1, 2001
-    my @missing = (20001227,20001229);
-    my @extra = (0,0);
+    # Last updated March 20, 2001
+    my @missing = (20001227,20001229,20010307,20010309,20010312,
+    20010314,20010316,20010319);
+    my @extra = (0);
 
     #comics only on MWF
     return undef 
@@ -71,7 +72,7 @@ sub boxjam {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    # Last updated March 1, 2001
+    # Last updated March 20, 2001
     my @missing = (0);
     my @extra = (20000401,20000527);
 
@@ -118,10 +119,11 @@ sub framed {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    # Last updated March 1, 2001
+    # Last updated March 20, 2001
     my @missing = (20001007,20001014,20001021,20001028,20001104,
       20001111,20001118,20001125,20001202,20001209,20001216,
-      20001230,20010106,20010113,20010120,20010127,20010210);
+      20001230,20010106,20010113,20010120,20010127,20010210,
+      20010318);
 
     return undef
         if (($date < 20001003) || #first comic on Oct 03, 2000
@@ -140,7 +142,7 @@ sub stereo {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    # Last updated March 1, 2001
+    # Last updated March 20, 2001
     my @missing = (0);
 
     return undef
@@ -161,12 +163,13 @@ sub rocr {
     my $date = strftime("%Y%m%d", @ltime);
 
     #exceptions list developed from the archives page.
-    #last updated Feb 28, 2001
+    #last updated March 20, 2001
     my @missing = (20000719,20000909,20000919,20000928,20000929,
         20001102,20001105,20001112,20001119,20001126,20001203,
         20001210,20001217,20001224,20010107,20010113,20010120,
         20010121,20010127,20010128,20010203,20010204,20010210,
-        20010211,20010217,20010228,20010224,20010225);
+        20010211,20010217,20010228,20010224,20010225,20010303,
+        20010304,20010310,20010311);
 
     return undef 
       if (($date < 20000701) || #first comic on July 1, 2000
@@ -187,7 +190,7 @@ sub fce {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    # Last updated March 1, 2001
+    # Last updated March 20, 2001
     my @missing = (0);
     my @extra = (20001210);
 
@@ -219,10 +222,10 @@ sub sketch {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d",@ltime);
 
-    #exception tables last updated Feb. 14, 2001
+    #exception tables last updated March 20, 2001
     my @missing = (20000924,20001008,20001009,20001021,20001105,
         20001112,20001113,20001119,20001125,20001208,20010207,20010209);
-    my @extra = (20001207);
+    my @extra = (20001207,20010307,20010319);
 
     #Before Nov. 25, 2000, released every day except for some exceptions.
     #Afterwards, released almost always on Mon Wed Fri
@@ -247,7 +250,7 @@ sub fatjc {
     my @ltime = gmtime($time);
     my $date = strftime("%Y%m%d", @ltime);
 
-    #last updated Feb. 28, 2001
+    #last updated March 19, 2001
     my @missing = 
 	(20001004,20001005,20001006,20001007,20001008,20001009,20001010,
 	 20001011,20001012,20001013,20001014,20001015,20001022,20001023,
@@ -257,7 +260,7 @@ sub fatjc {
 	 20001125,20001126,20001201,20001230,20001231,20010101,20010102,
 	 20010103,20010105,20010103,20010105,20010107,20010108,20010109,
 	 20010113,20010114,20010122,20010123,20010124,20010125,20010126,
-	 20010128);
+	 20010128,20010304,20010314);
 
     #the origin series has a total of 39.  Since the first comic is on
     #Oct 3, 2000, the start of archive adjusted for the origin series is
@@ -319,6 +322,79 @@ sub fatjc {
       # Normal Strips
       return keenspace($title,$author,$date,$url);
     }
+}
+
+#Eat the Roses
+sub roses {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    #exceptions list developed from the archives page.
+    #last updated March 20, 2001
+    my @missing = (20000621,20000623,20000625,20000627,20000629,
+      20000701,20000702,20000703,20000704,20000705,20000706,
+      20000707,20000708,20000709,20000710,20000711,20000712,
+      20000713,20000715,20000717,20000719,20000721,20000723,
+      20000725,20000727,20000729,20000731,20000801,20000802,
+      20000803,20000804,20000805,20000806,20000807,20000808,
+      20000809,20000810,20000811,20000812,20000813,20000815,
+      20000817,20000819,20000821,20000823,20000825,20000827,
+      20000829,20000831,20000901,20000902,20000903,20000904,
+      20000905,20000906,20000907,20000908,20000909,20000910,
+      20000911,20000912,20000913,20000914,20000915,20000916,
+      20000917,20000919,20000921,20000923,20000925,20000927,
+      20000929,20001001,20001002,20001003,20001004,20001005,
+      20001006,20001007,20001008,20001009,20001010,20001011,
+      20001012,20001013,20001015,20001017,20001019,20001021,
+      20001023,20001025,20001027,20001029,20001031,20001101,
+      20001102,20001103,20001104,20001105,20001106,20001107,
+      20001108,20001109,20001110,20001111,20001112,20001113,
+      20001114,20001115,20001116,20001117,20001118,20001119,
+      20001120,20001121,20001122,20001123,20001124,20001125,
+      20001205,20001228,20001230,20010101,20010103,20010111,
+      20010120,20010121,20010127,20010128,20010203,20010204,
+      20010211,20010216,20010217,20010218,20010221,20010224,
+      20010225,20010301,20010302,20010303,20010304,20010310,
+      20010311);
+
+    return undef 
+      if (($date < 20000618) || #first comic on June 18, 2000
+          grep(/$date/,@missing));
+
+    my $title="Eat The Roses";
+    my $author="Meaghan Quinn";
+    my $url = "eattheroses";
+
+    return keenspace($title,$author,$date,$url);
+
+}
+
+#Zap Jones
+sub zap {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    #exceptions list developed from the archives page.
+    #last updated March 19, 2001
+    my @missing = (20010108,20010109,20010110,20010111,20010112,
+    20010116,20010117,20010118,20010119,20010122,20010123,20010124,
+    20010125,20010126);
+
+    my @extra = (20010107,20010311); 
+
+    return undef 
+      if (($date < 20010107) || #first comic on Jan 7, 2001
+          grep(/$date/,@missing)  ||
+    	  ($ltime[6] =~ /[06]/ && !grep(/$date/,@extra)));
+
+    my $title="Zap Jones";
+    my $author="Caleb Sevcik";
+    my $url = "zapjones";
+
+    return keenspace($title,$author,$date,$url);
+
 }
 
 1;

@@ -11,13 +11,20 @@ sub wigu {
     my $rec = {
 	'title' => "Whenigrowup",
 	'author' => "Jeffrey Rowland",
-	'type' => 'gif',
 	'main' => "http://www.whenigrowup.net",
 	'archives' => "http://www.whenigrowup.net/comics",
 	'base' => "http://www.whenigrowup.net/comics",
-	'page' => strftime("/wigu%Y%m%d.gif",@ltime),
 	'size' => ($ltime[6] == 0 ? [614,1080] : [744,1338])
     };
+
+    if ($time < mkgmtime(0,0,0,20,2,101)) {
+	$rec->{'type'} = 'gif';
+	$rec->{'page'} = strftime("/wigu%Y%m%d.gif",@ltime);
+    } else {
+	$rec->{'type'} = 'png';
+	$rec->{'page'} = strftime("/wigu%Y%m%d.png",@ltime);
+    }
+
     return $rec;
 }
 

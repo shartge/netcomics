@@ -82,7 +82,6 @@ MODULES = lib/after_y2k \
 	lib/avalon \
 	lib/bad_boys \
 	lib/badlands \
-	lib/bastich \
 	lib/bayside \
 	lib/bigpanda \
 	lib/boatanchor \
@@ -110,18 +109,21 @@ MODULES = lib/after_y2k \
 	lib/falling_dream \
 	lib/farcus \
 	lib/fika \
+	lib/forbez \
 	lib/fordummies \
 	lib/foxtrot \
 	lib/frankandernest \
+	lib/freefall \
 	lib/gaming_u \
-	lib/garfield \
 	lib/gilthorp \
 	lib/gpf \
 	lib/greystoneinn \
 	lib/greytown \
 	lib/helen \
+	lib/helpdesk \
 	lib/janesworld \
 	lib/jerkcity \
+	lib/joyoftech \
 	lib/k_chronicles \
 	lib/keenspace \
 	lib/kevin-n-kell \
@@ -129,6 +131,7 @@ MODULES = lib/after_y2k \
 	lib/laughseeds \
 	lib/lcd \
 	lib/lily_wong \
+	lib/lostfound \
 	lib/madam-n-eve \
 	lib/megatokyo \
 	lib/melonpool \
@@ -183,6 +186,7 @@ MODULES = lib/after_y2k \
 
 OLDMODULES = \
 	banditbruno \
+	bastich \
 	bobbins \
 	boxjam \
 	calvin-n-hobbes \
@@ -190,6 +194,7 @@ OLDMODULES = \
 	dilbert \
 	fatjesus \
 	fce \
+	garfield \
 	glasbergen \
 	goats \
 	heaven_and_earth \

@@ -1,3 +1,8 @@
+2001-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Factory.pm (dump_rli): Changed to delete unneeded
+	fields only from completely download comics.
+
 2001-04-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/HTML.pm (create_webpage_set): Fixed use of
@@ -30,16 +35,48 @@
 
 	* Modularized the rest of netcomics.
 
+2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (create_webpage): Made create_webpage not die when
+	more than 8 files make up one strip.
+	* lib/bastich: Removed because it no longer exists.
+
+2001-04-19  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/joyoftech: Added joyoftech, thanks to Max Zomborszki.
+	
+2001-04-19  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/freefall: Added freefall, thanks to Jimmy De Laet, and then 
+	Phil Gregory.
+	
+2001-04-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomicsrc: Added supress_rerun_command option
+	* netcomics (get_comics): Changed ending error message about
+	reporting bugs & failed comics to be printed to stderr.  Added an
+	option to suppress the message.
+
 2001-04-02  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics, display_comics, show_comics, Netcomics/*: Added
 	explicit GPL statements to the 	beginnings of each file.
+	
+2001-04-01  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/ucomics (ga): Updated the days behind from 14 to 0 thanks
+	to Garry Glendown.
 	
 2001-03-31  Elliot Glaysher <nuriko.chan@home.com>
 
 	* Netcomics/HTML.pm: Bad Elliot! Bad! Don't leave your debugging
 	statement in when you commit!
 	
+2001-03-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics (lock_file): When lock file exists, the error
+	message is now printed even without verbosity.
+
 2001-03-27  Elliot Glaysher <nuriko.chan@home.com>
 
 	* TODO: After using the new -P function, I updated the TODO
@@ -55,11 +92,45 @@
 	activated, now creates a seperate set of HTML pages in each
 	directory for each comic being archived.
 	
+2001-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ucomics (ga): Moved Garfield to ucomics thanks to
+	Ian Campbell.
+
+2001-03-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* show_comics: Patched to allow png files thanks to Shawn Oakey
+
+2001-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/keenspace, lib/reallife (real): Updated thanks to
+	Shawn Oakey.
+	* Makefile (MODULES): Added Help Desk, Life on Forbez, &
+	Lost and Found thanks to Max Zomborszki.
+	* lib/whenigrowup (wigu): Updated thanks to 
+	Max Zomborszki.
+
+2001-03-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): updated for site changes.
+
+2001-03-15  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/doemain: Fixed module so it won't load while the author
+	is redesigning her website.
+
 2001-03-11  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics: Small change so $rli->{'base'}, $rli->{'page'},
 	and $rli->{'exprs'} are deleted from their respective hashes
 	before being written to disk.
+
+2001-03-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (get_comics): Fixed bug introduced with new separate
+	comics feature.
+	(print urls/files): Fixed it so that it would only print out the
+	selected comics for the selected dates.
 
 2001-03-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
@@ -100,6 +171,7 @@
 	functions now in toonville.
 
 2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
+
 	* Thanks to Shawn Oakey for:
 	** Putting lib/boxjam, lib/fatjesus, lib/fce,
 	lib/heaven_and_earth, lib/rogues, and lib/sketch into the new
@@ -107,16 +179,19 @@
 	** Fixing lib/wiley.
 
 2001-02-24  Elliot Glaysher <nuriko.chan@home.com>
+
 	* netcomics: Fixed behaviour of the -c option. -c now
 	over-rides the rc files, instead of adding the comics to the
 	list of comics to download.
 
 2001-02-22  Elliot Glaysher <nuriko.chan@home.com>
+
 	* netcomics: Added -P feature which separates comics into their
 	own directories. For archive and organization freaks like
 	myself.
 
 2001-02-21  Elliot Glaysher <nuriko.chan@home.com>
+
 	* lib/doemain: Added A Doemain of Our Own.
 
 2001-02-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>

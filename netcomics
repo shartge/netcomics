@@ -258,6 +258,15 @@ subdirectories. This is useful for maintaining an archive of comics.
 It is a better idea to set the $separate_comics variable to 1 in the
 netcomicsrc file so that this feature is not intermittently used.
 
+=item B<-Q>
+
+Supresses the final error message that prints out the command to rerun
+to attempt to try to retreive the comics that failed to download.
+
+=item B<-nQ>
+
+Disable suppression of final error message (override rc file setting).
+
 =item B<-q>
 
 Show what comics would be downloaded.  Don't actually do anything.
@@ -597,7 +606,7 @@ $factory->list_comics(), exit(0) if ($do_list_comics);
 my @rli = $factory->get_comics();
 my @comics = $factory->files_retrieved();
 my @existing_rli_files = $factory->existing_rli_files();
-
+my $get_current = $factory->get_current();
 if ($remake_webpage) {
 	print "Scanning $comics_dir for comics with no associated status file.\n"
 		if $extra_verbose;
@@ -679,13 +688,33 @@ if ($make_webpage) {
 		$HTMLpage->create_webpage_set(\@rli, \@selected_comics);
 	}
 } else {
+    my $user_specified_no_comics = 
+	($user_specified_comics && ! @selected_comics) ? 1 : 0;
     #print filenames or urls.
 	foreach (@rli) {
 		my $rli = $_;
 		if ($rli->{'status'} =~ /[12]/) {
-			unless ($user_specified_comics &&
-					! grep(/^$rli->{'proc'}$/, @selected_comics)) {
-				print "$rli->{'title'}:\n" if $verbose;
+			my $time = $rli->{'time'};
+			if ($get_current) {
+				if (defined($rli->{'behind'})) {
+					#get what the current specified date was from days behind
+					$time +=  $rli->{'behind'}*3600*24;
+				} elsif (defined($factory->days_behind($rli->{'proc'}))) {
+					#backwards compatibility for rlis created with code that
+					#didn't save the days behind in the rli.
+					$time += $factory->days_behind($rli->{'proc'})*3600*24;
+				} else {
+					#this must be an old rli file not created with code
+					#that saved the days behind info in the rli.
+					$time = "";
+				}
+			}
+			if (!$user_specified_comics || $user_specified_no_comics ||
+				(grep(/^$rli->{'proc'}$/, @selected_comics) &&
+				 grep(/$time/, @dates))) {
+				print "$rli->{'title'} (" . 
+					strftime("%a, %x",gmtime($rli->{'time'})) . "):\n" 
+						if $verbose;
 				#dont_download is set when user requests urls only
 				if ($dont_download) {
 					print join("\n",@{$rli->{'url'}})

@@ -297,7 +297,7 @@ lock_file();
 
 #Create a list of files to display
 opendir(DIR,$tmpdir) || die "Could not open the directory to $tmpdir: $!";
-my @files = grep(/\.(gif|jpg|jpeg)$/,readdir(DIR));
+my @files = grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR));
 closedir(DIR);
 if (-f $rcfile && -r $rcfile) {
     open(FILE,"<$rcfile") || die "Could not open the file $rcfile: $!";
@@ -435,7 +435,8 @@ sub lock_file {
 	infomsg("Checking for lockfile.\n") if $extra_verbose;
 	if (-e $lockfile) {
 	    infomsg("Lockfile exists: $lockfile.\nCheck to make sure " .
-		"another show_comics isn't running or use -K.\n") if $verbose;
+		    "another show_comics isn't running or \n" .
+		    "use -K to ignore the lockfile.\n");
 	    exit(0);
 	}
 	if (open(FILE,">$lockfile")) {

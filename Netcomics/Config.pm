@@ -32,6 +32,7 @@ use vars qw(@EXPORT @ISA);
 	$external_cmd $dont_download $use_filecmd $prefer_color
 	$reset_libdir $real_date $always_download $max_attempts
 	$show_tasks $separate_comics $single_rli_file $netcomics_rli_file
+	$suppress_rerun_command 
 	$rc_file %comics %groups
 	$webpage_on_stdout $skip_bad_comics $sort_by_date $webpage_title
 	$webpage_index_title $comics_per_page $link_color $vlink_color
@@ -85,6 +86,7 @@ use vars ('$show_tasks'); $show_tasks = 0;
 use vars ('$single_rli_file'); $single_rli_file = 0;
 use vars ('$netcomics_rli_file'); $netcomics_rli_file = ".netcomics.rli";
 use vars ('$separate_comics'); $separate_comics = 0;
+use vars ('$suppress_rerun_command'); $suppress_rerun_command = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -288,6 +290,7 @@ sub processARGV {
 		elsif (/-o/) {
 			$webpage_on_stdout = 1;
 			$given_options .= " -o";
+			$comics_per_page = undef;
 			$smushopt = 1;
 		}
 
@@ -524,6 +527,19 @@ sub processARGV {
 			$given_options .= " -q";
 		}
 
+		#suppress final error message
+		elsif (/-Q$/) {
+			$suppress_rerun_command = 1;
+			$smushopt = 1;
+			$given_options .= " -Q";
+		}
+
+		#unsuppress final error message
+		elsif (/-nQ$/) {
+			$suppress_rerun_command = 0;
+			$given_options .= " -nQ";
+		}
+
 		#Usage
 		else {
 			print STDERR "Unknown option: $_.\n" unless /-h/;
@@ -627,6 +643,8 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -o: write the webpage on standard out
    -p: use the given url as the proxy
    -P: separate comics into their own subdirectories
+   -Q: suppress the error message at the end with the command to rerun.
+   -nQ:override rc file option, disabling suppression of final error message.
    -q: show what comics would be downloaded; don't actually do anything.
    -r: specify the rc filename (default ~/.netcomicsrc)
    -R: specify the max attempts to download a comic between invocations

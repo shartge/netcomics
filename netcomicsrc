@@ -90,6 +90,9 @@ my $HOME = $ENV{'HOME'};
 ## number of retries.
 #$max_attempts = 1;
 
+## Supress the final error message that prints out the command to rerun
+## (Default is 0: not suppressed)
+#$suppress_rerun_command = 1;
 
 #### Webpage Creation Options ####
 
