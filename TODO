@@ -197,6 +197,13 @@ Else, look for filetype in the url.
 Source Wars provides comics in png and gif.  Like color, should be
 able to let the user choose which one to grab.
 
+** Intelligent selective loading of persistent data
+To overcome performance issues when a directory contains a lot of
+comics, only load in those rli files that are of the particular dates
+in question.  This will be useful if webpages aren't being made.  To
+be useful when regenerating webpages, would need to develop a way to
+tack onto webpages the new comics.
+
 -----------------------------------------------------------------------
 
 * Bugs
