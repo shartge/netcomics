@@ -7,10 +7,13 @@ sub doodie {
     my $today = shift;
     my @ltime = gmtime($today);
     my $date = strftime("%Y%m%d",@ltime);
+    #exception list last updated March 18, 2001.
+    #(have only checked back to Dec. 25, 2000)
+    my @missing = (20001225,20010101,20010117,20010125,20010202);
     return undef if (($date < 19990821) || #first comic Aug 21, 1999
 		     #none if after Sep 17, 1999 and is Saturday or Sunday 
-		     ($date > 19990917 && ($ltime[6] == 0 || $ltime[6] == 6)));
-
+		     ($date > 19990917 && ($ltime[6] == 0 || $ltime[6] == 6)) ||
+		     grep(/$date/, @missing)); 
     $date = strftime("%m%d%Y",@ltime); #reformat for use in URLs
     my $urlbase = "http://www.doodie.com/";
     my %rec = ('title' => "Doodie",
