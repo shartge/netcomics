@@ -1,3 +1,8 @@
+2001-08-19  Elliot Glaysher  <eglayshe@umich.edu>
+
+	* Netcomics/GtkComics.pm (about_Form): Updated about text so it
+	actually made sense.
+
 2001-08-13  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* netcomics: Updated so that in -P, things work if @selected_comics
