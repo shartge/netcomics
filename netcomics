@@ -981,40 +981,49 @@ if ($remake_webpage)
     my @files = readdir(DIR);
     closedir(DIR);
     @files = sort(grep(/(xpm|gif|jpe?g|tiff?|png)$/,@files));
-    #add files to the rli so that create_webpage can use them, too
-    my $i = $[ - 1;
-    while ($i++ < $#files) {
-	next if grep(/^$files[$i]$/,@comics);
+
+    while (@files) {
+	my $file = pop(@files);
+	next if grep(/^$file$/,@comics);
 	#First look for an rli status file.
-	print "$files[$i]: " if $extra_verbose;
+	print "$file: " if $extra_verbose;
 	my $rli;
-	$_ = $files[$i];
-	s/\..*$//;
-	$rli = load_rli($_);
-	print "Using rli status file\n" if $extra_verbose && defined($rli);
-	unless (defined($rli)) {
+	my ($title,$date,$type,$num) = parse_name($file);
+	my $name = "$title-$date";
+	$rli = load_rli($name);
+	if (defined($rli)) {
+	    print "rli status file found\n" if $extra_verbose;
+	    if (! grep(/^$file$/,@{$rli->{'file'}})) {
+		print STDERR "${file}'s rli status file doesn't reference it." .
+		    "  Skipping.\n" if $verbose;
+		next;
+	    }
+	    #Remove all files from @files listed in the rli.
+	    for (@{$rli->{'file'}}) {
+		my $file = $_;
+		@files = grep(!/^$file$/,@files);
+	    }
+	} else {
 	    #no rli status file, generate our own rli hash for the file.
-	    $rli = {'name' => $files[$i],
-		    'time' => date_from_filename($files[$i]),
+	    print STDERR "Warning: $name has no rli file; some " .
+		"info about it may be lost.\n" if $verbose;
+	    $rli = {'title' => $title,
+		    'name' => $name,
+		    'time' => date_from_filename($file),
 		    'status' => 1,
-		    'file' => [$files[$i]]};
-	    my ($title,$type) = parse_name($files[$i]);
-	    $rli->{'title'} = $title;
-	    $rli->{'type'} = $type;
-	    ($rli->{'proc'} = $title) =~ s/\s/_/g;
-	    if ($files[$i] =~ /^(.*\d+)-(\d+)\.(\w+)$/) {
+		    'type' => $type,
+		    'file' => [$file]};
+	    if (defined($num)) {
 		#this is part of a multi-file comic
-		my ($name,$num,$ext) = ($1,$2 + 1,$3);
-		if (grep(/$name\.$ext/,@comics)) {
-		    next; #was just downloaded
-		} else {
-		    $rli->{'name'} = $name;
-		    while ($i < $#files && 
-			   $files[$i+1] =~ /^$name-$num\.$ext$/) {
-			#tack on this file to the $rli
-			$rli->{'file'}->[$num++ - 1] = $files[++$i];
-		    }
+		#recreate the file array because the one we're looking
+		#at may not be image #1.
+		$rli->{'file'}->[$num - 1] = $file;
+		for (grep(/^$name-\d+\.\w+$/,@files)) {
+		    #add this file to the $rli's file list
+		    my ($title,$date,$type,$num) = parse_name($_);
+		    $rli->{'file'}->[$num - 1] = $_;
 		}
+		@files = grep(!/^$name-\d+\.\w+$/,@files);
 	    }
 	}
 	push(@rli,$rli);
@@ -1297,7 +1306,7 @@ sub get_comics {
 	    #handle backwards compatibility and possibility of
 	    #name being used with type or title
 	    my $type = defined($rli->{'type'}) ? $rli->{'type'} : 'gif';
-	    my ($title2,$type2) = parse_name($name);
+	    my ($title2,$date2,$type2) = parse_name($name);
 	    $rli->{'title'} = $title2, $title = $title2 
 		if defined $title2 && !defined $title;
 	    $rli->{'type'} = $type, $type = $type2
@@ -1320,6 +1329,7 @@ sub get_comics {
 	    next;
 	}
 	$name =~ s/\s/_/g;
+	$rli->{'name'} = $name;
 	print "$comics_dir/$name\n"
 	    if $verbose && ! $extra_verbose && ! $dont_download; 
 	
@@ -1589,7 +1599,6 @@ RELURL:	    foreach (@relurls) {
 	} else  {
 	    #complete the fields for the rli.
 	    #first tack on the file type (it may have been changed thru 'exprs')
-	    $rli->{'name'} = $name;
 	    $name .= "." . $rli->{'type'};
 	    $rli->{'file'} = [$name];
 
@@ -1699,7 +1708,12 @@ sub create_webpage {
 	my $rli = $_;
 	my $comic = $rli->{'name'};
 	$_ = $rli->{'status'};
-	if (/[03]/) {
+	if (! defined($_)) {
+	    print Data::Dumper->Dump([$rli],[qw(*rli)]) if $extra_verbose;
+	    print STDERR "$comic has an undefined status. Skipping.\n" 
+		if $verbose;
+	    next;
+	} elsif (/[03]/) {
 	    #didn't download (if a backup was tried (3), there's another
 	    #rli for the backup).
 	    next;
@@ -1882,7 +1896,7 @@ sub create_webpage {
 	foreach $comic (@sorted_comics[($first-1)..($last-1)]) {
 	    my $rli = $rlis{$comic};
 	    my @gmtime = gmtime($rli->{'time'});
-	    my $comic_id = $rli->{'proc'} . strftime("%Y%m%d",@gmtime);
+	    my $comic_id = $rli->{'name'};
 	    my @image = @{$rli->{'file'}};
 	    die "\nComics made up of more than $#body_el_tmpl files are not" .
 		" supported.\n$inform_maintainer" if @image > $#body_el_tmpl;
@@ -2026,8 +2040,8 @@ sub date_from_filename {
 sub parse_name {
     $_ = shift();
     $_ =~ s/_/ /g; #remove underscores
-    if (/(.*)-\d+(-\d+)?\.(\w+)/) {
-	return($1,$3);
+    if (/(.+?)-(\d+)(-(\d+))?\.(\w+)/) {
+	return($1,$2,$5,$4);
     } elsif (/^([^\.\d]+)$/) {
 	#apparently no date or file type in the name (lack of period or digit)
 	print STDERR "error determining filetype for: $_\n"
