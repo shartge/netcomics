@@ -90,7 +90,6 @@ eightbit
 fairgame
 falling_dream
 farcus
-frankandernest
 freefall
 gaming_u
 gilthorp
