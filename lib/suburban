@@ -3,7 +3,7 @@
 #Tack on the names of the subroutines to the list of functions
 $hof{"suburban"} = 2;
 
-#Suburban Jungle ex:http://www.gneech.com/suburbanjungle/strips/SJ100899.gif
+#Suburban Jungle ex:http://www.suburbanjungle.com/strips/sj100899.gif
 sub suburban  {
     my $time = shift;
     my @ltime = gmtime($time);
@@ -20,11 +20,11 @@ sub suburban  {
 	'title' => "Suburban Jungle",
 	'author' => "John Robey",
 	'type' => $type,
-	'main' => "http://www.gneech.com/suburbanjungle/index.asp",
-	'archives' => "http://www.gneech.com/suburbanjungle/sjarchive.asp",
-	'base' => "http://www.gneech.com/suburbanjungle/strips/",
+	'main' => "http:/www.suburbanjungle.com/",
+	'archives' => "http://www.suburbanjungle.com/archives.htm",
+	'base' => "http://www.suburbanjungle.com/comics/",
 	'size' => $size,
-	'page' => strftime("SJ%m%d%y.$type",@ltime)
+	'page' => strftime("sj%Y%m%d.$type",@ltime)
 	};
     return $rec;
 }
