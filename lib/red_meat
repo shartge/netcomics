@@ -1,0 +1,28 @@
+#-*-Perl-*-
+#Max Cannon's Red Meat: http://www.redmeat.com
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"redmeat"} = 0;
+
+sub redmeat {
+    my $today = shift(@_);
+    my @ltime = gmtime($today);
+    
+    #These comics aren't dated.  This needs a better way to get older
+    #comics.
+    return undef if ($ltime[6] != 2);
+    my $rec = {
+	'title' => "Red Meat",
+	'author' => "Max Cannon",
+	'type' => 'gif',
+	'main' => "http://www.redmeat.com/",
+	'archives' => "http://www.redmeat.com/redmeat/locker.html",
+	'base' => "http://www.redmeat.com/redmeat/",
+	'page' => "fresh.html",
+	'expr' => "(comics/rm_\\d+\.gif)\" alt=\"This Week",
+	'size' => [600,262]
+	};
+    return $rec;
+}
+
+1;

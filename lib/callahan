@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"callahan"} = 0;
+
+#John Callahan, http://www.callahanonline.com/
+sub callahan {
+    my $today = shift(@_);
+    my @ltime = gmtime($today);
+    my $tdiff = (time() - $today)/(24*3600);
+    $tdiff = $1 if $tdiff =~ /(\d+)\.\d+/;
+    return undef if $tdiff > 10 || $tdiff < 0; #only 11 days of comics avail
+    my $rec = {
+	 'title' => "Callahan",
+	 'author' => "John Callahan",
+	 'type' => 'gif',
+	 'main' => "http://www.callahanonline.com/",
+	 'archives' => "http://www.callahanonline.com/calarc.html",
+         'base' => "http://www.callahanonline.com/",
+         'page' => "cartoons/img$tdiff.gif",
+#	 'size' => [350,284] #too varied to give a default
+    };
+    return $rec;
+}
+
+1;

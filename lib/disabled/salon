@@ -1,0 +1,77 @@
+#-*-Perl-*-
+
+foreach ("ttdb","tkc","storymin","tmw") {
+    $hof{$_} = 0;
+}
+
+sub solan {
+    my ($today,$name,$prefix) = @_;
+    my @ltime = gmtime($today);
+    my $rec = {
+	'name' => strftime("$name-${date_fmt}.gif",@ltime),
+	'base' => "http://www.salon.com/comics/$prefix/",
+	};
+    my $newfmtdate = 923322893; #April 5, 1999
+    if ($today < $newfmtdate) {
+	$rec->{'page'} = strftime("%Y/%m/src/%d$prefix.gif",@ltime);
+    } else {
+	my $day = $ltime[3];
+	$rec->{'page'} = strftime("%Y/%m/%d/$day$prefix/$day$prefix.gif",
+				  @ltime);
+    }
+    return $rec;
+}
+
+#Tom Tomorrow's
+#This Modern World http://www.salon.com/comics/tomo/
+sub tmw {
+    my $today = shift;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+        gmtime($today);
+    if ($wday == 1) {
+	return solan($today,"This_Modern_World","tomo");
+    } else {
+	return undef;
+    }
+}
+
+#Carol Lay's
+#Story Minute http://www.salon.com/comics/lay/
+sub storymin {
+    my $today = shift;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+        gmtime($today);
+    if ($wday == 2) {
+	return solan($today,"Story_Minute","lay");
+    } else {
+	return undef;
+    }
+}
+
+#Keith Knight's
+#The K Chronicals http://www.salon.com/comics/knig/
+sub tkc {
+    my $today = shift;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+        gmtime($today);
+    if ($wday == 3) {
+	return solan($today,"The_K_Chronicles","knig");
+    } else {
+	return undef;
+    }
+}
+
+#Ruben Boll's
+#Tom the Dancing Bug http://www.salon.com/comics/boll/
+sub ttdb {
+    my $today = shift;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+        gmtime($today);
+    if ($wday == 4) {
+	return solan($today,"Tom_the_Dancing_Bug","boll");
+    } else {
+	return undef;
+    }
+}
+
+1;

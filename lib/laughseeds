@@ -1,0 +1,31 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"ls"} = 0;
+
+#Barkie's World  http://www.laughseeds.com/
+sub ls {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $t_day = strftime("%Y%m%d",@ltime);
+
+    #Laugh Seeds was done away with and Barkie's World put in its
+    #place.  Nothing available past June 26, 1999, though.
+    return undef if $t_day < 19990601 || $t_day > 19990626;
+
+    my $rec = {
+	'title' => "Barkies World",
+	'author' => "G. K. Davis",
+	'type' => 'gif',
+	'main' => "http://www.laughseeds.com/",
+	'archives' => "http://www.laughseeds.com/archive",
+	'base' => "http://www.laughseeds.com/daily/",
+	'page' => strftime("%y-%m/%y%m%d.gif",@ltime)
+	};
+
+
+    return $rec;
+}
+
+1;

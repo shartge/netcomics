@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"jc"} = 1;
+
+#10644 = jerkcity131.gif (2/22/99)
+#Jerkcity http://www.jerkcity.com/
+sub jc {
+    my $today = shift;
+    my $today_d = $today/(24*3600);
+    $today_d = $1 if $today_d =~ /(\d+)\.\d+/;
+    my $number = $today_d - 10513;
+    my @ltime = gmtime($today);
+    my $rec = {
+	'title' => "JerkCity",
+	'type' => 'gif',
+	'main' => "http://www.jerkcity.com/",
+	'archives' => "http://www.jerkcity.com/index2.html",
+	'base' => "http://www.jerkcity.com/",
+	'page' => "jerkcity$number.gif"
+	};
+    return $rec;
+}
+
+1;
+
+

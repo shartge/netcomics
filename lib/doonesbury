@@ -1,0 +1,21 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"doon"} = 14;
+
+#Doonesbury http://www.doonesbury.com/dailydose/
+sub doon {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+	'title' => "Doonesbury",
+	'author' => "G. B. Trudeau",
+	'type' => 'gif',
+	'main' => "http://www.doonesbury.com/",
+	'archives' => "http://www.doonesbury.com/dailydose/",
+	'base' => "http://www.doonesbury.com/dailydose/strips",
+	'page' => strftime("/%Y/%m/db%y%m%d.gif",@ltime)
+    };
+    return $rec;
+}
+
+1;

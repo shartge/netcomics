@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+$hof{"tmw"} = 0;
+
+#Tom Tomorrow's This Modern World 
+#http://www.salon.com/comics/tomo/
+sub tmw {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] != 1);
+    my $rec = {
+	'title' => "This Modern World",
+	'author' => "Tom Tomorrow",
+	'type' => 'gif',
+	'main' => "http://www.salon.com/comics/",
+	'archives' => "http://www.salon.com/archives/to/comics_tomo.html",
+	'base' => "http://www.salon.com/comics/tomo/",
+	'page' => strftime("%Y/%m/%d/%_dtomo/%_dtomo.gif",@ltime),
+	'size' => [565,511]
+	};
+    return $rec;
+}
+
+1;

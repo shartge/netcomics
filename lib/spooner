@@ -1,0 +1,22 @@
+#-*-Perl-*-
+
+$hof{"spooner"} = 1;
+
+#Spooner  http://home.earthlink.net/~dawsoncomics/
+#Trying to get this  one was tricky. Happily, it seems there is one
+#common point on each web page. 
+sub spooner {
+    my @ltime = gmtime(shift(@_));
+    my $t_day = strftime("%Y%m%d",@ltime);
+    return undef if $t_day > 19990402; #going under syndication
+    my $rec = {
+        'name' => strftime("Spooner-${date_fmt}.jpg",@ltime),
+        'base' => "http://home.earthlink.net/~dawsoncomics/",
+        'page' => lc strftime("%m%d_frame.html",@ltime),
+        'exprs' => ["IMG SRC=\"(\\w+\\.[Jj][Pp][Ee]?[Gg])\""]
+        };
+    return $rec;
+}
+
+1;
+

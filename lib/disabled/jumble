@@ -1,0 +1,22 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+push(@lof,"jumble");
+
+sub jumble {
+    my $today = shift;
+    my @ltime = gmtime($today - (24*3600*7)); #subtract a week
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = 
+        gmtime($today);
+    my $jumblenum = 10;
+    $jumblenum-- if $wday == 0; 
+    $jumblenum -= 2 if $wday == 6;
+    my $rec = {
+	'name' => strftime("Jumble-%y%m%d.gif",@ltime),
+	'base' => "http://www.jumble.com/",
+	'page' => undef,
+	'expr' => "images/jumble$jumblenum.gif"
+    };
+    return $rec;
+}
+

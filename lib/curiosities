@@ -1,0 +1,39 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"curios"} = 0;
+
+#Curiosities http://www.curiosities.com/
+sub curios {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $ltime[6] != 1; #only get comic on Mondays
+    my @ntime = gmtime(time);
+
+    #deterine first day of this week
+    my $recent_sun = time - $ntime[6]*(3600*24);
+    #determine five weeks before that, minus one day (to get saturday)
+    my $furthest_sat = $recent_sun - (3600*24*7*5) - (3600*24);
+    my @ptime = gmtime($furthest_sat);
+    return undef if $time < mkgmtime(0,0,0,$ptime[3],$ptime[4],$ptime[5]); 
+
+    #determine what week this is
+    my $week = ($time - $furthest_sat)/(3600*24*7);
+    $week =~ s/^(\d+)(.\d+)?$/$1/; #convert to a whole number
+    $week = 5 - $week;
+
+    my $rec = {
+	'title' => "Curiosities",
+	'author' => "Chuck Donner",
+	'type' => 'gif',
+	'main' => "http://www.curiosities.com/toon.asp",
+	'archives' => "http://www.curiosities.com/toon.asp",
+	'base' => "http://www.curiosities.com/",
+	'page' => "toon.asp?week=$week",
+	'exprs' => ["<img src=\"(images\\/toon\\d+\\.gif)\""]
+	};
+    return $rec;
+}
+
+1;

@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"otm"} = 0;
+
+sub otm {
+    my $time = shift;
+    return undef if $time < 886982400; #first comic Feb 9, 1998
+    my @ltime = gmtime($time);
+    my $rec = {
+	'title' => "Off The Mark",
+	'author' => "Mark Parisi",
+	'type' => 'gif',
+	'main' => "http://www.offthemark.com/",
+	'archives' => "http://www.offthemark.com/daily.asp",
+	'base' => "http://www.offthemark.com/rotate/",
+	'page' => strftime("%y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0 ? [525,263] : [239,318])
+	};
+    return $rec;
+}
+
+1;

@@ -1,0 +1,20 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"touche"} = 0;
+
+sub touche {
+    my @ltime = gmtime(shift(@_));
+    return undef if $ltime[6]==0; #no sunday comics
+    my $rec = {
+	'title' => "Touche",
+	'author' => "Tom",
+	'type' => 'gif',
+	'base' => "http://www.taz.de/tpl/",
+	'page' => strftime("%Y/%m/%d/tom.gif.fr/img",@ltime)
+	};
+    return $rec;
+}
+
+1;

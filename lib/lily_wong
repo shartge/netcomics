@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"lily"} = 0;
+
+#Lily Wong : http://www.reuben.org/lilywong/
+# ex : http://www.reuben.org/lilywong/archive/strips/971103.gif
+sub lily {
+    my @ltime = gmtime(shift(@_));
+    return undef if $ltime[6] == 0; #no sunday comics
+    my $rec = {
+        'title' => "Lily Wong",
+	'author' => "Larry Feign",
+	'type' => 'gif',
+	'main' => "http://www.reuben.org/lilywong/",
+        'archives' => "http://www.reuben.org/lilywong/archive/",
+        'base' => "http://www.reuben.org/lilywong/archive/strips",
+        'page' => strftime("/%y%m%d.gif",@ltime),
+	'size' => [610,198]
+    };
+    return $rec;
+}
+
+1;
+

@@ -1,0 +1,99 @@
+#-*-Perl-*-
+
+$hof{'tkc'} = 0;
+
+#Keith Knight's The K Chronicals 
+#http://www.salon.com/comics/knig/
+sub tkc {
+    my @ltime = gmtime(shift(@_));
+    my $day = strftime("%Y%m%d",@ltime);
+
+    #exceptions lists last updated Aug 25, 1999
+    #comics not on the typical day of week
+    my @extras = ();
+    #dates that don't adhere to the day of week rule
+    my @missing = (19990331,19981230,
+		   19971231,19971203,19970528,19970226,19970205,19961230);
+    my @keith = (19960527,19960603,19960610,19960624,19961021,19970127,
+		 19970402,19970409,19970423,19970430,19970507,19970514);
+    my @knight = (19990609,19990407,19971001);
+    my @mon = ('jan','feb','march','april','may','june','july','aug',
+	       'sept','oct','nov','dec');
+
+    #The weekday switched from Mon to Wed in Feb 1997
+    my $day_of_week = ($day < 19970201)? 1 : 3;
+
+    #Why can't they be consistent?
+    my $knight;
+    if ($day >= 19971001) {
+	if ($day >= 19971008 && $day <= 19980325) {
+	    $knight = 'knight';
+	} else {
+	    $knight = (grep(/$day/,@knight))? 'knight' : 'knig';
+	}
+    } else {
+	$knight = (grep(/$day/,@keith))? 'keith' : 'knight';
+    }
+
+    my $page_fmt = "comics/knig/";
+    if ($day > 19990401) {
+	$page_fmt .= "%Y/%m/%d/knig/$knight.gif";
+    } elsif ($day >= 19971001) {
+	$page_fmt .= "%Y/%m/src/%d$knight.gif";
+    } elsif ($day > 19970209) {
+	$page_fmt = "$mon[$ltime[4]]%y/comics/$knight%y%m%d.gif";
+    } elsif ($day > 19960422) {
+	$page_fmt = "comics/$knight%y%m%d.gif";
+    } elsif ($day == 19960422) {
+	$page_fmt = "comics/knight.gif";
+    } elsif ($day > 19951119) {
+	#The day switched from every other Sat to Mondays April 15, 1996
+	$day_of_week = 6;
+	$_ = $day;
+	if (/19960406/) {
+	    $page_fmt = "11/comix/knight1.gif";
+	} elsif (/19960323/) {
+	    $page_fmt = "10/comix/knight1.gif";
+	} elsif (/19960309/) {
+	    $page_fmt = "09/comix/knight1.gif";
+	} elsif (/19960224/) {
+	    $page_fmt = "08/comix/keitha.gif";
+	} elsif (/19960210/) {
+	    $page_fmt = "07/comix/knight7a.gif";
+	} elsif (/19960127/) {
+	    $page_fmt = "06/comix/keith.gif";
+	} elsif (/19960113/) {
+	    $page_fmt = "05/comix/keith1.gif";
+	} elsif (/19951230/) {
+	    $page_fmt = "30dec1995/comix/knight.gif";
+	} elsif (/19951216/) {
+	    $page_fmt = "16dec1995/comix/knight.gif";
+	} elsif (/19951202/) {
+	    $page_fmt = "02dec1995/comix/kchron.gif";
+	} elsif (/19951120/) {
+	    $page_fmt = "12nov1995/comix/comix4.gif";
+	} else {
+	    return undef;
+	}
+    } else {
+	return undef; #before start of archive
+    }
+
+    return undef if grep(/$day/,@missing) || 
+	($ltime[6] != $day_of_week && ! grep(/$day/,@extras));
+
+    return {
+	'title' => "The K Chronicles",
+	'author' => "Keith Knight",
+	'type' => 'gif',
+	'main' => "http://www.salon.com/comics/",
+	'archvies' => "http://www.salon.com/archives/to/comics_knig.html",
+	'base' => "http://www.salon.com/",
+	'page' => strftime($page_fmt,@ltime),
+	'size' => [545,684]
+	};
+
+    return $rec;
+}
+
+1;

@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"uf"} = 0;
+
+#UserFriendly http://www.userfriendly.org/cartoons/
+sub uf {
+    my $time = shift;
+    return undef if $time < 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($time);
+    my @monthconv = ("jan", "feb", "mar", "apr", "may", "jun",
+                     "jul", "aug", "sep", "oct", "nov", "dec");
+    my $b = $monthconv[$ltime[4]];
+
+    my $rec = {
+	'title' => "User Friendly",
+	'author' => "Illiad",
+	'type' => 'gif',
+	'main' => "http://www.userfriendly.org/static/",
+	'archives' => "http://www.userfriendly.org/cartoons/archives/",
+	'base' => "http://www.userfriendly.org",
+	'page' => strftime("/cartoons/archives/%y$b/%Y%m%d.html",
+			   @ltime),
+	'exprs' => [strftime("(\\/cartoons\\/archives\\/%y$b\\/(uf)?\\d+\\.gif)",
+			     @ltime)],
+	'size' => ($ltime[6] == 0 ? [720,529] : [720,274])
+	};
+    return $rec;
+}
+
+1;

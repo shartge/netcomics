@@ -1,0 +1,23 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ga"} = 14;
+
+#Garfield http://www.garfield.com/comics/pages/
+sub ga {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+	'title' => "Garfield",
+	'author' => "Jim Davis",
+	'type' => 'gif',
+	'main' => "http://www.garfield.com/",
+	'archives' => "http://www.garfield.com/comics/pages/",
+	'base' => "http://www.garfield.com/comics/strips/",
+	'page' => strftime("ga%y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0 ? [600,403] : [600,178])
+	};
+    return $rec;
+}
+
+1;
+

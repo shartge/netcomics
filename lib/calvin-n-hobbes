@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#first strip was November 18, 1985.
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
+
+#Calvin & Hobbes http://www.calvinandhobbes.com/strips/
+sub ch {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+	'title' => "Calvin and Hobbes",
+	'author' => "Bill Watterson",
+	'type' => 'gif',
+	'main' => "http://www.calvinandhobbes.com/",
+	'archives' => "http://www.calvinandhobbes.com/",
+	'base' => "http://www.calvinandhobbes.com",
+	'page' => strftime("/strips/%y/%m/ch%y%m%d.html",@ltime),
+	'exprs' => [strftime("(\/strips\/%y\/%m\/ch\\d+\.gif)",@ltime)],
+	'size' => ($ltime[6] == 0 ? [600,422] : [600,200])
+	};
+    return $rec;
+}
+
+1;

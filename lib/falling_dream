@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"fd"} = 7; # a week behind
+
+#The Falling Dream http://www.fallingdream.com/
+sub fd {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if ((time - $time)/(3600*24*7) > 44); #only 44 weeks available
+    return undef if $ltime[6] != 2; #only comics on Tuesdays
+    my $rec = {
+	'title' => "The Falling Dream",
+	'author' => "Greg Tuft",
+	'type' => 'gif',
+	'main' => "http://www.fallingdream.com/",
+	'archives' => "http://www.fallingdream.com/archives",
+	'base' => "http://www.fallingdream.com/archives/toons/",
+	'page' => strftime("%m%d%y.gif",@ltime),
+	'size' => [486,324]
+	};
+    return $rec;
+}
+
+1;

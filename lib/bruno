@@ -1,0 +1,162 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"bruno"} = 0;
+
+#Bruno http://www.brunostrip.com/bruno.html
+sub bruno {
+    my $time = shift(@_);
+    my @ltime = gmtime($time);
+
+    return undef if $ltime[6] == 0; #no sunday comics
+
+    my $mon = $ltime[4] + 1;
+    $mon = "0$mon" if $mon < 10;
+
+    my $date = strftime("%Y$mon%d",@ltime);
+    return undef if $date < 19960101; #1st comic: Jan 1, 1996
+
+    my $day = strftime("%d",@ltime);
+    if ($date < 19980928) { #multi-day comics
+	return undef if $ltime[6] != 1;
+	return undef if $date < 19980518 && $date > 19971231; #vacation
+	if ($date < 19980101 && $day =~ /0(\d)/) {
+	    $day = $1 unless ($date == 19970505 || $date == 19970602 ||
+			      $date == 19970407 || $date == 19961209 ||
+			      $date == 19960902);
+	}	
+    }
+    
+    my $ab = ($date == 19960902 || $date == 19960916 || $date == 19960930) ? 
+	'b' : '';
+
+    my $size = [674,220]; #default size
+    {
+	#this hash was produced by contrib/make_bruno_hash
+        my %imgsizes = (
+                        '19960101' => [717,1393],
+                        '19960115' => [705,1369],
+                        '19960129' => [703,1349],
+                        '19960212' => [721,1361],
+                        '19970106' => [705,1364],
+                        '19960226' => [723,1389],
+                        '19960311' => [719,1355],
+                        '19960325' => [725,1373],
+                        '19960408' => [723,1379],
+                        '19960422' => [715,1373],
+                        '19960506' => [721,1371],
+                        '19960520' => [695,1361],
+                        '19960603' => [721,1371],
+                        '19960617' => [713,1373],
+                        '19960701' => [726,1385],
+                        '19960715' => [722,1377],
+                        '19960729' => [722,1375],
+                        '19960812' => [724,1379],
+                        '19960902' => [709,1352],
+                        '19960916' => [713,1356],
+                        '19960930' => [713,1348],
+                        '19961014' => [707,1348],
+                        '19961028' => [715,1364],
+                        '19961111' => [715,1360],
+                        '19961125' => [711,1356],
+                        '19961209' => [713,1374],
+                        '19961223' => [711,1352],
+                        '19961230' => [707,1354],
+                        '19970113' => [711,1360],
+                        '19970127' => [709,1362],
+                        '19970210' => [711,1832],
+                        '19970224' => [710,1348],
+                        '19970310' => [704,1352],
+                        '19970324' => [706,1814],
+                        '19970407' => [706,1358],
+                        '19970421' => [712,1354],
+                        '19970505' => [712,1364],
+                        '19970519' => [767,1478],
+                        '19970602' => [767,1476],
+                        '19990107' => [674,218],
+                        '19970616' => [771,1468],
+                        '19970630' => [767,1472],
+                        '19970714' => [767,1468],
+                        '19970728' => [755,1287],
+                        '19970811' => [757,1521],
+                        '19970825' => [757,1525],
+                        '19970908' => [775,2031],
+                        '19970922' => [771,2039],
+                        '19971006' => [759,1517],
+                        '19971020' => [769,1539],
+                        '19971103' => [768,1011],
+                        '19971117' => [766,1483],
+                        '19971201' => [755,1503],
+                        '19971215' => [751,1245],
+                        '19971229' => [750,1508],
+                        '19980601' => [674,1799],
+                        '19980615' => [672,1307],
+                        '19980629' => [671,1304],
+                        '19980713' => [671,1302],
+                        '19980727' => [672,1301],
+                        '19980810' => [668,1303],
+                        '19980824' => [670,1090],
+                        '19980907' => [668,1304],
+                        '19980921' => [671,1308],
+                        '19981010' => [670,216],
+                        '19981020' => [669,217],
+                        '19981103' => [219,669],
+                        '19981214' => [674,454],
+                        '19981217' => [674,451],
+                        );
+	$size = $imgsizes{$date} if grep(/$date/,keys(%imgsizes));
+    }
+
+    my $ext = $date < 19980101 ? "jpeg" : "gif";
+    if ($ltime[5] == 97) {
+	#this array was created with contrib/make_bruno_hash
+	my @gif_exceptions = (19970728,19970811,19970825,19970908,19970922,
+			      19971006,19971020);
+	$ext = "gif" if grep(/$date/,@gif_exceptions);
+    }
+
+    my @monthconv = ("jan", "feb", "mar", "apr", "may", "jun",
+		     "july", "aug", "sep", "oct", "nov", "dec");
+    if ($date > 19961231) {
+	$monthconv[5] .= 'e';
+	$monthconv[8] .= 't';
+    }
+    my $month = $monthconv[$ltime[4]];
+
+    my $year = ($ltime[5] == 97) ? "" : $ltime[5];
+
+    my $name;
+    if ($date < 19990710) {
+	$name =  "$month$day$year$ab.$ext";
+	#special cross-over with Helen weeks
+	$name = "brunohelena.jpeg" if $date == 19980518;
+	$name = "brunohelenb.jpeg" if $date == 19980525;
+    } else {
+	$name = strftime("%Ypics/%Y%m%d.$ext",@ltime);
+    }
+
+    my $rec = {
+	'title' => "Bruno",
+	'author' => "Christopher Baldwin",
+	'main' => "http://www.brunostrip.com/bruno.html",
+	'archives' => "http://www.brunostrip.com/arhive.html",
+	'type' => $ext,
+        'base' => "http://www.brunostrip.com/",
+        'page' => $name,
+	'size' => $size
+	};
+
+    #special Shakespeare week
+    if (grep(/$date/,(19981215,19981216,19981218,19981219))) {
+	delete($rec{'page'});
+	$rec{'func'} = sub {
+	    return [$name,"$month$day${year}b.$ext"];
+	};
+#	system("touch $month$day${year}b.$ext");
+    }
+    #these touches are for testing purposes
+#    system("touch $name");
+    return $rec;
+}
+
+1;
