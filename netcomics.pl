@@ -1258,7 +1258,6 @@ if ($make_webpage) {
 	$HTMLpage->{'dont_download'} = $dont_download;
 	$HTMLpage->{'webpage_on_stdout'} = $webpage_on_stdout;
 	$HTMLpage->{'comics_dir'} = $comics_dir;
-	print "RLI (in MAIN): @rli \n";
 	$HTMLpage->create_webpage(@rli);
 } elsif ($dont_download) {
 	print "\nURLs for images:\n\n" if $verbose;

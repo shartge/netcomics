@@ -44,9 +44,6 @@ sub new {
 sub create_webpage {
 	my $self = shift();
 	my @rli = @_;
-	
-	print "RLI (in page): @rli \n";
-
 	my $files_mode = 0644;
 	
 	#create a hash into the rli's
@@ -54,7 +51,7 @@ sub create_webpage {
 	
 	foreach (@rli) {
 		my $rli = $_;
-		print $rli."\n";
+
 		next if (!$self->{'remake_webpage'} && defined($rli->{'reloaded'}));
 		my $comic = $rli->{'name'};
 		$_ = $rli->{'status'};
@@ -280,7 +277,7 @@ sub create_webpage {
 			$body_el =~ s/<CAPTION>/$caption/; 
 			$body_el =~ s/<COMIC_ID>/$comic_id/g;
 
-			for ($[..$image) { ###??????
+			for ($[..$#image) {
 				my $num = $_ + 1;
 				my $image = $image[$_];
 				my $size = undef;
