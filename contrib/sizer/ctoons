@@ -1,0 +1,118 @@
+#-*-Perl-*-
+
+# katz and outtakes are MIA 4/26/00
+foreach (qw(pcpixel chickw broom lola quig rubes)) {
+    $hof{$_} = 7;
+}
+
+#ctoons.com http://www.ctoons.com
+sub ctoons {
+    my ($time,$title,$author,$dir,$file,$wd_type,$sun_type,$wd_size,$sun_size)
+	= @_;
+    my @ltime = gmtime($time);
+    my ($size,$type);
+    if ($ltime[6] == 0) {
+	$size = $sun_size;
+	$type = $sun_type;
+	$fileprefix = strftime("%Y%m%d-01", @ltime);
+    } else {
+	$size = $wd_size;
+	$type = $wd_type;
+	$fileprefix = strftime("%y%m%d",@ltime);
+    }
+
+    return undef unless defined($size) && defined($type);
+
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://www.ctoons.com/javascript/$dir/ns/",
+	'archives' => "http://www.ctoons.com/javascript/$dir/ns/",
+	'base' => "http://www.ctoons.com/studio/$dir/images/",
+	'page' => strftime("$fileprefix.$type",@ltime),
+	'size' => $size
+	};
+    return $rec;
+}
+
+#Dr Katz
+# ex : Sunday: http://www.ctoons.com/studio/drkatz/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/drkatz/images/990918.gif
+sub katz {
+    my $time = shift;
+    return ctoons($time,"Dr Katz","Comedy Central","drkatz",
+		       "drkatz",'gif','gif',[504,157],[922,645]);
+}
+
+#Outtake 
+# mon-sat: http://www.ctoons.com/studio/outtake/images/990918.gif
+sub outtake {
+    my $time = shift;
+    return ctoons($time,"Outtake","Ed Colley and Mark Pothier","outtake",
+                       "outtake",'gif',undef,[504,157],[922,645]);
+}
+
+#PC and Pixel
+# ex : Sunday: http://www.ctoons.com/studio/pcpixel/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/pcpixel/images/990918.gif
+sub  pcpixel{
+    my $time = shift;
+    return ctoons($time,"PC and Pixel","Thach Bui and Geoff Johnson","pcpixel",
+                       "pcpixel",'gif','gif',[504,157],[922,645]);
+}
+  
+#9 Chickweed Lane
+# ex : Sunday: http://www.ctoons.com/studio/chickweed/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/chickweed/images/990918.gif
+sub chickw {
+    my $time = shift;
+    return ctoons($time,"9 Chickweed Lane","Brooke McEldowney","chickweed",
+                       "chickweed",'gif','gif',[504,157],[922,645]);
+}
+  
+#Broom-Hilda
+# ex : Sunday: http://www.ctoons.com/studio/broom/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/broom/images/990918.gif
+sub broom {
+    my $time = shift;
+    return ctoons($time,"Broom-Hilda","Russell Myers","broom",
+                       "broom",'gif','gif',[504,157],[922,645]);
+}
+  
+#Kudzu
+# ex : Sunday: http://www.ctoons.com/studio/kudzu/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/kudzu/images/990918.gif
+sub kudzu_ctoons {
+    my $time = shift;
+    return ctoons($time,"Kudzu","Doub Marlette","kudzu",
+                       "kudzu",'gif','gif',[504,157],[922,645]);
+}
+  
+#Lola
+# ex : Sunday: http://www.ctoons.com/studio/lola/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/lola/images/990918.gif
+sub lola {
+    my $time = shift;
+    return ctoons($time,"Lola","Steve Dickerson & Todd Clark","lola",
+                       "lola",'gif','gif',[504,157],[922,645]);
+}
+  
+#Quigmans
+# ex mon-sat: http://www.ctoons.com/studio/quigmans/images/990918.gif
+sub quig {
+    my $time = shift;
+    return ctoons($time,"Quigmans","Buddy Hickerson","quigmans",
+                       "quigmans",'gif',undef,[504,157],[922,645]);
+}
+  
+#Rubes
+# ex : Sunday: http://www.ctoons.com/studio/rubes/images/19990919-01.gif
+# mon-sat: http://www.ctoons.com/studio/rubes/images/990918.gif
+sub rubes {
+    my $time = shift;
+    return ctoons($time,"Rubes","Leigh Rubin","rubes",
+                       "rubes",'gif','gif',[504,157],[922,645]);
+}
+  
+1;
