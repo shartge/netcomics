@@ -157,7 +157,6 @@ MODULES = lib/after_y2k \
 	lib/triangle_robert \
 	lib/tucson \
 	lib/ucomics \
-	lib/uexpress \
 	lib/unitedmedia \
 	lib/user_friendly \
 	lib/wait_bob \
@@ -176,6 +175,7 @@ OLDMODULES = \
 	glasbergen \
 	goats \
 	roomies \
+	uexpress \
 	worldviews \
 
 HTMLTEMPLATES = \
