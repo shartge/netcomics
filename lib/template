@@ -9,9 +9,11 @@ $hof{"subname"} = 0;
 sub subname {
     my $time = shift;
     my @ltime = gmtime($time);
-    #use the script, mktime, in contrib (or doc if from the RPM) to
-    #find out what the number should be:
-    return undef if $time < 820454400; #1st comic: Jan 1, 1996
+    #Always specify 0 sec, 0 min, 0 hr with mkgmtime.
+    #The 4th argument is the day.
+    #The 5th argument is the month number (January = 0, December = 11).
+    #The 6th argument is the year (100 for 2000, 101 for 2001, etc.).
+    return undef if $time < mkgmtime(0,0,0,1,0,96); #1st comic: Jan 1, 1996
     my $rec = {
 	'title' => "Comics Name",
 	'author' => "Author's Name", #optional
