@@ -2016,7 +2016,7 @@ sub youdamn {
     my $date = strftime("%Y%m%d", @ltime);
     my $date2 = strftime("%Y%m%d", @ltime2);
 
-   # Last updated July 5, 2001
+   # This missing list is not to be updated.  Update the @exists list instead.
     my @missing = (19990305,19990312,19990313,19990314,19990315,19990316,
       19990317,19990318,19990319,19990320,19990321,19990322,19990323,
       19990324,19990325,19990326,19990327,19990328,19990329,19990330,
@@ -2118,14 +2118,26 @@ sub youdamn {
       20010609,20010614,20010615,20010616,20010617,20010618,20010620,
       20010621,20010622,20010623,20010624,20010625,20010627,20010630,
       20010701,20010702,20010704,20010705,20010706);
-    my @extra = ();
+    #the list of "exists" is a lot smaller than "missings"
+    my $switchedToExists = 20010707;
+    my $existsLastUpdated = 20020326; #very important to udpate this
+    my @exists =
+	(20010724,20010806,20010814,20010828,20010904,20010906,20010914,
+	 20010918,20010921,20010925,20010925,20010928,20011002,20011005,
+	 20011010,20011016,20011019,20011023,20011026,20011031,20011103,
+	 20011107,20011111,20011114,20011120,20011127,20011204,20011211,
+	 20011218,20011231,20020102,20020104,20020108,20020110,20020111,
+	 20020114,20020116,20020128,20020130,20020207,20020212,20020214,
+	 20020226,20020228,20020305,20020307,20020312,20020314,20020322,
+	); #be sure to update $existsLastUpdated!
 
     #very sporadic so get everyday
     return undef if 
       (($date < 19990301) || #first comic on March 1, 1999
-      (($date >= 19990301 && $date <= $date2) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      grep(/$date/,@missing));
+       ($date < $switchedToExists && grep(/$date/,@missing)) ||
+       ($date >= $switchedToExists && $date <= $existsLastUpdated &&
+	! grep(/$date/,@exists))
+      );
 
     my $title = "You Damn Kid";
     my $author = "Owen Dunne";
