@@ -1,0 +1,69 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+#For comics that aren't updated, or are updated very irregularly,
+#then set it to undef (can only retreive using -T or -S & -E).
+$hof{"ae"} = 0;
+
+sub ae {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $time < mkgmtime(0,0,0,12,9,98); #1st animation, oct 12 1998
+    my $baseurl = "http://hotwired.lycos.com/animation";
+    my $all_or_1 = (time() - $time > 27*24*3600) ? 'all' : '1';
+    my $archives = 'nc_window.html?frpage=/animation/archive.html&wnpg=' .
+	$all_or_1 . '&date=1';
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		     "July", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my $rec = {
+	'title' => "Animation Express",
+	'main' => "$baseurl/",
+	'archives' => "$baseurl/$archives",
+	'base' => $baseurl,
+	'page' => "/$archives",
+	#this function determines if there is an animation for the date
+	#and returns the page to get & the next function to process it
+	'func' => sub {
+	    my $text = shift;
+	    my $date = strftime("$ltime[3]\\s+$monthconv[$ltime[4]]\\w*\\s+%Y",
+				@ltime);
+	    my $hash = undef;
+	    $_ = $text;
+	    if (m/[^\d]$date.*?\n.*?<a href="\/animation(\/collection\/[^\"]+)"/gsi) {
+	        $hash = {
+		    'page' => "${1}nc_animation.html?showtoon=true",
+		    #this function gets the actual file, its type, & its size
+		    'func' => sub {
+			my $text = shift;
+			my $hash = undef;
+			$_ = $text;
+			if (/embed.*?src="[^\"]*animation(\/collection\/[^\"]+\.(\w+))".*?width="?(\d+)"?\s*height="?(\d+)"?/si) {
+			    $hash = {
+				'page' => $1,
+				'type' => $2,
+				'size' => [$3, $4],
+				'func' => undef,
+			    };
+			}
+			return $hash;
+		    }
+		};
+		#grab title, author & caption
+		if (m/<i>([^\<]+)<\/i>/sgi) {
+		    $hash->{'title'} .= ": $1";
+		    if (m/font face=.*\n\s*(.*)\n/gi) {
+			$hash->{'caption'} = $1;
+			if (m/<i>([^\<]+)<\/i>/gi) {
+			    $hash->{'author'} = $1;
+			}
+		    }
+		}
+	    }
+	    return $hash;
+	}
+    };
+    return $rec;
+}
+
+1;
