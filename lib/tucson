@@ -1,0 +1,51 @@
+#-*-Perl-*-
+
+foreach (qw(random krat stag)) {
+    $hof{$_} = 8;
+}
+
+#www.tucsonweekly.com
+sub tucson {
+    my ($time,$title,$author,$dir,$type,$size)
+	= @_;
+    my @ltime = gmtime($time);
+    return undef unless (($ltime[6] == 4) && 
+			 ($time >= 930787200)); #first comics July 1, 1999
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://www.tucsonweekly.com/tw/current/$dir.html",
+	'archives' => "http://www.tucsonweekly.com/tw/current/$dir.html",
+	'base' => "http://www.tucsonweekly.com/tw/",
+	'page' => strftime("%Y-%m-%d/$dir.gif",@ltime),
+	'size' => $size,
+    };
+    return $rec;
+}
+
+#Random Shots
+# ex : http://www.tucsonweekly.com/tw/1999-08-12/rand.gif
+sub random {
+    my $time = shift;
+    return tucson($time,"Random Shots","Rand Carlson","rand",
+		       'gif',[576,224]);
+}
+
+#K.Rat
+# ex : http://www.tucsonweekly.com/tw/1999-08-12/krat.gif
+sub krat {
+    my $time = shift;
+    return tucson($time,"K Rat","Andy Mosier","krat",
+                       'gif',[600,235]);
+}                                    
+
+#Staggering Heights
+# ex : http://www.tucsonweekly.com/tw/1999-08-12/stag.gif
+sub stag {
+    my $time = shift;
+    return tucson($time,"Staggering Heights","Joe Forkan","stag",
+                       'gif',[324,445]);
+}                                     
+
+1;
