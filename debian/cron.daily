@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# netcomics daily cron job.
+#
+
+# Add here calls to netcomics:
+#netcomics -c uf -n 1 -g
