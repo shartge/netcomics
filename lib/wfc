@@ -1,0 +1,131 @@
+#-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
+
+foreach (qw(wl gib tjb cv)) {
+  $hof{$_} = 0;
+}
+
+# World Famous Comics
+sub wfc {
+  my ($mytime, $title, $author, $fp, $fpalt, $size) = @_;
+  my @ltime = gmtime($mytime);
+  
+  my $rec = {
+    'title'  => $title,
+    'author' => $author,
+    'type' => 'gif',
+    'main' => "http://www.wfcomics.com/$fp",
+    'archives' => "http://www.famousdesigns.com/wfcomics/$fp/archives.shtml",
+    'base' => "http://www.famousdesigns.com/wfcomics/$fp/",
+    'page' => strftime("index.shtml?%Y%m%d", @ltime),
+    'exprs' => [strftime("SRC\\=\"(%Y/($fp|$fpalt)\\d+\\.\\w+)\"", @ltime)],
+    'size' => $size,
+  };
+  
+  return $rec;
+}
+
+# WildLife
+# http://www.famousdesigns.com/wfcomics/wildlife/index.shtml?19990713
+sub wl {
+  my ($mytime) = @_;
+  my @ltime = gmtime($mytime);
+  
+  # This strip is only on Tueday
+  return undef if ($ltime[6] != 2);
+  
+  # Nothing before 7/13/99
+  return undef if ($mytime < 931824000);
+  
+  return wfc(shift(@_), "WildLife", "John Kovalic", "wildlife", "wl", [618,424]);
+}
+
+# Gibberish
+# http://www.famousdesigns.com/wfcomics/gibberish/index.shtml?19990624
+sub gib {
+  my ($mytime) = @_;
+  my @ltime = gmtime($mytime);
+  
+  # The strip is only on Thursday
+  return undef if ($ltime[6] != 4);
+  
+  # Nothing before 6/24/99
+  return undef if ($mytime < 930182400);
+  
+  return wfc(shift(@_), "Gibberish", "Ethan Wenberg", "gibberish", "", [618,188]);
+}
+
+# The Japanese Beetle
+# http://www.famousdesigns.com/wfcomics/beetle/strips/b-980803.gif
+# http://www.worldfamouscomics.com/beetle/strips/b-000417.gif
+sub tjb {
+  my $mytime = shift(@_);
+  my @ltime = gmtime($mytime);
+  
+  # No strips on Sunday
+  return undef if ($ltime[6] == 0);
+  
+  # Nothing before 8/3/98
+  return undef if ($mytime < 902102400);
+  
+  my $rec = {
+    'title'  => "The Japanese Beetle",
+    'author' => "Chris White and Dave \"The Knave\" White",
+    'type' => 'gif',
+    'main' => "http://www.wfcomics.com/beetle/",
+    'archives' => "http://www.worldfamouscomics.com/beetle/archives.shtml",
+    'base' => "http://www.worldfamouscomics.com/beetle/strips/",
+    'page' => strftime("b-%y%m%d.gif", @ltime),
+    'size' => [640,215],
+  };
+  
+  return $rec;
+}
+
+# Chase Villens
+# http://www.wfcomics.com/chase/
+sub cv {
+  my ($mytime, $color, $mode) = @_;
+  $mode = "not" if (! defined $mode);
+
+  my @ltime = gmtime($mytime);
+  
+  # The strip is only on Friday
+  return undef if ($ltime[6] != 5);
+  
+  # Nothing before 6/25/99
+  return undef if ($mytime < 930268800);
+  
+  my $rec = {
+    'title'  => "Chase Villens",
+    'author' => "George Broderick, Jr.",
+    'type' => 'gif',
+    'main' => "http://www.wfcomics.com/chase/",
+    'archives' => "http://www.famousdesigns.com/wfcomics/chase/archives.shtml",
+    'base' => "http://www.famousdesigns.com/wfcomics/chase/",
+    'page' => strftime("index.shtml?%Y%m%d", @ltime),
+    'size' => [629,480],
+  };
+  
+  if ($mode eq "not") {
+    $rec->{'exprs'} = [strftime("SRC\\=\"(%Y/chase\\d+\\.\\w+)\"", @ltime)];
+    $rec->{'back'} = sub {return &cv(shift(@_), shift(@_), "look");};
+  } elsif ($mode eq "look") {
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my $Y = strftime("%Y", @ltime);
+      my @relurls = ();
+      while (1) {
+	if ($text =~ m%SRC\=\"($Y/chase[^\"]+)\"%) { #"
+	  push(@relurls,$1);
+	  $text =~ s%SRC\=\"($Y/chase[^\"]+)\"%%; #"
+	} else {
+	  last;
+	}
+      }
+      return @relurls;
+    }
+  }
+  return $rec;
+}
+
+1;

@@ -1,0 +1,47 @@
+#-*-Perl-*-
+#Tack on the names of the subroutines to the list of functions
+$hof{"sluggy"} = 0;
+
+#Sluggy Freelance: http://www.sluggy.com
+sub sluggy {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+	'title' => "Sluggy Freelance",
+	'author' => "Pete Abrams",
+	'main' => "http://www.sluggy.com/",
+	'archives' => "http://www.sluggy.com",
+	'base' => "http://www.sluggy.com",
+    };
+
+    my $date = strftime("%y%m%d", @ltime);
+    my $ext = ($date =~ /^(000410)$/) ? "jpg" : "gif";
+
+    if (($ltime[6] != 0) && ($date !~ /^(991231|000417|000418)/)) {
+	$rec->{'page'} = "/comics/${date}a.$ext";
+	$rec->{'type'} = $ext;
+	$rec->{'size'} = [700,267];
+    } else {
+	$rec->{'page'} = "/d/$date.html";
+	$rec->{'type'} = $date =~ /^991231$/ ? 'gif' : 'jpg';
+	$rec->{'func'} = sub {
+	    my $text = shift;
+	    my @relurls = ();
+	    #example:
+	    #<img.*?src="/comics/990321b1.jpg" width=701 height=218><img src="/comics/990321b2.jpg" width=232 height=218>...
+	    #repeatedly match and replace.  
+	    while (1) {
+		if ($text =~ /img.*?src=".*?(\/comics\/$date\w\d\.\w+)"/i) {
+		    push(@relurls,$1);
+		    #now replace the text so we don't match on it again
+		    $text =~ s/img.*?src=".*?(\/comics\/$date\w\d\.\w+)"//i;
+		} else {
+		    last;
+		}
+	    }
+	    return @relurls;
+	}
+    }
+    return $rec;
+}
+
+1;
