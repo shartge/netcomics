@@ -27,7 +27,7 @@ sub ComicsPageEd {
     	'main' => "$baseurl$dir/index.html",
     	'archives' => "$baseurl/$dir/index.html",
     	'base' => "$baseurl", 
-    	'page' => "$dir/main.html",
+    	'page' => "$dir/index.html",
     };
 
     $rec->{'func'} = sub {
