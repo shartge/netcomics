@@ -1,0 +1,388 @@
+#-*-Perl-*-
+
+#Comics published 7 days ago by non-Universal presses are very dependable
+foreach (qw(ao aj betty bl com dr fbofw grizz herman js knc lm luann mar meg 
+	    nancy oth peanuts rm rose warped)) {
+    $hof{$_} = 7;
+}
+#Comics published by non-Universal presses are not very dependable to be
+#available 7 days later.
+foreach (qw(adam bz bd cathy cd cth corn cr cs dp fw fusco geech hc itb 
+	    boffo ob sc stsp tank paint ziggy)) {
+    $hof{$_} = 10;
+}
+
+sub comiczone_cal {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $ntime = time - (7*3600*24);
+    my @ntime = gmtime($ntime);
+    #determine the length of the previous month (number of days between one
+    #week ago and the same day of the month last month plus one day)
+    my $ptime = mkgmtime(@ntime[0..1],$ntime[2]-1,$ntime[3],
+			 ($ntime[4] == 0 ? 11 : $ntime[4] - 1),
+			 ($ntime[4] == 0 ? $ntime[5] - 1 : $ntime[5]))-24*3600;
+    my $mon_len = ($ntime - $ptime)/(3600*24);
+    $mon_len =~ s/^(\d+)(\.\d+)*/$1/g;
+
+    #since there's only a month of archive, can't allow past that even if
+    #the cal number is greater than 0.
+    return 0 if $time < ($ntime - 24*3600*($mon_len));
+    #Monday 6 or 7 weeks ago is cal #1, depending on number of days in month
+    #and the day of the week the same day of the month last month as a week
+    #ago was. Go to a comic's archives to see the current cal #'s for each
+    #day in previous month of comics
+    my @ptime = gmtime($ptime);
+    my $monday_a_month_ago = $ntime - 24*3600*($mon_len) -
+	24*3600*($ptime[6] == 0 ? 7 : $ptime[6]); #sunday is last day in week
+    #add in a half a day to round the division properly
+    my $cal = ($time - $monday_a_month_ago + 12*3600)/(24*3600);
+    $cal =~ s/^(\d+)(\.\d+)*/$1/g;
+    $cal = "0" . $cal if $cal < 10 && $cal > 0;
+    return $cal;
+}
+
+#Comiczone http://www.comiczone.com
+sub comiczone {
+    #get arguments (fp stands for file prefix, syn for syndicate
+    my ($time,$title,$author,$syn,$fp,$wd_size,$sun_size) = @_;
+    my @ltime = gmtime($time);
+    my $wday = $ltime[6];
+    return undef if (($wday != 0 && ! defined($wd_size)) ||
+		     ($wday == 0 && ! defined($sun_size)));
+    my $ntime = time;
+    my $t_day = strftime("%Y%m%d",@ltime);
+    my $n_day = strftime("%Y%m%d",gmtime($ntime - 7*24*3600));
+    my $nwd = ($wday == 0) ? 7 : $wday; #shift sunday to 7
+    my $s_day = substr($t_day,0,$nwd) . '\d+' . substr($t_day,$nwd,8-$nwd);
+    my %rec = 
+	('title' => $title,
+	 'author' => $author,
+	 'type' => 'gif',
+	 'main' => "http://www.comiczone.com/$syn/$fp/ab.html",
+	 'archives' => "http://www.comiczone.com/$syn/$fp/archive/",
+	 'base' => "http://www.comiczone.com",
+	 'exprs' => ["(/$syn/$fp/archive/images/$fp$s_day\\.(gif|jpg))"]
+	 );
+    if ($t_day == $n_day) {
+	$rec{'page'} = "/$syn/$fp/ab.html";
+    } else {
+	my $cal = comiczone_cal($time);
+	return undef if $cal < 1;
+	$rec{'page'} = "/$syn/$fp/archive/cal-$cal.html";
+    }
+    if ($wday == 0) {
+	$rec{'size'} = $sun_size if defined($sun_size);
+    } else {
+	$rec{'size'} = $wd_size if defined($wd_size);
+    }
+    return \%rec;
+}
+
+#Alley Oop  http://www.comiczone.com/comics/alleyoop/archive
+sub ao {
+    return comiczone(shift(@_),"Alley Oop","Dave Gaue & Jack Bender","comics",
+		     "alleyoop",[600,192],[725,530]);
+}
+
+#Arlo and Janis http://www.comiczone.com/comics/arlonjanis/archive
+sub aj {
+    return comiczone(shift(@_),"Arlo and Janis","Jimmy Johnson","comics",
+		     "arlonjanis",[600,202],[725,523]);
+}
+
+#Betty http://www.comiczone.com/comics/betty/archive
+sub betty {
+    return comiczone(shift(@_),"Betty","Gary Delainey & Gerry Rasmussen",
+		     "comics","betty",[600,208],[725,381]);
+}
+
+#The Born Loser http://www.comiczone.com/comics/bornloser/archive
+sub bl {
+    return comiczone(shift(@_),"The Born Loser","Chip Sansom","comics",
+		     "bornloser",[600,200],[725,530]);
+}
+
+#Committed http://www.comiczone.com/comics/committed/archive
+sub com {
+    return comiczone(shift(@_),"Committed","Michael Fry","comics","committed",
+		     [300,415],[725,382]);
+}
+
+# Drabble http://www.comiczone.com/comics/drabble/archive
+sub dr {
+    return comiczone(shift(@_),"Drabble","Kevin Fagan","comics","drabble",
+		     [600,200],[725,504]);
+}
+
+#For Better or For Worser http://www.comiczone.com/comics/forbetter/archive
+sub fbofw {
+    return comiczone(shift(@_),"For Better or For Worse","Lynn Johnston",
+		     "comics","forbetter",[600,222],[725,535]);
+}
+
+#The Grizzwells http://www.comiczone.com/comics/grizzwells/archive
+sub grizz {
+    my $today = shift();
+    return comiczone($today,"The Grizzwells","Bill Schorr","comics",
+			 "grizzwells",[600,218],undef);
+}
+
+#Herman  http://www.comiczone.com/comics/herman/archive
+sub herman {
+    return comiczone(shift(@_),"Herman","Jim Unger","comics","herman",
+		     [300,372],[725,532]);
+}
+
+#JumpStart  http://www.comiczone.com/comics/jumpstart/archive
+sub js {
+    return comiczone(shift(@_),"JumpStart","Robb Armstrong","comics",
+		     "jumpstart",[600,197],[725,532]);
+}
+
+#Kit 'n' Carlyle  http://www.comiczone.com/comics/kitncarlyle/archive
+sub knc {
+    my $today = shift();
+    return comiczone($today,"Kit-n-Carlyle","Larry Wright","comics",
+			 "kitncarlyle",[300,375],undef);
+}
+
+# Liberty Meadows  http://www.comiczone.com/comics/liberty/archive/
+sub lm {
+    return comiczone(shift(@_),"Liberty Meadows","Frank Cho","comics","liberty",
+		     [625,200],[650,306]);
+}
+
+#Luann  http://www.comiczone.com/comics/luann/archive
+sub luann {
+    return comiczone(shift(@_),"Luann","Greg Evans","comics","luann",
+		     [600,212],[725,374]);
+}
+
+#Marmaduke  http://www.comiczone.com/comics/marmaduke/archive
+sub mar {
+    return comiczone(shift(@_),"Marmaduke","Brad Anderson","comics","marmaduke",
+		     [300,336],[725,512]);
+}
+
+#Meg!  http://www.comiczone.com/comics/meg/archive
+sub meg {
+    return comiczone(shift(@_),"Meg!","Greg Curfman","comics","meg",
+		     [600,172],[725,372]);
+}
+
+#Nancy  http://www.comiczone.com/comics/nancy/archive
+sub nancy {
+    return comiczone(shift(@_),"Nancy","Guy and Brad Gilchrist","comics",
+		     "nancy",[600,215],[725,527]);
+}
+
+#Over The Hedge  http://www.comiczone.com/comics/hedge/archive
+sub oth {
+    return comiczone(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
+		     "comics","hedge",[600,210],[725,481]);
+}
+
+#Peanuts  http://www.comiczone.com/comics/peanuts/archive
+sub peanuts_size {return ([600,200],[600,425]);}
+sub peanuts_info {return ("Peanuts","Charles Schulz");}
+sub peanuts {
+    my $time = shift;
+    my ($wd_size,$sun_size) = peanuts_size();
+    my ($title,$author) = peanuts_info();
+    my $rec = undef;
+    if (comiczone_cal($time) > 0) {
+	$rec = comiczone($time,$title,$author,"comics","peanuts",$wd_size,
+			 $sun_size);
+	$rec->{'back'} = \&peanuts_jp if defined($rec);
+    }
+    unless (defined($rec)) {
+	my @ntime = gmtime(time);
+	my @ltime = gmtime($time);
+	#can get anything this year from Japan
+	$rec = peanuts_jp($time) if ($ntime[5] == $ltime[5]);
+    }
+    return $rec;
+}
+sub peanuts_jp {
+    my $time = shift;
+    my ($wd_size,$sun_size) = peanuts_size();
+    my ($title,$author) = peanuts_info();
+    my @ltime = gmtime($time);
+    my %rec = ('title' => $title,
+	       'type' => 'gif',
+	       'author' => $author,
+	       'base' => "http://www.snoopy.co.jp/cgi-bin/daily",
+	       'page' => strftime("/image.cgi?d=strip_lib&date=%Y%m%d",@ltime),
+	       'size' => ($ltime[6] == 0 ? $sun_size : $wd_size) 
+	       );
+    return \%rec;
+}
+
+#Robotman  http://www.comiczone.com/comics/robotman/archive
+sub rm {
+    return comiczone(shift(@_),"Robotman","Jim Meddick","comics","robotman",
+		     [600,210],[725,531]);
+}
+
+#Rose is Rose  http://www.comiczone.com/comics/roseisrose/archive
+sub rose {
+    return comiczone(shift(@_),"Rose is Rose","Pat Brady","comics","roseisrose",
+		     [600,200],[725,537]);
+}
+
+#warped  http://www.comiczone.com/comics/warped/archive
+sub warped {
+    return comiczone(shift(@_),"Warped","Mike Cavna","comics","warped",
+		     [600,211],[725,372]);
+}
+
+
+####Universal Comics####
+
+
+#Adam@home
+sub adam {
+    return comiczone(shift(@_),"Adam at Home","Brian Basset","universal","adam",
+		     [600,428],[600,200]);
+}
+
+#Bizaro 
+sub bz {
+    return comiczone(shift(@_),"Bizaro","Dan Piraro","universal","bizaro",
+		    [600,312],[300,356]);
+}
+
+#The Boondocks 
+sub bd {
+    return comiczone(shift(@_),"The Boondocks","Aaron McGruder","universal",
+		     "boondocks",[600,190],[600,275]);
+}
+
+#Cathy 
+sub cathy {
+    return comiczone(shift(@_),"Cathy","Cathy Guisewite","universal","cathy",
+		    [600,192],[600,414]);
+}
+
+#Citizen Dog 
+sub cd {
+    return comiczone(shift(@_),"Citizen Dog","Mark O'Hare","universal",
+		     "citizendog",[600,195],[600,275]);
+}
+
+#Close to Home 
+sub cth {
+    return comiczone(shift(@_),"Close to Home","John McPherson","universal",
+		     "closehome",[300,382],[600,280]);
+}
+
+#Cornered 
+sub corn {
+    return comiczone(shift(@_),"Cornered","Mike Baldwin","universal","cornered",
+		    [300,330],[600,280]);
+}
+
+#Crabby Road 
+sub cr {
+    return comiczone(shift(@_),"Crabby Road","John Wagner","universal",
+		     "crabbyrd",[300,440],[300,440]);
+}
+
+#Crankshaft
+sub cs {
+    return comiczone(shift(@_),"Crankshaft","Tom Batiuk & Chuck Ayers",
+		     "universal","crankshaft",[600,184],[600,355]);
+}
+
+#The Duplex 
+sub dp {
+    return comiczone(shift(@_),"The Duplex","Glenn McCoy","universal","duplex",
+		    [600,190],[600,280]);
+}
+
+#Fifth Wave 
+sub fw {
+    return comiczone(shift(@_),"Fifth Wave","Rich Tennant","universal",
+		     "fifthwave",undef,[500,500]);
+}
+
+#The Fusco Brothers 
+sub fusco {
+    return comiczone(shift(@_),"The Fusco Brothers","Joe Duffy","universal",
+		     "fuscobros",[600,180],[600,396]);
+}
+
+#Geech 
+sub geech {
+    return comiczone(shift(@_),"Geech","Jerry Bittle","universal","geech",
+		    [600,422],[600,190]);
+}
+
+#Heart of the City 
+sub hc {
+    return comiczone(shift(@_),"Heart of the City","Mark Tatulli","universal",
+		     "heartcity",[600,190],[600,280]);
+}
+
+#In the Bleachers 
+sub itb {
+    return comiczone(shift(@_),"In the Bleachers","Steve Moore","universal",
+		     "bleachers",[300,362],[600,422]);
+}
+
+#Mister Boffo 
+sub boffo {
+    return comiczone(shift(@_),"Mister Boffo","Joe Martin","universal",
+		     "mrboffo",[600,180],[600,422]);
+}
+
+#Overboard 
+sub ob {
+    return comiczone(shift(@_),"Overboard","Chip Dunham","universal",
+		     "overboard",[600,200],[600,276]);
+}
+
+#Second Chances 
+sub sc {
+    return comiczone(shift(@_),"Second Chances","Jeff Millar & Bill Hinds",
+		     "universal","secchances",[600,190],[600,280]);
+}
+
+#Stone Soup
+sub stsp {
+    return comiczone(shift(@_),"Stone Soup","Jan Eliot","universal","stonesoup",
+		     [600,190],[600,280]);
+}
+
+#Real Life Adventures (currently in mercury)
+#sub rla {
+#    return comiczone(shift(@_),"Real Life Adventures",
+#		     "Gary Wise & Lance Aldrich","universal","reallife",
+#		     [300,382],[600,281]);
+#}
+
+#Tank McNamara 
+sub tank {
+    return comiczone(shift(@_),"Tank McNamara","Jeff Millar & Bill Hinds",
+		     "universal","tmcnamara",[600,195],[600,422]);
+}
+
+#Tradin' Paint 
+sub paint {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 6; #only Saturday comics
+    return comiczone($time,"Trading Paint","Geof Brooks","universal",
+		     "tradinpaint",[600,218],undef);
+}
+
+#Ziggy 
+sub ziggy {
+    return comiczone(shift(@_),"Ziggy","Tom Wilson","universal","ziggy",
+		    [300,310],[600,412]);
+}
+
+1;
+
+
