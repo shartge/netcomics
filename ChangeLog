@@ -1,3 +1,9 @@
+2001-07-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (MODULES): Changed keenspace to keenspot.
+	(OLDMODULES): Added keenspace.
+	* lib/keenspace: Removed because of its renaming to keenspot.
+
 2001-07-15  Elliot Glaysher  <eglayshe@umich.edu>
 
 	* lib/keenspot: Added (by Shawn Oakey), which removes:
