@@ -1,3 +1,19 @@
+2001-06-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/shoe (shoe): Set the file extension based on when it
+	actually changed so that comics earlier than Oct. 1, 1999 can be
+	downloaded.  Also renamed it to "Jeff McNelly's Shoe" and changed
+	the authors to Chris Gassatt & Gary Brookins. See
+	http://macnelly.com/chris_gary.html for details.
+
+2001-06-19  David M orris <bweaver@pionet.net>
+
+	* lib/ucomics (kudzu): Added Kudzu - now that I have found it.
+	* lib/kingfeatures (wildwood): Bobo's Progress has been renamed to
+	Wildwood, so bobo is now wildwood.
+	* lib/shoe (shoe): Shoe was not downloading, changed the target
+	extension from jpeg to jpg.
+
 2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/ucomics (ft): Added FoxTrot to ucomics.

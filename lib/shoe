@@ -10,14 +10,16 @@ sub shoe {
     return undef if $time < 899251200; # first July 1, 1998
     my ($day,$size) = ($ltime[6] == 0) ? ("sunday",[1047,742]) : 
 	("daily",[612,193]);
+    #changed extension from 'jpeg' to 'jpg' on Oct. 1, 1999
+    my $type = ($time < 938736000) ? "jpeg" : "jpg";
     my $rec = {
-	'title' => "Shoe",
-	'author' => "Jeff McNelly",
-	'type' => 'jpeg',
+	'title' => "Jeff McNelly's Shoe",
+	'author' => "Chris Gassatt & Gary Brookins",
+	'type' => 'jpg',
 	'main' => "http://macnelly.com/shoe_page.html",
 	'archives' => "http://macnelly.com/shoefolder/shoe_archive.asp",
 	'base' => "http://www.macnelly.com/shoe_images",
-	'page' => strftime("%m%y/shoe_$day%m%d%y.jpg",@ltime),
+	'page' => strftime("%m%y/shoe_$day%m%d%y.$type",@ltime),
 	'size' => $size
     };
     return $rec;
