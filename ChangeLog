@@ -1,3 +1,10 @@
+2001-02-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (build_rli_array_helper): Added copying fields
+	from the persistent rli that aren't yet defined.
+	(main) Updating printing of urls so that only those comics the
+	user specified get their urls printed.
+
 2001-02-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics.spec (%post data): Added check for deprecated modules

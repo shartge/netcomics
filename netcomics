@@ -1241,9 +1241,13 @@ if ($make_webpage) {
 } elsif ($dont_download) {
     print "\nURLs for images:\n\n" if $verbose;
     foreach (@rli) {
-	if ($_->{'status'} == 2) {
-	    print join("\n",@{$_->{'url'}});
-	    print "\n";
+	my $rli = $_;
+	if ($rli->{'status'} == 2 && defined($rli->{'url'})) {
+	    unless ($user_specified_comics &&
+		    ! grep(/^$rli->{'proc'}$/, @selected_comics)) {
+		print join("\n",@{$rli->{'url'}});
+		print "\n";
+	    }
 	}
     }
 }
@@ -1382,7 +1386,7 @@ sub build_rli_array_helper {
 		    #specified some comics and this isn't one of them &&
 		    #its status is 1.
 		    if (! $always_download || 
-			(@selected_comics && 
+			($user_specified_comics && 
 			 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
 			 $rli[$i]->{'status'} == 1)) {
 			#copy info from old one into new one, thus
@@ -1391,6 +1395,12 @@ sub build_rli_array_helper {
 			$rli->{'file'} = $rli[$i]->{'file'};
 			$rli->{'status'} = $rli[$i]->{'status'};
 			$rli->{'tries'} = $rli[$i]->{'tries'};
+			#now, copy in only those fields which don't exist.
+			foreach (keys(%{$rli[$i]})) {
+			    $rli->{$_} = $rli[$i]->{$_} if
+				(! defined $rli->{$_} &&
+				 defined $rli[$i]->{$_});
+			}
 		    }
 		    #remove the old one
 		    $rli[$i] = undef;
