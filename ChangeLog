@@ -1,3 +1,10 @@
+2002-01-12  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Fix big big bug found
+	by Sven. Thanks!
+	* Netcomics/HTML.pm: Changed some tabbing near the end to closer match
+	the rest of the style.
+
 2002-01-09  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/control: Added a netcomics-comicpage package to be created.

@@ -61,6 +61,7 @@ sub create_set_of_pages {
 	my @comics = keys(%rlis);
 	print STDERR "comics = @comics" if $verbose;
 	my $num_comics = @comics;
+
 	if ($num_comics == 0) {
 		print STDERR "\nNot creating a new webpage.\n" if $verbose;
 		return;
@@ -168,10 +169,17 @@ sub create_set_of_pages {
 	# Sue me.
 	if ($webpage_index && ! $webpage_on_stdout) {
 
+		# Change the scope of $comics_per_index_page. This is neccessary, as
+		# otherwise, we would change the value of $comics_per_index_page with
+		# every call to create_set_of_pages(); This isn't the stylistically
+		# best way, but /me shrugs...
+		my $comics_per_index_page = $comics_per_index_page;
+
 		# Determine number of index pages for comics. Yes this was ripped from
 		# above, yes this should be a sub. So sue me.
 		$comics_per_index_page = $num_comics
 			unless defined($comics_per_index_page); 
+		
 		my $num_groups = $num_comics / $comics_per_index_page;
 		$num_groups =~ s/^(\d+)\.?\d*$/$1/;
 		my $comics_on_last = $num_comics % $comics_per_index_page;
@@ -240,14 +248,12 @@ sub create_set_of_pages {
 
 			my $filename;
 			unless($num_groups == 1) {
-				($filename = $webpage_indexname_tmpl ) 
-					=~ s/<NUM>/$group_num/g;
+				($filename = $webpage_indexname_tmpl ) =~ s/<NUM>/$group_num/g;
 				file_write("$self->{'output_dir'}/$filename",
 						   0664, "$index_head$links$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$links$tail");
 			}
 			else {
-				($filename = $webpage_indexname_tmpl ) 
-					=~ s/<NUM>//g;
+				($filename = $webpage_indexname_tmpl ) =~ s/<NUM>//g;
 				file_write("$self->{'output_dir'}/$filename",
 						   0664, "$index_head$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$tail");
 			}

@@ -81,10 +81,10 @@ sub create_archive_webpages {
 			}
 		}
 		my $HTMLpage = Netcomics::HTML::Set->new
-		('output_dir' => "$comics_dir/$subdir",
-		 'theme' => $template,
-		 'include_subdir' => 0
-		);
+			('output_dir' => "$comics_dir/$subdir",
+			 'theme' => $template,
+			 'include_subdir' => 0
+			);
 		#print "Putting in directory $subdir\n";
 		$HTMLpage->create_set_of_pages(@rlis_to_pass);
 	}
@@ -117,12 +117,12 @@ sub create_today_page {
 	}
 
 	my $HTMLpage = Netcomics::HTML::Set->new
-	('output_dir' => "$comics_dir",,
-	 'theme' => $template,
-	 'include_subdir' => 1,
-	 'webpage_filename_tmpl' => "today<NUM>.html",
-	 'link_to_local_archives' => 1
-	);
+		('output_dir' => "$comics_dir",,
+		 'theme' => $template,
+		 'include_subdir' => 1,
+		 'webpage_filename_tmpl' => "today<NUM>.html",
+		 'link_to_local_archives' => 1
+		);
 	$HTMLpage->create_set_of_pages(@rlis_to_pass);
 }
 
