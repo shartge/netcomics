@@ -106,6 +106,7 @@ MODULES = lib/after_y2k \
 	lib/greystoneinn \
 	lib/greytown \
 	lib/helen \
+	lib/helpdesk \
 	lib/janesworld \
 	lib/jerkcity \
 	lib/k_chronicles \
@@ -115,6 +116,7 @@ MODULES = lib/after_y2k \
 	lib/laughseeds \
 	lib/lcd \
 	lib/lily_wong \
+	lib/lostfound \
 	lib/madam-n-eve \
 	lib/megatokyo \
 	lib/melonpool \

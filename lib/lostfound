@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"lostfound"} = 0;
+
+# Lost and Found http://www.lostandfoundcomic.com/
+
+sub lostfound {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    # First comic 2000-Jan-03
+    return undef if ($time < mkgmtime(0,0,0,3,0,100));
+    # No comics Tuedays, Thursdays and Saturdays
+    return undef if (($ltime[6]==2) || ($ltime[6]==4) || ($ltime[6]==6));
+
+    my $rec = {
+	'title' => "Lost and Found",
+	'author' => "Matt Mulligan",
+	'type' => "gif",
+	'main' => "http://www.lostandfoundcomic.com/",
+	'archives' => "http://www.lostandfoundcomic.com/archive.html",
+	'base' => "http://www.lostandfoundcomic.com",
+	'page' => strftime("/comics/%Y%m%d.gif",@ltime),
+    };
+
+    return $rec;
+}
+
+1;
