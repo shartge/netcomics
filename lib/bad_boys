@@ -49,7 +49,7 @@ sub badboys {
 		    'func' => sub {
 			$_ = shift;
 			my @relurls = ();
-			if (m/Comic for/g && m/<IMG SRC="([^\"]+)">/g) {
+			if (m/Comic for/gi && m/<IMG SRC="([^\"]+)">/gi) {
 			    $relurl = $1;
 			    #fix not-relative URLS
 			    unless ($relurl =~ s%/badboys/%%) {

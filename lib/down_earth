@@ -4,60 +4,40 @@
 $hof{"downearth"} = 0;
 
 #Down to Earth 
-# http://www.downtoearthcomic.com/
-# http://www.downtoearthcomic.com/comics/dte20000523.gif
+# http://www.downtoearth.ncbuy.com/
+#not date based
 sub downearth  {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my $date = strftime("%Y%m%d",@ltime);
-    my $size = ($ltime[6] == 0? [750,381] : [750,290]);
+  my $time = shift;
+  my @ltime = gmtime($time);
+  my $date = strftime("%Y%m%d",@ltime);
+  my @ltime2 = gmtime(time);
+  my $daysago = (time - $time)/(3600*24);
+  $daysago =~ s/\..*$//;
 
-    #exceptions table last updated Jan 21, 2001
-    return undef 
-	if (($date < 19990928) || #first comic on Sept 28, 1999
-	    ($date == 19991209) ||
-	    ($date == 19991225) ||
-	    ($date == 20000305) ||
-	    ($date == 20000312) ||
-	    ($date == 20000319) ||
-	    ($date == 20000326) ||
-	    ($date == 20000402) ||
-	    ($date == 20000409) ||
-	    ($date == 20000416) ||
-	    ($date == 20000423) ||
-	    ($date >= 20000506 && $ltime[6] == 6 && #no sat. comics since may'00
-	     !($date == 20001014)) || #extra saturday comics
-	    ($date == 20001126) ||
-	    ($date == 20001225) ||
-	    ($date == 20010101));
-
-    my $baseurl = "http://downtoearthcomic.com";
-    my $expr = "(comics/dte$date\\w?.(?i)gif)";
-    my $rec = {
-	'title' => "Down To Earth",
-	'author' => "Gavin Chafin & Steve Wood",
-	'type' => 'gif',
-	'main' => $baseurl,
-	'archives' => $baseurl,
-	'base' => "$baseurl/",
-	'size' => $size,
-	'page' => "d/$date.html",
-	'exprs' => [$expr],
-    };
-
-    #dates that have multiple images
-    if ($date == 19991219) {
-	$rec->{'exprs'} = undef;
-	$rec->{'func'} = sub {
-	    my $text = shift;
-	    my @relurls = ();
-	    while ($text =~ s/.*?$expr//si) {
-		push @relurls, $1;
-	    }
-	    return \@relurls;
-	};
-    }
-    return $rec;
+  my $baseurl = "http://downtoearth.ncbuy.com";
+  my $rec = {
+    'title' => "Down To Earth",
+    'author' => "Gavin Chafin & Steve Wood",
+    'type' => 'gif',
+    'main' => $baseurl,
+    'archives' => $baseurl."/archives/",
+    'base' => "$baseurl",
+    'size' => [580,196],
+    'page' => "/archives/index.html",
+    'func' => sub{
+       my $text = shift;
+       my @relurls = ();
+       if ($text =~ s/img src="\/img\/partners\/downtoearth\/strips\/(\d+?)_72dpi.gif"//i) {
+         push @relurls, {
+           'page' => "/archives/index.html?strip=".($1-$daysago),
+           'exprs' => ["img src=\"(/img/partners/downtoearth/strips/\\d+?_72dpi.gif)\""],
+           'func' => undef,
+         };
+       }
+       return @relurls;
+    },
+  };
+  return $rec;
 }
 
 1;

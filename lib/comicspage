@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(bound fredb herb middle plug)) {
+foreach (qw(bound fredb middle plug)) {
     $hof{$_} = 7;
 }
 
@@ -56,14 +56,6 @@ sub fredb {
     my $time = shift;
     return ComicsPage($time,"Fred Basset","Alex Graham",
 	"fred", "fbt","cs",'gif','gif',[580,180],[580,180]);
-}
-
-#Herb & Jamaal ex: http://www.comicspage.com/daily/cshjl/20000916cshjl-a.gif
-#mon-sat
-sub herb {
-    my $time = shift;
-    return ComicsPage($time,"Herb and Jamaal","Stephen Bentley",
-	"herb", "hjl","cs",'gif','gif',[580,180],[580,180]);
 }
 
 #Middletons ex: http://www.comicspage.com/daily/csmid/20000916csmid-a.gif

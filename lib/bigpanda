@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(banditb walky hh dt)) {
+foreach (qw(banditb hh)) {
     $hof{$_} = 0;
 }
 
@@ -23,34 +23,6 @@ sub banditb {
         'page' => strftime("/comics/%Y%m%da.gif",@ltime),
         'size' => [750,254]
         };
-    return $rec;
-}
-
-# It's Walky!
-# http://www.roomies.org/d/19990328.html
-# http://www.roomies.org/comics/19990328a.gif
-
-sub walky {
-    my $time = shift @_;
-    return undef if $time < mkgmtime(0,0,0,8,8,97);
-    my @ltime = gmtime($time);
-
-    return undef 
-      if (($ltime[6] =~ /^(0|6)/) && ($time < mkgmtime(0,0,0,27,2,99)));
-
-    my $rec =
-      {
-       'title'    => "It's Walky!",
-       'author'   => "David Willis",
-       'type'     => 'gif',
-       'main'     => "http://www.roomies.org/",
-       'archives' => "http://www.roomies.org/calendar.html",
-       'base'     => "http://www.roomies.org/",
-       'page'     => strftime("d/%Y%m%d.html", @ltime),
-       'exprs'    => [strftime("(comics/%Y%m%d\\w*\\.\\w+)\"", @ltime)],
-       'size'     => ($ltime[6] == 0 ? [700,497] : [693,212])
-      };
-    
     return $rec;
 }
 
@@ -79,28 +51,6 @@ sub hh {
     return $rec;
 }
 
-# Dragon Tails
-# http://www.dragon-tails.com/comics/000405.jpg
-
-sub dt {
-    my $time = shift @_;
-    return undef if $time < mkgmtime(0,0,0,11,2,99);
-    my @ltime = gmtime($time);
-
-    my $rec =
-      {
-       'title'    => "Dragon Tails",
-       'author'   => "Tim Dawson",
-       'type'     => 'jpg',
-       'main'     => "http://www.dragon-tails.com/",
-       'archives' => "http://www.dragon-tails.com/comics/index.htm",
-       'base'     => "http://www.dragon-tails.com/comics/",
-       'page'     => strftime("%y%m%d.jpg", @ltime),
-       'size'     => [620,220]
-      };
-    
-    return $rec;
-}
 
 
 1;

@@ -87,6 +87,7 @@ MODULES = lib/after_y2k \
 	lib/doonesbury \
 	lib/dork_tower \
 	lib/down_earth \
+	lib/dragon \
 	lib/dr_fun \
 	lib/dysentery \
 	lib/elf_life \
@@ -94,6 +95,7 @@ MODULES = lib/after_y2k \
 	lib/exploitation \
 	lib/falling_dream \
 	lib/farcus \
+	lib/fairgame \
 	lib/fika \
 	lib/forbez \
 	lib/fordummies \
@@ -172,6 +174,7 @@ MODULES = lib/after_y2k \
 OLDMODULES = \
 	banditbruno \
 	bastich \
+	boatanchor \
 	bobbins \
 	boxjam \
 	calvin-n-hobbes \
@@ -179,14 +182,18 @@ OLDMODULES = \
 	dilbert \
 	fatjesus \
 	fce \
+	fordummies \
 	foxtrot \
 	garfield \
 	glasbergen \
 	goats \
 	heaven_and_earth \
+	janesworld \
+	psmueller \
 	rogues \
 	roomies \
 	sketch \
+	tom_the_dancing_bug \
 	uexpress \
 	worldviews \
 

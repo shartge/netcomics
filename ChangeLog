@@ -1,9 +1,51 @@
+2001-06-27  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/foxtrot: Removed. It's been in lib/ucomics for awhile now. 
+	* Makefile: Updated for all of Oakey's deletions.
+	
+	* Updates by Shawn Oakey:
+	* lib/ucomics (PSMueller): moved psmueller into ucomics.
+	(Tank McNamara): updated. (The Big Picture): Updated
+	(Tom the Dancing Bug): Added
+	* lib/dragon: added (pulled from bigpanda)
+	* lib/comicspage: Pulled Herb and Jamal
+	* lib/comicspage_ed (billed): Removed. Added: paulc jeffd mattd 
+	davidh taylorj dickl dougm dwanep drews annt danw dickw.
+	* lib/mercury (Phantom): Dumped in lib/kingfeatures
+	(Pretzel Logic): Only d/l on TThSa.
+	(Newbreed): Removed. No alernates found.
+	(Fair Game): moved into lib/fairgame
+	* lib/bad_boys: minor fix
+	* lib/comiczone (Robotman): changed to Monty
+	(Jane's World): moved in from lib/janesworld
+	* lib/falling_dream: updates
+	* lib/mom: added list of missing comics.
+	* lib/sluggy_freelance: changed archives format
+	* lib/fika: no longer, updated.
+	* lib/gaming_u: minor changes, no longer updated.
+	* lib/lily_wong: changed location
+	* lib/madam-n-eve: lots of changes
+	* lib/sempai: No longer updated, set back 2 years.
+	* lib/down_earth: lots of changes
+	* lib/kingfeatures (mandrake ss henry hazel moosem pops trudy): Stopped
+	on June 16. (Moose Miller): Now Moose and Molly (Phantom): Put in here,
+	see above. (Willy and Ethel): no longer updated, removed. (Ralph): no
+	longer updated, removed.
+	* lib/boatanchor: Site has gone down. Removed.
+	* lib/fordummies: Not available anymore.
+	* Oakey's updates have made these files redundant and are removed:
+	** lib/psmueller
+	** lib/tom_the_dancing_bug
+	** lib/janesworld
+	** lib/boatanchor
+	** lib/fordummies
+
 2001-06-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): Fixed to handle getting the complete
 	archive with no failures.
 
-2001-06-26  Elliot Glaysher  <elliot@navibox>
+2001-06-26  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* TODO: Added a priority section to fix broken modules.
 	* lib/creators_syndicate: Reworked (creators_syn) so it worked, and

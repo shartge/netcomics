@@ -23,7 +23,7 @@ sub sluggy {
 	  'main' => "http://www.sluggy.com/",
 	  'archives' => "http://www.sluggy.com",
 	  'base' => "http://pics.sluggy.com",
-      'page' => "/d/$date.html",
+      'page' => "/daily.php?date=$date",
     };
 
     $rec->{'func'} = sub {

@@ -1,13 +1,11 @@
 #-*-Perl-*-
 
 foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb 
-	    jm boffo ob rla stsp tank ziggy kudzu)) {
+	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb)) {
     $hof{$_} = 0;
 }
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
-$hof{"ga"} = 0;
-$hof{"ft"} = 0;
 
 $hof{"ucross"} = 0;
 
@@ -125,8 +123,8 @@ sub baldo {
 
 #The Big Picture http://www.ucomics.com/thebigpicture/
 sub bigp {
-    return ucomics(shift(@_),"The Big Picture","Lennie Peterson","thebigpicture","bi",
-		    [600,412],[300,310],"bigp");
+    return ucomics_akamai(shift(@_),"The Big Picture","Lennie Peterson",
+		    [600,412],[300,310],"thebigpicture","bi");
 }
 
 #Bizzaro http://www.ucomics.com/bizarro/
@@ -225,6 +223,13 @@ sub ob {
 		    [600,276],[600,200],"ob");
 }
 
+#PSMueller http://www.ucomics.com/psmueller/
+sub psmueller {
+    return ucomics(shift(@_),"PSMueller","P.S.Mueller","psmueller","psm",
+           [600,276],[600,200],"psmueller");
+}
+
+
 #Real Life Adventures http://www.ucomics.com/reallifeadventures/
 sub rla {
     return ucomics(shift(@_),"Real Life Adventures","Aldrich and Wise",
@@ -240,13 +245,22 @@ sub stsp {
 #Tank McNamara http://www.ucomics.com/tankmcnamara/
 sub tank {
     return ucomics(shift(@_),"Tank McNamara","Jeff Millar & Bill Hinds",
-		    "comics","tm",[600,422],[600,195],"tank");
+		    "tankmcnamara","tm",[600,422],[600,195],"tank");
 }
 
 #Ziggy http://www.ucomics.com/ziggy/
 sub ziggy {
     return ucomics(shift(@_),"Ziggy","Tom Wilson","ziggy","zi",
 		    [600,412],[300,310],"ziggy");
+}
+
+#Tom the Dancing Bug
+sub ttdb {
+  my $time = shift;
+  my @ltime = gmtime($time);
+  return undef if($ltime[6] != 6);
+  return ucomics_akamai($time,"Tom The Dancing Bug","Ruben Bolling",undef,
+    [600,789],"tomthedancingbug","td");
 }
 
 1;

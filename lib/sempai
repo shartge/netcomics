@@ -1,15 +1,27 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"sempai"} = 0;
+$hof{"sempai"} = 365*2;
 
 #Sempai
 # http://www.sempai.org/comic/strips/1999/Nov/19991101.jpg
 # http://www.sempai.org/comic/strips/2000/May/20000504.jpg
 sub sempai  {
   my $time = shift;
-  return undef if $time < 941414400; #first comic on Nov 1, 1999
   my @ltime = gmtime($time);
+  my $date = strftime("%Y%m%d", @ltime);
+
+  my @missing = (20000123,20000404,20000405,20000406,20000407,20000408,
+    20000409,20000410,20000411,20000412,20000413,20000414,20000415,20000416,
+    20000417,20000418,20000419,20000420,20000421,20000508,20000513,20000519,
+    20000524,20000525,20000526,20000527,20000528,20000529,20000530,20000531,
+    20000601,20000602,20000603,20000604,20000605,20000606,20000607,20000608,
+    20000610,20000616,20000617,20000622);
+    
+  return undef 
+    if ($date < 19991101 || #first comic on Nov 1, 1999
+      $date > 20000623 || #last comic on June 23, 2000
+      grep(/$date/,@missing)); 
   
   my @month = qw (Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
   my $mt = $month[$ltime[4]];

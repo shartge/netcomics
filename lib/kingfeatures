@@ -1,10 +1,14 @@
 #-*-Perl-*-
 
-foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy
-	 pc rl ro zp spider apt3g bfriends buckles ba zt
-	 crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
-	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
-	 katkids mandrake pops popeye sroper mmiller needhelp re schix)) {
+foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh 
+    pc ro zp spider apt3g bfriends buckles ba zt phantom
+    crock curtis dennis dinette familyc fgordon tumble wildwood rmorgan
+    jparker mtrail mworth hi pvaliant theydo tiger
+    katkids popeye sroper needhelp re schix)) {
+    $hof{$_} = 0;
+}
+
+foreach (qw(mandrake ss henry hazel moosem pops trudy)) {
     $hof{$_} = 0;
 }
 
@@ -258,11 +262,11 @@ sub worth {
                        "mworth","Mary_Worth",[525,156]);
 }
 
-#Moose Miller http://www.kingfeatures.com/comics/mmiller/index.htm
+#Moose and Molly http://www.kingfeatures.com/comics/moosemol/index.htm
 #http://www.kingfeatures.com/features/comics/moosemol/mot010124.gif
-sub mmiller {
-    return kingfeature3(shift(@_),"Moose Miller",
-	"Bob Weber Sr", "mmiller","mot", [480,149]);
+sub moosem {
+    return kingfeature3(shift(@_),"Moose and Molly",
+	"Bob Weber Sr", "moosemol","mot", [480,149]);
 }
 
 #Mutts http://www.kingfeatures.com/comics/mutts/
@@ -275,6 +279,12 @@ sub mu {
 sub fa {
     return kingfeature(shift(@_),"On The Fastrack","Bill Holbrook","fastrack",
 		       "Fast_Track",[480,143]);
+}
+
+#Phantom
+sub phantom {
+    return kingfeature(shift(@_),"Phantom","George Olesen and Graham Nolan","phantom",
+                       "Phantom",[525,157]);
 }
 
 #The Piranha Club http://www.kingfeatures.com/comics/ernie/
@@ -305,12 +315,6 @@ sub  pvaliant{
 	"John Cullen Murphy & Cullen Murphy", "pvaliant",
 	"val",[750,500],"jpg",1);
 }  
-
-#Ralph http://www.kingfeatures.com/comics/ralph/
-sub rl {
-    return kingfeature(shift(@_),"Ralph","Wayne Stayskal","ralph","Ralph",
-		       [248,300]);
-}
 
 # RedEye
 # http://www.kingfeatures.com/comics/redeye/Redeye.20000321.gif
@@ -395,12 +399,6 @@ sub trudy {
 sub tumble {
     return kingfeature(shift(@_),"Tumbleweeds","Tom K. Ryan",
 	"tumblewd","Tumbleweeds", [480,144]);
-}
-
-# Willy and Ethel
-sub wethel {
-    return kingfeature(shift(@_),"Willy and Ethel","Joe Martin",
-	"willy","Willy_n_Ethel", [480,144]);
 }
 
 #Zippy http://www.kingfeatures.com/comics/zippy/
