@@ -277,7 +277,7 @@ sub mu {
 #On The Fastrack http://www.kingfeatures.com/comics/fastrack/
 sub fa {
     return kingfeature(shift(@_),"On The Fastrack","Bill Holbrook","fastrack",
-		       "Fast_Track",[525,157,[600,400]);
+		       "Fast_Track",[525,157],[600,400]);
 }
 
 #Phantom
