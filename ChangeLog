@@ -1,3 +1,8 @@
+2001-09-16  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/inktank: Added thanks to Chris Hostetter. Replaces lib/angst.
+	* lib/angst: Deleted.
+
 2001-09-14  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/GtkComics.pm: Add a small check to make comicpage be able
