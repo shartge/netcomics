@@ -1,5 +1,7 @@
 2001-07-05  Elliot Glaysher  <nuriko.chan@home.com>
 
+	* doc/design.dia: Updated for my changes to GtkComics (Thanks for
+	pointing this out, Ben.)
 	* Netcomics/HTML.pm (check_rlis): Created function to reduce code reuse
 	Now used in &create_webpage(s|_set).
 	(create_webpage_set): Fixed bug that caused halting of the whole HTML
