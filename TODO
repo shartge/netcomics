@@ -211,3 +211,6 @@ weird.
 ** Fix bug where RLIs loaded from files have 'name' which is deprecated.
 
 ** Fix the don't download specifier (-C)
+
+** Work on speeding up loading numerous (+1000) RLIs. Glob RLIs into one
+file?
