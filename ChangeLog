@@ -1,3 +1,12 @@
+2002-04-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* MANIFEST: Added Netcomics/HTML/Themes/OldSchool.pm
+	* Makefile.PL (@pm_to_install): Added HTML/Themes/OldSchool.pm
+	* Netcomics/HTML/Themes/OldSchool.pm: Added, thanks to hossman.
+	* lib/doodie (doodie): Added size attribute.
+	* doc/Modify_Webpage_Creation-HOWTO.html: updated links &
+	links_index template descriptions to be clearer (bug 541361).
+
 2002-04-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL (post_constants): Fixed tar.gz & zip archive rules.
