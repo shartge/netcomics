@@ -1788,7 +1788,7 @@ RELURL:	    while (@relurls) {
 		$j++; #used to append to the file name
 		
 		my $mname = $name;
-		$mname ="${name}-$j" if @relurls > 1;
+		$mname ="${name}-$j";
 
 		print "$mname: $url\n" if $extra_verbose;
 		if ($dont_download) {
