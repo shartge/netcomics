@@ -97,6 +97,7 @@ kingfeatures
 laughseeds
 lcd
 lily_wong
+littlegamers
 madam-n-eve
 megatokyo
 mercury

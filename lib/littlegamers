@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+$hof{"lg"} = 1;
+
+sub lg {
+    my $time = shift(@_);
+    return undef if $time < mkgmtime(0,0,0,1,11,100); #started 1 Dec 2000
+    my @ltime = gmtime($time);
+    return undef if $ltime[6] =~ /[06]/; #no weekend comics
+    my $baseurl = "http://www.little-gamers.com";
+    my $rec = {
+	'title' => "Little Gamers",
+	'author' => "Christian Fundin",
+	'type' => 'gif',
+	'main' => "$baseurl/",
+	'base' => "$baseurl/comics/",
+	'archives' => "$baseurl/archives.gamer",
+	'page' => strftime("%Y%m%d.gif",@ltime),
+	'size' => [771,237],
+	};
+    return $rec;
+}
+
+1;
