@@ -1,5 +1,5 @@
 Name: netcomics
-Version: 0.13.1
+Version: 0.13.2
 Release: 1
 Summary: A perl script that downloads today's comics from the Web
 Copyright: GPL
@@ -31,6 +31,8 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Fri Jul  6 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.2-1
+- updated version
 * Sun Feb 18 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
 - added gzip of manpages, doc files for data pkg, & check for old modules.
 * Wed Feb 7 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
@@ -170,17 +172,60 @@ END
 %post data
 LIBDIR=$RPM_INSTALL_PREFIX/share/netcomics
 #The following list is to be kept in sync with that in the Makefile
-OLDMODULES="\
-	banditbruno \
-	bobbins \
-	calvin-n-hobbes \
-	ctoons \
-	dilbert \
-	glasbergen \
-	goats \
-	roomies \
-	uexpress \
-	worldviews \
+OLDMODULES = "\
+        alice \
+        avalon \
+        banditbruno \
+        bastich \
+        bayside \
+        bigpanda \
+        boatanchor \
+        bobbins \
+        boxjam \
+        calvin-n-hobbes \
+        ccs \
+        clan_cats \
+        chuck_show \
+        ctoons \
+        dilbert \
+        elf_life \
+        everythingjake \
+        exploitation \
+        fatjesus \
+        fce \
+        forbez \
+        fordummies \
+        foxtrot \
+        garfield \
+        glasbergen \
+        goats \
+        gpf \
+        greystoneinn \
+        greytown \
+        heaven_and_earth \
+        helpdesk \
+        janesworld \
+        lostfound \
+        melonpool \
+        nukees \
+        ozy_millie \
+        psmueller \
+        reallife \
+        road_waffles \
+        rogues \
+        roomies \
+        roommates \
+        sinfest \
+        sketch \
+        soaprope \
+        suburban \
+        superosity \
+        tom_the_dancing_bug \
+        uexpress \
+        wandering \
+        whenigrowup \
+        worldviews \
+        youdamn \
 	"
 oldmods=""
 cd $LIBDIR

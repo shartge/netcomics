@@ -2,7 +2,7 @@ APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
 RCFILE	= netcomicsrc
-VERSION	= 0.13.1
+VERSION	= 0.13.2
 PKGVERSION = 1
 
 #The 4 most commonly changed paths.  All occurrances of these in the
