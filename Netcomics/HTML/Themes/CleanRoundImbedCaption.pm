@@ -35,6 +35,17 @@ $html{'caption'} = <<END_CAPTION;
 	</tr>
 END_CAPTION
 
+# To use the corners als real images is neccessary, or some browsers
+# will render the left and right side with a wrong width in some
+# situations.
+#
+# Putting the corners into the background-attribute as well does not
+# work in those situations.
+#
+# This is no problem, since the corners are never needed to be stretched
+# only the horizontal and vertical bars need to be handeled this way.
+
+
 $html{'body'} = <<END_BODY;
   <tr><td>
       <center>
