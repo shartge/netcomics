@@ -1,3 +1,27 @@
+2002-04-25  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/animation_express (ae): Added support for mini, animated gifs.
+
+2002-04-17  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/Comic_Module-HOWTO.html: Added a description of the new
+	volatile field.
+	* Netcomics/Config.pm.in: Made same change as in netcomicsrc
+	* netcomicsrc: Made the webpage_index_title not copy in the
+	webpage_title so that it can change when -wt is used on the
+	commandline.
+	* Netcomics/Factory.pm (get_comics): Fixed bug where .rli file not
+	updated to increment the number of tries when func field is dummy
+	and not regetting the rli from the module if reloaded, not being
+	skipped, and the date wasn't explicitely asked for.  Also fixed
+	bug where subdir created when only tasks are being printed.
+	(build_rli_array_helper): Added a new rli field: volatile.  This
+	is an array of fields which can change.  This is used to know what
+	fields to copy from an old rli when it's been reloaded.  Also,
+	added deleting the reloaded field once the fields have been copied
+	over so that get_comics() can know when it needs to reload the rli
+	itself.
+
 2002-04-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL (@modules): Added animation_express

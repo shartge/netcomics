@@ -1,17 +1,16 @@
 #-*-Perl-*-
 
-#Add the name of the subroutines to the hash of functions
-#with the number of days from today the comic is available
-#For comics that aren't updated, or are updated very irregularly,
-#then set it to undef (can only retreive using -T or -S & -E).
-$hof{"ae"} = 0;
+#this is behind by one day because the site can have multiple
+#additions added throughout the day, so we have to wait until the
+#next day to make sure all the additions have been made.
+$hof{"ae"} = 1;
 
 sub ae {
     my $time = shift;
     my @ltime = gmtime($time);
     return undef if $time < mkgmtime(0,0,0,12,9,98); #1st animation, oct 12 1998
     my $baseurl = "http://hotwired.lycos.com/animation";
-    my $all_or_1 = (time() - $time > 27*24*3600) ? 'all' : '1';
+    my $all_or_1 = (time() - $time > 24*3600) ? 'all' : '1';
     my $archives = 'nc_window.html?frpage=/animation/archive.html&wnpg=' .
 	$all_or_1 . '&date=1';
     my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -22,6 +21,7 @@ sub ae {
 	'archives' => "$baseurl/$archives",
 	'base' => $baseurl,
 	'page' => "/$archives",
+	'volatile' => [qw/title base func/], #fields which can change
 	#this function determines if there is an animation for the date
 	#and returns the page to get & the next function to process it
 	'func' => sub {
@@ -36,22 +36,54 @@ sub ae {
 		    #this function gets the actual file, its type, & its size
 		    'func' => sub {
 			my $text = shift;
-			my $hash = undef;
+			my $retref = undef;
 			$_ = $text;
-			if (/embed.*?src="[^\"]*animation(\/collection\/[^\"]+\.(\w+))".*?width="?(\d+)"?\s*height="?(\d+)"?/si) {
-			    $hash = {
-				'page' => $1,
-				'type' => $2,
-				'size' => [$3, $4],
+			my $objexpr = 'embed.*?src="[^\"]*\/([^\/]+\/animation)(\/collection\/[^\"]+\.(\w+))".*?width="?(\d+)"?\s*height="?(\d+)"?';
+			if (/$objexpr/si) {
+			    $retref = {
+				'base' => "http://$1",
+				'page' => $2,
+				'type' => $3,
+				'size' => [$4, $5],
 				'func' => undef,
 			    };
+			} elsif (/imation(\/collection\/[^\"]+)choose_size/si) {
+			    #"
+			    $retref = {
+				'page' => "${1}nc_animation.html?showtoon=true&size=large",
+				# This is the exact same thing as what is above
+				# without this check for a choose_size.
+				# Be sure to keep the code in sync.
+				'func' => sub {
+				    my $text = shift;
+				    my $hash = undef;
+				    $_ = $text;
+				    my $objexpr = 'embed.*?src="[^\"]*\/([^\/]+\/animation)(\/collection\/[^\"]+\.(\w+))".*?width="?(\d+)"?\s*height="?(\d+)"?';
+				    if (/$objexpr/si) {
+					$hash = {
+					    'base' => "http://$1",
+					    'page' => $2,
+					    'type' => $3,
+					    'size' => [$4, $5],
+					    'func' => undef,
+					};
+				    }
+				    return $hash;
+				}
+			    };
+			} elsif (/MM_swapImage/sgi) {
+			    #a bunch of animated gifs.
+			    $retref = [];
+			    while (/\'[^\']+imation(\/collection\/[^\']+\.gif)\',\'MM_swapImage/sgi) {
+				unshift(@$retref,$1);
+			    }
 			}
-			return $hash;
+			return $retref;
 		    }
 		};
 		#grab title, author & caption
 		if (m/<i>([^\<]+)<\/i>/sgi) {
-		    $hash->{'title'} .= ": $1";
+		    $hash->{'title'} .= "Animation Express: $1";
 		    if (m/font face=.*\n\s*(.*)\n/gi) {
 			$hash->{'caption'} = $1;
 			if (m/<i>([^\<]+)<\/i>/gi) {
