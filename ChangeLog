@@ -1,7 +1,7 @@
 2002-06-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* Netcomics/HTML/Page.pm (generate): updated grabbing of the width
-	& height values to be lower/upper case independant.
+	* Netcomics/HTML/Page.pm (generate): made the regex on grabbing the
+	width & height values more generic. [565441]
 
 2002-06-07  Sven Hartge  <netcomics@ds9.argh.org>
 

@@ -254,11 +254,11 @@ sub generate {
 
 			#width & height are used individually for themes w/ images
 			if (defined($size)) {
-				if ($size =~ /WIDTH=(\d+)/i) {
+				if ($size =~ /WIDTH="?(\d+)"?/i) {
 					#maximum width
 					$width = $1 > $width ? $1 : $width;
 				}
-				if ($size =~ /HEIGHT=(\d+)/i) {
+				if ($size =~ /HEIGHT="?(\d+)"?/i) {
 					#cumulative height
 					$height += $1;
 				}
