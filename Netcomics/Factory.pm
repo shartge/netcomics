@@ -1058,7 +1058,7 @@ sub build_date_array {
 	my $now = time;
 	{
 		#adjust the time so it is of this morning just after midnight.
-		my @ltime = localtime($now);
+		my @ltime = gmtime($now);
 		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
 	}
 

@@ -1,7 +1,12 @@
+2002-03-24  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Factory.pm (build_date_array): Good possibility of fixing
+	bug #219826: "always gets yesterdays comics"
+ 
 2002-03-23  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Config.pm.in (processARGV): Good possibility of fixing
-	bug # 463941: "-E doesn't work with -n"
+	bug #463941: "-E doesn't work with -n"
 
 2002-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

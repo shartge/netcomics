@@ -37,6 +37,7 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 samedate
 			 status_message
 			 syscmd
+             $tz
 			 );
 
 #mkgmtime var (taken from Time::Local)
@@ -221,6 +222,13 @@ sub in_future {
 		return 1;
 	}
 }
+
+=head2 status_message($numeric_HTTP_response)
+
+Returns the textual HTTP response when given a numeric one.
+(i.e. 404 => 'Not Found').
+
+=cut
 
 sub status_message {
 	#note this table is stolen from HTTP::Status
