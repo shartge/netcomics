@@ -1,3 +1,7 @@
+2001-03-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (load_rli): Fixed bug in naming of rli files.
+
 2001-03-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Minor updates to single rli status file feature.

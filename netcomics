@@ -1202,8 +1202,9 @@ unless (-d $comics_dir) {
 					if (-f "$comics_dir/$file") {
 						push(@existing_rli_files,$file);
 					} elsif ($rli->{'status'} == 1) {
-						print STDERR "Warning: $name is missing $file in $comics_dir\n"
-							if $verbose;
+						print STDERR 
+							"Warning: $name is missing $file in $comics_dir\n"
+								if $verbose;
 						#make it so that this one will be retried.
 						$rli->{'status'} = 0;
 					}
@@ -2111,7 +2112,7 @@ use vars '%rli';
 #return the persistenantly stored rli hash.
 sub load_rli {
 	my $rli_name = shift;
-	my $file = $comics_dir . '/' . rli_filename($rli_name);
+	my $file = $comics_dir . '/' . $rli_name;
 	local(%rli);
 	%rli = ();
 	if (-f $file && -r $file) {
