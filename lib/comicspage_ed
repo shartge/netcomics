@@ -24,8 +24,8 @@ sub ComicsPageEd {
 	    'title' => $title,
 	    'author' => $author,
     	'type' => $type,
-    	'main' => "$baseurl$dir/main.html",
-    	'archives' => "$baseurl/$dir/main.html",
+    	'main' => "$baseurl$dir/index.html",
+    	'archives' => "$baseurl/$dir/index.html",
     	'base' => "$baseurl", 
     	'page' => "$dir/main.html",
     };
