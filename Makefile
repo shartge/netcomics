@@ -152,6 +152,7 @@ MODULES = lib/after_y2k \
 	lib/superosity \
 	lib/this_modern_world \
 	lib/tom_the_dancing_bug \
+	lib/toonvile \
 	lib/touche \
 	lib/toytrunk \
 	lib/triangle_robert \

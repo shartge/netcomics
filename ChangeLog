@@ -1,3 +1,11 @@
+2001-03-02  Elliot Glaysher <nuriko.chan@home.com>
+	* Finished putting the new toonvile module that Shawn made, but
+	I required assistance from Ben. That's Shawn@mar.dfo-mpo.ca
+	for all of you too lazy to look down four lines...
+	** lib/toonvile created by Shawn.
+	** removed conflicting modules from lib/kingfeatures and
+	lib/creators_syndicate.
+
 2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
 	* Thanks to Shawn@mar.dfo-mpo.gc.ca for:
 	** Putting lib/boxjam, lib/fatjesus, lib/fce,

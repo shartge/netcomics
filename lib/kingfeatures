@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(ba bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy zt
+foreach (qw(bg bb be blondie fu gb hg lo mf ma mu fa sf sh ss trudy
 	 pc rl ro zp spider apt3g bfriends buckles 
 	 crock curtis dennis dinette familyc fgordon tumble bobo rmorgan
 	 jparker mtrail mworth henry hi pvaliant theydo tiger hazel wethel
@@ -64,13 +64,6 @@ sub spider {
 sub apt3g {
     return kingfeature(shift(@_),"Apartment 3-G",
 		       "Brian Kotzky & Lisa Trusiani","apt3g","Apartment_3-G",[480,150]);
-}
-
-# Baby Blues
-# http://www.kingfeatures.com/comics/babyblue/
-sub ba {
-    return kingfeature(shift(@_),"Baby Blues","Jerry Scott & Rick Kirkman",
-		       "babyblue","Baby_Blues",[525,153]);
 }
 
 # Barney Google and Snuffy Smith
@@ -407,12 +400,6 @@ sub wethel {
 sub zp {
     return kingfeature(shift(@_),"Zippy","Bill Griffith","zippy",
 		       "Zippy_the_Pinhead", [480,190]);
-}
-
-#Zits http://www.kingfeatures.com/comics/zits/
-sub zt {
-    return kingfeature(shift(@_),"Zits","Jerry Scott & Jim Borgman","zits",
-		       "Zits",[480,166]);
 }
 
 1;

@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(ac bc rug wiz pen obh sb shagg brew fhs heath zorro nin
+foreach (qw(ac bc rug wiz pen sb shagg brew fhs heath zorro nin
 	    ballard peach wee raw agnes toby)) {
     $hof{$_} = 7;
 }
@@ -64,12 +64,6 @@ sub rug {
 sub wiz {
     return creators_syn(shift(@_),"The Wizard of Id","Brant Parker & " .
 			"Johnny Hart","wiz",2,[600,193],[650,296]);
-}
-
-#One Big Happy http://www.creators.com/comics/obh/
-sub obh {
-    return creators_syn(shift(@_),"One Big Happy","Rick Detorie","obh",3,
-			[600,189],[650,295]);
 }
 
 #Speed Bump http://www.creators.com/comics/speed/
