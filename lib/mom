@@ -1,0 +1,54 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"mom"} = 14;
+
+#WAHM.com Mom by Cherly Demas
+sub mom  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Wahm.com Mom",
+	'author' => "Cherly Demas",
+	'type' => 'gif',
+	'main' => "http://www.wahm.com/comic.html",
+	'archives' => "http://www.wahm.com/comic.html",
+	'base' => "http://www.wahm.com/",
+	'size' => [280,280],
+    };
+
+    my $comic = strftime("c%m%d%y.gif",@ltime);
+
+    if ($time < 955756800) { #last updated Apr 15, 2000
+	#Specifically get a comic we know exists.
+	my $ttime = strftime("%Y%m%d",@ltime);
+	if ($ttime == 19990927 ||
+	    $ttime == 19991101 ||
+	    $ttime == 19991122 ||
+	    $ttime == 20000124 ||
+	    $ttime == 20000201 ||
+	    $ttime == 20000403 ||
+	    0) {
+	    $rec->{'page'} = $comic;
+	} else {
+	    return undef;
+	}
+    } else {
+	#We have to get the index page and search it to see if the date
+	#of the comic in it matches today's date so that it won't fail
+	#all the time.
+	$rec->{'page'} = "comic.html";
+	$rec->{'func'} = sub {
+	    $_ = shift;
+	    if (/$comic/g) {
+		return $comic;
+	    } else {
+		return undef;
+	    }
+	};
+    }
+    return $rec;
+}
+
+1;
