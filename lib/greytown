@@ -1,0 +1,34 @@
+#-*-Perl-*-
+
+$hof{"greytown"} = 0;
+
+# Living in Greytown
+# ex : http://www.livingingreytown.com/comics/grey20001031.gif
+sub greytown {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    return undef
+	if ($date < 20000110 || #first comic on Jan 10, 2000
+	    ($date > 20000116 && $date < 20000123) ||
+	    ($date == 20000131) ||
+	    ($date > 20000209 && $date < 20000314) ||
+	    ($date == 20000531));
+
+    my $rec = {
+	'title' => "Living in Greytown",
+	'author' => "Dave Kelly",
+	'main' => "http://www.livingingreytown.com/",
+	'archives' => "http://www.livingingreytown.com",
+	'base' => "http://www.livingingreytown.com/",
+	'page' => "d/$date.html",
+	'exprs' => {
+	    'comic' => ["(comics/grey$date\\w?\\.(:?(jpg|gif)))"],
+	    'type' => ["comics/grey$date\\w?\\.:?(jpg|gif)"],
+	},
+    };
+    return $rec;
+}
+
+1;

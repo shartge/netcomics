@@ -1,0 +1,37 @@
+#-*-Perl-*-
+
+$hof{"greystone"} = 0;
+
+# Greystone Inn
+# ex : http://www.greystoneinn.net/comics/20001002.gif
+sub greystone {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    return undef if ($date < 20000214 || #1st comic: Feb 14, 2000
+		     ($date > 20000430 && $date < 20000507) ||
+		     ($date > 20000702 && $date < 20000709) ||
+		     ($date > 20000710 && $date < 20000716));
+
+    #most of the time no sunday comics, be there are some
+    return undef if ($ltime[6] == 0 &&
+		     $date != 20000220 &&
+		     $date != 20000305 &&
+		     $date != 20000409 &&
+		     $date != 20000618 &&
+		     $date != 20000625);
+
+    my $rec = {
+	'title' => "Greystone Inn",
+	'author' => "Brad J. Guigar",
+	'type' => 'gif',
+	'main' => "http://www.greystoneinn.net",
+	'archives' => "http://www.greystoneinn.net/Archives.html",
+	'base' => "http://www.greystoneinn.net/comics/",
+	'page' => "$date.gif",
+    };
+    return $rec;
+}
+
+1;

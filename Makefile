@@ -69,6 +69,7 @@ MODULES = lib/after_y2k \
 	lib/callahan \
 	lib/calvin-n-hobbes \
 	lib/cartoonweb \
+	lib/ccs \
 	lib/chuck_show \
 	lib/clan_cats \
 	lib/comicspage \
@@ -85,6 +86,7 @@ MODULES = lib/after_y2k \
 	lib/elf_life \
 	lib/everythingjake \
 	lib/falling_dream \
+	lib/farcus \
 	lib/fika \
 	lib/fordummies \
 	lib/foxtrot \
@@ -93,6 +95,8 @@ MODULES = lib/after_y2k \
 	lib/garfield \
 	lib/gilthorp \
 	lib/gpf \
+	lib/greystoneinn \
+	lib/greytown \
 	lib/helen \
 	lib/janesworld \
 	lib/jerkcity \
@@ -143,6 +147,7 @@ MODULES = lib/after_y2k \
 	lib/unitedmedia \
 	lib/user_friendly \
 	lib/wait_bob \
+	lib/wandering \
 	lib/wfc \
 	lib/whenigrowup \
 	lib/wiley \

@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+$hof{"wander"} = 0;
+
+# Wandering Ones
+# ex : http://www.wanderingones.com/comics/wan20001031.gif
+sub wander {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    #no comics on Sun or Mon prior to May 6, 2000
+    #no comics on Sun or Sat starting on May 6, 2000
+    return undef 
+	if ($date < 20000408 || #first comic on Apr 8, 2000
+	    $date == 20000914 || #no comic on this date
+	    ($date < 20000506 && $ltime[6] =~ /[01]/) ||
+	    ($date >= 20000506 && $ltime[6] =~ /[06]/));
+
+    my $rec = {
+	'title' => "Wandering Ones",
+	'author' => "Maritza Campos",
+	'main' => "http://www.wanderingones.com/",
+	'archives' => "http://www.wanderingones.com",
+	'base' => "http://www.wanderingones.com/",
+	'page' => "D/$date.html",
+	'exprs' => {
+	    'comic' => ["(comics/wan$date\\w?\\.(:?(jpg|gif)))"],
+	    'type' => ["comics/wan$date\\w?\\.:?(jpg|gif)"],
+	},
+    };
+    return $rec;
+}
+
+1;

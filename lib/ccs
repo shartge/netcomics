@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{'ccs'} = 0;
+
+#Cool Cat Studio http://www.coolcatstudio.com
+
+sub ccs {
+  my $time = shift;
+  my @ltime = gmtime($time);
+  my $date = strftime("%Y%m%d",@ltime);
+
+  return undef if ($date < 20000313 || #first comic on March 13, 2000
+		   $date == 20000703 ||
+		   $date == 20000807 ||
+		   $date == 20000913);
+
+  return undef if ($ltime[6] !~ /[135]/ &&
+		   $date != 20000401);
+
+  my $rec = {
+       'title' => "Cool Cat Studio",
+       'author' => "Gisele Lagace",
+       'type' => 'gif',
+       'main' => "http://www.coolcatstudio.com",
+       'archives' => "http://www.coolcatstudio.com/pages/archives.html",
+       'base' => "http://www.coolcatstudio.com",
+       'page' => strftime("/support/%Y/CCS%m%d%Y.gif",@ltime),
+       'size' => [468, 599],
+  };
+
+  return $rec;
+}
+
+1;
