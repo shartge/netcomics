@@ -146,6 +146,9 @@ my $HOME = $ENV{'HOME'};
 ## Name of the generated index file for the webpages.
 #$webpage_index_filename = "index.html";
 
+## Create the webpages with embedded images linked using full pathnames (1)
+## instead of relative (0; which is the default).
+#$webpage_absolute_paths = 1;
 
 #### Configure Individual and Groups of Comics ####
 

@@ -71,7 +71,9 @@ use vars qw(@EXPORT @ISA);
 	$webpage_on_stdout $skip_bad_comics $sort_by_date $webpage_title
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
-	$webpage_filename_tmpl $webpage_templates $webpage_index_filename/; 
+	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
+    $webpage_absolute_paths
+/; 
 
 #all the config options & their defaults.
 
@@ -146,6 +148,7 @@ $webpage_filename_tmpl = "comics<NUM>.html";
 use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
 use vars ('$webpage_templates'); 
 $webpage_templates = "/usr/share/netcomics/html_tmpl";
+use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
 
 =head2 new("scriptname")
 
@@ -264,7 +267,7 @@ sub processARGV {
 				print STDERR "Need a space-delimitted list of comic id's.";
 				print STDERR "  Use -h for usage.\n";
 				exit 1;
-			}
+p			}
 			if ($user_unspecified_comics && $user_specified_comics) {
 				print STDERR 
 					"Can only use one of -c and -C. Use -h for usage.\n";
@@ -327,6 +330,11 @@ sub processARGV {
 		elsif (/-nD/) {
 			$delete_files = 0;
 			$given_options .= " -nD";
+		}
+
+		#webpage use or don't use absolute paths
+		elsif (/-(n)?wa$/) {
+			$webpage_absolute_paths = ($1 eq 'n')? 0 : 1;
 		}
 
 		#webpage title
@@ -716,7 +724,8 @@ sub usage {
 ©2001 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
 usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
 	             [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
-	             [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw]
+	             [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw] [-[n]wa]
+                 [-wt "webpage title"]
    -a: if comics are specified, forcibly try to download them and also try
 	   to download any comics that weren't successfully downloaded.
 	   if comics aren't specified, forcibly (re)download all comics.
@@ -759,6 +768,8 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -vv:be extra verbose
    -w: create an html file, index.html, n comics per page
    -nw:don't create a webpage (override setting in rc file)
+   -wa:use absolute paths for referencing images in webpages
+   -nwa:don't use absolute paths for referencing images in webpages
    -wt:specify a title for the webpage rather than the default
    -W: recreate webpage from all files in directory, n comics per page
 END

@@ -1,3 +1,13 @@
+2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/netcomics.pod: Added an example for recreating webpages with
+	absolute paths.
+	* netcomicsrc: Added the new $webpage_absolute_paths option.
+	* Netcomics/HTML.pm (generate_HTML_page): Updated to use the new
+	$webpage_absolute_paths option.
+	* Netcomics/Config.pm.in (processARGV): Added -wa & -nwa for
+	specifying to use absolute paths for image URLs.
+
 2001-06-12  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/HTML.pm: Updated so image URLs are absolute.

@@ -502,6 +502,10 @@ entries on each page.
 
 	netcomics -n 15 -W=10 -P -c "kk uf"
 
+=item 17. Recreate the webpages with image URLs as absolute paths
+
+	netcomics -c '' -W -R 1 -wa -vv
+
 =back
 
 =head1 FILES
