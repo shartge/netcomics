@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 
-foreach (qw(ashfield alice banditb crfh cotc menagerie ccs elf
+foreach (qw(avalon ashfield alice banditb crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
    real rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
@@ -10,9 +10,6 @@ foreach (qw(ashfield alice banditb crfh cotc menagerie ccs elf
 
 #Set back two months for now
 $hof{"hh"} = 60;
-
-#Set back one months for now
-$hof{"avalon"} = 10;
 
 sub keenspot {  
   my ($title,$author,$date,$url,$index) = @_;
