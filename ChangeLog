@@ -1,3 +1,7 @@
+2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/HTML/Theme.pm: Fixed mis-named html_key.
+
 2002-03-26  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Factory.pm (build_date_array):  Hopefully fix the date

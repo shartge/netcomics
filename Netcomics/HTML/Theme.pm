@@ -19,7 +19,7 @@ use strict;
 
 use vars '@html_keys';
 @html_keys =qw(head links pre_body body body_el caption post_body tail
-			   links_index links_element);
+			   links_index index_element);
 use vars '@imgs_keys';
 @imgs_keys = qw(top_l top top_r bot_l bot bot_r left right prev index next);
 
