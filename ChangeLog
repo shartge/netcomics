@@ -7,6 +7,10 @@
 	(elf): Updated @missing list.
 	(rpg): Updated @missing list.
 
+2002-01-23  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/megatokyo: Updated.
+	
 2002-01-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): Updated @missing list
