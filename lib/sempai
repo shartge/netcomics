@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"sempai"} = 0;
+
+#Sempai
+# http://www.sempai.org/comic/strips/1999/Nov/19991101.jpg
+# http://www.sempai.org/comic/strips/2000/May/20000504.jpg
+sub sempai  {
+  my $time = shift;
+  return undef if $time < 941414400; #first comic on Nov 1, 1999
+  my @ltime = gmtime($time);
+  
+  my @month = qw (Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+  my $mt = $month[$ltime[4]];
+
+  my $rec = 
+    {
+     'title' => "Sempai",
+     'author' => "Tonbo",
+     'type' => "jpg",
+     'main' => "http://www.sempai.org/comic/",
+     'archives' => "http://www.sempai.org/comic/archives.html",
+     'base' => "http://www.sempai.org/comic/",
+     'size' => [600,233],
+     'page' => strftime("strips/%Y/$mt/%Y%m%d.jpg", @ltime)
+    };
+
+  return $rec;
+}
+
+1;
