@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(bg bb be blondie bz fu gb hg lo mf ma mu fa sf sh 
+foreach (qw(bg bb be blondie bz cs fu gb hg lo mf ma mu fa sf sh 
     pc ro zp spider apt3g bfriends buckles ba zt phantom
     crock curtis dennis dinette familyc fgordon tumble rmorgan
     jparker mtrail mworth hi pvaliant theydo tiger
@@ -136,6 +136,11 @@ sub dennis {
 sub dinette {
     return kingfeature(shift(@_),"Dinette Set","Julie Larson","dinette",
 		       "Dinette_Set",[251,272], [600,289]);
+}
+
+sub cs {
+    return kingfeature(shift(@_),"Crankshaft","Tom Batiuk and Chuck Ayers",
+                       "Crankshaft","Crankshaft",[525,163],[600,405]);
 }
 
 #The Family Circus http://www.kingfeatures.com/comics/familyc/
