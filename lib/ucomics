@@ -76,14 +76,14 @@ sub ucomics_direct {
 
 #Garfield http://garfield.ucomics.com/garfield/gaview.htm
 sub ga {
-    return ucomics_akamai(shift(@_), "Garfield", "Jim Davis",
-                          [600,403], [600,178], "garfield", "ga");
+    return ucomics_direct(shift(@_), "Garfield", "Jim Davis",
+                          [600,403], [600,178], "ga", "ga");
 }
 
 #Calvin & Hobbes http://www.calvinandhobbes.com/strips/
 #http://images.ucomics.com/comics/ch/1991/ch910119.gif
 sub ch {
-#    return ucomics_akamai(shift(@_), "Calvin and Hobbes", "Bill Watterson",
+#    return ucomics_direct(shift(@_), "Calvin and Hobbes", "Bill Watterson",
 #			  [600,422], [600,200], "calvinandhobbes", "ch");
     return ucomics_direct(shift(@_), "Calvin and Hobbes", "Bill Watterson",
 			  [600,422], [600,200], "ch", "ch");
@@ -91,8 +91,8 @@ sub ch {
 
 #Fox Trot http://www.ucomics.com/foxtrot/
 sub ft {
-    return ucomics_akamai(shift(@_), "FoxTrot", "Bill Amend",
-			  [600,422], [600,189], "foxtrot", "ft");
+    return ucomics_direct(shift(@_), "FoxTrot", "Bill Amend",
+			  [600,422], [600,189], "ft", "ft");
 }
 
 #http://images.ucomics.com/comics/cxpic/1999/cxpic990501.gif
@@ -126,8 +126,8 @@ sub baldo {
 
 #The Big Picture http://www.ucomics.com/thebigpicture/
 sub bigp {
-    return ucomics_akamai(shift(@_),"The Big Picture","Lennie Peterson",
-		    [600,412],[300,310],"thebigpicture","bi");
+    return ucomics_direct(shift(@_),"The Big Picture","Lennie Peterson",
+		    [600,412],[300,310],"bi","bi");
 }
 
 #Bizzaro http://www.ucomics.com/bizarro/
@@ -262,8 +262,8 @@ sub ttdb {
   my $time = shift;
   my @ltime = gmtime($time);
   return undef if($ltime[6] != 6);
-  return ucomics_akamai($time,"Tom The Dancing Bug","Ruben Bolling",undef,
-    [600,789],"tomthedancingbug","td");
+  return ucomics_direct($time,"Tom The Dancing Bug","Ruben Bolling",undef,
+    [600,789],"td","td");
 }
 
 1;

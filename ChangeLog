@@ -1,3 +1,7 @@
+2002-01-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ucomics: Changed akamai comics over to direct.
+
 2002-01-22  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspot (rpg): Updated @missing list

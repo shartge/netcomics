@@ -12,9 +12,8 @@ sub doon {
         'type' => 'gif',
         'main' => "http://www.doonesbury.com/",
         'archives' => "http://www.doonesbury.com/strip/dailydose/",
-        'base' => "http://",
-        'page' => strftime("www.doonesbury.com/strip/dailydose/index.cfm?uc_full_date=%Y%m%d&uc_comic=db",@ltime),
-        'exprs' => [strftime("//([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/db/%Y/db%y%m%d.gif)",@ltime)]
+        'base' => "http://images.ucomics.com/",
+        'page' => strftime("comics/db/%Y/db%y%m%d.gif",@ltime),
     };
     return $rec;
 }
