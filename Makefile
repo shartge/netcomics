@@ -60,6 +60,7 @@ TARGZFILE	= $(APPNAME)-$(VERSION).tar.gz
 MODULES = lib/after_y2k \
 	lib/alice \
 	lib/an \
+	lib/angry_flower \
 	lib/angst \
 	lib/avalon \
 	lib/bad_boys \
@@ -67,6 +68,7 @@ MODULES = lib/after_y2k \
 	lib/bastich \
 	lib/bayside \
 	lib/bigpanda \
+	lib/boatanchor \
 	lib/boxjam \
 	lib/bruno \
 	lib/callahan \
@@ -162,9 +164,12 @@ MODULES = lib/after_y2k \
 
 OLDMODULES = \
 	banditbruno \
+	bobbins \
+	dilbert \
 	glasbergen \
 	goats \
 	roomies \
+	worldviews \
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
