@@ -142,7 +142,7 @@ sub mar {
 #Meg!  http://www.comiczone.com/comics/meg/archive
 sub meg {
     return comiczone(shift(@_),"Meg!","Greg Curfman","comics","meg",
-		     [725,372],[600,172],"meg");
+		     [600,200],[600,200],"meg");
 }
 
 #Nancy  http://www.comiczone.com/comics/nancy/archive

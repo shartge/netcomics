@@ -81,7 +81,7 @@ sub bottom {
 #Mixed Media http://www.comicspage.com/mixed/
 sub mixed {
     return ComicsPage($_[0],"Mixed Media","Scott Willis & Jack Ohman",
-		      "mixedmedia","mix","cs",'gif','gif',[700,218],[700,491]);
+		      "mixedmedia","mix","cs",'gif','gif',[700,218],[700,319]);
 }                                                                              
 
 #Dick Tracy http://www.comicspage.com/dick/
@@ -153,7 +153,7 @@ sub ms {
 #Monkeyhouse http://www.comicspage.com/monkeyhouse/
 sub mh {
     return ComicsPage($_[0],"Monkeyhouse","Pat Byrnes","monkeyhouse",
-		      "mhs","cs",'gif','gif',[700,218],[700,241]);
+		      "mhs","cs",'gif','gif',[700,218],[700,342]);
 }                                                                              
 
 #Sylvia http://www.comicspage.com/sylvia/

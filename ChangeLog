@@ -1,5 +1,8 @@
 2002-04-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/unitedmedia (lupo): Only on mondays
+	(grandclause): Removed; no longer carried by unitedmedia
+	(thatslife): Reenabled since mercury seems to have moved.
 	* lib/frankandernest (fae): updated sizes.
 	* lib/alexsrestaurant (alex): Fixed sizes.
 

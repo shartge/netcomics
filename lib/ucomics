@@ -205,7 +205,7 @@ sub hc {
 #In the Bleachers http://www.ucomics.com/inthebleachers/
 sub itb {
     return ucomics(shift(@_),"In the Bleachers","Steve Moore","inthebleachers","bl",
-		    [600,422],[300,362],"itb");
+		    [600,282],[300,362],"itb");
 }
 
 #James http://www.ucomics.com/james/
