@@ -2126,9 +2126,19 @@ sub dump_rli {
     if ($data_dumper_installed) {
         if (ref($rli) eq "ARRAY") {
             my @rli = @$rli;
+			# Delete the useless entries in @rli before saving to disk.
+			foreach (@rli) {
+				delete $_->{'base'};
+				delete $_->{'page'};
+				delete $_->{'exprs'};
+			}
             file_write($comics_dir . '/' . $netcomics_rli_file,
                        $files_mode,Data::Dumper->Dump([\@rli],[qw(*rli)]));
         } else {
+			# Delete the useless entries in @rli before saving to disk.
+			delete $rli->{'base'};
+			delete $rli->{'page'};
+			delete $rli->{'exprs'};
             file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
                        $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
         }

@@ -1,3 +1,9 @@
+2001-03-11  Elliot Glaysher <nuriko.chan@home.com>
+
+	* netcomics: Small change so $rli->{'base'}, $rli->{'page'},
+	and $rli->{'exprs'} are deleted from their respective hashes
+	before being written to disk.
+
 2001-03-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Fixed printing of URLs when no webpage created so
