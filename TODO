@@ -25,8 +25,6 @@ image couldn't be downloaded.
 
 ** Finish each of the disabled modules.
 
-** Add Mosquito Creek: http://frontpage.pangea.ca/jrobbins/
-
 ** Add Fat Boy and Little Man: http://www.fatboyandlittleman.com/
 
 ** Add Mother Goose & Grimm
@@ -34,10 +32,8 @@ image couldn't be downloaded.
 ** Change comicspages_ed to use a 'func' to determine what comics to download.
 Should probably base it off of penny_arcade.
 
-** Model these comics off of angry_flower because they're not released by date:
-http://www.kaniamania.com/
-http://www.gibbleguts.com/
-http://www.nic.com/~cheah/limpid.html (Limpidity)
+** Add limpidity (releases by number, but what's change page has some dates)n
+http://www.furcrazy.com/limpidity/
 
 -----------------------------------------------------------------------
 
@@ -180,6 +176,13 @@ is designed from the ground up to address this issue, perhaps
 utilization of it would be good technical solution to the referer
 problem.
 
+** Username & password authentication mechanisms for websites
+
+** Option to prevent status files from being loaded.
+
+** Optionn to delete only those comics & status files that were successful
+or were unsuccessful and reached the maximum retry limit.
+
 -----------------------------------------------------------------------
 
 * Bugs
@@ -191,3 +194,4 @@ it puts the newer formated gif files in the comics1.html file and not
 the last file.  So the sorting routine must be doing something a bit
 weird.
 
+** Fix bug where RLIs loaded from files have 'name' which is deprecated.

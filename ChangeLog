@@ -1,3 +1,47 @@
+2001-01-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (MODULES): Added modules just added: rogues,
+	road_waffles, boxjam, megatokyo, angst, and bad_boys.
+
+2001-01-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doonesbury (doon): Updated for site changes thanks to
+	Brent Nordquist.
+	* lib/rogues (rocr): Added Rogues of Clywd-Rhan thanks to
+	Shawn Oakey.
+	* lib/road_waffles (rwaffles): Added Road Waffles thanks to
+	Shawn Oakey.
+	* lib/boxjam (boxjam): Added Boxjam's Doodle thanks to
+	Shawn Oakey.
+	* netcomics (get_comics): Changed handing of functions that return
+	relative url lists so that if an empty list is returned, it is not
+	treated as an error unless a backup function exists.
+	* lib/angst (angst): Added Angst Technology thanks to
+	Max Zomborszki.
+
+2001-01-05  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/megatokyo (megatokyo): Added Megatokyo thanks to
+	Mordechai Abzug; made modifications to handle irregular release
+	schedule and to grab the captions.
+	* lib/comiczone (pearls): Added Pearls Before Swine thanks to
+	Brent Nordquist.
+
+2001-01-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (get_comics): Updated so that when no scalar value is
+	returned in a @relurls list by a function (therefore, only a mfeh)
+	can cause netcomics to reevaluate the rli.  Also removed the
+	unnecessary check for -u & -W which with status files is now okay.
+	* lib/bad_boys: Added Bad Boys thanks to Mordechai Abzug;
+	made a lot of modifications to make it handle not having a regular
+	release schedule & to grab the captions.
+	* lib/spooner: Changed from having 'name' (deprecated) to 'title'.
+
+2000-11-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ccs (ccs): Updated thanks to Benjamin Cordes.
+	
 2000-11-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/uexpress: Moved Real Life Adventures from mercury & added

@@ -7,8 +7,8 @@ netcomics - retrieve comics from the Internet
 =head1 SYNOPSIS
 
 B<netcomics> [B<-abBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [ B<-R> retries]
-                 [B<-S,-T,-E> I<date> [B<-A>]] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>]
-                 [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
+  [B<-S,-T,-E> I<date> [B<-A>]] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>]
+  [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
 
 =head1 DESCRIPTION
 
@@ -974,10 +974,6 @@ if (defined($days_prior) && (defined($end_date) || defined($start_date))) {
 } elsif (! defined($days_prior)) {
     $days_prior = 0;
 }
-if ($remake_webpage && $dont_download) {
-    print STDERR "-u may not be specified with -W.  Use -h for usage.\n";
-    exit 1;
-}
 if (defined($comics_per_page) && $webpage_on_stdout) {
     print STDERR "-o may not be specified with -W= or -w=.  Use -h for usage.\n";
     exit 1;
@@ -1512,15 +1508,15 @@ sub get_comics {
 	my $time = $rli->{'time'};
 	my ($title,$name,$base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) =
 	    (undef)x10;
-	$name = $rli->{'name'} if defined $rli->{'name'};
-	$base = $rli->{'base'} if defined $rli->{'base'};
-	$page = $rli->{'page'} if defined $rli->{'page'};
-	$expr = $rli->{'expr'} if defined $rli->{'expr'};
-	$exprs = $rli->{'exprs'} if defined $rli->{'exprs'};
-	$func = $rli->{'func'} if defined $rli->{'func'};
-	$back = $rli->{'back'} if defined $rli->{'back'};
-	$title = $rli->{'title'} if defined $rli->{'title'};
-	$referer = $rli->{'referer'} if defined $rli->{'referer'};
+      SETUPDATA:
+	$base = $rli->{'base'} if exists $rli->{'base'};
+	$page = $rli->{'page'} if exists $rli->{'page'};
+	$expr = $rli->{'expr'} if exists $rli->{'expr'};
+	$exprs = $rli->{'exprs'} if exists $rli->{'exprs'};
+	$func = $rli->{'func'} if exists $rli->{'func'};
+	$back = $rli->{'back'} if exists $rli->{'back'};
+	$title = $rli->{'title'} if exists $rli->{'title'};
+	$referer = $rli->{'referer'} if exists $rli->{'referer'};
 
 	$rli->{'status'} = 0;
 
@@ -1530,33 +1526,10 @@ sub get_comics {
 	    next;
 	}
       CONFIGNAME:
-	if (defined($title) && !defined($name)) {
+	if (defined($title)) {
 	    #todo: stick in here, using options to determine how to
 	    #name the file.
 	    $name = strftime("${title}-${date_fmt}",gmtime($time));
-	} elsif (defined($name)) {
-	    print "Warning for the comic identified by $proc:\n use of the " .
-		"field 'name' has been depricated.\n" if $verbose;
-	    #handle backwards compatibility and possibility of
-	    #name being used with type or title
-	    my $type = defined($rli->{'type'}) ? $rli->{'type'} : 'gif';
-	    my ($title2,$date2,$type2) = parse_name($name);
-	    $rli->{'title'} = $title2, $title = $title2 
-		if defined $title2 && !defined $title;
-	    $rli->{'type'} = $type, $type = $type2
-		if defined $type2 && !defined $type;
-	    if ($name !~ /[\.\d]/) {
-		#assume name was mistakenly used instead of title
-		print STDERR "Error: No type information provided for the " .
-		    "comic identified by $proc. Not using $proc\n", next
-			if ! defined $type && defined $title;
-		#I know these goto statements aren't good programming, but
-		#I'm trying to handle all possible error conditions here.
-		$name = undef, goto CONFIGNAME 
-		    if defined $title && defined $type;
-	    }
-	    #if no title or type could be extracted, trust that the
-	    #name given was what they wanted
 	} else { 
 	    print STDERR "Error: No name or title provided for the " .
 		"comic identified by $proc. Not using $proc\n";
@@ -1747,6 +1720,8 @@ sub get_comics {
 	    if (defined($page)) {
 		@relurls = &$func($response->content);
 	    } else {
+		print "Warning: running func without supplying any content.\n"
+		    if $verbose;
 		@relurls = &$func();
 	    }		
 	    
@@ -1758,8 +1733,6 @@ sub get_comics {
 		}
 		print "$name($i): function returned no relative urls.\n" 
 		    if $extra_verbose;
-		push(@bad_images,$proc) 
-		    unless grep {/^$proc$/} @bad_images;
 		next RLI;
 	    }
  
@@ -1773,7 +1746,8 @@ RELURL:	    foreach (@relurls) {
 		    my $key;
 		    foreach $key (keys(%$litem)) {
 			print "$name($i): adding field '$key' => " .
-			    "'$litem->{$key}'\n" if $extra_verbose;
+			    "'$litem->{$key}'\n" 
+				if $extra_verbose && defined $litem->{$key};
 			$rli->{$key} = $litem->{$key};
 		    }
 		    next RELURL;
@@ -1829,6 +1803,11 @@ RELURL:	    foreach (@relurls) {
 		$rli->{'url'} = [] unless defined $rli->{'url'};
 		$rli->{'url'}->[@{$rli->{'url'}}] = $url;
 		$i++; #simply keep track for debugging purposes
+	    }
+	    if (! $j) {
+		#assume the @relurl returned contained a hash which added
+		#fields to the rli which now need to be reprocessed.
+		goto SETUPDATA;
 	    }
 	} else  {
 	    #complete the fields for the rli.
