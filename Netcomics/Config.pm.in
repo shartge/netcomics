@@ -657,14 +657,15 @@ sub processARGV {
 
 	#check to make sure proper sets of options were provided
 	if (defined($end_date)) {
-		if ($start_date > $end_date) {
+		#print "start: $start_date and end: $end_date\n";
+		if (defined($start_date) && ($start_date > $end_date)) {
 			print STDERR "The starting date must be before the ending date. ";
 			print STDERR "Use -h for usage.\n";
 			exit 1;
-		} elsif (defined($days_of_comics)) {
-			print STDERR "The number of days of comics to retrieve may not be ";
-			print STDERR "specified when the starting and\nending dates are. ";
-			print STDERR "Use -h for usage.\n";
+		} elsif (defined($days_of_comics) && defined($start_date)) {
+			print STDERR "The number of days of comics to retrieve may not be";
+			print STDERR " specified when the starting and\nending dates are.";
+			print STDERR " Use -h for usage.\n";
 			exit 1;
 		}
 	}
@@ -680,7 +681,9 @@ sub processARGV {
 			"Use -h for usage.\n";
 		exit 1;
 	}
-	if ( ($real_date == 1) && ! defined($start_date) && (scalar @dates == 0) ) {
+	if (($real_date == 1) && ! (defined($start_date) or 
+								defined($end_date))
+		&& (scalar @dates == 0) ) {
 		print STDERR "-A may only be used with -S, -E or -T.  " .
 			"Use -h for usage.\n";
 		exit 1;

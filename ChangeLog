@@ -1,3 +1,8 @@
+2002-03-23  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/Config.pm.in (processARGV): Good possibility of fixing
+	bug # 463941: "-E doesn't work with -n"
+
 2002-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/comicspage: Moved all nando comics into here except Alex's
@@ -19,6 +24,12 @@
 	* TODO: Added an item in globalization for language preference.
 	* Netcomics/Factory.pm (load_RLI_files): Fixed syntax error
 	introduced in previous version.
+
+2002-03-21  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot (elf): update the "Last updated" comments, so they
+	match reality. 
+	(avalon): updated @missing list.
 
 2002-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
