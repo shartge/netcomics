@@ -1,5 +1,6 @@
 2002-04-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/keenspace (boxjam): Fixed thanks to Shawn.
 	* doc/Modify_Webpage_Creation-HOWTO.html: Added descriptions of
 	the new items added for full theme support: WIDTH, HEIGHT, &
 	THEME_DIR.  Added a paragraph on creating themes with images.
