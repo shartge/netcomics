@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"nh"} = 1;
+
+#newshounds
+# http://www.newshounds.com/archives/123199.html
+# http://www.newshounds.com/archives/nh000103.html
+sub nh {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] == 6 || $ltime[6] == 0 ||
+		     $time < 916012800 || #1st comic: Jan 11, 1999
+		     #vacation between Apr 8 and Apr 16, 2000
+		     ($time >= 955152000 && $time < 955843200));
+
+    #the following page & exprs fields are the default for comics older
+    #than the current strip (we will fetch it one day later)
+    my $rec = {
+	'title' => "Newshounds",
+	'author' => "Thomas K. Dye",
+	'type' => 'gif',
+	'main' => "http://www.newshounds.com/",
+	'archives' => "http://www.newshounds.com/archives.htm",
+	'base' => "http://www.newshounds.com/",
+	'size' => [640,216],
+	'page'  => strftime("d/%Y%m%d.html", @ltime),
+	'exprs' => [strftime("(comics\\/nh%Y%m%d.[Gg][iI][fF])",@ltime)],
+    };
+
+    return $rec;
+}
+
+1;
