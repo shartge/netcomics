@@ -1,3 +1,13 @@
+2004-08-19  Clint Olson  <coandco at users * sourceforge * net>
+
+        * Netcomics/Config.pm.in
+                    Factory.pm: Added a new option to the config file,
+          $user_archive_path, which enables netcomics to dynamically
+          rewrite the "archives" links on the generated webpages,
+          according to a user-specified path.
+        * netcomicsrc: Added the $user_archive_path option to the template
+          config file with an explanation.
+
 2004-08-13  Clint Olson  <coandco at users * sourceforge * net>
 
         * lib/creators_syndicate

@@ -172,6 +172,13 @@ my $HOME = $ENV{'HOME'};
 ## instead of relative (0; which is the default).
 #$webpage_absolute_paths = 1;
 
+## Rewrite all of the 'archives' links on the generated page to point to a
+## user-specified location, which includes the name of the comic.
+## Example: $user_archive_path = "../archives"
+## would rewrite the archives links to look like "../archives/Comic_name".
+## Useful when keeping local archives of comics.
+#$user_archive_path = "../archives";
+
 #### Configure Individual and Groups of Comics ####
 
 ## Comic-specific options
