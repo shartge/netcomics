@@ -1484,11 +1484,11 @@ RELURL:	    foreach (@relurls) {
 	    #first tack on the file type (it may have been changed thru 'exprs')
 	    $name .= "." . $rli->{'type'};
 	    $rli->{'name'} = $name;
-	    push(@images,$name);
 	    $rli->{'file'} = [$name];
 
 	    #save the image to its file if it was successfully downloaded.
-	    file_write("$comics_dir/$name", $files_mode, $response->content)
+	    file_write("$comics_dir/$name", $files_mode, $response->content),
+	    push(@images,$name)
 		unless $dont_download || $rli->{'status'} == 2;
 	}
 	#Eliminate the need to put mulitple status sets to 1 in the code
