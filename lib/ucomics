@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb 
-	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb)) {
+	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
 }
 #first Calvin & Hobbes strip was November 18, 1985.
@@ -264,6 +264,14 @@ sub ttdb {
   return undef if($ltime[6] != 6);
   return ucomics_direct($time,"Tom The Dancing Bug","Ruben Bolling",undef,
     [600,789],"td","td");
+}
+
+#Non Sequitur
+sub wiley {
+  my $time = shift;
+  my @ltime = gmtime($time);
+  return ucomics_direct($time,"Non Sequitur","Wiley Miller",undef,
+    [600,789],"nq","nq");
 }
 
 1;

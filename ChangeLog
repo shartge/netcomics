@@ -1,3 +1,8 @@
+2002-02-23  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/ucomics (wiley): wiley is now in ucomics. Thanks to Shawn Oakey!
+	* lib/wiley: Removed.
+	
 2002-02-21  Elliot Glaysher  <glaysher@umich.edu>
 
 	* debian/rules: Add code outside the Makefiles to put files in the
