@@ -1,5 +1,23 @@
 2002-04-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* doc/Modify_Webpage_Creation-HOWTO.html: Added descriptions of
+	the new items added for full theme support: WIDTH, HEIGHT, &
+	THEME_DIR.  Added a paragraph on creating themes with images.
+	* netcomics.spec (%files): Added contrib/mktheme
+	* Makefile.PL: Added HTML/Themes/CleanRound.pm
+	* MANIFEST: Added Netcomics/HTML/Themes/CleanRound.pm &
+	contrib/mktheme.
+	* Netcomics/HTML/Themes/CleanRound.pm: First HTML Theme with images.
+	* Netcomics/HTML/Theme.pm (new): Added chomping of the html
+	templates to prevent extra whitespace from entering the output
+	HTML which can cause extra pixels to get inbetween images.
+	(generate_images): fixed typo which prevented images from being
+	saved.
+	* Netcomics/HTML/Set.pm: Updated for full theme support with images.
+	* Netcomics/HTML/Page.pm: Updated for full theme support with images.
+	* netcomics: fixed processing of multi-file comics when they
+	don't have an assocated RLI file.
+	* Netcomics/Factory.pm (get_comics): Fixed mkdir mask.
 	* lib/keenspot (wendy): Updated thanks to Sven.
 
 2002-04-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>

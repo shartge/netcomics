@@ -40,6 +40,8 @@ sub new {
 				'num_groups' => 1,
 				'link_to_local_archives' => 0,
 				'webpage_filename_tmpl' => $webpage_filename_tmpl,
+				'theme_dir' => ".",
+				'include_subdir' => 0,
 
 				# Pass these fields if you want proper pages generated...
 				'first_comic' => 1,
@@ -195,6 +197,8 @@ sub generate {
 		$body_el =~ s/<CAPTION>/$caption/;
 		$body_el =~ s/<COMIC_ID>/$comic_id/g;
 
+		my ($width,$height) = (0,0); #cumulative height, max width.
+
 		my $comic_images;
 		for ($[..$#image) {
 			my $num = $_ + 1;
@@ -203,9 +207,13 @@ sub generate {
 			my $size = undef;
 			my $body_element = $self->{'theme'}->{'html'}{'body_el'};
 
-			#get the size from the file (status==1)
-			$size = image_size( ($comics_dir . "/$image") ) 
-				if $rli->{'status'} == 1;
+			#get the size from the file if it exists (status of 1)
+			if ($rli->{'status'} == 1) {
+				my $fullfilepath = "$comics_dir/" .
+					(defined($rli->{'subdir'})? "$rli->{'subdir'}/" : "") .
+						$image;
+				$size = image_size($fullfilepath);
+			}
 			if (! defined($size) && defined($rli->{'size'})) {
 				if (ref($rli->{'size'}) ne "ARRAY") {
 					# If this code is executed, something is REALLY wrong :-P
@@ -219,8 +227,7 @@ sub generate {
 						" HEIGHT=" . $rli->{'size'}[1];
 				}
 			}
-			#my $width = (defined($size) && $size =~ /(WIDTH=\d+)/) ? 
-			#	$1 : "";
+
 			#catch all for size
 			unless (defined($size)) {
 				if ($skip_bad_comics && $rli->{'status'} == 1) {
@@ -230,28 +237,26 @@ sub generate {
 				}
 			}
 
+			#width & height are used individually for themes w/ images
+			if (defined($size)) {
+				if ($size =~ /WIDTH=(\d+)/) {
+					#maximum width
+					$width = $1 > $width ? $1 : $width;
+				}
+				if ($size =~ /HEIGHT=(\d+)/) {
+					#cumulative height
+					$height += $1;
+				}
+			}
+
 			print STDERR " $num: $image" if $extra_verbose;
 
 			# Check for various variables and compensate for how they
 			# affect the $image variable.
 			unless ($dont_download) {
-				if ($webpage_absolute_paths) {
-					if ($separate_comics) {
-						$image = $comics_dir."/".$rli->{'subdir'}."/".$image;
-					} else {
-						$image = $comics_dir."/".$image;
-					}
-				} else {
-					if ($separate_comics) {
-						if ($self->{'include_subdir'}) {
-							$image = $rli->{'subdir'}."/".$image;
-						} else {
-							# Do nothing. $image is correct.
-						}
-					} else {
-						# Do nothing. $imge is correct.
-					}
-				}
+				$image = $self->path_for_file($image,
+											  $rli->{'subdir'},
+											  $comics_dir);
 			}
 
 			# Substitue in the values and add tack it on to $comic_images
@@ -261,6 +266,8 @@ sub generate {
 		}
 
 		$body_el =~ s/<ELEMENT>/$comic_images/;
+		$body_el =~ s/<WIDTH>/WIDTH=$width/g;
+		$body_el =~ s/<HEIGHT>/HEIGHT=$height/g;
 
 		$body .= $body_el;
 		if ($webpage_index) {
@@ -285,12 +292,18 @@ sub generate {
 	my $pre_body = $self->{'theme'}->{'html'}{'pre_body'};
 	my $post_body = $self->{'theme'}->{'html'}{'post_body'};
 
+	#get the correct theme dir.
+	my $theme_dir = $self->path_for_file($self->{'theme_dir'},
+										 undef,
+										 $self->{'output_dir'});
+
 	# Catch all for common elements.
 	foreach (\$head, \$links_top, \$pre_body, \$body, \$post_body,
 			 \$links_bottom, \$tail) {
 		$$_ =~ s/<PAGETITLE>/$webpage_title/g;
 		$$_ =~ s/<CTIME>/$self->{'ctime'}/g;
 		$$_ =~ s/<DATE>/$self->{'datestr'}/g;
+		$$_ =~ s/<THEME_DIR>/$theme_dir/g;
 	}
 
 	return({'head' => $head,
@@ -325,6 +338,27 @@ sub index_for_comic {
 	$filename =~ s/<NUM>/$group_num/g;
 
 	return $filename;
+}
+
+#returns the URL for the given file, taking into account user settings.
+#absodir is $comics_dir for comics, $self->{'output_dir'} for html stuff
+sub path_for_file {
+	my ($self, $file, $subdir, $absodir) = @_;
+
+	if ($webpage_absolute_paths) {
+		if (defined($subdir)) {
+			$file = $absodir."/".$subdir."/".$file;
+		} else {
+			$file = $absodir."/".$file;
+		}
+	} else {
+		if ($self->{'include_subdir'} && defined($subdir)) {
+			$file = $subdir."/".$file;
+		} else {
+			# Do nothing. $file is correct.
+		}
+	}
+	return $file;
 }
 
 1;

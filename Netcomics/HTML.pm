@@ -163,7 +163,7 @@ sub create_today_page {
 	}
 
 	my $HTMLpage = Netcomics::HTML::Set->new
-		('output_dir' => "$comics_dir",,
+		('output_dir' => "$comics_dir",
 		 'theme' => $template,
 		 'include_subdir' => 1,
 		 'webpage_filename_tmpl' => "today<NUM>.html",

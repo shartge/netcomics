@@ -1,0 +1,121 @@
+#!/tools/gnu/solaris/bin/perl
+
+=head1 NAME
+
+mktheme - Create a Netcomics HTML Theme from image files
+
+=head1 SYNOPSIS
+
+B<mktheme> [B<options>]
+
+=head1 DESCRIPTION
+
+Create a Netcomics HTML Theme from image files.  Output is printed on
+stdout.
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-h>, B<--help>
+
+Show usage
+
+=item B<--man>, B<--lesspage>
+
+Print out manpage (pipe to less with B<--lesspage>)
+
+=item B<-v>, B<--verbose>
+
+Be verbose
+
+=back
+
+=head1 AUTHOR
+
+Ben Hochstedler <ben.hochstedler@med.ge.com>
+
+=head1 SEE ALSO
+
+=cut
+
+use Getopt::Long;
+#use Carp; #use croak & carp (instead of die & warn) for line number of caller
+use strict;
+
+$| = 1;
+$Getopt::Long::ignorecase = 0;
+
+use vars '$fullscriptname'; $fullscriptname = $0;
+sub help {usage(0)};
+sub manpage {printpod("pod2text %s", $fullscriptname)};
+sub lesspage {printpod("pod2man %s | nroff -man | less", $fullscriptname)};
+use vars '$script'; $script = $0; # stripped script name
+use vars '$verbose'; $verbose = 0;
+sub incr_verbose {$verbose++};
+
+$script =~ s,.*/,,; # remove all but final part of path.
+$script =~ s,.pl$,,; # remove trailing ".pl"
+
+my $ret = GetOptions("help|h" => \&help,
+		     "lesspage" => \&lesspage,
+		     "man|manpage" => \&manpage,
+		     "verbose|v" => \&incr_verbose,
+		     );
+
+#print "ret = $ret; ARGV = @ARGV\n" if $verbose;
+
+foreach (@ARGV) {
+    my $data = `mimencode $_`;
+    chomp($data);
+    print <<END;
+\$imgs{'$_'} = <<END_MIME;
+$data
+END_MIME
+
+END
+}
+
+#printlist takes a title (only printed if verbose) and the list.
+sub printlist {
+    my $title = shift(@_);
+    my $list_sep = $"; #save the list separator
+    $" = "\n"; #change the list separator
+    print "$title:\n" if $verbose;
+    print "@_\n";
+    $" = $list_sep; #restore the list separator"
+}
+
+sub printpod {
+    my ($method, $script) = @_;
+    die "Could not find our script \"$script\".\n" unless -f $script;
+    exec sprintf($method, $script);
+    exit 1;
+}
+
+sub usage {
+    my $exitcode = shift;
+    print <<END;
+$script: Create a Netcomics HTML Theme from image files
+usage: $script [options]
+options:
+--help,-h,-?         show usage
+--man,--lesspage     print out the manpage
+--verbose,-v         verbose mode
+END
+
+    exit $exitcode;
+}
+
+
+# Local Variables:
+# tab-width: 8
+# cperl-indent-level: 4
+# cperl-continued-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-label-offset: -4
+# perl-indent-level: 4
+# perl-continued-brace-offset: -4
+# perl-continued-statement-offset: 4
+# perl-label-offset: -4
+# End:

@@ -13,6 +13,7 @@ Netcomics/HTML.pm
 Netcomics/HTML/Page.pm
 Netcomics/HTML/Set.pm
 Netcomics/HTML/Theme.pm
+Netcomics/HTML/Themes/CleanRound.pm
 Netcomics/HTML/Themes/Default.pm
 Netcomics/HTML/Themes/NoStatus.pm
 Netcomics/MyRequest.pm
@@ -30,6 +31,7 @@ contrib/make_doemain_code
 contrib/make_frankandernest_hash
 contrib/make_helpdesk_dates
 contrib/make_stuffthis_hash
+contrib/mktheme
 contrib/mktime
 contrib/perlreflectiontest
 contrib/show_zero_status.pl

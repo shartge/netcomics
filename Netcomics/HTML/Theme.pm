@@ -41,6 +41,12 @@ sub new {
 				'imgs' => $r_imgs,
 			   }, $class;
 
+	#chomp off newlines to prevent extra whitespace from getting
+	#into the HTML which can cause images to have pixels inbetween
+	foreach (keys(%$r_html)) {
+		chomp($r_html->{$_});
+	}
+
 	return $self;
 }
 
@@ -61,8 +67,9 @@ sub generate_images {
 
 	foreach (keys(%$images)) {
 		#print "Saving image $_...\n";
-		my $decoded = ""; decode_base64($images->{$_});
-		open(F,">$target_directory/$_") || die "could not open file: $!\n";
+		my $decoded = MIME::Base64::decode_base64($images->{$_});
+		open(F,">$target_directory/$_") ||
+			warn "Could not open $target_directory/$_: $!\n";
 		print F $decoded;
 		close(F);
 	}

@@ -71,6 +71,9 @@ sub create_set_of_pages {
 		return;
 	}
 
+	my $themesubdir = ".theme";
+	my $themedir = "$self->{'output_dir'}/$themesubdir";
+
 	print STDERR "\n" if $verbose;
 	unless ($self->{'webpage_on_stdout'}) {
 		print STDERR "Deleting old webpages (".$self->{'output_dir'} .
@@ -78,7 +81,17 @@ sub create_set_of_pages {
 		chdir $self->{'output_dir'};
 		unlink <index*.html>;
 		unlink <comic*.html>;
+		if (-d $themedir) {
+			print STDERR "Removing old theme data ($themedir/*).\n" if $verbose;
+			unlink <$themedir/*>;
+		}
 	}
+
+	if (! -d $themedir) {
+		mkdir($themedir,0777) ||
+			print STDERR "Could not create directory $themedir: $!\n";
+	}
+	$self->{'theme'}->generate_images($themedir) if -d $themedir;
 
 	if ($verbose) {
 		print STDERR "Creating webpage";
@@ -147,7 +160,8 @@ sub create_set_of_pages {
 			 'comics_set' => [@comics_to_pass],
 			 'include_subdir' => $self->{'include_subdir'},
 			 'webpage_filename_tmpl' => $self->{'webpage_filename_tmpl'},
-			 'theme' => $self->{'theme'}
+			 'theme' => $self->{'theme'},
+			 'theme_dir' => $themesubdir,
 			);
 
 		print STDERR "Object created...\n" if $extra_verbose;
@@ -249,11 +263,14 @@ sub create_set_of_pages {
 			my $pre_body = $self->{'theme'}->{'html'}{'pre_body'};
 			my $post_body = $self->{'theme'}->{'html'}{'post_body'};
 
+			my $theme_dir = $webpage_absolute_paths ? $themedir : $themesubdir;
+
 			# Catch all for common elements.
 			foreach (\$head, \$links, \$pre_body, \$body, \$post_body, \$tail) {
 				$$_ =~ s/<PAGETITLE>/$webpage_title/g;
 				$$_ =~ s/<CTIME>/$ctime/g;
 				$$_ =~ s/<DATE>/$datestr/g;
+				$$_ =~ s/<THEME_DIR>/$theme_dir/g;
 			}
 
 			my $filename;
@@ -279,8 +296,6 @@ sub create_set_of_pages {
 				print STDERR "Error creating symlink: $!\n";
 		}
 	}
-	$self->{'theme'}->generate_images($self->{'output_dir'});
-
 }
 
 sub check_rlis {
