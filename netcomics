@@ -1255,9 +1255,9 @@ sub get_comics {
 			delete($mfeh->{'comic'});
 			undef $mfeh if keys(%$mfeh) == 0;
 		    } else {
-			print STDERR "$name: must provide field 'comic' in " .
-			    "'exprs' hash. Skipping $proc\n";
-			next;
+			#print STDERR "$name: must provide field 'comic' in " .
+			#    "'exprs' hash. Skipping $proc\n";
+			#next;
 		    }
 		} elsif (/ARRAY/) {
 		    #good
