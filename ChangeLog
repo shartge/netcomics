@@ -1,6 +1,13 @@
+2001-05-23  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/css, lib/sluggy_freelance: Updates by Shawn Oakey.
+	** lib/sluggy_freelance: Duble download problem fixed (Closes:408596 on
+	sourceforge) Thanks!
+	* ChangeLog: Fixed various missssspellllings of Shawn Oakey's name.
+	
 2001-05-22  Elliot Glaysher  <nuriko.chan@home.com>
 
-	* lib/toonvile: A nice patch to Mother Goose & Grimm by Shawn Oakley.
+	* lib/toonvile: A nice patch to Mother Goose & Grimm by Shawn Oakey.
 	
 2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
 
@@ -19,7 +26,7 @@
 2001-05-18  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* lib/toonvile, lib/kingfeatures, lib/keenspace, lib/spaz_labs: Let's
-	all give a warm round of applause to Shawn Oakley for updating these
+	all give a warm round of applause to Shawn Oakey for updating these
 	modules!
 	** (Zits and Baby Blues moved from toonvile to kingfeatures)
 	** (Keenspace now includes Arrogance in Simplicity, Tangs Comics,

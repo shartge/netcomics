@@ -1,41 +1,49 @@
 #-*-Perl-*-
+#Tack on the names of the subroutines to the list of functions
 $hof{"sluggy"} = 0;
 
-# Sluggy Freelance
-# http://www.sluggy.com
-# http://pics.sluggy.com/comics/000511c.jpg
+#Sluggy Freelance: http://www.sluggy.com
 sub sluggy {
-    my @ltime = gmtime(shift(@_));
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%y%m%d",@ltime);
+    my $date2 = strftime("%Y%m%d",@ltime);
 
-    my $date = strftime("%y%m%d", @ltime);
-    my $ext;
-    #could someone simplify the following if-statement please?
-    if (($ltime[6] != 0) && ($date !~ /^(991231|000417|000418)/)) {
-	$ext = $date =~ /^(000410|000511)$/ ? "jpg" : "gif";
-    } else {
-	$ext = $date =~ /^(991231)$/ ? "gif" : "jpg";
-    }
-    my $baseurl = "http://www.sluggy.com";
+    # Last updated May 23, 2001
+    my @missing = ();
+
+    return undef 
+      if (($date2 < 19970825) || #first comic on Aug 25, 1997
+          grep(/$date/,@missing));
+
     my $rec = {
-	'title' => "Sluggy Freelance",
-	'author' => "Pete Abrams",
-	'main' => $baseurl,
-	'archives' => $baseurl,
-	'base' => $baseurl,
-	'page' => "/d/$date.html",
-	'type' => $ext,
-	'size' => [700,267],
-	'func' => sub {
-	    my $text = shift;
-	    my @relurls = ();
-	    #example:
-	    #<img.*?src="/comics/990321b1.jpg" width=701 height=218><img src="/comics/990321b2.jpg" width=232 height=218>...
-	    #repeatedly match and replace.  
-	    while ($text =~ s/img.*?src=".*?(\/comics\/$date\w\d?\.\w+)"//si) {
-		push(@relurls,$1);
-	    }
-	    return @relurls;
-	},
+  	  'title' => "Sluggy Freelance",
+	  'author' => "Pete Abrams",
+	  'main' => "http://www.sluggy.com/",
+	  'archives' => "http://www.sluggy.com",
+	  'base' => "http://pics.sluggy.com",
+      'page' => "/d/$date.html",
+    };
+
+    $rec->{'func'} = sub {
+ 	 my $text = shift;
+     my @relurls = ();
+  	  #repeatedly match and replace.  
+          while (1) {
+            if ($text =~ s/src=".*?(\/comics\/.*?$date.*?\.((:?jpg)|(:?gif)|(:?png)))"//i) {
+              push(@relurls,$1);
+              $rec->{'type'} = $2;
+              last if ($date2 == strftime("%Y%m%d",@ltime2) && $ltime2[6] != 0);
+            } else {
+              last;
+            }
+          }
+	  if ($text =~ s/selected>(.*?)<\/option>//i) {
+        $rec->{'caption'} = $1;
+      }
+
+      return reverse @relurls;
     };
     return $rec;
 }
