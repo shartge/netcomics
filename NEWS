@@ -1,3 +1,11 @@
+Latest Changes:
+
+* Multi-page indexing
+* GUI-dependant debian package spun off
+* HTML Theme support (there is a current lack of different themes, though)
+* "Today's Comics" feature
+* Many updated comics
+
 Changes in release 0.14:
 * Most of the netcomics code has been rewriten/reorganized to be object
   oriented.
