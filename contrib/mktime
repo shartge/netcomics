@@ -49,13 +49,14 @@ if ($year > 1900) {
 	"The year should be between 1900 and 2038.\n";
 }
 print "month: $mon day: $mday year: $year_full\n";
-my $time = mktime(0,0,0,$mday,$mon - 1,$year) + (3600*$tz);
+my $ltime = mktime(0,0,0,$mday,$mon - 1,$year);
+my $time = $ltime + (3600*$tz);
 print "$time\n";
 print "local: " . ctime($time);
 @_ = gmtime($time);
 print strftime("GMT:   %a %b %d %H:%M:%S %Y\n",@_);
 
-my $tdiff = (time() - $time)/(24*3600);
+my $tdiff = (time() - $ltime)/(24*3600);
 $tdiff = $1 if $tdiff =~ /(\d+)\.\d+/;
 my $wago = $tdiff/7;
 $wago = $1 if $wago =~ /(\d+\.\d)\d+/;
