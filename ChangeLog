@@ -1,5 +1,6 @@
 2002-03-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Makefile.PL (macro): Updated PKGVERSION for 0.14 release.
 	* netcomics.spec (post data): changed message written after
 	installation of the data module is done.
 	* lib/keenspot (wendy): Updated thanks to Sven.
