@@ -1,7 +1,8 @@
 2002-06-10  Sven Hartge  <netcomics@ds9.argh.org>
 
         * Netcomics/HTML/Themes/CleanRound.pm: made the comics centered on
-	the page
+	the page, moved caption closer to related image into the rounded
+	borders (was feeling lonely outside).
 	
 2002-06-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
