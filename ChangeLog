@@ -1,3 +1,7 @@
+2001-12-29  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/megatokyo (megatokyo): Allow different filetypes in megatokyo.
+
 2001-12-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): Added new items to missing list & fixed the

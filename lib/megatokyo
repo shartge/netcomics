@@ -40,7 +40,7 @@ sub megatokyo {
 				push(@relurls, {
 								'page' => strftime("index.php?strip_id=$strip_num",@ltime),
 								'exprs' => {
-											'comic'=>["(strips/$strip_num.gif)"],
+											'comic'=>["(strips/$strip_num.(gif|jpg|jpeg))"],
 											'caption'=>["$date\\s\\[\\d+\\]\\s(.+?)\\<\\/option\\>"],
 										   },
 								'func' => undef
