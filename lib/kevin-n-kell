@@ -1,0 +1,22 @@
+#-*-Perl-*-
+$hof{"kk"} = 0;
+
+#Kevin & Kell 
+# http://www.kevinandkell.com/1995/strips/kk19951124.gif
+# http://www.kevinandkell.com/2000/strips/kk20000124.gif
+sub kk {
+    my @ltime = gmtime(shift(@_));
+    return if $ltime[6] == 0 || $ltime[6] == 6;
+    my $rec = {
+	'title' => "Kevin n Kell",
+	'author' => "Bill Holbrook",
+	'type' => 'gif',
+	'main' => "http://www.kevinandkell.com/",
+	'archives' => "http://www.kevinandkell.com/archive/index.html",
+	'base' => "http://www.kevinandkell.com/",
+	'page' => strftime("/%Y/strips/kk%Y%m%d.gif",@ltime)
+	};
+    return $rec;
+}
+
+1;
