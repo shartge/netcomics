@@ -50,6 +50,8 @@ Should probably base it off of penny_arcade.
 
 ** Update show_comics to use the Tk image command to display comics
 If jpeg can't be displayed with that command, resort to something else.
+http://members1.chello.nl/~j.nijtmans/img.html
+http://www.cs.cornell.edu/dali/
 
 ** Update show_comics to allow specifying the command to use
 For example, make it so that they can have their background set to
