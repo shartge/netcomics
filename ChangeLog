@@ -1,5 +1,6 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/farcus: Updated thanks to Shawn Oakey.
 	* lib/fce (fce): Added Fight Cast or Evade thanks to 
 	Benjamin Cordes.  Added an exception & changed to use a baseurl.
 	* lib/dork_tower (dork): Added Dork Tower thanks to

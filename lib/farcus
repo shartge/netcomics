@@ -3,20 +3,22 @@
 $hof{"farcus"} = 1821;
 
 # Farcus
-# ex : http://www2.farcus.com/pics/fr951006.gif
+# ex : http://www.farcus.com/pics/fr951006.gif
 sub farcus {
     my $time = shift;
     my @ltime = gmtime($time);
     my $date = strftime("%y%m%d", @ltime);
     return undef if ($date < 930712 || #first comic on July 12, 1993
 		     $date > 970705); #last comic on July 5, 1997
+
+    my $baseurl = "http://www.farcus.com";
     my $rec = {
 	'title' => "Farcus",
 	'author' => "David Waisglass & Gordon Coulthart",
 	'type' => 'gif',
-	'main' => "http://www2.farcus.com",
-	'archives' => "http://www2.farcus.com/",
-	'base' => "http://www2.farcus.com/pics/",
+	'main' => $baseurl,
+	'archives' => "$baseurl/",
+	'base' => "$baseurl/pics/",
 	'page' => "fr$date.gif",
     };
     return $rec;
