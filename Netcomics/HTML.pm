@@ -5,7 +5,6 @@ use POSIX;
 
 sub new {
 	my $this = @_;
-#	my $class = ref($this) || $this;
 	my $class = "HTML";
 	my $self = {};
 	bless $self, $class;
@@ -28,7 +27,6 @@ sub new {
 
 	#Properties that HTML needs, but aren't part of the HTML subsystem
 	#Per se, but are still necessary.
-	$self->{'index'} = 1; 
 	$self->{'templates'} = "/usr/share/netcomics/html_tmpl";
 	$self->{'reamake_webpage'} = 0;
 	$self->{'dont_download'} = 0;

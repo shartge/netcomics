@@ -1,3 +1,8 @@
+2001-02-17  Elliot Glaysher <nuriko.chan@home.com>
+	* Split webpage creation into an OO module set in
+	Netcomics/HTML.pm.
+	* Fixed Makefile accordingly.
+
 2001-02-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/sketch (sketch): Updated exceptions list.

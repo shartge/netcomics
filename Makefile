@@ -193,6 +193,7 @@ PERLMODULES = \
 	MyRequest.pm \
 	ExternalUserAgent.pm \
 	RLI.pm \
+	HTML.pm
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
