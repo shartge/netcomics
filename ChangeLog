@@ -1,3 +1,8 @@
+2001-05-25  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* debian/.cvsignore: Created so I don't get all those ? <filename>
+	errors regarding debian's temporary build files.
+	
 2001-05-24  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* comicpage (comic_selected_from_list): Now when clicked, downloads

@@ -1,0 +1,11 @@
+tmp
+files
+netcomics-modules.prerm.debhelper
+prerm.debhelper
+netcomics
+postinst.debhelper
+substvars
+netcomics-modules.postinst.debhelper
+netcomics-modules
+postrm.debhelper
+netcomics-modules.substvars
