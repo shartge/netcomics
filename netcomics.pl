@@ -340,6 +340,15 @@ Do not actually download the comics, and output the webpage to stdout.
 
    netcomics -uwo
 
+=item 10.
+Download the Calvin & Hobbes, Alice and Dragon Tails as if the day the download was done was May 1st 2000.
+ 
+   netcomics -T 5-1-00 -A -c "ch alice dt"
+ 
+will download Dragon Tails for May 1st 2000 since the strip is available the same day, but will download the May 1st 1989 Calvin & Hobbes' strip since it is 4018 days back, as well as the April 17th 2000 strip for Alice since it is 14 days back.
+
+This behavior also apply for the -E and -S options.
+
 =back
 
 =head1 FILES
