@@ -655,21 +655,25 @@ while (@ARGV)
 	#Get specific comics or don't get a specific comics
 	if (/-(c)$/i) {
 		if (@ARGV > 0) {
-		    if ($did_c_already) {
-		    	print STDERR "Please put all comic ids in one string after one".
-		    	"instance of -c. \n";
-		    	print STDERR "  Use -h for usage.\n";
-		    	exit 1;
-		    }
-		    $did_c_already = 1;
 		    my @ids = split(' ',shift(@ARGV));
-		    if ($1 eq 'c') {
-	            $user_specified_comics = 1;
-	            @selected_comics = @ids;
-	        } else {
-	            $user_unspecified_comics = 1;
-	            @selected_comics = @ids;
-		    }
+			unless ($did_c_already) {
+			    if ($1 eq 'c') {
+		            $user_specified_comics = 1;
+		            @selected_comics = @ids;
+		        } else {
+		            $user_unspecified_comics = 1;
+		            @selected_comics = @ids;
+			    }
+			} else {
+				if ($1 eq 'c') {
+		            $user_specified_comics = 1;
+		            push(@selected_comics, @ids);
+		        } else {
+		            $user_unspecified_comics = 1;
+		            push(@selected_comics, @ids);
+			    }
+			}
+		    $did_c_already = 1;
 		} else {
 		    print STDERR "Need a space-delimitted list of comic id's.";
 		    print STDERR "  Use -h for usage.\n";
