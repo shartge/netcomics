@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"lily"} = 0;
+$hof{"lily"} = 1806;
 
 #Lily Wong : http://www.reuben.org/lilywong/
 # ex : http://www.reuben.org/lilywong/archive/strips/971103.gif
@@ -12,13 +12,13 @@ sub lily {
     return undef if $ltime[6] == 0; #no sunday comics
     my $rec = {
         'title' => "Lily Wong",
-	'author' => "Larry Feign",
-	'type' => 'gif',
-	'main' => "http://www.reuben.org/lilywong/",
-        'archives' => "http://www.reuben.org/lilywong/archive/",
-        'base' => "http://www.reuben.org/lilywong/archive/",
-        'page' => "$year/$date.gif",
-	'size' => [610,198]
+		'author' => "Larry Feign",
+		'type' => 'gif',
+		'main' => "http://humorist.net/lilywong/",
+        'archives' => "http://humorist.net/lilywong/archive/index.htm",
+        'base' => "http://humorist.net/lilywong/archive/strips/",
+        'page' => "$date.gif",
+		'size' => [610,198]
     };
     return $rec;
 }

@@ -8,35 +8,28 @@ sub spaz {
     my @ltime = gmtime(shift);
     my $date = strftime ("%Y%m%d",@ltime);
     
-    my $baseurl = "http://www.stonebrokestudios.com/archives";
+    my $baseurl = "http://www.stonebrokestudios.com";
     
     my $rec = {
         'title' => 'Spaz Labs',
         'author' => 'C.G. Muggridge',
         'type' => 'gif',
         'main' => $baseurl,
-        'archives' => "$baseurl/spazold/index.htm",
+        'archives' => "$baseurl/spazlabs/index.asp",
+		'base' => "$baseurl/spazlabs/",
+		'size' => [438, 560],
+		'page' => strftime("archives/spaz/%y%m%dspaz.gif", @ltime),
     };
     
-    # Old Spaz Labs: 1/5/98 - 11/16/98
-    if (($date >= 19980105) and ($date <= 19981116)) {
-        return undef if $ltime[6] != 1; # Mondays only
-        $rec->{'base'} = "$baseurl/spazold";
-        $rec->{'page'} = strftime("/%y%m%dspazold.gif", @ltime);
-        $rec->{'size'} = [600, 185];
-    } elsif ($date <= 20000709) { # No Spaz Labs from 11/16/98 to 7/9/00
+	# Spaz Labs starts on 7/10/00
+    if ($date <= 20000709) {
         return undef;
     } elsif ($date <= 20010118) { # 
-        return undef if (($date < 20000914) and ($ltime[6] != 1)); # monday only
+        return undef if (($date < 20000914) and
+						 ($ltime[6] != 1)); # monday only
         return undef if $ltime[6] !~ m/[14]/; # monday/thursday only
-        $rec->{'base'} = "$baseurl/spaz";
-        $rec->{'page'} = strftime("/%y%m%dspaz.gif", @ltime);
-        $rec->{'size'} = [438, 560];
     } else { # 
         return undef if $ltime[6] !~ m/[135]/; # m/w/f only
-        $rec->{'base'} = "$baseurl/spaz";
-        $rec->{'page'} = strftime("/%y%m%dspaz.gif", @ltime);
-        $rec->{'size'} = [438, 560];
     };
     return $rec;
 
