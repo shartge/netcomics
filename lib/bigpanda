@@ -26,7 +26,7 @@ sub banditb {
     return $rec;
 }
 
-# Roomies
+# It's Walky!
 # http://www.roomies.org/d/19990328.html
 # http://www.roomies.org/comics/19990328a.gif
 
@@ -40,7 +40,7 @@ sub room {
 
     my $rec =
       {
-       'title'    => "College Roomies from Hell",
+       'title'    => "It's Walky!",
        'author'   => "David Willis",
        'type'     => 'gif',
        'main'     => "http://www.roomies.org/",
@@ -72,31 +72,6 @@ sub avalon {
        'base'     => "http://www.avalonhigh.com/comics/",
        'page'     => strftime("avalon%Y%m%d.gif", @ltime),
        'size'     => ($ltime[6] == 0 ? [600,729] : [600,275])
-      };
-    
-    return $rec;
-}
-
-# Real Life
-# http://reallife.webprovider.com/archives/rl112099.htm
-
-sub real {
-    my $time = shift @_;
-    return undef if $time < mkgmtime(0,0,0,15,10,99);
-    my @ltime = gmtime($time);
-    my @m = ("jan", "feb", "mar", "apr", "may", "jun",
-             "jul", "aug", "sep", "oct", "nov", "dec");
-
-    my $rec =
-      {
-       'title'    => "Real Life",
-       'author'   => "Greg Dean",
-       'type'     => 'gif',
-       'main'     => "http://reallife.loonygames.com/",
-       'archives' => "http://reallife.loonygames.com/",
-       'base'     => "http://reallife.loonygames.com/archives/",
-       'page'     => strftime("%Y_%m_$m[$ltime[4]]/%Y%m%d.gif", @ltime),
-       'size'     => ($ltime[6] == 0 ? [530,863] : [530,582])
       };
     
     return $rec;
