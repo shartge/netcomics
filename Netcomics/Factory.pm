@@ -415,7 +415,7 @@ sub get_comics {
 			$rli->{'subdir'} =~ s/\s/_/g;
 			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
 				print "Creating directory $rli->{'subdir'}\n" if $verbose;
-				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
+				mkdir("$comics_dir/$rli->{'subdir'}", 0777);
 			}
 		}
 		
