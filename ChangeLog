@@ -1,3 +1,9 @@
+2000-07-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Added comic: Everything Jake, thanks to Max Zomborszki.
+	* netcomics: Made 'exprs' field as a hash to not have to have the
+	'comic' field.
+
 2000-07-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Moved source code from personal ClearCase vob to SourceForge CVS
