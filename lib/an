@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+$hof{"an"} = 0;
+
+# Absurd Notion
+# http://www.cerulean.st/absurdnotions/an19990620.gif
+sub an {
+    my $time = shift;
+    return undef if $time < 929836800; #starts Jun 20, 1999
+    my @ltime = gmtime($time);
+
+    # No strips on Mon/Wed/Fri
+    return undef if $ltime[6] =~ /[135]/;
+
+    my $rec = {
+	'title' => "Absurd Notion",
+	'author' => "Kevin Pease",
+	'type' => 'gif',
+	'main' => "http://www.cerulean.st/absurdnotions/index.html",
+	'archives' => "http://www.cerulean.st/absurdnotions/listing.html",
+	'base' => "http://www.cerulean.st/absurdnotions/",
+	'page' => strftime("an%Y%m%d.gif", @ltime),
+	'size' => [626,231],
+    };
+
+    return $rec;
+}
+
+1;
