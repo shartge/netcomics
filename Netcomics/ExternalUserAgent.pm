@@ -14,7 +14,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-package ExternalUserAgent;
+package Netcomics::ExternalUserAgent;
+use Netcomics::MyResponse;
+use strict;
 
 sub new {
 	my ($class,$init) = @_;
@@ -78,7 +80,7 @@ sub request {
 	my $content = `$cmdline`;
 	my $retval = $?;
 	print " ret=$retval\n" if $self->{'extra_verbose'};
-	return MyResponse->new($retval, $content);
+	return Netcomics::MyResponse->new($retval, $content);
 }
 
 1;

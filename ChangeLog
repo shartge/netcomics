@@ -1,3 +1,7 @@
+2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Modularized the rest of netcomics.
+
 2001-04-02  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics, display_comics, show_comics, Netcomics/*: Added

@@ -14,14 +14,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-package HTML;
+package Netcomics::HTML;
 
-use Netcomics::RLI;
 use POSIX;
+use strict;
+use Netcomics::Util;
+
+#class attributes
+my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
+    "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
+my $files_mode = 0644;
 
 sub new {
-	my $this = @_;
-	my $class = "HTML";
+	my ($class,$init) = @_;
 	my $self = {};
 	bless $self, $class;
 	#Webpage specific options, go see ./netcomics.
@@ -40,6 +45,7 @@ sub new {
 	$self->{'webpage_filename_tmpl'} = "comics<NUM>.html";
 	$self->{'webpage_index_filename'} = "index.html";
 	$self->{'webpage_on_stdout'} = 0;
+	$self->{'use_filecmd'} = 0;
 
 	#Properties that HTML needs, but aren't part of the HTML subsystem
 	#Per se, but are still necessary.
@@ -51,14 +57,12 @@ sub new {
 	$self->{'extra_verbose'} = 1;
 	$self->{'sort_by_date'} = 0;
 	
-	#subclasses must define this method.
 	return $self;
 }
 
 sub create_webpage {
 	my $self = shift();
 	my @rli = @_;
-	my $files_mode = 0644;
 	
 	#create a hash into the rli's
 	my %rlis = ();
@@ -101,18 +105,6 @@ sub create_webpage {
 		print "\nNot creating a new webpage.\n" if $self->{'verbose'};
 		return;
 	}
-	unless ($self->{'dont_download'} && !$self->{'remake_webpage'}) {
-		$@ = 0;
-		eval {
-			require Image::Size;
-			Image::Size->import('html_imgsize');
-		};
-		if ($@) {
-			print "\nWarning: Image::Size not installed. Using the file " .
-				"command instead.\n\n" if $self->{'verbose'};
-			$use_filecmd = 1;
-		}
-	}
 	print "\n" if $self->{'verbose'};
 	unless ($self->{'webpage_on_stdout'}) {
 		print "Deleting old webpages (".$self->{'comics_dir'} . 
@@ -133,14 +125,10 @@ sub create_webpage {
 	my $ctime = ctime($time);
 
 	#create a sorted list of the comics
-	my @sorted_comics;
-	if ($self->{'sort_by_date'}) {
-		@sorted_comics = 
-			sort({libdate_sort($a,$b,$rlis{$a}{'time'},$rlis{$b}{'time'});} 
-				 @comics);
-	} else {
-		@sorted_comics = sort(library_sort @comics);
-	}
+	my @sorted_comics = sort({libdate_sort($a, $b,
+										   $rlis{$a}{'time'}, $rlis{$b}{'time'},
+										   $self->{'sort_by_date'});} 
+							 @comics);
 	print "sorted comics: @sorted_comics\n" if $self->{'extra_verbose'};
 
 	#determine number of groups of comics, and number of comics on each page
@@ -156,7 +144,8 @@ sub create_webpage {
 				if $self->{'extra_verbose'};
 
 	# Load templates into memory.
-	($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = &load_templates($self);
+	my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
+		&load_templates($self);
 
 	my $index_body_el_tmpl_tmpl=file_read("$self->{'templates'}/index_body_el.html")
 		if $self->{'webpage_index'};
@@ -188,7 +177,7 @@ sub create_webpage {
 		$index =~ s/<BACKGROUND>/$self->{'background'}/g;
 	}
 
-	$i = -1;
+	my $i = -1;
 	my $first_file;
 	while (++$i < $num_groups) {
 		my $group = $i + 1;
@@ -208,13 +197,12 @@ sub create_webpage {
 		$prevfile =~ s/<NUM>/$prevgroup/g;
 
 		print "\nCreating $filename ($first to $last of $num_comics)\n" 
-			if $self->{'extra_verbose'} && !$webpage_on_stdout;
+			if $self->{'extra_verbose'} && !$self->{'webpage_on_stdout'};
 
 		#replace group-global info
 		my $head = $head_tmpl;
 		my $links = "";
 		my $body ="";
-		my $tail = $tail_tmpl;
 		$head =~ s/<NUM=FIRST>/$first/g;
 		$head =~ s/<NUM=LAST>/$last/g;
 		$head =~ s/<NUM=TOTAL>/$num_comics/g;
@@ -232,18 +220,25 @@ sub create_webpage {
 		}
 
 		my @comics_to_send = @sorted_comics[($first-1)..($last-1)];
-		($body, $index) = &generate_HTML_page( $self, \@body_el_tmpl, \%rlis, 
-				\@comics_to_send, $index_body_el_tmpl );
+		my $index_body;
+		($body, $index_body) = 
+			generate_HTML_page($self, \@body_el_tmpl, \%rlis, 
+							   \@comics_to_send, $index_body_el_tmpl,
+							   $filename, $group);
+		$index .= $index_body;
 
 		unless ($self->{'webpage_on_stdout'}) {
 			file_write("$self->{'comics_dir'}/$filename",$files_mode,
-					   "$head$links$body$links$tail");
-			file_write("$self->{'comics_dir'}/$self->{'webpage_index_filename'}",
-						$files_mode, "$head$index$tail");
+					   "$head$links$body$links$tail_tmpl");
 		} else {
-			print "$head$links$body$links$tail";
+			print "$head$links$body$links$tail_tmpl";
 		}
 	}
+	if ($self->{'webpage_index'} && ! $self->{'webpage_on_stdout'}) {
+		file_write("$self->{'comics_dir'}/$self->{'webpage_index_filename'}",
+				   $files_mode, "$index$tail_tmpl");
+	}
+
 }
 
 sub create_webpage_set {
@@ -305,18 +300,6 @@ sub create_webpage_set {
 			print "\nNot creating a new webpage.\n" if $self->{'verbose'};
 			return;
 		}
-		unless ($self->{'dont_download'} && !$self->{'remake_webpage'}) {
-			$@ = 0;
-			eval {
-				require Image::Size;
-				Image::Size->import('html_imgsize');
-			};
-			if ($@) {
-				print "\nWarning: Image::Size not installed. Using the file " .
-					"command instead.\n\n" if $self->{'verbose'};
-				$use_filecmd = 1;
-			}
-		}
 		print "\n" if $self->{'verbose'};
 		unless ($self->{'webpage_on_stdout'}) {
 			print "Deleting old webpages (".$self->{'comics_dir'}."/".$subdir .
@@ -360,7 +343,8 @@ sub create_webpage_set {
 				if $self->{'extra_verbose'};
 
 		# Call &load_templates in order to get templates.
-		($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = &load_templates($self);
+		my ($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl) = 
+			&load_templates($self);
 
 		my $index_body_el_tmpl_tmpl = 
 			file_read("$self->{'templates'}/index_body_el.html") 
@@ -374,7 +358,7 @@ sub create_webpage_set {
 			$index = $head_tmpl;
 			$index =~ s/<NUM=FIRST>/1/g;
 			$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
-			$index =~ s/<PAGETITLE>/$webpage_title/g;
+			$index =~ s/<PAGETITLE>/$self->{'webpage_title'}/g;
 			$links_tmpl =~ s/<FILE=INDEX>/$self->{'webpage_index'}_filename/g;
 		}
 
@@ -395,7 +379,7 @@ sub create_webpage_set {
 			$index =~ s/<BACKGROUND>/$self->{'background'}/g;
 		}
 
-		$i = -1;
+		my $i = -1;
 		my $first_file;
 
 		while (++$i < $num_groups) {
@@ -416,13 +400,12 @@ sub create_webpage_set {
 			$prevfile =~ s/<NUM>/$prevgroup/g;
 
 			print "\nCreating $filename ($first to $last of $num_comics)\n" 
-				if $self->{'extra_verbose'} && !$webpage_on_stdout;
+				if $self->{'extra_verbose'} && !$self->{'webpage_on_stdout'};
 
 			#replace group-global info
 			my $head = $head_tmpl;
 			my $links = "";
 			my $body ="";
-			my $tail = $tail_tmpl;
 			$head =~ s/<NUM=FIRST>/$first/g;
 			$head =~ s/<NUM=LAST>/$last/g;
 			$head =~ s/<NUM=TOTAL>/$num_comics/g;
@@ -440,31 +423,40 @@ sub create_webpage_set {
 			}
 
 			my @comics_to_send = @sorted_comics[($first-1)..($last-1)];
-			($body, $index) = &generate_HTML_page( $self, \@body_el_tmpl, \%rlis, 
-				\@comics_to_send, $index_body_el_tmpl );
+			my $index_body;
+			($body, $index_body) = 
+				generate_HTML_page($self, \@body_el_tmpl, \%rlis, 
+								   \@comics_to_send, $index_body_el_tmpl,
+								   $filename, $group);
+			$index .= $index_body;
 
 			unless ($self->{'webpage_on_stdout'}) {
 				print "Creating file in $self->{'comics_dir'}/$subdir/$filename\n"
 						if $self->{'verbose'};
 				file_write("$self->{'comics_dir'}/$subdir/$filename",$files_mode,
-						   "$head$links$body$links$tail");
-				file_write("$self->{'comics_dir'}/$subdir/$self->{'webpage_index_filename'}",$files_mode,
-						   "$head$index$tail");
+						   "$head$links$body$links$tail_tmpl");
 			} else {
-				print "$head$links$body$links$tail";
+				print "$head$links$body$links$tail_tmpl";
 			}
 			
+		}
+		if ($self->{'webpage_index'} && ! $self->{'webpage_on_stdout'}) {
+			file_write("$self->{'comics_dir'}/$subdir/" .
+					   "$self->{'webpage_index_filename'}",
+					   $files_mode, "$index$tail_tmpl");
 		}
 	}
 }
 
 sub generate_HTML_page {
-	my ($self, $a, $b, $c, $d) = @_;
-	my @body_rl_tmpl = @$a;
+	my ($self, $a, $b, $c, $d, $e, $f) = @_;
+	my @body_el_tmpl = @$a;
 	my %rlis = %$b;
 	my @input_comics = @$c;
 	my $index_body_el_tmpl = $d;
-	my $body;
+	my $filename = $e;
+	my $group = $f;
+	my ($body,$index) = ("","");
 	foreach my $comic (@input_comics) {
 		my $rli = $rlis{$comic};
 		my @gmtime = gmtime($rli->{'time'});
@@ -472,7 +464,7 @@ sub generate_HTML_page {
 		my @image = @{$rli->{'file'}};
 		die "\nComics made up of more than $#body_el_tmpl files are not" .
 			" supported.\n$inform_maintainer" if @image > $#body_el_tmpl;
-		$body_el = $body_el_tmpl[@image];
+		my $body_el = $body_el_tmpl[@image];
 		
 		my $title;
 		if (defined($_ = $rli->{'main'})) {
@@ -594,48 +586,6 @@ sub load_templates {
 	$head_tmpl =~ s/<BACKGROUND>/$self->{'background'}/g;
 
 	return($head_tmpl, $links_tmpl, $tail_tmpl, @body_el_tmpl);
-}
-
-sub file_write {
-	my $file = shift(@_);
-	my $mode = shift(@_);
-	my $exists = -f $file;
-	open(F, ">$file") || die "Could not open \"$file\". $!";
-	binmode(F);
-	print(F @_);
-	close(F);
-	unless ($exists) {
-		chmod($mode, $file) || die "Could not set \"$file\"'s permissions. $!";
-	}
-}
-
-sub file_read {
-	local $/;
-	my $file = shift;
-	open(F, "<$file") || die "Could not open \"$file\". $!";
-	binmode(F);
-	$/ = undef; #input record separator
-	my $text = <F>;
-	close(F);
-	return $text;
-}
-
-sub library_sort {
-	(my $thea = $a) =~ s/^\s*(a|an|the)[\s_]+//i;
-	(my $theb = $b) =~ s/^\s*(a|an|the)[\s_]+//i;
-	return $thea cmp $theb;
-}
-
-sub image_size {
-	my $file = shift;
-	return html_imgsize($file) unless $use_filecmd;
-
-	$_ = `file $file`;
-	if ($? == 0 && /(\d+) x (\d+)/) {
-		return "WIDTH=$1 HEIGHT=$2";
-	} else {
-		return undef;
-	}
 }
 
 1;

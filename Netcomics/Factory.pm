@@ -1,0 +1,1105 @@
+#-*-mode: Perl; tab-width: 4 -*-
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Library General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+package Netcomics::Factory;
+
+use POSIX;
+use strict;
+use Carp;
+use Netcomics::Config;
+use Netcomics::MyResponse;
+use Netcomics::MyRequest;
+use Netcomics::Util;
+
+use vars qw(%rli @rli); #only used for importing modules & .rli files.
+
+#class attributes
+my $files_mode = 0644;
+my $default_filetype = "gif"; #only used if module didn't supply one.
+my $data_dumper_installed;
+
+#pass in a Factory instance (not currently supported)
+#or a Config instance.
+sub new {
+	my ($class,$init) = @_;
+	my $conf = undef;
+	if (ref($init)) {
+		if ($init->isa("Netcomics::Config")) {
+			$conf = $init;
+		}
+		#else; instantiation with a Factory object currently not supported.
+	}
+	if (!defined($conf)) {
+		croak "Error: a Netcomics::Config object must be supplied when" .
+			"creating a new Factory.";
+	}
+	my $self = {
+		'rli_procs' => {}, #hash of hashes of indexes into @rli.
+		'hof' => {},
+		'rli' => [],
+		'dates' => [],
+		'existing_rli_files' => [],
+		'files_retrieved' => [],
+		'conf' => $conf,
+	};
+
+	bless $self, $class;
+
+	$data_dumper_installed = requireDataDumper;
+
+	return $self->init();
+}
+
+sub init {
+	my $self = shift;
+	#only load the modules if needed
+	unless ($user_specified_comics && @selected_comics == 0 && !$do_list_comics) {
+		$self->{'hof'} = load_modules("Netcomics::Factory",@libdirs); 
+		
+		#check to make sure there was some comics defined
+		if (keys(%{$self->{'hof'}}) == 0) {
+			print STDERR "\nThere were no comic modules succesfully loaded.  ";
+			print STDERR "Please check the setting\nof \@libdirs in the system ";
+			print STDERR "and user rc file and on the command line:\n";
+			print STDERR "\@libdirs = @libdirs\n";
+			print STDERR "Also, check the installation of netcomics.\n";
+			exit 1;
+		}
+	}
+	
+	#make sure user specified existing functions
+	#and set the %hof to those the user specified
+	if ($user_specified_comics || $user_unspecified_comics) {
+		my %new_hof = ();
+		my @hof_keys = keys(%{$self->{'hof'}});
+		@hof_keys = () unless @hof_keys;
+		my $fun;
+		foreach $fun (@selected_comics) {
+			$fun = quotemeta($fun);
+			my @hres = grep(/^$fun$/,@hof_keys);
+			if (@hres > 0) {
+				$new_hof{$fun} = $self->{'hof'}{$fun};
+			}
+		}
+		if ($user_specified_comics) {
+			%{$self->{'hof'}} = %new_hof;
+		} else {
+			#intersection
+			foreach (keys %new_hof) {
+				delete $self->{'hof'}{$_};
+			}
+		}
+	}
+
+
+	#Make sure the temp dir exists
+	unless (-d $comics_dir) {
+		mkdir($comics_dir,0777) || die "could not create $comics_dir: $!"; 
+	} elsif ($delete_files) {
+		chdir $comics_dir || die "could not cd to $comics_dir: $!";
+		unlink <*.*>;
+		unlink <.*.rli>;
+	} else {
+		#load in the rlis in the directory to find out what comics
+		print "Reading $comics_dir to get list of current comics\n" 
+			if $extra_verbose;
+		opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
+		my @files = readdir(DIR);
+		closedir(DIR);
+		@files = sort(grep(s/(\..+\.rli)$/$1/,@files));
+		if (grep(/^$netcomics_rli_file$/, @files)) {
+			$single_rli_file = 1; #make sure this is on even if not specified
+			my @loading_rlis = load_rlis($netcomics_rli_file);
+			foreach my $rli (@loading_rlis) {
+				$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli) 
+					if defined $rli;
+				for (@{$rli->{'file'}}) {
+					my $file = $_;
+					my $test_file_name;
+					unless ($separate_comics) {
+						$test_file_name = "$comics_dir/$file";
+					} else {
+						$test_file_name = "$comics_dir/$rli->{'subdir'}/$file";
+					}
+					if (-f "$test_file_name") {
+						push(@{$self->{'existing_rli_files'}},$file);
+					} elsif ($rli->{'status'} == 1) {
+						print STDERR "Warning: $file is missing in $comics_dir\n"
+							if $verbose;
+						#make it so that this one will be retried.
+						$rli->{'status'} = 0;
+					}
+				}
+			}
+		} elsif (! $single_rli_file) {
+			for (@files) {
+				my $name = $_;
+				my $rli = load_rli($name);
+				if (! defined($rli)) {
+					print STDERR "Warning: $name did not load.\n";
+					next;
+				}
+				$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli)
+					if defined $rli;
+				#save the files managed by this rli status file so we know which
+				#files were already downloaded before we start downloading more.
+				for (@{$rli->{'file'}}) {
+					my $file = $_;
+					if (-f "$comics_dir/$file") {
+						push(@{$self->{'existing_rli_files'}},$file);
+					} elsif ($rli->{'status'} == 1) {
+						print STDERR 
+							"Warning: $name is missing $file in $comics_dir\n"
+								if $verbose;
+						#make it so that this one will be retried.
+						$rli->{'status'} = 0;
+					}
+				}
+			}
+		}
+	}
+
+	print "Rli's reloaded: " . @{$self->{'rli'}} . "\n" if $extra_verbose;
+
+	print Data::Dumper->Dump([$self->{'rli_procs'}],[qw(*$self->{'rli_procs'})])
+		if $data_dumper_installed && $extra_verbose && $show_tasks;
+
+	#
+	#Do the work.
+	#
+
+	my $get_current = build_date_array($self->{'dates'},$self->{'hof'});
+	if ($extra_verbose) {
+		print "dates: ";
+		my $date;
+		foreach $date (@{$self->{'dates'}}) {
+			print strftime("%m-%d-%y",gmtime($date));
+			print " ";
+		}
+		print "\n";
+	}
+	$self->build_rli_array($get_current);
+
+	#stop and print what will be done
+	if ($show_tasks) {
+		for (@{$self->{'rli'}}) {
+			my $rli = $_;
+			my $name = strftime("$rli->{'title'}-${date_fmt}",
+								gmtime($rli->{'time'}));
+			my $try = $rli->{'tries'};
+			if ($self->skip_rli($rli)) {
+				print "Skip ($try): $name ($rli->{'proc'})\n";
+			} else {
+				$try++;
+				print "Get  ($try): $name ($rli->{'proc'})\n";
+			}
+		}
+		exit(0);
+	}
+	return $self;
+}
+
+
+#Build up the list of resource locators
+sub build_rli_array {
+	my $self = shift;
+	my $get_current = shift; #accomodate the time for the rli hash function?
+	if ($get_current) {
+		#accomodate the time for the rli hash functions
+		$self->build_rli_array_helper(1,"Adding hof & get_current RLI's");
+	} else {
+		$self->build_rli_array_helper(0,"Adding hof & !get_current RLI's");
+	}
+	print "\n" if $extra_verbose;
+	
+	#now remove undefs from @rli
+	my @newrli = grep {defined($_) } @{$self->{'rli'}};
+	@{$self->{'rli'}} = @newrli;
+}
+
+sub build_rli_array_helper {
+	my ($self,$usedays,$msg) = @_;
+	print "\n$msg: " if $extra_verbose;
+	my ($days, $fun, $time, $rli);
+	my $rlis = $self->{'rli'};
+	while (($fun,$days) = each %{$self->{'hof'}}) {
+		next if $usedays && ! defined $days;
+		print "$fun " if $extra_verbose;
+		foreach $time (@{$self->{'dates'}}) {
+		    if ($usedays) {
+				$rli = $self->run_rli_func($fun,$time,$fun,$days);
+		    } else {
+				$rli = $self->run_rli_func($fun,$time,$fun);
+		    }
+		    if (defined($rli)) {
+				#reget the time (incase of $usedays)
+				my $time = $rli->{'time'};
+				#first remove any rli with that date & proc from the list.
+				if (defined($self->{'rli_procs'}{$fun}) && 
+					defined($self->{'rli_procs'}{$fun}->{$time})) {
+					my $i = $self->{'rli_procs'}{$fun}->{$time};
+					#use status info if user didn't specify always download,
+					#or if the user did specify always download and the user
+					#specified some comics and this isn't one of them &&
+					#its status is 1.
+					if (! $always_download || 
+						($user_specified_comics && 
+						 ! grep(/^$rli->{'proc'}$/,@selected_comics) &&
+						 $rlis->[$i]->{'status'} == 1)) {
+						#copy info from old one into new one, thus
+						#if the module changed, more correct info would be
+						#used.
+						$rli->{'file'} = $rlis->[$i]->{'file'};
+						$rli->{'status'} = $rlis->[$i]->{'status'};
+						$rli->{'tries'} = $rlis->[$i]->{'tries'};
+						#now, copy in only those fields which don't exist.
+						foreach (keys(%{$rlis->[$i]})) {
+							$rli->{$_} = $rlis->[$i]->{$_} if
+								(! defined $rli->{$_} &&
+								 defined $rlis->[$i]->{$_});
+						}
+					}
+					#remove the old one
+					$rlis->[$i] = undef;
+				}
+				#add the new one
+				$rlis->[@$rlis] = $rli;
+			}
+		}
+	}
+}
+
+#determine if this rli should be processed or skipped.
+sub skip_rli {
+	my $self = shift;
+	my $rli = shift;
+	#skip if the rli is undefined or
+	# if the user specified comics, didn't specify always download & 
+	#    didn't specify this comic
+	# if it was successfully downloaded or
+	# if the URL was successfully determined and we're still not downloading or
+	# if it's reached the max number of retries
+	if (! defined($rli) || 
+		(@selected_comics && ! $always_download && 
+		 (($user_specified_comics && ! grep(/^$rli->{'proc'}$/,
+											@selected_comics)) || 
+		  ($user_unspecified_comics &&
+		   grep(/^$rli->{'proc'}$/, @selected_comics)))
+		 ) ||
+		(defined($rli->{'status'}) && 
+		 ($rli->{'status'} == 1 ||
+		  $rli->{'status'} == 2 && $dont_download)) ||
+		(defined($rli->{'tries'}) && 
+		 $max_attempts > 0 && 
+		 $rli->{'tries'} >= $max_attempts)) {
+		return 1;
+	} else {
+#	print Data::Dumper->Dump([$rli],[qw(*rli)]);
+		return 0;
+	}
+}
+
+#Engine for getting the comics.  
+#Go through the list of RLI's and get the comic at each one.
+sub get_comics {
+	my $self = shift;
+	my $rlis = $self->{'rli'};
+	return () if @$rlis == 0;
+
+	#use polymorphism to make it so that the user doesn't have to have 
+	#libwww-perl installed, but can use a program like wget instead
+	my $ua;
+	my $new_request;
+	if (defined($external_cmd)) {
+		$@ = 1;
+	} else {
+		$@ = 0;
+		eval {
+			require LWP;
+			require URI::URL;
+			require LWP::UserAgent;
+			require HTTP::Request;
+			require HTTP::Response;
+			require HTTP::Request::Common;
+			$ua = LWP::UserAgent->new;
+			$new_request = sub {
+				my $request = new HTTP::Request 'GET', shift;
+				return add_referer($request,shift(@_));
+			};
+#	    $ua->redirect(0);
+		};
+	}
+	if ($@) {
+		$new_request = sub {
+			my $request = new Netcomics::MyRequest shift;
+			return add_referer($request,shift(@_));
+		};
+		$ua = Netcomics::ExternalUserAgent->new;
+		$ua->setVerbosity(($extra_verbose) ? 2 : $verbose);
+		unless (defined($external_cmd)) {
+			print "\nlibwww-perl and/or URI are not installed.\n" .
+				" Trying to download comics with wget instead.\n"
+					if $verbose;
+		} else {
+			print "\nUsing '$external_cmd' to download comics.\n" 
+				if $extra_verbose;
+			$ua->setCmd($external_cmd);
+		}
+	}
+
+	if (defined $proxy_url) {
+		print "using proxy, $proxy_url ...\n" if $extra_verbose;
+		$ua->proxy(['http', 'ftp'], $proxy_url);
+	}
+	my $response = undef;
+	my @images = (); #list of comics successfully downloaded
+	my @bad_images = (); #list of comic ids that had problems
+	my @rli_queue = @$rlis;
+  RLI: 
+	while (@rli_queue) {
+		my $rli = pop(@rli_queue);
+		my $proc = $rli->{'proc'};
+		my $time = $rli->{'time'};
+		my $name = undef;
+
+		if ($separate_comics) {
+			$rli->{'subdir'} = $rli->{'title'};
+			$rli->{'subdir'} =~ s/\s/_/g;
+			if (! -e "$comics_dir/$rli->{'subdir'}" ) {
+				print "Creating directory $rli->{'subdir'}\n" if $verbose;
+				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
+			}
+		}
+		
+		#first construct the name because this is also used by webpage creation
+		if (defined($rli->{'title'})) {
+			#todo: stick in here, using options to determine how to
+			#name the file.
+			$name = strftime("$rli->{'title'}-${date_fmt}",gmtime($time));
+		} else { 
+			print STDERR "Error: No name or title provided for the " .
+				"comic identified by $proc. Not using $proc\n";
+			next;
+		}
+		$name =~ s/\s/_/g;
+		$rli->{'name'} = $name;
+		next if $self->skip_rli($rli);
+		my ($base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
+	  SETUPDATA:
+		$base = $rli->{'base'} if exists $rli->{'base'};
+		$page = $rli->{'page'} if exists $rli->{'page'};
+		$expr = $rli->{'expr'} if exists $rli->{'expr'};
+		$exprs = $rli->{'exprs'} if exists $rli->{'exprs'};
+		$func = $rli->{'func'} if exists $rli->{'func'};
+		$back = $rli->{'back'} if exists $rli->{'back'};
+		$referer = $rli->{'referer'} if exists $rli->{'referer'};
+		
+		if (!defined($rli->{'type'})) {
+			$rli->{'type'} = $default_filetype;
+			print STDERR "$proc: warning, no file type was supplied, " .
+				"defaulting to $default_filetype\n" if $extra_verbose;
+		}
+		
+		$rli->{'status'} = 0;
+		
+		unless (defined($base)) {
+			print STDERR "Error: No base URL provided for the comic " .
+				"identified by $proc. Not using $proc.\n";
+			next;
+		}
+		print "$comics_dir/$name\n"
+			if $verbose && ! $extra_verbose && ! $dont_download; 
+		
+		#handle backwards compatibility
+		if (defined($exprs) && defined($expr)) {
+			print STDERR "Both exprs & expr are defined in the rli returned";
+			print STDERR " by $proc.  Please use only one. Skipping\n";
+			next;
+		}
+		if (defined($page) || defined($exprs)) {
+			#build up the exprs array
+			$exprs = [$expr] if defined($expr) && defined($page);
+			#make sure page is defined
+			$page = "" if defined($exprs) && ! defined($page);
+			#handle the multi-field expression hash or regular array of exprs
+			if (defined($exprs)) {
+				$_ = ref($exprs);
+				if (/HASH/) {
+					#advanced multi-field expression hash
+					$mfeh = $exprs;
+					if (defined($exprs = $mfeh->{'comic'})) {
+						print "$name: Using comic in mfeh as exprs\n" 
+							if $extra_verbose;
+						delete($mfeh->{'comic'});
+						undef $mfeh if keys(%$mfeh) == 0;
+					} else {
+						#print STDERR "$name: must provide field 'comic' in " .
+						#    "'exprs' hash. Skipping $proc\n";
+						#next;
+					}
+				} elsif (/ARRAY/) {
+					#good
+				} else {
+					print STDERR "$name: exprs must either be an array or " .
+						"a hash. Skipping $proc\n";
+					next;
+				}
+			}
+
+		} elsif (defined($expr)) {
+			#set page to $expr
+			$page = $expr;
+		} elsif (defined($func)) {
+			#good.
+		} else {
+			print STDERR "func, exprs, page, nor expr are defined in the rli ";
+			print STDERR "returned by $proc. Please use at least one of them.";
+			print STDERR " Skipping\n";
+			next;
+		}
+
+		#set the download status:
+		#0: didn't download--can't even use URL
+		#1: successfully downloaded
+		#2: didn't download, but URL is available
+		#3: didn't download--using backup
+
+		my $request;
+		my $i = 0; #number of the URL gotten
+		if (defined($page)) {
+			my $url = "$base$page";
+			print "$name($i): $url\n" if $extra_verbose;
+			#don't download if this is the last URL & $dont_download is set
+			if (!defined($func) && !defined($exprs) && $dont_download) {
+				$rli->{'status'} = 2;
+			} else {
+				$request = &$new_request($url);
+				$request->referer($referer) if defined $referer;
+				$response = $ua->request($request);
+				unless ($response->is_success) {
+					my $code = $response->code;
+					print STDERR "Response: $code " .
+						status_message($code) . "\n"
+							if $extra_verbose;
+					if (defined($back) && 
+						$self->add_back($back,$time,$proc,$rli,\@rli_queue,
+										$rlis, "$name($i): " .
+										"fetching '$url' failed.")) {
+						goto FINISH_RLI;
+					}
+					print STDERR 
+						"failure fetching '$url' for $name ($i).\n";
+					push(@bad_images,$proc) 
+						unless grep {/^$proc$/} @bad_images;
+					if (!$skip_bad_comics && !defined($func) && 
+						!defined($exprs)) {
+						#use the URL instead
+						print "using the URL instead for $name ($i).\n"
+							if $verbose;
+						$rli->{'status'} = 2;
+					} else {
+						goto FINISH_RLI;
+					}
+				}
+			}
+			$i++;
+
+			my $exp = "";
+			my $j = 0;
+			foreach $exp (@$exprs) {
+				#get the location of the image in the html page just returned.
+				my $text = $response->content;
+				#match on the content as if it were a single line (/$exp/s)
+				$_ = $text;
+				unless (eval(/$exp/s)) {
+					if (defined($back) && 
+						$self->add_back($back,$time,$proc,$rli,\@rli_queue,
+										$rlis, "$name($i): " .
+										"match for '$exp' in $url failed")){
+						goto FINISH_RLI;
+					}
+					print STDERR "failed to match against '$exp' ($i) for ";
+					print STDERR "$name in $url.\n";
+					push(@bad_images,$proc) 
+						unless grep {/^$proc$/} @bad_images;
+					goto FINISH_RLI;
+				}
+				$url = "$base$1";
+				
+				#handle the multi-field expression hash
+				foreach (keys(%$mfeh)) {
+					my $field = $_;
+					my $expr;
+					next unless defined ($expr = $mfeh->{$field}[$j]);
+					$_ = $text;
+					if (eval(/$expr/s)) {
+						$rli->{$field} = $1;
+						print "$name($i).$field: expr = '$expr'; success.\n"
+							if $extra_verbose;
+					} else {
+						print "$name($i).$field: search with /$expr/ failed.\n"
+							if $verbose;
+					}
+				}
+
+
+				#get the next URL
+				print "$name($i): expr = '$exp'; URL = $url\n" 
+					if $extra_verbose;
+				#don't download if this is the last URL & $dont_download is set
+				if (++$j == @$exprs && !defined($func) && $dont_download) {
+					$rli->{'status'} = 2;
+				} else {
+					$request = &$new_request($url);
+					$request->referer($referer) if defined $referer;
+					$response = $ua->request($request);
+					unless ($response->is_success) {
+						my $code = $response->code;
+						print STDERR "Response: $code " .
+							status_message($code) . "\n"
+								if $extra_verbose;
+						if (defined($back) && 
+							$self->add_back($back,$time,$proc,$rli,\@rli_queue,
+											$rlis, "$name($i): " .
+											"fetching '$url' failed.")) {
+							goto FINISH_RLI;
+						}
+						print STDERR 
+							"failure fetching '$url' for $name ($i).\n";
+						push(@bad_images,$proc) 
+							unless grep {/^$proc$/} @bad_images;
+						if (!$skip_bad_comics && !defined($func) && 
+							$j == @$exprs) {
+							#use the URL instead
+							print "using the URL instead for $name ($i).\n"
+								if $verbose;
+							$rli->{'status'} = 2;
+						} else {
+							goto FINISH_RLI;
+						}
+					}
+					$i++; #simply keep track for debugging purposes
+				}
+			}
+			$rli->{'url'}=[$url] unless defined $func || defined $rli->{'url'};
+		}
+
+		#handle function returning relative URLs
+		if (defined($func)) {
+			print "$name: applying function\n" if $extra_verbose;
+
+			#run the function, giving it the last response downloaded if any
+			my @relurls;
+			if (defined($page)) {
+				@relurls = &$func($response->content);
+			} else {
+				print "Warning: running func without supplying any content.\n"
+					if $verbose;
+				@relurls = &$func();
+			}		
+			
+			if (@relurls == 0) {
+				if (defined($back) && 
+					$self->add_back($back, $time, $proc, $rli, \@rli_queue,
+									$rlis, "$name($i): " .
+									"function returned no relative urls.")){
+					goto FINISH_RLI;
+				}
+				print "$name($i): function returned no relative urls.\n" 
+					if $extra_verbose;
+				goto FINISH_RLI;
+			}
+			
+			my $j = 0;
+		  RELURL:	    
+			while (@relurls) {
+				my $litem = pop(@relurls);
+				$_ = ref($litem);
+				if (/HASH/) {
+					#special rli fields to be added (like with mfeh)
+					#instead of relative URLs.
+					if ($j > 0) {
+						#either rli fields or rel urls--both not allowed
+						print STDERR "$name($i): bug found.  Both relative" .
+							"URLs and RLI fields are not allowed to be " .
+								"returned by functions.\n";
+						next RLI;
+					}
+					$j--;
+					my $key;
+					foreach $key (keys(%$litem)) {
+						print "$name($i): adding field '$key' => " .
+							"'$litem->{$key}'\n" 
+								if $extra_verbose && defined $litem->{$key};
+						$rli->{$key} = $litem->{$key};
+					}
+					next RELURL;
+				} elsif (/ARRAY/) {
+					#push these back onto relurls
+					push @relurls, @$litem;
+					next RELURL;
+				} elsif (! /^$/) {
+					print STDERR "$name($i): list element of type $_ " .
+						"returned by function is not yet supported.\n";
+					next RELURL;
+				}
+
+				if ($j < 0) {
+					#either rli fields or rel urls--both not allowed
+					print STDERR "$name($i): bug found.  Both relative" .
+						"URLs and RLI fields are not allowed to be " .
+							"returned by functions.\n";
+					next RLI;
+				}
+
+				my $url = "$base$litem";
+				$j++; #used to append to the file name
+				
+				my $mname = $name;
+				$mname ="${name}-$j";
+
+				print "$mname: $url\n" if $extra_verbose;
+				if ($dont_download) {
+					$rli->{'status'} = 2;
+				} else {
+					$request = &$new_request($url,$referer);
+					$response = $ua->request($request);
+					unless ($response->is_success) {
+						my $code = $response->code;
+						print STDERR "Response: $code " .
+							status_message($code) . "\n"
+								if $extra_verbose;
+						if (defined($back) && 
+							$self->add_back($back,$time,$proc,$rli,\@rli_queue,
+											$rlis, "$name($i): " .
+											"fetching '$url' failed.")) {
+							goto FINISH_RLI;
+						}
+						print STDERR 
+							"failure fetching '$url' for $mname ($i).\n";
+						push(@bad_images,$proc) 
+							unless grep {/^$proc$/} @bad_images;
+						if (!$skip_bad_comics) {
+							#use the URL instead
+							print "using the URL instead for $name ($i).\n"
+								if $verbose;
+							$rli->{'status'} = 2;
+						} else {
+							goto FINISH_RLI;
+						}
+					} else {
+						$mname .= ".$rli->{'type'}";
+						if ($separate_comics) {
+							file_write("$comics_dir/$rli->{'subdir'}/$mname",
+									   $files_mode, $response->content);
+						} else {
+							file_write("$comics_dir/$mname",$files_mode,
+									   $response->content);
+						}
+						push(@images,$mname);
+						$rli->{'file'} = [] unless defined $rli->{'file'};
+						if ($separate_comics) {
+							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
+						} else {
+							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
+						}
+					}
+					$rli->{'url'} = [] unless defined $rli->{'url'};
+					$rli->{'url'}->[@{$rli->{'url'}}] = $url;
+					$i++; #simply keep track for debugging purposes
+				}
+				if ($j < 0) {
+					#assume the @relurl returned contained a hash which added
+					#fields to the rli which now need to be reprocessed.
+					goto SETUPDATA;
+				}
+			}
+		} else  {
+			#complete the fields for the rli.
+			#first tack on the file type (it may have been changed thru 'exprs')
+			$name .= "." . $rli->{'type'};
+
+			#save the image to its file if it was successfully downloaded.
+			if ($separate_comics) {
+				$rli->{'file'} = [ "$name" ];
+				file_write("$comics_dir/$rli->{'subdir'}/$name",
+						   $files_mode, $response->content);
+			} else {
+				$rli->{'file'} = [ "$name" ];
+				file_write("$comics_dir/$name",
+						   $files_mode, $response->content);
+			}
+			push(@images,$name)
+				unless $dont_download || $rli->{'status'} == 2;
+		}
+		#Eliminate the need to put mulitple status sets to 1 in the code
+		#by assuming that if it was bad, jumped to FINISH_RLI or status set
+		#to 2.  If another status state is added, this may have to change.
+		$rli->{'status'} = 1 if $rli->{'status'} == 0;
+	  FINISH_RLI:
+		$rli->{'tries'} = 0 unless defined $rli->{'tries'};
+		$rli->{'tries'}++;
+		$self->dump_rli($rli) unless $rli->{'status'} == 3;
+	}
+	
+	print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
+		if $extra_verbose && !$dont_download;
+	if (@bad_images > 0) {
+		print "To try retrieving the images that failed, run this command:\n";
+		print "$self->{'conf'}{'script_name'} -nR";
+		if (! $data_dumper_installed) {
+			print " -c \"@bad_images\"";
+			print " -n $days_of_comics" if ++$days_of_comics > 1;
+		}
+		if ($make_webpage) {
+			print " -W";
+			print "=$comics_per_page" if defined $comics_per_page;
+		}
+		print $given_options;
+		print "\n";
+		print <<END;
+		Please, before sending in a bug report on a comic that doesn't download,
+try over a period of several days (or weeks, depending on the problem) to
+see if it just happened to be that the website maintainer for that comic
+didn't update the comic promptly.
+END
+	}
+	@{$self->{'files_retrieved'}} = @images;
+	return @$rlis;
+}
+
+#these two functions only return useful info after get_comics has been run
+sub files_retrieved {
+	my $self = shift;
+	return @{$self->{'files_retrieved'}};
+}
+
+sub existing_rli_files {
+	my $self = shift;
+	return @{$self->{'existing_rli_files'}};
+}
+
+#persistently store an rli hash, or a bunch of hashes.
+sub dump_rli {
+	my $self = shift;
+    my $rli = shift;
+    if ($data_dumper_installed) {
+        if (ref($rli) eq "ARRAY") {
+            my @rli = @$rli;
+			# Delete the useless entries in @rli before saving to disk.
+			foreach (@rli) {
+				delete $_->{'base'};
+				delete $_->{'page'};
+				delete $_->{'exprs'};
+			}
+            file_write($comics_dir . '/' . $netcomics_rli_file,
+                       $files_mode,Data::Dumper->Dump([\@rli],[qw(*rli)]));
+        } else {
+			# Delete the useless entries in @rli before saving to disk.
+			delete $rli->{'base'};
+			delete $rli->{'page'};
+			delete $rli->{'exprs'};
+            file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
+                       $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
+        }
+    }
+}
+
+#add the rli to the list of rlis.
+sub add_to_rli_list {
+	my ($self,$rli) = @_;
+	my $proc = $rli->{'proc'};
+	my $time = $rli->{'time'};
+	my $i = @{$self->{'rli'}};
+	$self->{'rli'}[$i] = $rli;
+	#save the array index.
+	$self->{'rli_procs'}->{$proc} = {} 
+		if ! defined($self->{'rli_procs'}->{$proc});
+	$self->{'rli_procs'}->{$proc}->{$time} = $i;
+}
+
+sub list_comics {
+	my $self = shift;
+	my $today = time;
+	my %names; #indexed by the comic name (not function) to make sorting easy
+	my ($max_flen,$max_nlen) = (0,0,0);
+	my $make_webpage = ($do_list_comics > 1)? 1 : 0;
+	my ($f,$d);
+	print STDERR "Listing comics.\n" if $extra_verbose;
+	while (($f,$d) = each %{$self->{'hof'}}) {
+		my $i = -1;
+		my $rh = undef;
+		my $days = (defined $d) ? $d : 0;
+		while ($i++ <= 21) {
+			#try to get a real name from the rli function 21 times
+			my $time = $today - (($days + $i) * 24*3600);
+			last if defined($rh = $self->run_rli_func($f,$time,$f));
+		}
+		my $name;
+		unless (defined($name = $rh->{'title'})) {
+			($name,$_) = parse_name($rh->{'name'}) if defined($rh->{'name'});
+			$name = $f unless defined $name;
+		}
+		$names{$name} = [$f,(defined $d ? $d : -1)];
+		my $len = length($f);
+		$max_flen = $len +2 if $len > $max_flen;
+		$len = length($name);
+		$max_nlen = $len +1 if $len > $max_nlen;
+	}
+	my @names = sort({libdate_sort($a,$b,$names{$b}[1],$names{$a}[1]),
+					  $sort_by_date;} keys(%names));
+	my $title = 'Comic Name';
+	my $lines = '----------';
+	$names{$title} = ["id","days behind"];
+	$names{$lines} = ["--","-----------"];
+
+	print "<HTML><TITLE>Supported Comics</TITLE>\n</HEAD>\n<BODY>\n<TABLE>\n" 
+		if $make_webpage;
+
+	my $name;
+	foreach $name ($title,$lines,@names) {
+		my ($f,$d) = @{$names{$name}};
+		print "<TR><TD>" if $make_webpage;
+		print "$f";
+		my $len = $max_flen - length($f);
+		if ($make_webpage) {
+			print "</TD><TD>";
+		} else {
+			print " " x $len;
+		}
+		print "$name";
+		$len = $max_nlen - length($name);
+		if ($make_webpage) {
+			print "</TD><TD>";
+		} else {
+			print " " x $len;
+		}
+		if ($d eq "-1") {
+			print "N/A\n";
+		} else {
+			print "$d\n";
+		}
+		print "</TD></TR>\n" if $make_webpage;
+	}
+    print "</TABLE>\n</BODY>\n</HTML>\n" if $make_webpage;
+}
+
+sub add_back {
+	my ($self,$back,$time,$proc,$rli,$rli_queue,$rli_list,$errmsg) = @_;
+	if (defined($_ = $self->run_rli_func($back,$time,$proc))) {
+		print $errmsg . ", using backup.\n" if $verbose;
+		$rli->{'status'} = 3;
+		push(@$rli_queue,$_);
+		push(@$rli_list,$_);
+		return 1;
+	}
+	return 0;
+}
+
+sub run_rli_func {
+	my ($self,$fun,$time,$fun_name,$days) = @_;
+	$time -= $days * 24*3600 if defined $days;
+
+	# Real date day
+	if ($real_date == 1) {
+		# Adapt time for this comic "as if" today was ...
+		$time -= $self->{'hof'}{$fun} * 24*3600;
+	}
+
+	#get the info from the RLI
+	if (ref($fun) =~ /(SUB|CODE)/) {
+		$_ = &$fun($time,$prefer_color);
+	} else {
+		$_ = eval "$fun($time,$prefer_color)";
+	}
+	#remember which RLI that was & save the time
+	if (defined($_)) {
+		if (ref($_) eq "HASH") {
+		    $_->{'time'} = $time;
+		    $_->{'proc'} = $fun_name;
+		    if (defined($comics{$fun})) {
+				#copy in user-defined keys
+				my $field;
+				foreach $field (keys(%{$comics{$fun}})) {
+				    $_->{$field} = $comics{$fun}{$field};
+				}
+	    	}
+		} else {
+		    print STDERR "$fun: returned unsupported reference type: " .
+				ref($fun) . ".\n";
+		    $_ = undef;
+		}
+	}
+	return $_;
+}
+
+
+
+
+#functions that don't require access to attributes
+
+#return the name of an rli stat file given the rli's name (Rli_Name-YYYYMMDD)
+sub rli_filename {
+	return '.' . shift(@_) . '.rli';
+}
+
+sub add_referer {
+	my ($request,$referer) = @_;
+	if (! defined($referer)) {
+		$referer = $request->url;
+		$referer =~ s/([^:]+:\/*[^\/]+)\/.*/$1/ if defined $referer;
+	}
+	$request->referer($referer) if defined $referer;
+	return $request;
+}
+
+
+#Build the array of dates of comics to get
+sub build_date_array {
+	my ($dates, $hof) = @_;
+	$days_of_comics = undef 
+		if defined($days_of_comics) && $days_of_comics == 0;
+	if (defined($days_of_comics)) {
+		#incase user specified it with a minus sign.
+		$days_of_comics = abs($days_of_comics);
+		$days_of_comics--; #adjust for 0-base
+	}
+	my $now = time;
+	{
+		#adjust the time so it is of this morning just after midnight.
+		my @ltime = localtime($now);
+		$now -= $ltime[0] + ($ltime[1] + $ltime[2]*60)*60;
+	}
+
+	my $get_current = 0; #use hof
+	#Determine the start & end dates
+	if (! defined($end_date) && ! defined($days_of_comics) &&
+		defined($start_date)) {
+		#-S, no -E, no -n
+		$end_date = $now + (get_max_hof($hof) * 24*3600);
+	} elsif (defined($end_date) && defined($days_of_comics) &&
+			 ! defined($start_date)) {
+		#no -S, -E, -n
+		$start_date = $end_date - ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && defined($days_of_comics) &&
+			 defined($start_date)) {
+		#-S, no -E, -n
+		$end_date = $start_date + ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && defined($days_of_comics) && 
+			 ! defined($start_date)) {
+		#no -S, no -E, -n
+		$get_current = 1;
+		$end_date = $now - ($days_prior * 24*3600);
+		$start_date = $end_date - ($days_of_comics * 24*3600);
+	} elsif (! defined($end_date) && ! defined($days_of_comics) && 
+			 ! defined($start_date)) {
+		#no -S, no -E, no -n
+		#we don't need to do anything special
+		#add today's date (minus days prior) to the date array, and return.
+		if (@$dates == 0) {
+		    push(@$dates,($now - ($days_prior * 24*3600)));
+		    $get_current = 1;
+		}
+		return $get_current;
+	}
+
+	{   #Build up the date array
+		my $time_c = $start_date;
+		my @e_day = gmtime($end_date);
+		my @c_day = gmtime($time_c);
+		my $e_day = strftime("%Y%m%d",@e_day);
+		my $c_day = strftime("%Y%m%d",@c_day);
+		while ($c_day <= $e_day) {
+		    push(@$dates,$time_c);
+		    $time_c += 24*3600;
+		    @c_day = gmtime($time_c);
+		    $c_day = strftime("%Y%m%d",@c_day);
+		}
+	}
+	return $get_current;
+}
+
+#return the persistenantly stored rli hash.
+sub load_rli {
+	my $rli_name = shift;
+	my $file = $comics_dir . '/' . $rli_name;
+	local(%rli);
+	if (-f $file && -r $file) {
+		$@=0;
+		eval {require $file;};
+#		print Data::Dumper->Dump([\%rli],[qw(*rli)]) if $extra_verbose;
+		if ($@) {
+			print STDERR "Error loading rli status file: '$file':\n$@.\n";
+			print STDERR "Skipping."
+		} elsif (! defined(%rli)) {
+			print STDERR "Loaded rli status file, $file, " .
+				"resulted in an empty rli\n";
+		} else {
+			#Make sure necessary fields are there
+			$rli{'tries'} = 1 if ! defined $rli{'tries'};
+			#I'm not sure if this needs to be done or not, but to make sure
+			#the same hash isn't being passed around, return a reference to
+			#a locally created copy the rli.
+			my %rlic = %rli;
+			return \%rlic;
+		}
+	} elsif ($extra_verbose) {
+		print "No rli status file, $file, found\n";
+	}
+	return undef;
+}
+
+sub load_rlis {
+	my $rli_name = shift;
+	my $file = $comics_dir . '/' . $netcomics_rli_file;
+	local(@rli);
+	if (-f $file && -r $file) {
+		$@=0;
+		eval {require $file;};
+		if ($@) {
+			die "Error loading rli status file: '$file':\n$@.";
+		} elsif (! defined(@rli)) {
+			print STDERR "Loaded global rli status file, $file, " .
+				"resulted in an empty rli\n";
+		} else {
+			#Make sure necessary fields are there
+			foreach $_ (@rli) {
+				$_->{'tries'} = 1 if ! defined $_->{'tries'};
+			}
+			return @rli;
+		}
+	} elsif ($extra_verbose) {
+		print STDERR "No global rli status file, $file, found\n";
+	}
+	return undef;
+}
+
+sub get_max_hof {
+	my $hof = shift;
+	my ($tmp, $max_hof);
+
+	return 0 if ($real_date == 0);
+
+	foreach $tmp (keys %$hof) {
+		$max_hof = $hof->{$tmp} if ($hof->{$tmp} > $max_hof);
+	}
+
+	return $max_hof;
+}
+
+
+
+1;

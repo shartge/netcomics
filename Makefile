@@ -192,25 +192,31 @@ OLDMODULES = \
 	roomies \
 	sketch \
 	uexpress \
-	worldviews 
+	worldviews \
 
 PERLMODULES = \
+	Config.pm \
+	ExternalUserAgent.pm \
+	Factory.pm \
+	HTML.pm \
 	MyResponse.pm \
 	MyRequest.pm \
-	ExternalUserAgent.pm \
 	RLI.pm \
-	HTML.pm
+	Util.pm \
 
 HTMLTEMPLATES = \
 	head.html tail.html links.html links_index.html index_body_el.html\
 	body_el1.html body_el2.html body_el3.html body_el4.html\
 	body_el5.html body_el6.html body_el7.html body_el8.html
 
+DEBFILES = changelog conffiles control copyright cron.daily dirs docs rules
+
 ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
 	$(APPNAME) $(AP2NAME) $(AP3NAME) doc/old_Comic_Module-HOWTO.html \
 	doc/netcomics.lsm doc/Modify_Webpage_Creation-HOWTO.html \
 	doc/Comic_Module-HOWTO.html contrib/comics_update $(MODULES) \
-	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%)
+	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%) \
+	$(DEBFILES:%=debian/%)
 
 #specify the following on the command line so that you can force
 #installation under a different prefix without it remaking everything
@@ -437,7 +443,7 @@ $(RHSOURCES)/$(TARBZ2FILE): ../$(TARBZ2FILE)
 $(RHRPMS)/noarch/$(RPMFILE): $(RHSPECS)/$(RPMSPEC) $(RHSOURCES)/$(TARBZ2FILE)
 	cd $(RHSPECS); $(RPM) $(RPMBUILDFLAGS) $(RPMSPEC)
 
-../$(DEBFILE): debian/rules ../$(TARGZFILE)
+../$(DEBFILE): $(DEBFILES:%=debian/%) ../$(TARGZFILE)
 	cd ..; \
 	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xvf - ; \
 	cd $(APPNAME)-$(VERSION); \
