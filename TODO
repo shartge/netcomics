@@ -203,3 +203,5 @@ the last file.  So the sorting routine must be doing something a bit
 weird.
 
 ** Fix bug where RLIs loaded from files have 'name' which is deprecated.
+
+** Fix the don't download specifier (-C)
