@@ -211,6 +211,21 @@ Information) hash structure.
 	is used for every HTTP request.</P>
     </TD>
   </TR>
+  <TR>
+    <TD>no</TD>
+    <TD>volatile</TD>
+    <TD>array</TD>
+    <TD>[qw/title author/]</TD>
+    <TD><P>If there are any fields which are normally static that are
+	changed by a func, list them.  For example, if the comic
+	occasionally has a guest author, you can have a func return a
+	hash with the new author field & value.  If a comic has both a
+	subtitle & a caption, and you want to include the subtitle in
+	the title field, you need to specify that the title field is
+	volatile so that the value in the perisistent rli file is
+	ensure to be used.</P>
+    </TD>
+  </TR>
 </TABLE>
       
 </P>
@@ -323,9 +338,9 @@ If you don't, the module will not load properly.
 </P>
 
 <HR>
-<ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
+<ADDRESS><a target="_top" href="http://netcomics.sf.net/">Netcomics Maintainers</a> &lt<a href="mailto:netcomics-maintainers@lists.sf.net">netcomics-maintainers@lists.sf.net</a>&gt</ADDRESS>
 <SPAN CLASS=TimeStamp>
-Last modified: Thu Apr 11 08:08:54 CDT 2002
+Last modified: Thu May 30 08:33:14 CDT 2002
 </SPAN>
 </BODY>
 </HTML>

@@ -1,3 +1,8 @@
+2002-05-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/Modify_Webpage_Creation-HOWTO.html, *Comic_Module-HOWTO.html:
+	updated author to be Netcomics Maintainers.
+
 2002-05-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics.spec (%files data): removed potd/astronomy from the
