@@ -62,7 +62,7 @@ $html{'body'} = <<END_BODY;
         </tr>
         <tr>
 	  <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
-	  <td bgcolor="#f7f7f7" height="15">&nbsp;</td>
+	  <td bgcolor="#f7f7f7" height="10">&nbsp;</td>
 	  <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
         </tr>
         <tr>
