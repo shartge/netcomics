@@ -1,3 +1,8 @@
+2001-09-02  Elliot Glaysher  <glaysher@umich.edu>
+
+	* debian/netcomics.dirs: Changed dirs to new system. Oops. Thanks
+	Ben...
+
 2001-09-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* doc/Modify_Webpage_Creation-HOWTO.html: Changed template to be
