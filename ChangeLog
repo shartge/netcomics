@@ -1,3 +1,15 @@
+2000-08-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Made it so that comics' status files are loaded and
+	reused to determine if they need to be downloaded again. Added
+	noop functionality with -q.
+
+2000-08-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Added several examples to netcomics' pod of both new
+	and old options.  Added the "always download" and "max retries"
+	features.
+
 2000-08-09  Martial Michel  <martial@users.sourceforge.net>
 
 	*   netcomics: Added example  of use   for the   -A option  in the

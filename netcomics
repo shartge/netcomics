@@ -6,9 +6,9 @@ netcomics - retrieve comics from the Internet
 
 =head1 SYNOPSIS
 
-B<netcomics> [B<-bBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [B<-S,-T,-E> I<date> [B<-A>]]
-                 [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>] [B<-g> [I<program>]] [B<-nD>]
-                 [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
+B<netcomics> [B<-abBDhiIlLosuvv>] [B<-c,-C> I<"comic ids">] [B<-p> I<proxy>] [ B<-R> retries]
+                 [B<-S,-T,-E> I<date> [B<-A>]] [B<-n,-N> I<days>] [B<-d,-m,-t> I<dir>] [B<-f> I<date_fmt>]
+                 [B<-g> [I<program>]] [B<-nD>] [B<-r> I<rc_file>] [B<-W,-w>[=I<n>]] [B<-nw>]
 
 =head1 DESCRIPTION
 
@@ -22,8 +22,8 @@ is not updated at the same time, nor are any of them updated at a
 consistent time during the day.  Therefore, when running netcomics
 as a cron job in the early morning, you may need to rerun it by hand
 a little later in the day to get the comics that it couldn't find.
-The exact command to run is given at the end of I<netcomics> output
-if any failures occurred.
+I<netcomics> will automatically determine what comics need to be retried
+to be downloaded (max retries defaulted to 3).
 
 I<netcomics> also supports retrieving specific dates of comics.  A
 "Starting Date" may be specified with B<-S>.  An "Ending Date" may be
@@ -61,27 +61,39 @@ computers on a network.
 
 B<Important:>  The further east your timezone is from the US, the later 
 in the day you'll have to run I<netcomics>.  As a reference, I suggest
-those whose timezone in GMT to wait to run the script at 12:30pm if
+those whose timezone is GMT to wait to run the script at 12:30pm if
 they want to get all the comics at a time that's pretty likely to have
 had all of the websites updated.  Use B<-N> if you want to run the
 script early in the morning and are having problems getting comics to
 download. Also, just because a comic failed to download doesn't mean
-that the module for that comic is broken--it most likely the website
+that the module for that comic is broken--it may mean the website
 just hasn't been updated yet.
 
-I<netcomics> can also create an HTML file, "index.html", in the
+I<netcomics> can also create an set of HTML files, in the
 directory you have the comics placed.   If a number is given with
 B<-W> or B<-w>, it will be used to determine the number of comics to
-be placed in each html file.  Subsequent files are named "comic#.html".
+be placed in each html file.  Each file is named "comic#.html", and an
+"index.html" file is created with a table of pointers into these files.
 
 B<Disclaimer:> Do not put the comics up on the Internet!  You should
 only use them for your own use.  Also, do not redistribute the comics
 downloaded by I<netcomics> in any other way unless you receive written
-authorization from each publisher.
+authorization from each comic's publisher and/or author.
 
 =head1 OPTIONS
 
 =over 4
+
+=item B<-a>
+
+Always download even if the comic strip about to be downloaded exists in
+the spool directory.  When netcomics starts up, it scans the download directory
+and reads in all the status information files for each comic strip in the
+directory (use B<-D> to have netcomics clear the directory when it starts).
+By default, netcomics will skip downloading comics you specify to download
+if they are in the directory and they have a good status indicator.  By
+specifying this option, netcomics will skip this step and clobber the
+previously downloaded comic.
 
 =item B<-A>
 
@@ -197,9 +209,23 @@ per page for B<-W> or B<-w> if you use this option.
 
 Specify a URL to use as a proxy.  Both HTTP and FTP are supported.
 
+=item B<-q>
+
+Show what comics would be downloaded.  Don't actually do anything.
+
 =item B<-r> I<rc filename>
 
 Specify an alternate name for the user-specific rc file
+
+=item B<-R> I<retries>
+
+Specify the maximum number of retries for downloading comics not specified
+to be downloaded, inbetween invocations of netcomics.
+If you don't have the download directory cleared out, netcomics will
+pick up information on comics it's tried to download previously.  Specify
+1 to this option if you don't want netcomics to retry to download comics
+you don't specify for it to download.  Specify 0 for an infinite number of
+retries.
 
 =item B<-s>
 
@@ -228,7 +254,20 @@ repeated. The date is of the form: M-D-Y.
 =item B<-u>
 
 Don't download comics, but print URLs on stdout, or if creating a
-webpage, make the images be implementing using the URLs.
+webpage, make the images implemented using the URLs.  Note that this
+option can be used with B<-a> (always download).  This option doesn't keep
+everything from being downloaded--just the final URL.  B<-a> simply turns
+off netcomics' tendency to needlessly redownload comics already "downloaded"
+(whether it be fully downloaded or only to the point of having a URL to
+the comic strip).
+
+Another important note is that some websites try to prevent downloading
+of comics from programs like this by requiring the "referer" of the
+HTTP Get operation to be of a particular website.  For those websites that
+impose this policy, using this option will result in comics that won't
+download when browsing the webpage netcomics produces because the referer
+your browser will specify when doing the HTTP Get operation for those
+comics won't be the right one.
 
 =item B<-v>
 
@@ -316,7 +355,7 @@ available three, four, and five days ago.
 =item 7.
 Specify the date range of comics to retrieve to be all those that are
 dated three, four, and five days ago.  This example is given to show
-the difference between -E & -S  (when given a number) and -N. All
+the difference between B<-E> & B<-S>  (when given a number) and -N. All
 comics downloaded will have the same 3 dates, while in the previous 
 example, the comics will have varying dates that are determined by
 the 3rd column in the output of -l. Note that since many comics aren't
@@ -329,6 +368,9 @@ with this example.
 
    netcomics -E 3 -S 5
 
+See B<-A> for a more elegant way of downloading comics released in the
+past.
+
 =item 8.
 Use wget instead of libwww-perl (makes it so you don't have to install
 libwww-perl).
@@ -336,18 +378,53 @@ libwww-perl).
    netcomics -g
 
 =item 9.
-Do not actually download the comics, and output the webpage to stdout.
+Do not actually download the comics.  Output the webpage (which will point
+to the comics on the websites they actually are released from) to stdout.
 
    netcomics -uwo
 
 =item 10.
-Download the Calvin & Hobbes, Alice and Dragon Tails as if the day the download was done was May 1st 2000.
+Download the Calvin & Hobbes, Alice and Dragon Tails as if the day the
+download was done was May 1st 2000.
  
    netcomics -T 5-1-00 -A -c "ch alice dt"
  
-will download Dragon Tails for May 1st 2000 since the strip is available the same day, but will download the May 1st 1989 Calvin & Hobbes' strip since it is 4018 days back, as well as the April 17th 2000 strip for Alice since it is 14 days back.
+This will download Dragon Tails for May 1st 2000 since the strip is available
+the same day, but will download the May 1st 1989 Calvin & Hobbes' strip
+since it is 4018 days back, as well as the April 17th 2000 strip for Alice 
+since it is 14 days back.
 
-This behavior also apply for the -E and -S options.
+This behaviour also applies for the -E and -S options.
+
+=item 11.
+Have netcomics retry downloading comics it didn't successfully download,
+regardless of the number of times they've been retried (also remaking the
+webpage).
+
+   netcomics -c "" -R 0 -W
+
+=item 12.
+Have netcomics ignore all previously downloaded (and not-yet downloaded) comics
+and redownload everything.  Note that this was netcomics' default behaviour
+prior to version 0.13. Also note this has the affect of resetting all comics'
+retry counter to 1.
+
+   netcomics -a
+
+=item 13.
+List all the supported comics, including their IDs that are used with the B<-c>
+option, and how old they are before being released on the website from which
+they are downloaded.
+
+   netcomics -l
+
+=item 14.
+With a ~/.netcomicsrc file having $delete_files = 1 and $remake_webpage = 1
+or $make_webpage = 1, tell netcomics to not delete the previously downloaded
+comics and to not create or recreate the webpage.
+
+   netcomics -nD -nw
+
 
 =back
 
@@ -409,12 +486,22 @@ $0 =~ s,.*/,,;  # use basename only
 use POSIX;
 use strict;
 
-#global vars
+# Global Variables
+# Rule: Only declare a variable global with "use vars" if it can potentially
+# need to be overridden by running code with "require".  For instance, most
+# global variables that need to be declared with "use vars" are ones that
+# can be set in the user's netcomicsrc file. Any variable that is set with
+# a command line option should also be declared with "use vars".
+#
+# Don't forget to add the variable to the netcomicsrc file if it makes sense!
+
 my $script_name = "netcomics";
 my $files_mode = 0644;
-use vars('@lof'); @lof = ();    #list of functions which return an rli hash
-use vars('%hof'); %hof = ();    #hash of functions which return an rli hash
+use vars('@lof'); @lof = (); #list of functions which return an rli hash
+use vars('%hof'); %hof = (); #hash of functions which return an rli hash
 use vars('@rli'); @rli = (); #resource locator information
+my %rli_procs = (); #hash of hashes of indexes into @rli.
+my @existing_rli_files = (); #files attributed to being already downloaded
 use vars('$date_fmt'); $date_fmt = "%Y%m%d"; #date format in filenames
 
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
@@ -448,7 +535,9 @@ use vars ('$use_filecmd'); $use_filecmd = 0;
 use vars ('$prefer_color'); $prefer_color = 1;
 use vars ('$reset_libdir'); $reset_libdir = 0;
 use vars ('$real_date'); $real_date = 0;
-use vars ('$realend_date'); $realend_date = 0;
+use vars ('$always_download'); $always_download = 0;
+use vars ('$max_attempts'); $max_attempts = 3;
+use vars ('$show_tasks'); $show_tasks = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -485,13 +574,11 @@ my $tz;
     $tz = (0 - $tzmin/60);
 }
 
-$realend_date = mkgmtime(gmtime(time));
-
 $| = 1; #autoflush on STDERR & STDOUT
 
 my $smushopt = 0;
 
-#TODO: preload options that specify the rc file names & verbosity here
+#TODO: preload options that specify verbosity here
 my $i = 0;
 foreach (@ARGV) {
     last if ++$i == @ARGV;
@@ -692,8 +779,9 @@ while (@ARGV)
 
     # Real date day
     elsif (/-A$/) {
-      $real_date = 1;
-      $given_options .= " -A";
+	$real_date = 1;
+	$given_options .= " -A";
+	$smushopt = 1;
     }
 
     #Specified date
@@ -812,6 +900,37 @@ while (@ARGV)
 	$given_options .= " -r '$rc_file'";
     }
 
+    #always download
+    elsif (/-a$/) {
+	$always_download = 1;
+	$smushopt = 1;
+	$given_options .= " -a";
+    }
+
+    #maximum retries
+    elsif (/-R$/) {
+	my $good = 0;
+	if (@ARGV > 0) {
+	    $max_attempts = shift(@ARGV);
+	    if ($max_attempts =~ /^\d+$/) {
+		$given_options .= " -f $max_attempts";
+		$good = 1;
+	    }
+	}
+	if (! $good) {
+	    print STDERR "You must specify a number, 0 or greater, with -R. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #show tasks
+    elsif (/-q$/) {
+	$show_tasks = 1;
+	$smushopt = 1;
+	$given_options .= " -q";
+    }
+
     #Usage
     else {
 	print STDERR "Unknown option: $_.\n" unless /-h/;
@@ -860,8 +979,8 @@ if (defined($comics_per_page) && $webpage_on_stdout) {
     exit 1;
 }
 if ( ($real_date == 1) && ! defined($start_date) && (scalar @dates == 0) ) {
-  print STDERR "-A may only be used with -S, -E or -T.  Use -h for usage.\n";
-  exit 1;
+    print STDERR "-A may only be used with -S, -E or -T.  Use -h for usage.\n";
+    exit 1;
 }
 
 #only load the modules if needed
@@ -959,8 +1078,41 @@ unless (-d $comics_dir) {
     chdir $comics_dir || die "could not cd to $comics_dir: $!";
     unlink <*.*>;
     unlink <.*.rli>;
-}
+} else {
+    #load in the rlis in the directory to find out what comics
+    print "Reading $comics_dir to get list of current comics\n" 
+	if $extra_verbose;
+    opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
+    my @files = readdir(DIR);
+    closedir(DIR);
+    @files = sort(grep(s/\.(.+)\.rli$/$1/,@files));
+    for (@files) {
+	my $name = $_;
+	my $rli = load_rli($name);
+	if (! defined($rli)) {
+	    print STDERR "Warning: $name did not load.\n";
+	    next;
+	}
+	$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
+	#save the files managed by this rli status file so we know which
+	#files were already downloaded before we start downloading more.
+	for (@{$rli->{'file'}}) {
+	    my $file = $_;
+	    if (-f "$comics_dir/$file") {
+		push(@existing_rli_files,$file);
+	    } elsif ($rli->{'status'} == 1) {
+		print STDERR "Warning: $name is missing $file in $comics_dir\n"
+		    if $verbose;
+		#make it so that this one will be retried.
+		$rli->{'status'} = 0;
+	    }
+	}
+    }
+    print "Rli's reloaded: " . @rli . "\n" if $extra_verbose;
 
+    print Data::Dumper->Dump([\%rli_procs],[qw(*rli_procs)])
+        if $data_dumper_installed && $extra_verbose && $show_tasks;
+}
 
 #
 #Do the work.
@@ -978,78 +1130,93 @@ if ($extra_verbose) {
 }
 build_rli_array($get_current);
 
-#get_comics returns a list of comics, but when creating the webpage,
-#only the rli are used.
+#stop and print what will be done
+if ($show_tasks) {
+    for (@rli) {
+	my $rli = $_;
+	my $name = strftime("$rli->{'title'}-${date_fmt}",
+			    gmtime($rli->{'time'}));
+	my $try = $rli->{'tries'};
+	if (skip_rli($rli)) {
+	    print "Skip ($try): $name ($rli->{'proc'})\n";
+	} else {
+	    $try++;
+	    print "Get  ($try): $name ($rli->{'proc'})\n";
+	}
+    }
+    exit(0);
+}
+
+#get_comics returns a list of comics which is used to help determine
+#if a comic in the directory was just downloaded or not.
 my @comics = get_comics();
     
 if ($remake_webpage)
 {
-    print "Reading $comics_dir to get list of current comics\n" 
+    print "Scanning $comics_dir for comics with no associated status file.\n"
 	if $extra_verbose;
     opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
     my @files = readdir(DIR);
     closedir(DIR);
+    #sort so that if there's a multifile comic and regular comic associated
+    #with the same comic-date, that the multi-file comics can be processed
+    #first.
     @files = sort(grep(/(xpm|gif|jpe?g|tiff?|png)$/,@files));
 
-    while (@files) {
-	my $file = pop(@files);
-	next if grep(/^$file$/,@comics);
-	#First look for an rli status file.
-	print "$file: " if $extra_verbose;
-	my $rli;
+RMW: while (@files) {
+	my $file = shift(@files);
+	#although we could check to see if the file is in @comics or
+	#@existing_rli_files right away, we have to first check through
+	#all of the files associated with this one if it is a multi-file comic
 	my ($title,$date,$type,$num) = parse_name($file);
 	my $name = "$title-$date";
-	$rli = load_rli($name);
-	if (defined($rli)) {
-	    print "rli status file found\n" if $extra_verbose;
-	    if (! grep(/^$file$/,@{$rli->{'file'}})) {
-		print STDERR "${file}'s rli status file doesn't reference it." .
-		    "  Skipping.\n" if $verbose;
-		next;
-	    }
-	    #Remove all files from @files listed in the rli.
-	    for (@{$rli->{'file'}}) {
+	my $rli = {'title' => $title,
+		   'name' => $name,
+		   'time' => date_from_filename($file),
+		   'status' => 1,
+		   'type' => $type,
+		   'file' => [$file]};
+	if (defined($num)) {
+	    #this is part of a multi-file comic
+	    #recreate the file array because the one we're looking
+	    #at may not be image #1.
+	    $rli->{'file'}->[$num - 1] = $file;
+	    my @multifiles = grep(/^$name(-\d+)?\.\w+$/,@files);
+	    @files = grep(!/^$name(-\d+)?\.\w+$/,@files);
+	    for (@multifiles) {
 		my $file = $_;
-		@files = grep(!/^$file$/,@files);
-	    }
-	} else {
-	    #no rli status file, generate our own rli hash for the file.
-	    print STDERR "Warning: $name has no rli file; some " .
-		"info about it may be lost.\n" if $verbose;
-	    $rli = {'title' => $title,
-		    'name' => $name,
-		    'time' => date_from_filename($file),
-		    'status' => 1,
-		    'type' => $type,
-		    'file' => [$file]};
-	    if (defined($num)) {
-		#this is part of a multi-file comic
-		#recreate the file array because the one we're looking
-		#at may not be image #1.
-		$rli->{'file'}->[$num - 1] = $file;
-		for (grep(/^$name-\d+\.\w+$/,@files)) {
-		    #add this file to the $rli's file list
-		    my ($title,$date,$type,$num) = parse_name($_);
-		    $rli->{'file'}->[$num - 1] = $_;
+		#make sure that none of the files in the multi-file comic
+		#have an rli status file
+		if (grep(/^$file$/,@comics) ||
+		    grep(/^$file$/,@existing_rli_files)) {
+		    print STDERR "Warning: $name has some stale file(s).\n"
+			if $verbose;
+		    next RMW;
 		}
-		@files = grep(!/^$name-\d+\.\w+$/,@files);
+		#add this file to the $rli's file list
+		my ($title,$date,$type,$num) = parse_name($file);
+		$rli->{'file'}->[$num - 1] = $file;
 	    }
 	}
+	next if grep(/^$file$/,@comics) ||
+	    grep(/^$file$/,@existing_rli_files); #skip this file 
+	#no associated rli status file, generate our own rli hash for the file.
+	print STDERR "Warning: $name has no status file; some " .
+	    "info about it may be lost.\n" if $verbose;
 	push(@rli,$rli);
     }
 }
 
 #check to see if any comics were downloaded or are downloadable
-{
+#simply to give a message to the user if verbose.
+if ($verbose) {
     my $good = 0;
     foreach (@rli) {
 	$good = 1, last if $_->{'status'};
     }
     unless ($good) {
-	if ($verbose) {
-	    my $m = $dont_download ? "are downloadable" : "were downloaded";
-	    print "\nNo comics $m.\n";
-	}
+	my $m = $dont_download ? "are downloadable" : "were downloaded";
+	print "\nNo comics $m.\n";
     }
 }
 
@@ -1066,6 +1233,18 @@ if ($make_webpage) {
 }
 
 #END of main
+
+#add the rli to the list of rlis.
+sub add_to_rli_list {
+    my $rli = shift;
+    my $proc = $rli->{'proc'};
+    my $time = $rli->{'time'};
+    my $i = @rli;
+    $rli[$i] = $rli;
+    #save the array index.
+    $rli_procs{$proc} = {} if ! defined($rli_procs{$proc});
+    $rli_procs{$proc}->{$time} = $i;
+}
 
 sub load_rcfile {
     foreach (@_) {
@@ -1156,22 +1335,46 @@ sub build_rli_array {
 	build_rli_array_helper(\%hof,0,"Adding hof & !get_current RLI's");
     }
     print "\n" if $extra_verbose;
+    
+    #now remove undefs from @rli
+    my @newrli = grep {defined($_) } @rli;
+    @rli = @newrli;
 }
 
 sub build_rli_array_helper {
     my ($hof,$usedays,$msg) = @_;
     print "\n$msg: " if $extra_verbose;
-    my ($days, $fun, $time);
+    my ($days, $fun, $time,$rli);
     while (($fun,$days) = each %$hof) {
 	next if $usedays && ! defined $days;
 	print "$fun " if $extra_verbose;
 	foreach $time (@dates) {
 	    if ($usedays) {
-		$_ = run_rli_func($fun,$time,$fun,$days);
+		$rli = run_rli_func($fun,$time,$fun,$days);
 	    } else {
-		$_ = run_rli_func($fun,$time,$fun);
+		$rli = run_rli_func($fun,$time,$fun);
 	    }
-	    $rli[@rli] = $_ if defined $_;
+	    if (defined($rli)) {
+		#reget the time (incase of $usedays)
+		my $time = $rli->{'time'};
+		#first remove any rli with that date & proc from the list.
+		if (defined($rli_procs{$fun}) && 
+		    defined($rli_procs{$fun}->{$time})) {
+		    my $i = $rli_procs{$fun}->{$time};
+		    if (! $always_download) {
+			#copy info from old one into new one, thus
+			#if the module changed, more correct info would be
+			#used.
+			$rli->{'file'} = $rli[$i]->{'file'};
+			$rli->{'status'} = $rli[$i]->{'status'};
+			$rli->{'tries'} = $rli[$i]->{'tries'};
+		    }
+		    #remove the old one
+		    $rli[$i] = undef;
+		}
+		#add the new one
+		$rli[@rli] = $rli;
+	    }
 	}
     }
 }
@@ -1182,9 +1385,6 @@ sub run_rli_func {
 
     # Real date day
     if ($real_date == 1) {
-      # Make sure we do not download more than we are allowed to
-      return undef if ($time > $realend_date);
-
       # Adapt time for this comic "as if" today was ...
       $time -= $hof{$fun} * 24*3600;
     }
@@ -1224,6 +1424,27 @@ sub add_referer {
     }
     $request->referer($referer) if defined $referer;
     return $request;
+}
+
+#determine if this rli should be processed or skipped.
+sub skip_rli {
+    my $rli = shift;
+    #skip if the rli is undefined or
+    # if it was successfully downloaded or
+    # if the URL was successfully determined and we're still not downloading
+    # or if it's reached the max number of retries
+    if ((! defined($rli) || 
+	     (defined($rli->{'status'}) &&
+	      ($rli->{'status'} == 1 ||
+	       ($rli->{'status'} == 2 && $dont_download)
+	       )
+	      ) || ($max_attempts > 0 && defined($rli->{'tries'}) && 
+		    $rli->{'tries'} >= $max_attempts)
+	 )) {
+	return 1;
+    } else {
+	return 0;
+    }
 }
 
 #Engine for getting the comics.  
@@ -1282,7 +1503,7 @@ sub get_comics {
     my @rli_queue = @rli;
   RLI: while (@rli_queue) {
 	my $rli = pop(@rli_queue);
-	next if ! defined $rli;
+	next if skip_rli($rli);
 	my $proc = $rli->{'proc'};
 	my $time = $rli->{'time'};
 	my ($title,$name,$base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) =
@@ -1620,7 +1841,9 @@ RELURL:	    foreach (@relurls) {
 	#by assuming that if it was bad, next RLI or status set to 2 was
 	#done.  If another status state is added, this may have to change.
 	$rli->{'status'} = 1 if $rli->{'status'} == 0;
-	dump_rli($rli);
+	$rli->{'tries'} = 0 unless defined $rli->{'tries'};
+	$rli->{'tries'}++;
+	dump_rli($rli) unless $rli->{'status'} == 3;
     }
     
     print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
@@ -1686,6 +1909,8 @@ sub load_rli {
 	} elsif (! defined(%rli)) {
 	    print "Loaded rli status file, $file, resulted in an empty rli\n";
 	} else {
+	    #Make sure necessary fields are there
+	    $rli{'tries'} = 1 if ! defined $rli{'tries'};
 	    #I'm not sure if this needs to be done or not, but to make sure
 	    #the same hash isn't being passed around, return a reference to
 	    #a locally created copy the rli.
@@ -1715,10 +1940,10 @@ sub create_webpage {
     my %rlis = ();
     foreach (@rli) {
 	my $rli = $_;
+	next if (!$remake_webpage && defined($rli->{'reloaded'}));
 	my $comic = $rli->{'name'};
 	$_ = $rli->{'status'};
 	if (! defined($_)) {
-	    print Data::Dumper->Dump([$rli],[qw(*rli)]) if $extra_verbose;
 	    print STDERR "$comic has an undefined status. Skipping.\n" 
 		if $verbose;
 	    next;
@@ -2385,10 +2610,11 @@ sub usage
 {
     print "$script_name : download comics from the Web.\n";
     print << "END";
-(c)1999 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
-usage: netcomics [-bBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-S,-T,-E date -A]
-                 [-n,-N days] [-d,-m,-t dir] [-f date_fmt] [-g [program]] [-nD]
-                 [-r rc_file] [-W,-w[=n]] [-nw]
+©2000 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
+usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
+                 [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
+                 [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw]
+   -a: always download, even if a comic was successfully downloaded before
    -A: act as if the days specified with S, T or E were today
    -b: specify that you prefer the comics to be in black & white--not color
    -B: specify that you prefer the comics color (override rc file setting)
@@ -2411,7 +2637,9 @@ usage: netcomics [-bBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-S,-T,-E date 
    -N: retrieve this number of days prior to the currently available date
    -o: write the webpage on standard out
    -p: use the given url as the proxy
+   -q: show what comics would be downloaded; don't actually do anything.
    -r: specify the rc filename (default ~/.netcomicsrc)
+   -R: specify the max attempts to download a comic between invocations
    -s: skip bad comics when creating the webpage
    -S: specify a starting date of a range of days of comics to retrieve
    -t: location of html tmpl files (default /usr/share/netcomics/html_tmpl)

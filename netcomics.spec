@@ -144,9 +144,14 @@ rm -f /var/spool/netcomics/*
 
 %post
 cat <<END
-fyi: The external command now supports macros for referer, proxy, and
-url.  Please see the entry for -g in the manpage because you may want
-to adjust your setting of this option.
+FYI:
+* The external command now supports macros for referer, proxy, and
+  url.  Please see the entry for -g in the manpage because you may want
+  to adjust your setting of this option.
+* Netcomics now has download avoidance and retry capabilities.  To
+  retry downloading comics, you can simply rerun netcomics with the
+  same options instead of using the command given on stdout at the end
+  of the download sequence.  See the manpage for details on -q -a -R.
 END
 
 %files

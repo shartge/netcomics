@@ -86,9 +86,6 @@ This should probably use CVS revision IDs.
 
 ** Add mechanism to add support for downloading categories of comics.
 
-** Add an option to specify the number of retries to get a comic:
--r <# of retries>
-
 ** Support randomly released comics.
 In other words, make it so that comics that do not adhere to a time
 schedule for released can be downloaded intuitively.  This includes:

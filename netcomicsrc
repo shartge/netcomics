@@ -63,6 +63,19 @@ my $HOME = $ENV{'HOME'};
 ## Download color images when possible (default 1)
 #$prefer_color = 0;
 
+## Forcibly redownload when set to 1 (default 0)
+## When set to 0, netcomics skips downloading a comic strip for dates for
+## which it already successfully downloaded.
+#$always_download = 1;
+
+## Maxmium number of retries (default 3)
+## If you don't have the download directory cleared out, netcomics will
+## pick up information on comics it's tried to download previously.  Set
+## this to 1 if you don't want netcomics to retry to download comics
+## you don't specify for it to download.  Set it to 0 for an infinite
+## number of retries.
+#$max_attempts = 1;
+
 
 #### Webpage Creation Options ####
 

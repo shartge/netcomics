@@ -2,9 +2,12 @@ Major changes in release 0.13:
 
 * Each comics strip's Resource Locator Info (RLI) structure is now
   saved persistently in the spool directory when the comic strip is
-  downloaded.  When the webpage is recreated, these "rli status files"
-  are used to find out extra information about the already downloaded
-  comics (author, caption, website URLs, etc).
+  downloaded.  These "rli status files" are reloaded during the next
+  invocation of netcomics (unless they're purged) and used to
+  determine what comics needs to be retried to be downloaded.  When
+  the webpage is recreated, the status files are used to find out
+  extra information about the already downloaded comics (author,
+  caption, website URLs, etc).  New commandline options: -R -a -q.
 * Referers are now handled.  A module may specify its own referer if
   the default (derived from the URL) is not correct.
 * The external command specified may now include several macros which
