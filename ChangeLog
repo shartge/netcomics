@@ -4,6 +4,8 @@
 	the distribution tarballs.  Changed to remove CVS subdirs.
 	(CONTRIB): Added a list of files in contrib to the ALLFILES macro.
 	(DEBFILES): Updated to reflect changes made to the debian dir.
+	(NOSUBPOD2MANRULES): Fixed creation of Netcomics::Config manpage
+	by having %.3 files generated using this new macro.
 
 2001-05-22  Elliot Glaysher  <nuriko.chan@home.com>
 

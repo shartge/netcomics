@@ -374,6 +374,11 @@ POD2MANRULES = \
 	$(RM) $(TMPBUILDDIR)/$<; \
 	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
+NOSUBPOD2MANRULES = \
+	$(RM) $@; \
+	$(POD2MAN) --section=$$section $< | \
+		$(PERL) -pe 's/ doc::/ Netcomics::/g' > $@
+
 POD2HTMLRULES = \
 	$(RM) $@; \
 	$(SUBPATHS); \
@@ -403,7 +408,7 @@ distclean::
 %.1: %.pod
 	@section=1; $(POD2MANRULES)
 %.3: %.pod
-	@section=3; $(POD2MANRULES)
+	section=3; $(NOSUBPOD2MANRULES)
 
 distclean::
 	$(RM) doc/$(APPNAME).1
