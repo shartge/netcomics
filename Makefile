@@ -94,6 +94,7 @@ MODULES = lib/after_y2k \
 	lib/jerkcity \
 	lib/joyoftech \
 	lib/k_chronicles \
+	lib/keenspace \
 	lib/keenspot \
 	lib/kevin-n-kell \
 	lib/kingfeatures \
@@ -170,7 +171,6 @@ OLDMODULES = \
 	heaven_and_earth \
 	helpdesk \
 	janesworld \
-	keenspace \
 	lostfound \
 	melonpool \
 	nukees \
