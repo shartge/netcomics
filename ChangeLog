@@ -1,9 +1,15 @@
+2001-05-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (distclean): Updated to use RM_RF.
+	(RM_RF): Changed RMDIR to RM_RF since Makefile.pl will generate
+	that macro to be used.
+
 2001-05-27  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* comicpage.glade: Initial commit of the glade file used to generate
 	the comicpage interface.
-	* Makefile: Updated (dist_clean) as to clean up more tmp files created
-	by glade.
+	* Makefile (distclean): updated so as to clean up more tmp files
+	created by glade.
 	* comicpage (startup): Changes for new form style. 
 	(Display_comic): Will now display caption in the status bar, if 
 	available.
@@ -22,7 +28,7 @@
 	today's comic for that comic.
 	(Display_comic): Commented code and added whitespace. If they suck let
 	me know (It's past midnight and I'm tired...)
-	(comic_selected_from_list): A one line fix to quite an annoying bug...
+	(comic_selected_from_list): A one line fix to quiet an annoying bug...
 	
 2001-05-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

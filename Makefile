@@ -40,7 +40,7 @@ LN	= ln
 CHMOD	= chmod
 MV	= mv
 CP	= cp
-RMDIR	= rm -rf
+RM_RF	= rm -rf
 
 LIBPERMS = 644
 BININSTALLFLAGS	= -m 755
@@ -332,12 +332,12 @@ bin:: bin/$(APPNAME)
 
 distclean::
 	$(RM) bin/$(APPNAME)
-	$(RM) debian/netcomics -R
-	$(RM) debian/netcomics-modules -R
-	$(RM) debian/tmp -R
+	$(RM_RF) debian/netcomics
+	$(RM_RF) debian/netcomics-modules
+	$(RM_RF) debian/tmp
 	$(RM) debian/files debian/*.debhelper debian/*substvars
-	$(RM) comic_page/ -Rf
-	$(RM) comicpage.glade.bak comicpage.glade2perl.xml -f
+	$(RM_RF) comic_page/
+	$(RM_RF) comicpage.glade.bak comicpage.glade2perl.xml
 
 etc/$(RCFILE): $(RCFILE)
 	@$(SUBPATHS)
@@ -373,7 +373,7 @@ POD2MANRULES = \
 	echo "$(POD2MAN) --section=$$section $< > $@"; \
 	$(POD2MAN) --section=$$section $(TMPBUILDDIR)/$< > $@; \
 	$(RM) $(TMPBUILDDIR)/$<; \
-	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
+	$(RM_RF) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
 NOSUBPOD2MANRULES = \
 	$(RM) $@; \
@@ -389,7 +389,7 @@ POD2HTMLRULES = \
 	echo "$(POD2HTML) $< > $@"; \
 	$(POD2HTML) $(TMPBUILDDIR)/$< > $@; \
 	$(RM) pod2html-itemcache pod2html-dircache $(TMPBUILDDIR)/$<; \
-	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
+	$(RM_RF) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
 MODPODRULES = \
 	echo Extracting pod text from $?; \
