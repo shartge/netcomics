@@ -198,7 +198,7 @@ END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html netcomicsrc
+%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html netcomicsrc
 /usr/bin/netcomics
 /usr/bin/show_comics
 /usr/bin/comicpage
@@ -214,5 +214,5 @@ END
 
 %files data
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
+%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
 /usr/share/netcomics

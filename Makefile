@@ -61,8 +61,7 @@ PERLMANDIR3 = $(PERLMANDIR)/man3
 BZIP2	= bzip2
 GZIP	= gzip
 TAR	= tar
-TARFILES= "ls -d $(APPNAME)-$(VERSION)/* | \
-	$(PERL) -pe 's/.*(lost\+found|dist).*//gm'"
+TARFILES= "ls -d $(APPNAME)-$(VERSION)/*"
 RPM	= rpm
 RPMBUILDFLAGS	= -ba
 
@@ -224,7 +223,7 @@ HTMLTEMPLATES = \
 	body_el1.html body_el2.html body_el3.html body_el4.html\
 	body_el5.html body_el6.html body_el7.html body_el8.html
 
-DEBFILES = changelog control copyright cron.daily dirs docs \
+DEBFILES = changelog control copyright cron.daily netcomics.docs \
 	netcomics-modules.dirs netcomics-modules.files \
 	netcomics.conffiles netcomics.dirs netcomics.files \
 	netcomics.manpages netcomics.menu rules
@@ -239,9 +238,19 @@ DOCFILES = \
 	$(AP4NAME).pod \
 	design.dia
 
-ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
-	$(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
-	contrib/comics_update $(MODULES) $(DOCFILES:%=doc/%) \
+CONTRIB = \
+	comics_update \
+	local2gmtime \
+	localtime \
+	make_bruno_hash \
+	make_doemain_code \
+	make_frankandernest_hash \
+	make_stuffthis_hash \
+	mktime \
+
+ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS AUTHORS TODO \
+	$(RPMSPEC) $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
+	$(MODULES) $(DOCFILES:%=doc/%) $(CONTRIB:%=contrib/%) \
 	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%) \
 	$(DEBFILES:%=debian/%)
 
@@ -479,17 +488,18 @@ install::
 	fi
 
 #Distribution targets
-../$(TARBZ2FILE): $(ALLFILES)
-	rm -f ../$(APPNAME)-$(VERSION)
-	ln -s $(APPNAME) ../$(APPNAME)-$(VERSION)
-	cd ..; $(TAR) cf - `eval $(TARFILES)` | $(BZIP2) > $(TARBZ2FILE)
+
+BUNDLERULES = \
+	rm -f ../$(APPNAME)-$(VERSION); \
+	ln -s $(APPNAME) ../$(APPNAME)-$(VERSION); \
+	(cd ..; $(TAR) cf - --exclude CVS `eval $(TARFILES)` | $$bundler) > $@;\
 	rm ../$(APPNAME)-$(VERSION)
 
+../$(TARBZ2FILE): $(ALLFILES)
+	bundler=$(BZIP2); $(BUNDLERULES)
+
 ../$(TARGZFILE): $(ALLFILES)
-	rm -f ../$(APPNAME)-$(VERSION)
-	ln -s $(APPNAME) ../$(APPNAME)-$(VERSION)
-	cd ..; $(TAR) cf - `eval $(TARFILES)` | $(GZIP) > $(TARGZFILE)
-	rm ../$(APPNAME)-$(VERSION)
+	bundler=$(GZIP); $(BUNDLERULES)
 
 #Make an RPM
 $(RHSPECS)/$(RPMSPEC): $(RPMSPEC)
