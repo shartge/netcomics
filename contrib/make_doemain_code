@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 # This program generates the code to be used in the doemain module. See
 # module for more information.
+use POSIX;
 
-qx#wget http://www.doemainofourown.com/archive.html#;
+#qx#wget http://www.doemainofourown.com/archive.html#;
 my $input = "archive.html";
 my @numbers;
 my $i = 0;
@@ -18,18 +19,22 @@ if (@output = $data =~ /A HREF="(\d*\.html)"/gi) {
 	}
 }
 
-my @days_published;
-
+print "	\@days_published = (";
 foreach (@numbers) {
 	my @line = split(//, $_);
 	my $year = "@line[4]@line[5]";
+	my $month = "@line[0]@line[1]";
+	my $day = "@line[2]@line[3]";
 	if ($year eq "00") {
 		$year = "100";
 	}
 	if ($year < 90) {
-		$year = "1".$year;
+		$year = "101";
 	}
-	print "	\$days_published[$i] = [ '$year', '@line[2]@line[3]', '@line[0]@line[1]' ];\n";
-	$i++
+	$month--;
+	my @ltime = localtime( mktime(0,0,0, $day, $month, $year) );
+	print strftime("%Y%m%d", @ltime).", ";
+#	print mktime(0,0,0, $day, $month, $year).", ";
+#	print "$year . $month. $day \n";
 }
-
+print ") \n";
