@@ -70,10 +70,12 @@ sub request {
 	$cmdline =~ s/%[Rr]/$referer/ if defined $referer;
 	$cmdline =~ s/%[Pp]/$self->{'proxy'}/ if defined $self->{'proxy'};
 	my $env = "";
-	my $quotedproxy = quotemeta($self->{'proxy'});
-	if ($cmdline !~ /$quotedproxy/) {
-		#proxy not set in commandline, use env.
-		$env = "env http_proxy=$self->{'proxy'} ";
+	if (defined($self->{'proxy'})) {
+		my $quotedproxy = quotemeta($self->{'proxy'});
+		if ($cmdline !~ /$quotedproxy/) {
+			#proxy not set in commandline, use env.
+			$env = "env http_proxy=$self->{'proxy'} ";
+		}
 	}
 	if ($cmdline =~ /%[Uu]/) {
 	    $cmdline =~ s/%[Uu]/$url/;
