@@ -211,7 +211,7 @@ sub itb {
 #James http://www.ucomics.com/james/
 sub jm {
     return ucomics(shift(@_),"James","Mark Tonra","james","jm",
-		    [600,422],[300,362],"jm");
+		    [600,422],[600,197],"jm");
 }
 
 #Mister Boffo http://www.ucomics.com/misterboffo/
@@ -236,7 +236,7 @@ sub psmueller {
 #Real Life Adventures http://www.ucomics.com/reallifeadventures/
 sub rla {
     return ucomics(shift(@_),"Real Life Adventures","Aldrich and Wise",
-		    "reallifeadventures","rl",[600,412],[300,310],"rla");
+		    "reallifeadventures","rl",[600,412],[300,380],"rla");
 }
 
 #Stone Soup http://www.ucomics.com/stonesoup/
