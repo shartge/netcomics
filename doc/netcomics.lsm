@@ -1,6 +1,6 @@
 Begin3
 Title:          netcomics
-Version:        0.14
+Version:        0.14.1
 Entered-date:   04APR02
 Description:    netcomics is a perl script that can retrieve comic
 		strips from the Web that are continuously being
@@ -13,22 +13,24 @@ Keywords:       web-tools, comics, funnies, agent
 Author:         hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Maintained-by:  hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Primary-site:   http://netcomics.sourceforge.net/download.html
-		153 kB netcomics-0.14.tar.bz2
-		162 kB netcomics-0.14-1.src.rpm
-		190 kB netcomics-0.14.tar.gz
+		154 kB netcomics-0.14.1.tar.bz2
+		162 kB netcomics-0.14.1-1.src.rpm
+		154 kB netcomics-0.14.1.tar.gz
+		154 kB netcomics-0.14.1.zip
 		150 kB netcomics-0.14-1.noarch.rpm
-		141 kB netcomics-data-0.14-1.noarch.rpm
+		142 kB netcomics-data-0.14.1-1.noarch.rpm
 		119 kB netcomics_0.14-1_all.deb
-		100 kB netcomics-modules_0.14-1_all.deb
+		101 kB netcomics-modules_0.14.1-1_all.deb
 		38 kB netcomics-comicpage_0.14-1_all.deb
 Alternate-site: metalab.unc.edu /pub/Linux/apps/www/misc
-		153 kB netcomics-0.14.tar.bz2
-		162 kB netcomics-0.14-1.src.rpm
-		190 kB netcomics-0.14.tar.gz
+		154 kB netcomics-0.14.1.tar.bz2
+		162 kB netcomics-0.14.1-1.src.rpm
+		154 kB netcomics-0.14.1.tar.gz
+		154 kB netcomics-0.14.1.zip
 		150 kB netcomics-0.14-1.noarch.rpm
-		141 kB netcomics-data-0.14-1.noarch.rpm
+		142 kB netcomics-data-0.14.1-1.noarch.rpm
 		119 kB netcomics_0.14-1_all.deb
-		100 kB netcomics-modules_0.14-1_all.deb
+		101 kB netcomics-modules_0.14.1-1_all.deb
 		38 kB netcomics-comicpage_0.14-1_all.deb
 Platforms:      perl5
 Copying-policy: GPL
