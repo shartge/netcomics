@@ -70,6 +70,7 @@ use vars qw(@EXPORT @ISA);
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
+    $webpage_datefmt
 	$webpage_absolute_paths $comicpage_glade_dir
 /; 
 
@@ -149,6 +150,7 @@ use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
 use vars ('$webpage_templates'); 
 $webpage_templates = "/usr/share/netcomics/html_tmpl";
 use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
+use vars ('$webpage_datefmt'); $webpage_datefmt = "%b %d, %Y";
 
 =head2 new("scriptname")
 
@@ -276,8 +278,9 @@ sub processARGV {
 		}
 		
 		#Put @rli into one large file.
-		elsif (/-G/) {
+		elsif (/(-G)/) {
 			$single_rli_file = 1;
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 	
@@ -288,10 +291,10 @@ sub processARGV {
 		}
 		
 		#set the directory
-		elsif (/-d$/) {
+		elsif (/(-d)$/) {
 			if (@ARGV > 0) {
 				$comics_dir = shift(@ARGV);
-				$given_options .= " -d $comics_dir";
+				append_to_given_options($1, $comics_dir);
 			} else {
 				print STDERR "Need a directory name. Use -h for usage.\n";
 				exit 1;
@@ -302,22 +305,18 @@ sub processARGV {
 		elsif (/-v/) {
 			if ($verbose) {
 				$extra_verbose = 1;
-				if ($given_options =~ /^(.*)-v([^v].*)$/) {
-					$given_options = $1 . $2;
-				}
-				$given_options .= " -vv";
 			} else {
 				$verbose = 1;
-				$given_options .= " -v";
 			}
 			$smushopt = 1;
+			#wait to append to given options until the end.
 		}
 	
 		# Separate comics into their own directories
-		elsif (/-P/) {
+		elsif (/(-P)/) {
 			$separate_comics = 1;
 			$smushopt = 1;
-			$given_options .= " -P";
+			append_to_given_options($1);
 		}
 		
 		#Delete the files
@@ -327,21 +326,22 @@ sub processARGV {
 		}
 
 		#Don't delete the files
-		elsif (/-nD/) {
+		elsif (/(-nD)/) {
 			$delete_files = 0;
-			$given_options .= " -nD";
+			append_to_given_options($1);
 		}
 
 		#webpage use or don't use absolute paths
-		elsif (/-(n)?wa$/) {
-			$webpage_absolute_paths = ($1 eq 'n')? 0 : 1;
+		elsif (/(-(n)?wa)$/) {
+			$webpage_absolute_paths = ($2 eq 'n')? 0 : 1;
+			append_to_given_options($1);
 		}
 
 		#webpage title
-		elsif (/-wt$/) {
+		elsif (/(-wt)$/) {
 			if (@ARGV > 0) {
 				$webpage_title = shift(@ARGV);
-				$given_options .= " -wt '$webpage_title'";
+				append_to_given_options($1, $webpage_title);
 			} else {
 				print STDERR "Need a string for an argument to -wt. " .
 					"Use -h for usage.\n";
@@ -349,24 +349,36 @@ sub processARGV {
 			}
 		}
 
+		#webpage title
+		elsif (/(-wf)$/) {
+			if (@ARGV > 0) {
+				$webpage_datefmt = shift(@ARGV);
+				append_to_given_options($1, $webpage_datefmt);
+			} else {
+				print STDERR "Need a string for an argument to -wf. " .
+					"Use -h for usage.\n";
+				exit 1;
+			}
+		}
+
 		#webpage on standard out
-		elsif (/-o/) {
+		elsif (/(-o)/) {
 			$webpage_on_stdout = 1;
 			$remake_webpage = 1;
-			$given_options .= " -o";
+			append_to_given_options($1);
 			$comics_per_page = undef;
 			$smushopt = 1;
 		}
 
 		#don't create a webpage
-		elsif (/-nw$/) {
+		elsif (/(-nw)$/) {
 			$make_webpage = 0;	
 			$remake_webpage = 0;
-			$given_options .= " -nw";
+			append_to_given_options($1);
 		}
 
 		#Create webpage?
-		elsif (/-(w)(=.+)?/i) {
+		elsif (/(-w)(=.+)?/i) {
 			if (defined($2)) {
 				if ($2 =~ /^=(\d+)$/) {
 					$comics_per_page = $1;
@@ -380,13 +392,15 @@ sub processARGV {
 			}
 			$make_webpage = 1;
 			$remake_webpage = ($1 =~ /W/)? 1 : 0;
+			$_ =~ s/w/W/; #force given option to be remake webpage
+			append_to_given_options($_);
 		}
 
 		#Use a Proxy?
-		elsif (/-p$/) {
+		elsif (/(-p)$/) {
 			if (@ARGV > 0) {
 				$proxy_url = shift(@ARGV);
-				$given_options .= " -p $proxy_url";
+				append_to_given_options($1, $proxy_url);
 			} else {
 				print STDERR "Need a URL to use as the proxy. " .
 					"Use -h for usage.\n";
@@ -406,10 +420,10 @@ sub processARGV {
 		}
 
 		#HTML Template Directory
-		elsif (/-t$/) {
+		elsif (/(-t)$/) {
 			if (@ARGV > 0) {
 				$html_tmpl_dir = shift(@ARGV);
-				$given_options .= " -t $html_tmpl_dir";
+				append_to_given_options($1, $html_tmpl_dir);
 			} else {
 				print STDERR "Need a directory for an argument to -t. " .
 					"Use -h for usage.\n";
@@ -418,11 +432,11 @@ sub processARGV {
 		}
 
 		#Comic Module Directory
-		elsif (/-m$/) {
+		elsif (/(-m)$/) {
 			if (@ARGV > 0) {
 				my $dir = shift(@ARGV);
 				unshift(@newlibdirs,$dir);
-				$given_options .= " -m $dir";
+				append_to_given_options($1, $dir);
 			} else {
 				print STDERR "Need a directory for an argument to -m. " .
 					"Use -h for usage.\n";
@@ -431,16 +445,16 @@ sub processARGV {
 		}
 
 		#clear out libdirs
-		elsif (/-M$/) {
+		elsif (/(-M)$/) {
 			@libdirs = ();
-			$given_options .= " -M";
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 
 		# Real date day
-		elsif (/-A$/) {
+		elsif (/(-A)$/) {
 			$real_date = 1;
-			$given_options .= " -A";
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 
@@ -460,7 +474,7 @@ sub processARGV {
 					$ts = time - ($1 * 24*3600);
 				}
 				if (defined($ts)) {
-					$given_options .= " -$type $ds";
+					append_to_given_options("-$type", $ds);
 					$good = 1;
 					$_ = $type;
 					if (/T/) {
@@ -482,17 +496,17 @@ sub processARGV {
 		}
 
 		#skip bad comics
-		elsif (/-s/) {
+		elsif (/(-s)/) {
 			$skip_bad_comics = 1;
-			$given_options .= " -s";
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 
 		#date format used when naming files
-		elsif (/-f$/) {
+		elsif (/(-f)$/) {
 			if (@ARGV > 0) {
 				$date_fmt = shift(@ARGV);
-				$given_options .= " -f '$date_fmt'";
+				append_to_given_options($1, $date_fmt);
 			} else {
 				print STDERR "Need a date format for an argument to -f. " .
 					"Use -h for usage.\n";
@@ -501,10 +515,10 @@ sub processARGV {
 		}
 
 		#Number of days of comics to get, going backwards
-		elsif (/-N$/) {
+		elsif (/(-N)$/) {
 			if (@ARGV > 0) {
 				$days_prior = shift(@ARGV);
-				$given_options .= " -N $days_prior";
+				append_to_given_options($1, $days_prior);
 			} else {
 				print STDERR "Need a number for an argument to -N. " .
 					"Use -h for usage.\n";
@@ -514,7 +528,6 @@ sub processARGV {
 
 		#external program to use instead of LWP
 		elsif (/-g(=(.+))?([^=]+)?$/) {
-			$given_options .= " -g";
 			if (defined($2)) {
 				$external_cmd = $2;
 			} elsif (! defined($3) && @ARGV > 0 && $ARGV[0] !~ /^-/) {
@@ -522,55 +535,59 @@ sub processARGV {
 			} else {
 				$smushopt = 1;
 			}
-			$given_options .= " '$external_cmd'" if defined $external_cmd;
+			if (defined $external_cmd) {
+				append_to_given_options($1, $external_cmd);
+			} else {
+				append_to_given_options($1);
+			}
 		}
 
 		#print URLs or put them in the webpage?
-		elsif (/-u/) {
+		elsif (/(-u)/) {
 			$dont_download = 1;
-			$given_options .= " -u";
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 
 		#get b/w if possible
-		elsif (/-(b)/i) {
+		elsif (/(-b)/i) {
 			$prefer_color = ($1 =~ /B/)? 1 : 0;
-			$given_options .= " -$1";
+			append_to_given_options($1);
 			$smushopt = 1;
 		}
 
 		#sort by date
-		elsif (/-L/) {
+		elsif (/(-L)/) {
 			$sort_by_date = 1;
 			$smushopt = 1;
-			$given_options .= " -L";
+			append_to_given_options($1);
 		}
 
 		#no index for webpaegs
-		elsif (/-(i)/i) {
+		elsif (/(-i)/i) {
 			$webpage_index = ($1 =~ /I/)? 1 : 0;
 			$smushopt = 1;
-			$given_options .= " -$1";
+			append_to_given_options($1);
 		}
 
 		#rc filename
-		elsif (/-r$/) {
+		elsif (/(-r)$/) {
 			#already did the work of checking to make sure its good
 			shift(@ARGV);
-			$given_options .= " -r '$rc_file'";
+			append_to_given_options($1, $rc_file);
 		}
 
 		#always download
 		elsif (/-a$/) {
 			$always_download = 1;
 			$smushopt = 1;
-			#don't add to given options 
+			#do not append to given options
 		}
 
 		#maximum retries
-		elsif (/-(n?R)$/) {
+		elsif (/(-n?R)$/) {
 			my $good = 0;
-			if ($1 eq 'nR') {
+			if ($1 =~ /n/) {
 				$good = 1;
 				$max_attempts = 0;
 			} elsif (@ARGV > 0) {
@@ -582,26 +599,21 @@ sub processARGV {
 					"with -R. Use -h for usage.\n";
 				exit 1;
 			}
+			#do not append to given options, it always uses -nR.
 		}
 
 		#show tasks
-		elsif (/-q$/) {
+		elsif (/(-q)$/) {
 			$show_tasks = 1;
 			$smushopt = 1;
-			$given_options .= " -q";
+			append_to_given_options($1);
 		}
 
-		#suppress final error message
-		elsif (/-Q$/) {
-			$suppress_rerun_command = 1;
+		#(un)suppress final error message
+		elsif (/(-n?Q)$/) {
+			$suppress_rerun_command = ($1 =~ /n/)? 0 : 1;
 			$smushopt = 1;
-			$given_options .= " -Q";
-		}
-
-		#unsuppress final error message
-		elsif (/-nQ$/) {
-			$suppress_rerun_command = 0;
-			$given_options .= " -nQ";
+			append_to_given_options($1);
 		}
 
 		#Usage
@@ -655,6 +667,26 @@ sub processARGV {
 		exit 1;
 	}
 
+	if ($verbose) {
+		append_to_given_options("-v" . ($extra_verbose ? "v" : ""));
+	}
+}
+
+=head2 append_to_given_options(options)
+
+appends the given list of options to the $given_options attribute.
+
+=cut
+
+sub append_to_given_options {
+	my ($arg,@opts) = @_;
+	foreach (@opts) {
+		while (/[^\\]'/) {
+			s/([^\\])'/$1\\'/g;
+		}
+		$_ = "'$_'";
+	}
+	$given_options .= " $arg" . (@opts? " @opts" : "");
 }
 
 =head2 load_rcfile(files)
@@ -723,10 +755,10 @@ sub usage {
 	print "$self->{'script_name'} : download comics from the Web.\n";
 	print << "END";
 ©2001 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
-usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
-	             [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
-	             [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw] [-[n]wa]
-                 [-wt "webpage title"]
+usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
+                 [-S,-T,-E date] [-R retries] [-n,-N days] [-d,-m,-t dir]
+                 [-g [program]] [-nD] [-r rc_file] [-[W|w][=n]] [-nw]
+                 [-[n]wa] [-wt "webpage title"] [-f,-wf "date fmt"]
    -a: if comics are specified, forcibly try to download them and also try
 	   to download any comics that weren't successfully downloaded.
 	   if comics aren't specified, forcibly (re)download all comics.
@@ -735,18 +767,21 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -B: specify that you prefer the comics color (override rc file setting)
    -c: get the listed comics (ids are separated by white spaces)
    -C: don't get the listed comics (ids are separated by white spaces)
-   -d: put comics into directory (default /var/spool/netcomics)
+   -d: put comics into directory
+       (default /var/spool/netcomics)
    -D: delete files in directory before retreiving
    -nD:don't delete files in directory (override rc file setting)
    -E: specify the ending date of a range of days of comics to retrieve
-   -f: specify the date format used when naming files. default: '%y%m%d'
+   -f: specify the date format used when naming files.
+       (default: '$date_fmt'; see srtftime manpage for formatters)
    -g: specify an external program to use instead of libwww-perl
    -h: show usage (doesn't download comics)
    -i: don't create an index for the webpages
    -I: create an index for the webpages (override rc file setting)
    -l: list supported comics & their identifiers (doesn't download comics)
    -L: sort comics by date in webpage, days behind when listing them
-   -m: add dir to locations of comic modules (default /usr/share/netcomics)
+   -m: add dir to locations of comic modules
+       (default /usr/share/netcomics)
    -M: only use directories for comics modules specified on the command line
    -n: retrieve this number of days of comics, going backwards. default is 1
    -N: retrieve this number of days prior to the currently available date
@@ -761,7 +796,8 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -nR:specify there's no maximum number of attempts (same as -R 0).
    -s: skip bad comics when creating the webpage
    -S: specify a starting date of a range of days of comics to retrieve
-   -t: location of html tmpl files (default /usr/share/netcomics/html_tmpl)
+   -t: location of html tmpl files
+       (default /usr/share/netcomics/html_tmpl)
    -T: specify a specific date of comics to retrieve
    -u: don't download comics. print URLs on stdout, or if creating a
 	   webpage, have the images be implemented using the URLs.
@@ -770,7 +806,9 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -w: create an html file, index.html, n comics per page
    -nw:don't create a webpage (override setting in rc file)
    -wa:use absolute paths for referencing images in webpages
-   -nwa:don't use absolute paths for referencing images in webpages
+  -nwa:use relative paths for embedded images (override setting in rc file)
+   -wf:specify the date format used in webpage creation.
+       (default: '$webpage_datefmt'; see srtftime manpage for formatters)
    -wt:specify a title for the webpage rather than the default
    -W: recreate webpage from all files in directory, n comics per page
 END
