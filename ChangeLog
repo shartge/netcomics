@@ -1,3 +1,8 @@
+2001-07-06  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* doc/design.dia: Accidently uploaded a binary file last commit. This
+	fixes that. (Pure XML now...)
+
 2001-07-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Made printing of selected comics to stderr & only if
