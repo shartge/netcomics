@@ -24,13 +24,21 @@ sub doemain {
 			if (grep(/$date2/, $input_page)) {
 				print "Found $date in date array\n";
 				push(@relurls, {
-					'page' => strftime("%m%d%y.html",@ltime),
-					'exprs' => {
-						'comic' => [ '(strips/\d+-\w+\.gif)' ],
-						'caption' => [ '\*\*\s(.+?)\s\*\*' ],
-					},
+								'page' => strftime("%m%d%y.html",@ltime),
+								'exprs' => {
+											'comic'=>['(strips/\d+-\w+\.gif)'],
+											'caption'=>['\*\*\s(.+?)\s\*\*'],
+										   },
 					'func' => undef
 				});
+			} else {
+				push(@relurls, {
+								'page' => undef,
+								'func' => undef,
+								'base' => undef,
+								'status' => 0
+							   }
+					);
 			};
 			return @relurls;
 		}

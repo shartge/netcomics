@@ -635,6 +635,9 @@ sub get_comics {
 			while (@relurls) {
 				my $litem = pop(@relurls);
 				$_ = ref($litem);
+				if ($litem eq "DUMMY") {
+					next RLI;
+				}
 				if (/HASH/) {
 					#special rli fields to be added (like with mfeh)
 					#instead of relative URLs.

@@ -1,5 +1,10 @@
 2001-09-20  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/doemain: Updated and corrected.
+	* Netcomics/Factory.pm (get_comics): Check to see if "dummy" was 
+	returned.	
+	* Netcomics/HTML.pm (create_archive_webpages): Check to make sure
+	$rli->{'proc'} is defined before trying to operate on it.
 	* TODO: Updated so things done are now "done".
 
 2001-09-19  Elliot Glaysher  <glaysher@umich.edu>

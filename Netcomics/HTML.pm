@@ -63,9 +63,11 @@ sub create_archive_webpages {
 			#print "Trying to match $comic to $rli->{'proc'}\n";
 			#print "Succes matching $comic to $rli->{'proc'}" if
 			#grep(/$comic/, $rli->{'proc'});
-			if (grep(/$comic/, $rli->{'proc'})) {
-				push(@rlis_to_pass, $rli);
-				$subdir = $rli->{'subdir'};
+			if (defined($rli->{'proc'})) {
+				if (grep(/$comic/, $rli->{'proc'})) {
+					push(@rlis_to_pass, $rli);
+					$subdir = $rli->{'subdir'};
+				}
 			}
 		}
 		my $HTMLpage = Netcomics::HTML::Set->new
