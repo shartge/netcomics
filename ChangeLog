@@ -1,5 +1,8 @@
 2002-03-25  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/sluggy_freelance (sluggy): Fixed sluggy (wasn't getting all the
+	images, since it was assumed that only sunday strips had multiple-
+	images)
 	* Netcomics/Util.pm (processSyms): Fixed type that was causing an
 	annoying error
 
