@@ -771,10 +771,6 @@ sub get_comics {
 			print STDERR " -c \"@bad_images\"";
 			print STDERR " -n $days_of_comics" if ++$days_of_comics > 1;
 		}
-		if ($make_webpage) {
-			print STDERR " -W";
-			print STDERR "=$comics_per_page" if defined $comics_per_page;
-		}
 		print STDERR "$given_options\n";
 		print STDERR <<END;
 		Please, before sending in a bug report on a comic that doesn't download,
