@@ -1,0 +1,29 @@
+#!/usr/local/bin/perl
+
+use POSIX;
+use strict;
+
+my $base = "http://www.macworks.com/stuffthis/";
+
+foreach (1996..1999) {
+    my $year = $_;
+    my $file = "$year.html";
+    chdir("/tmp");
+    my $ll = `wget --quiet -O - $base/$file`;
+    die "Error: wget returned $?.\n" if $? != 0;
+
+    my @all = split /\r/mg, $ll;
+
+    print "#$year\n";
+    my ($date,$filename) = (undef,undef);
+    foreach (@all) {
+#  print "$val ----------------------------------------\n";
+	$filename = $1 if m%\"archives/(.*?)\..*?\"%;
+	$date =  mktime(0,0,12,$2,$1-1,$3)
+	    if (m%\(?(\d+)[/-](\d+)[/-](\d+)\)?%);
+	if (defined($filename) && defined($date)) {
+	    print "\"$date\" => \"$filename\",\n";
+	    ($date,$filename) = (undef,undef);
+	}
+    }
+}
