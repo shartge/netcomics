@@ -18,7 +18,7 @@ sub elf {
 	'title' => "Elf Life",
 	'author' => "Carson Fire",
 	'main' => "http://www.elflife.com/",
-	'archives' => "http://www.elflife.com/archive.htm",
+	'archives' => "http://www.elflife.com/archives.html",
 	'base' => "http://www.elflife.com",
 	'page' => strftime("/d/%Y%m%d.html",@ltime),
 	'exprs' => {
