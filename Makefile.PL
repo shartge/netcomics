@@ -416,6 +416,7 @@ distclean::
 	$(RM) debian/files debian/*.debhelper debian/*substvars
 	$(RM_RF) comic_page/
 	$(RM_RF) comicpage.glade.bak comicpage.glade2perl.xml
+	$(RM_RF) build-stamp configure-stamp
 
 
 #This link is made to remind you that you need to upload the file

@@ -16,7 +16,7 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	perl Makefile.PL 
+	perl Makefile.PL SITEPREFIX=/usr
 
 	touch configure-stamp
 

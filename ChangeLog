@@ -1,5 +1,10 @@
 2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
 
+	* debian/rules: Now builds working packages.
+	* Makefile.PL: Clean's up more Debian stuff.
+
+2001-07-14  Elliot Glaysher  <eglayshe@umich.edu>
+
 	* Makefile.PL: Minor updates for cleaning up after debian building
 	* debian/control: Update my email.
 	* debian/netcomics-modules.files: Update to point for new build system
