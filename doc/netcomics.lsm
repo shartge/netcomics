@@ -1,7 +1,7 @@
 Begin3
 Title:          netcomics
-Version:        0.12
-Entered-date:   04APR00
+Version:        0.13
+Entered-date:   26AUG00
 Description:    netcomics is a perl script that can retrieve comic
 		strips from the Web that are continuously being
 		updated each day. netcomics utilizes a modular set of
@@ -14,16 +14,19 @@ Keywords:       web-tools, comics, funnies, agent
 Author:         hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Maintained-by:  hochstrb@cs.rose-hulman.edu (Ben Hochstedler)
 Primary-site:   http://netcomics.sourceforge.net/download.html
-		89 kB netcomics-0.12.tar.bz2
-		98 kB netcomics-0.12-1.src.rpm
-		125 kB netcomics-0.12.tar.gz
-		65 kB netcomics-0.12-1.noarch.rpm
-		40 kB netcomics-data-0.12-1.noarch.rpm
-		95 kB netcomics_0.12-1_all.deb
+		117 kB netcomics-0.13.tar.bz2
+		129 kB netcomics-0.13-1.src.rpm
+		180 kB netcomics-0.13.tar.gz
+		86 kB netcomics-0.13-1.noarch.rpm
+		58 kB netcomics-data-0.13-1.noarch.rpm
+		129 kB netcomics_0.13-1_all.deb
 Alternate-site: metalab.unc.edu /pub/Linux/apps/www/misc
-		125 kB netcomics-0.12.tar.gz
-		65 kB netcomics-0.12-1.noarch.rpm
-		40 kB netcomics-data-0.12-1.noarch.rpm
+		117 kB netcomics-0.13.tar.bz2
+		129 kB netcomics-0.13-1.src.rpm
+		180 kB netcomics-0.13.tar.gz
+		86 kB netcomics-0.13-1.noarch.rpm
+		58 kB netcomics-data-0.13-1.noarch.rpm
+		129 kB netcomics_0.13-1_all.deb
 Platforms:      perl5
 Copying-policy: GPL
 End
