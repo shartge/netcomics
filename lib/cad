@@ -1,0 +1,30 @@
+#-*-Perl-*-
+
+$hof{"cad"} = 0;
+
+sub cad {
+    my $time = shift(@_);
+    my @ltime = gmtime($time);
+    
+    my $url = strftime("%Y-%m-%d",@ltime);
+    my $date = strftime("%Y%m%d",@ltime);
+    
+    return undef unless $date > 20021022;
+    
+    my $base = 'http://www.ctrlaltdel-online.com/';
+
+    my $rec = {
+	'title' => 'Ctrl-Alt-Del',
+	'author' => 'Absath',
+	'type' => 'jpg',
+	'main' => $base,
+	'base' => $base,
+	'archives' => $base . '?t=archives',
+	'page' => '?t=archives',
+	'exprs' => ["(/\\?t=archives&date=$url)",
+		    "(/images/comics/.*?\.jpg)"],
+	};
+    return $rec;
+}
+
+1;

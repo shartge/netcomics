@@ -4,7 +4,7 @@ foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
    rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
-   cutewendy wigu youdamn chopping fatjc)) {
+   cutewendy youdamn chopping fatjc)) {
    $hof{"$_"} = 0;
 }
 
@@ -461,6 +461,9 @@ sub ccs {
     my $date = strftime("%Y%m%d", @ltime);
     my $date2 = strftime("%Y%m%d", @ltime2);
 
+    # no new strips, ... list below should probably be updated
+    return undef if 20020415 < $date;
+    
     # Last updated July 5, 2001
     my @missing = (20000703,20000807,20000913,20001124,20001201,20001206,
       20001208,20001225,20001227,20001229,20010101,20010103,20010224,
@@ -2195,44 +2198,6 @@ sub cutewendy {
   };
 
     return $rec;
-}
-
-#When I Grow Up
-sub wigu {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
-    my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
-
-   # Last updated July 5, 2001
-    my @missing = (19990615,19990617,19990618,19991218,20000502,20000520,
-      20000524,20000525,20000526,20000527,20000603,20000610,20000617,
-      20000624,20000701,20000706,20000714,20000715,20000826,20000902,
-      20000906,20000909,20000912,20000913,20000918,20000919,20000920,
-      20000921,20000922,20000923,20000925,20000926,20000927,20000928,
-      20000929,20000930,20001007,20001014,20001021,20001028,20001104,
-      20001111,20001125,20001202,20001205,20001206,20001209,20001216,
-      20001223,20010106,20010113,20010120,20010122,20010127,20010203,
-      20010310,20010331,20010407,20010416,20010421,20010428,20010505,
-      20010512,20010519,20010524,20010529,20010531,20010601,20010602,
-      20010604,20010609,20010611,20010616,20010630);
-    my @extra = (19990826,20000723,20000917,20001231,20010311,20010401,
-      20010415,20010603,20010610);
-
-    #M to Sa until present
-    return undef if 
-      (($date < 19990614) || #first comic on June 14, 1999
-      (($date >= 19990614 && $date <= $date2) &&
-      ($ltime[6] !~ /[123456]/ && !grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
-
-    my $title = "Whenigrowup";
-    my $author = "Jeffrey Rowland";
-    my $url = "http://wigu.keenspot.net";
-    my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
 }
 
 #You Damn Kid

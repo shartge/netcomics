@@ -1,3 +1,12 @@
+
+2003-08-11  Chris Hostetter  <hossman at users * sourceforge * net>
+
+	* comiczone no longer supports "warped"
+	* keenspot no longer supports "wigu"
+	* keenspot has no new strips for "ccs"
+	* added "lib/cad" for Ctrl-Alt-Del (didn't use patch#701343)
+	* added "lib/theater" for Theater Hopper
+		
 2003-07-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* show_comics: applied patch #777511, check pid in lock file.

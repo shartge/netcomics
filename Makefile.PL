@@ -70,6 +70,7 @@ astronomy
 bad_boys
 badlands
 bruno
+cad
 callahan
 cartoonweb
 comicspage
@@ -131,6 +132,7 @@ spaz_labs
 spooner
 story_minute
 stuff_this
+theater
 this_modern_world
 toonville
 touche

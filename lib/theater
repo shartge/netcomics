@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+$hof{'theater'} = 0;
+
+sub theater {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    # First comic 2002-8-5
+    return undef if ($time < mkgmtime(0,0,0,5,7,102));
+    # Only runs on M W F
+    return undef unless (1 == $ltime[6] || 3 == $ltime[6] || 5 == $ltime[6]);
+
+    my $base = 'http://www.theaterhopper.com/';
+    
+    my $rec = {
+	'title' => 'Theater Hopper',
+	'author' => 'Tom Brazelton',
+	'type' => 'jpg',
+	'main' => $base,
+	'archives' => 'archive.php',
+	'base' => $base,
+	'page' => strftime("comics/%y%m%d.jpg",@ltime),
+    };
+    return $rec;
+}
+
+1;
