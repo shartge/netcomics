@@ -1,6 +1,7 @@
 APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
+AP4NAME = gtkcomic
 
 MODULE1 = MyResponse.pm
 MODULE2 = MyRequest.pm
@@ -209,6 +210,7 @@ PERLMODULES = \
 	Config.pm \
 	ExternalUserAgent.pm \
 	Factory.pm \
+	GtkComics.pm \
 	HTML.pm \
 	MyResponse.pm \
 	MyRequest.pm \
@@ -223,7 +225,8 @@ HTMLTEMPLATES = \
 DEBFILES = changelog conffiles control copyright cron.daily dirs docs rules
 
 ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
-	$(APPNAME) $(AP2NAME) $(AP3NAME) doc/old_Comic_Module-HOWTO.html \
+	$(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
+	doc/old_Comic_Module-HOWTO.html \
 	doc/netcomics.lsm doc/Modify_Webpage_Creation-HOWTO.html \
 	doc/Comic_Module-HOWTO.html contrib/comics_update $(MODULES) \
 	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%) \
@@ -282,6 +285,7 @@ install:: all
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(APPNAME) $(BINDIR)/$(APPNAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP2NAME) $(BINDIR)/$(AP2NAME)
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP3NAME) $(BINDIR)/$(AP3NAME)
+	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP4NAME) $(BINDIR)/$(AP4NAME)
 
 bin/$(AP2NAME): $(AP2NAME)
 	@$(SUBPATHS)
@@ -289,11 +293,15 @@ bin/$(AP2NAME): $(AP2NAME)
 bin/$(AP3NAME): $(AP3NAME)
 	@$(SUBPATHS)
 
-bin:: bin/$(AP2NAME) bin/$(AP3NAME)
+bin/$(AP4NAME): $(AP4NAME)
+	@$(SUBPATHS)
+
+bin:: bin/$(AP2NAME) bin/$(AP3NAME) bin/$(AP4NAME)
 
 distclean::
 	$(RM) bin/$(AP2NAME)
 	$(RM) bin/$(AP3NAME)
+	$(RM) bin/$(AP4NAME)
 
 bin/$(APPNAME): $(APPNAME)
 	@$(SUBPATHS)
@@ -321,8 +329,9 @@ distclean::
 	$(RM) etc/$(RCFILE)
 
 #TAGS for use in emacs
-TAGS: $(APPNAME) $(AP2NAME) $(AP3NAME)
-	$(ETAGS) $(APPNAME) $(AP2NAME) $(AP3NAME)
+TAGS: $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME)
+	$(ETAGS) $(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
+		$(PERLMODULES:%=Netcomics/%)
 
 devel:: TAGS
 
@@ -500,11 +509,5 @@ install_for_ben:
 		PERL=$$perl PERLTK=$$tkperl install
 
 .PHONY: all doc install clean distclean archives rpm dist install_for_ben \
-devel bin deb install_html install_mods install_pms
-
-
-
-
-
-
-
+devel bin deb install_html install_mods install_pms modules preparchive tag \
+label install_local install_home remake_check

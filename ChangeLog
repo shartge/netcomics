@@ -1,3 +1,9 @@
+2001-05-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (.PHONY): Updated to include all phony targets
+	(AP4NAME): Added gktcomic
+	(PERLMODULES): Added GtkComics.pm
+
 2001-05-01  Elliot Glayhser  <nuriko.chan@home.com>
 
 	* gtkcomic, Netcomics/Gtkcomics.pm: Initial checkin. Please note
