@@ -1,5 +1,6 @@
 2001-12-02  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/norm (nm): Fixed The Norm's module. Closes:#463945.
 	* Netcomics/Factory.pm (setup): Fixed serious bug which was causing
 	netcomics to ignore the "day's behind" in most situations where 
 	netcomics *should* be offsetting the date by the day's behind.
