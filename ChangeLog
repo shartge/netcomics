@@ -1,3 +1,13 @@
+2001-05-18  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* lib/toonvile, lib/kingfeatures, lib/keenspace, lib/spaz_labs: Let's
+	all give a warm round of applause to Shawn Oakley for updating these
+	modules!
+	** (Zits and Baby Blues moved from toonvile to kingfeatures)
+	** (Keenspace now includes Arrogance in Simplicity, Tangs Comics,
+	    Sporkman, and Todd and Penguine)
+	** (Spaz Labs update)
+
 2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (create_webpage): Made create_webpage not die when
