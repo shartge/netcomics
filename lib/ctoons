@@ -1,6 +1,7 @@
 #-*-Perl-*-
 
-foreach (qw(katz outtake pcpixel chickw broom lola quig rubes)) {
+foreach (qw(katz outtake pcpixel chickw broom lola quig rubes loose grain
+            sylvia kudzu catshands)) {
     $hof{$_} = 7;
 }
 
@@ -55,12 +56,52 @@ sub outtake {
 #PC and Pixel
 # ex : Sunday: http://www.ctoons.com/studio/pcpixel/images/19990919-01.gif
 # mon-sat: http://www.ctoons.com/studio/pcpixel/images/990918.gif
-sub  pcpixel{
+sub pcpixel {
     my $time = shift;
     return ctoons($time,"PC and Pixel","Thach Bui and Geoff Johnson","pcpixel",
                        "pcpixel",'gif','gif',[504,157],[922,645]);
 }
-  
+
+# Loose Parts
+# mon-sat: http://www.ctoons.com/studio/loose/images/990918.gif
+# no Sunday comics
+
+sub loose {
+    my $time = shift;
+    return ctoons($time,"Loose Parts","Dave Blazek","loose",
+    		       "loose",'gif',undef,[230,300],undef);
+}
+ 
+# Against the Grain
+# mon-sat: http://www.ctoons.com/studio/against/990918.gif
+# no Sunday comics
+ 
+sub grain {
+    my $time = shift;
+    return ctoons($time,"Against The Grain","Glenn Foden","against",
+    		       "against",'gif',undef,[580,180],undef);
+}
+
+# Cats with Hands
+# mon-sat: http://www.ctoons.com/studio/catshands/990918.gif
+# no Sunday comics
+
+sub catshands {
+    my $time = shift;
+    return ctoons($time,"Cats With Hands","Joe Martin","catshands",
+    		       "catshands",'gif',undef,[580,180],undef);
+}
+
+# Sylvia
+# mon-sat: http://www.ctoons.com/studio/sylvia/990918.gif
+# no Sunday comic
+
+sub sylvia {
+    my $time = shift;
+    return ctoons($time,"Sylvia","Nicole Hollander","sylvia",
+    		       "sylvia",'gif',undef,[580,180],undef);
+}
+
 #9 Chickweed Lane
 # ex : Sunday: http://www.ctoons.com/studio/chickweed/images/19990919-01.gif
 # mon-sat: http://www.ctoons.com/studio/chickweed/images/990918.gif
@@ -82,7 +123,7 @@ sub broom {
 #Kudzu
 # ex : Sunday: http://www.ctoons.com/studio/kudzu/images/19990919-01.gif
 # mon-sat: http://www.ctoons.com/studio/kudzu/images/990918.gif
-sub kudzu_ctoons {
+sub kudzu {
     my $time = shift;
     return ctoons($time,"Kudzu","Doub Marlette","kudzu",
                        "kudzu",'gif','gif',[504,157],[922,645]);

@@ -1,7 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(pretzel loose worth rex phantom rla grain bobo catshands 
-	fairgame hi ick kudzu newbreed sylvia thatlife mickey)) {
+foreach (qw(pretzel phantom rla fairgame ick newbreed thatlife mickey)) {
     $hof{$_} = 0;
 }
 
@@ -46,15 +45,6 @@ sub pretzel {
 }
 
 
-#Loose Parts
-sub loose {
-    my $time = shift;
-    #return if $time < 894240000;
-#doesn't seem to be sunday, disable that
-    return mercury($time,"Loose Parts","Dave Blazek","loose",
-                       'gif',undef,[252,297],[922,645],117);
-}                                     
-
 #Phantom
 sub phantom {
     my $time = shift;
@@ -68,20 +58,6 @@ sub rla {
     return mercury($time,"Real Life Adventures","Gary Wise and Lance Aldrich",
 		   "real_life",'gif',undef,[263,331],[250,296],91);
 }                                                                                                      
-#Against The Grain
-sub grain {
-    my $time = shift;
-    return mercury($time,"Against The Grain","Glenn Foden","against_the_grain",
-                       'gif',undef,[525,157],[250,296],70);
-}                                                   
-
-# Cats With Hands
-sub catshands {
-    my $time = shift;
-    return mercury($time,"Cats With Hands","","cats",
-                       'gif',undef,[525,157],[250,296],127);
-}
-
 #Dilbert Classics
 sub dilbertcl {
     my $time = shift;
@@ -103,27 +79,11 @@ sub ick {
                        'gif',undef,[525,157],[250,296],59);
 }
 
-#Kudzu
-sub kudzu {
-    my $time = shift;
-    my $rec = mercury($time,"Kudzu","Doub Marlette","kudzu",
-		      'gif',undef,[525,157],[250,296],63);
-    $rec->{'back'} = \&kudzu_ctoons if defined($rec);
-    return $rec;
-}
-
 #New Breed
 sub newbreed {
     my $time = shift;
     return mercury($time,"The New Breed","","new_breed",
                        'gif',undef,[252,313],[250,296],77);
-}
-
-#Sylvia
-sub sylvia {
-    my $time = shift;
-    return mercury($time,"Sylvia","Nicole Hollander","sylvia",
-                       'gif',undef,[525,161],[250,296],105);
 }
 
 #That's Life
