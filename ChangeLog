@@ -1,8 +1,14 @@
+2002-08-28  Sven Hartge  <netcomics@ds9.argh.org>
+
+        * lib/comicspage: Trivial fix: There is no index.html any more, so
+        just load the directory and leave it up to the server to deliver
+        the right page to parse
+
 2002-08-26  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspot (avalon): Updated Avalon's @missing.
 
-2002-08-25 Sven Hartge  <netcomics@ds9.argh.org>
+2002-08-25  Sven Hartge  <netcomics@ds9.argh.org>
 
         * MANIFEST: remove bf, since Benutzerfreundlich is officially dead.
         Not keeping the module, because it never worked the way it should
