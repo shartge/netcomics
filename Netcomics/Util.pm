@@ -207,14 +207,14 @@ sub mkgmtime {
 =head2 in_future($day_to_download, $days_behind)
 
 Compares the the variable $days_to_download against the time reported by the
-time command. Returns 1 if the date has happened yet.
+time command. Returns 1 if the date has happened yet. in_future() compensates
+the "today" date by $days_behind.
 
 =cut
 
-# TODO: Get it so it compensates for $days_behind;
 sub in_future {
 	my ($day_to_download, $days_behind) = @_;
-	my $today_time = time;
+	my $today_time = (time - (86400*$days_behind));
 	if ($today_time < $day_to_download) {
 		return 0;
 	} else {
