@@ -1954,8 +1954,8 @@ sub wendy {
 	(
 	 ($date < 19900711) || #first comic on July 11, 1990 (?!)
 	 ($date < 20020520 && ! grep(/$date/,@exists)) || 
-	 ($date >= 20020520 && $ltime[6] !~ /[135]/) || # wendy after may 20th 2002
-	 ($ltime[6] !~ /[123456]/ && !grep(/$date/,@extra)) 
+	 ($date >= 20020520 && $ltime[6] !~ /[135]/) && # wendy after may 20th 2002
+	 ($ltime[6] !~ /[135]/ && ! grep(/$date/,@extra))
 	);
 	
     my $title = "Wendy";
