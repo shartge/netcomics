@@ -40,26 +40,26 @@ $html{'body'} = <<END_BODY;
   <tr><td>
       <center>
       <table cellspacing=0 cellpadding=0 border=0>
-	<tr>
-	  <td><img width=20 height=20 src="<THEME_DIR>/top_l.gif"></td>
-	  <td><img <WIDTH> height=20 src="<THEME_DIR>/top.gif"></td>
-	  <td><img width=20 height=20 src="<THEME_DIR>/top_r.gif"></td>
-	</tr>
-	<tr>
-	  <td><img width=20 height=48 src="<THEME_DIR>/left.gif"></td>
-	  <td <WIDTH> bgcolor=black align=center><font face="Arial,Helvetica" size=+1 color=white><b><a name="<COMIC_ID>"><COMIC_NAME></a></b></font></td>
-	  <td><img width=20 height=48 src="<THEME_DIR>/right.gif"></td>
-	</tr>
-	<tr>
-	  <td><img width=20 <HEIGHT> src="<THEME_DIR>/left.gif"></td>
-	  <td><ELEMENT></td>
-	  <td><img width=20 <HEIGHT> src="<THEME_DIR>/right.gif"></td>
-	</tr>
-	<tr>
-	  <td><img width=20 height=20 src="<THEME_DIR>/bot_l.gif"></td>
-	  <td><img <WIDTH> height=20 src="<THEME_DIR>/bot.gif"></td>
-	  <td><img width=20 height=20 src="<THEME_DIR>/bot_r.gif"></td>
-	</tr>
+        <tr>
+          <td><img src="<THEME_DIR>/top_l.gif" width="20" height="20"></td>
+          <td background="<THEME_DIR>/top.gif" height="20">&nbsp;</td>
+          <td><img src="<THEME_DIR>/top_r.gif" width="20" height="20" ></td>
+        </tr>
+        <tr>
+          <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
+          <td <WIDTH> bgcolor=black align=center><font face="Arial,Helvetica" size=+1 color=white><b><a name="<COMIC_ID>"><COMIC_NAME></a></b></font></td>
+          <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="<THEME_DIR>/left.gif" width="20">&nbsp;</td>
+          <td><ELEMENT></td>
+          <td background="<THEME_DIR>/right.gif" width="20">&nbsp;</td>
+        </tr>
+        <tr>
+          <td><img src="<THEME_DIR>/bot_l.gif" width="20" height="20"></td>
+          <td background="<THEME_DIR>/bot.gif" height="20">&nbsp;</td>
+          <td><img src="<THEME_DIR>/bot_r.gif" width="20" height="20"></td>
+        </tr>
       </table>
       <CAPTION>
       </center>
