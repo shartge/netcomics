@@ -1,3 +1,11 @@
+2001-05-21  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* debian/docs -> debian/netcomics.docs: Moved file so documentation
+	is placed in the netcomics pkg. explicitly.
+	* debian/dirs: Removed because it's redundant.
+	* debian/netcomics.manpages: Added entry for the comicpage manpage.
+	That means one less error from lintian...
+
 2001-05-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics.spec (%files): Added /usr/lib/perl5 files & comicpage 
