@@ -1,6 +1,7 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/fatjesus (fatjc): Added Fat Jesus thanks to Shawn Oakey.
+	Added captions, exception list, and origin series.
 	* lib/ccs (ccs): Updated for site changes thanks to Shawn Oakey.
 	Fixed author's name and updated the exceptions lists.
 	* lib/kevin-n-kell: (kk) Updated to get every day of the week,
