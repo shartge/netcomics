@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="Author" CONTENT="Ben Hochstedler <hochstrb@cs.rose-hulman.edu>">
+<TITLE>Netcomics: Old Way to Write Comic Modules</TITLE>
+<STYLE TYPE="text/css">
+H1, ADDRESS, .TimeStamp {text-align: center}
+</STYLE>
+</HEAD>
+<BODY>
+<H1>How to Write Your Own Comic Strip Resource Locator Module (Old Way)</H1>
+<P>The following applies to any version of netcomics, including the
+current one because of backwards-compatibility.  However, Starting
+with version 0.5, it is recommended you use the
+<A HREF="Comic_Module-HOWTO.html">new version</A>.</P>
+
+<H2>RLI: Resource Locator Information</H2>
+<P>
+The following table describes the <B>RLI</B> hash structure.
+<TABLE BORDER WIDTH=100%>
+  <TR>
+    <TH>Field</TH>
+    <TH>Format</TH>
+    <TH>Example</TH>
+    <TH>Description</TH>
+  </TR>
+
+  <TR>
+    <TD>name</TD>
+    <TD>Full_Name-<BR>YYMMDD.filetype</TD>
+    <TD>strftime("My_Comic-<BR>%y%m%d.gif",@ltime)</TD>
+    <TD>The name of the file the comic is to be saved as.  There isn't
+	much flexibility here with what you can do, because this field
+	is used to obtain several key pieces of information.  When the
+	-l option is given to netcomics, it will take this field from
+	every RLI, and strip away the date & file extension, and
+	remove any underscores to create the name of the comic.  This
+	same thing is performed for webpage creation, too.
+    </TD>
+  </TR>
+  <TR>
+    <TD>base</TD>
+    <TD>URL</TD>
+    <TD>http://www.company.com/</TD>
+    <TD>This should be the part of the URL that is common between the
+	page's URL and the comic's URL.  Typically, this is just the
+	main URL for the website.
+    </TD>
+  </TR>
+  <TR>
+    <TD>page</TD>
+    <TD>part of a<BR>URL or undef</TD>
+    <TD>strftime(archives/mycomic-<BR>%y%m%d.html",@ltime)</TD>
+    <TD>This field is either set to <I>undef</I>, or completes the URL
+	when appended to <B>base</B> for the HTML page that contains
+	a link to the comic.  When set to <I>undef</I>, the next
+	field, <B>expr</B>, is <U>not</U> used as a regular
+	expression, but instead is appended to <B>base</B> as-is to
+	complete the URL used to obtain the comic strip.</TD>
+  </TR>
+  <TR>
+    <TD>expr</TD>
+    <TD>regular expression<BR>or part of a URL</TD>
+    <TD>(comics/mycomic-\\d+.gif)</TD>
+    <TD>This field is either a regular expression used to find the
+	last part of the URL for the comic, or is the last part
+	of the URL for the comic itself.  When the <B>page</B> field
+	is left undefined, this field will not be used as a regular
+	expression, but will be appended to <B>base</B>, as-is to
+	complete the URL used to obtain the comic strip.  When
+	<B>page</B> is defined, this field is used to match on some
+	text in the page downloaded by the URL made up of <B>base</B>
+	and <B>page</B>.  When used as a regular expression, it is
+	<U>required</U> that a pair of parenthesis is left around the
+	part of the text being matched on to be used as the completing
+	part of the URL to obtain the comic strip.  There only needs
+	to be one set of parenthesis.  If more than one pair exists,
+	only the one that causes $1 to be defined in the perl code
+	will be used (IOW, nothing fancy here.  netcomics doesn't have
+	any special logic, and is coded to only deal with $1).
+  </TR>
+  
+</TABLE>
+      
+</P>
+<H2>@lof: List of Functions</H2>
+<P>
+The global @lof list variable contains the names of all of the
+functions that return RLI hashes.  Add your function's name to this
+list with the code:
+<PRE>
+push(@lof,"myfunction");
+</PRE>
+If you have more than one function to add, use write code like this:
+<PRE>
+push(@lof,("myfunction1","myfunction2"));
+</PRE>
+</P>
+<H2>Creating a Module File</H2>
+<P>
+An RLI function takes one argument: the time as returned by time().
+Your function should expect this to be today's time, so if the website
+you're getting a comic from, names its comics files with dates, you
+can use the time given to your function by subtracting from it the
+number of seconds prior to today the comic is.  So, if the comics
+posted on the website are one week old, subtract from the argument
+given to your function (7*24*60*60).  That is, the number of seconds
+in one week. You can then use the standard POSIX functions to produce
+strings from the time you calculated.  Here's an example:
+</P>
+<PRE>
+push(@lof,"uf");
+
+#UserFriendly http://www.userfriendly.org/cartoons/
+sub uf {
+    my @ltime = gmtime(shift(@_));
+    my $rec = {
+        'name' => strftime("User_Friendly-%y%m%d.gif",@ltime),
+        'base' => "http://www.userfriendly.org",
+        'page' => lc strftime("/cartoons/archives/%y%b/%Y%m%d.html",
+                              @ltime),
+        'expr' => lc strftime("(\/cartoons\/archives\/%y%b\/uf\\d+\.gif)",
+                              @ltime)
+        };
+    return $rec;
+}
+</PRE>
+<P>Note that the perl function, lc() (lower case) is also used to
+help produce the proper string.</P>
+
+<P>Your function should then return the RLI (as a reference, not as
+the hash itself), and it will be used by netcomics.  Put the function
+in a file that is readible to all users in /usr/lib/netcomics, and
+<I>netcomics</I> will find it and use it without any modification to
+its own code.
+</P>
+
+
+
+<HR>
+<ADDRESS><A HREF="http://www.cs.rose-hulman.edu/~hochstrb/">Ben Hochstedler</A> &lt<A HREF="mailto:hochstrb@cs.rose-hulman.edu">hochstrb@cs.rose-hulman.edu</A>&gt</ADDRESS>
+<SPAN CLASS=TimeStamp>
+Last modified: Tue Mar 23 09:22:05 CST 1999
+</SPAN>
+</BODY>
+</HTML>
