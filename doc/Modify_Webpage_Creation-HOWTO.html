@@ -10,6 +10,124 @@ H1, ADDRESS, .TimeStamp {text-align: center}
 </HEAD>
 <BODY>
 <H2>How to Personalize the Created Web Page</H2>
+The web page is created from a perl module in the namespace Netcomics::HTML::Themes.
+Don't know what that means? Copy the following template:<br>
+<CODE><TT>
+package Netcomics::HTML::Themes::Default;<BR>
+<BR>
+sub new {<BR>
+	my $class = shift;<BR>
+<BR>
+my $HTML_HEAD = <<'END_HEAD';<BR>
+<BR>
+END_HEAD<BR>
+<BR>
+my $HTML_LINKS = <<'END_LINKS';<BR>
+<BR>
+END_LINKS<BR>
+<BR>
+my $HTML_BODY = <<'END_BODY';<BR>
+<BR>
+END_BODY<BR>
+<BR>
+my $HTML_BODY_ELEMENT = <<'END_BODY_ELEMENT';<BR>
+<BR>
+END_BODY_ELEMENT<BR>
+<BR>
+my $HTML_TAIL = <<'END_TAIL';<BR>
+<BR>
+END_TAIL<BR>
+<BR>
+my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';<BR>
+<BR>
+END_LINKS_INDEX<BR>
+<BR>
+my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';<BR>
+<BR>
+END_INDEX_ELEMENT<BR>
+<BR>
+	my $self = {<BR>
+				'head' => $HTML_HEAD,<BR>
+				'links' => $HTML_LINKS,<BR>
+				'body' => $HTML_BODY,<BR>
+				'body_el' => $HTML_BODY_ELEMENT,<BR>
+				'tail' => $HTML_TAIL,<BR>
+				'links_index' => $HTML_LINKS_INDEX,<BR>
+				'index_element' => $HTML_INDEX_ELEMENT,<BR>
+			   };<BR>
+<BR>
+	return bless $self, $class;<BR>
+}<BR>
+<BR>
+1;<BR>
+</TT></CODE>
+<P>The webpage is divided into 7 parts:</P>
+<UL>
+  <LI><I>$HTML_HEAD</I>:
+      <UL>
+	<LI>The string <B>"&lt;DATE&gt;"</B> is replaced with
+	    the date of the form "Month day Year".</LI>
+	<LI>If &lt;DATE&gt; is provided with the optional attribute,
+	    <B>FORMAT=""</B>, the text between the quotes is used
+	    as the format specifier for the POSIX::strftime() function.
+	    The whole &lt;DATE FORMAT=""&gt; is replaced with the
+	    string produced by strftime().  Escaped double quotes are
+	    not allowed between the quotes. See the man page for
+	    strftime() on your system.</LI>
+      </UL>
+  </LI>
+      
+  <LI><I>$HTML_BODY_ELEMENT</I>:
+      <UL>
+	<LI><B>"&lt;COMIC_FILE#&gt;"</B> is replaced with the filename of
+	    the comic.</LI>
+	<LI><B>"&lt;SIZE&gt;"</B> is replaced with the &lt;IMG&gt; attributes
+	    HEIGHT=# and WEIGHT=#.  This will help make rendering the web page
+	    happen more quickly in most browsers.</LI>
+      </UL>
+  </LI>
+  <LI><I>$HTML_TAIL</I>: The string <B>"&lt;CTIME&gt;"</B> is replaced with
+      the date as returned by POSIX::ctime().
+  </LI>
+  <LI><I>$HTML_LINKS</I>:
+      <UL>
+	<LI><B>"&lt;FILE=PREV&gt;"</B> is replaced with the filename
+	    of the previous webpage file.</LI>
+	<LI><B>"&lt;FILE=NEXT&gt;"</B> is replaced with the filename
+	    of the next webpage file.</LI>
+      </UL>
+  </LI>
+  <LI><I>$HTML_LINKS_INDEX</I>: Both of the file types in links.html
+      are also replaced in this one, plus <B>"&lt;FILE=NEXT&gt;"</B>
+      which is replaced with the filename of the next webpage
+      index. This template is used instead of links.html if an index
+      is created (by default).
+  </LI>
+  <LI><I>$HTML_INDEX_ELEMENT</I>: When created, an index webpage is
+      constructed using head.html, an instance of this template for
+      each comic, and tail.html. 
+      <UL>
+	<LI><B>"&lt;FILE=CURRENT&gt;"</B> is replaced with the
+	    name of the webpage in which the comic is included.</LI>
+	<LI><B>"&lt;COMIC_ID&gt;"</B> is replaced with the id of the
+	    comic so that it can be uniquely hyperlinked to (the date
+	    is also attached to the id).</LI>
+	<LI><B>"&lt;COMIC_DATE&gt;"</B> is replaced with the date of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_NAME&gt;"</B> is replaced with the name of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_AUTHOR&gt;"</B> is replaced with author of
+	    the comic.</LI>
+	<LI><B>"&lt;COMIC_STATUS&gt;"</B> is replaced with the status
+	    of the comic. If it a local file, "local"; if it is a URL,
+	    "remote".</LI>
+	<LI><B>"&lt;PAGE=CURRENT&gt;"</B> is replaced with number of
+	    the webpage in which the comic is included.</LI>
+      </UL>
+  </LI>
+</UL>
+
+<H2>How to Personalize the Created Web Page (Old Style, pre-0.14 release)</H2>
 <P>The web page is created from three template files:  a head (contains
 more than just the html head section): <I>head.html</I>, a body
 element: <I>body_el#.html</I>, and a tail: <I>tail.html</I>. The head &

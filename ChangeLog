@@ -1,3 +1,7 @@
+2001-08-30  Elliot Glaysher  <glaysher@umich.edu>
+
+	* doc/Modify_Webpage_Creation-HOWTO.html: First draft for update.
+
 2001-08-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/HTML/Page.pm: Made debugging output printed to stderr.
