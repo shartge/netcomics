@@ -1947,6 +1947,7 @@ RELURL:	    while (@relurls) {
 				$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
 		    }
 		}
+		}
 		$rli->{'url'} = [] unless defined $rli->{'url'};
 		$rli->{'url'}->[@{$rli->{'url'}}] = $url;
 		$i++; #simply keep track for debugging purposes
@@ -1956,24 +1957,24 @@ RELURL:	    while (@relurls) {
 		#fields to the rli which now need to be reprocessed.
 		goto SETUPDATA;
 	    }
-		}
 	} else  {
 	    #complete the fields for the rli.
 	    #first tack on the file type (it may have been changed thru 'exprs')
 	    $name .= "." . $rli->{'type'};
 
-	    #save the image to its file if it was successfully downloaded.
-	    if ($separate_comics) {
-		$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
-		file_write("$comics_dir/$rli->{'subdir'}/$name",
-			   $files_mode, $response->content);
-	    } else {
-		$rli->{'file'} = [ "$name" ];
-		file_write("$comics_dir/$name",
-			   $files_mode, $response->content);
+	    unless ($dont_download || $rli->{'status'} == 2) {
+		#save the image to its file if it was successfully downloaded.
+		if ($separate_comics) {
+		    $rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+		    file_write("$comics_dir/$rli->{'subdir'}/$name",
+			       $files_mode, $response->content);
+		} else {
+		    $rli->{'file'} = [ "$name" ];
+		    file_write("$comics_dir/$name",
+			       $files_mode, $response->content);
+		}
+		push(@images,$name);
 	    }
-	    push(@images,$name)
-		unless $dont_download || $rli->{'status'} == 2;
 	}
 	#Eliminate the need to put mulitple status sets to 1 in the code
 	#by assuming that if it was bad, jumped to FINISH_RLI or status set

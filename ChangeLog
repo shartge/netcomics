@@ -1,3 +1,8 @@
+2001-03-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics (get_comics): Fixed bug introduced with new separate
+	comics feature.
+
 2001-03-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Fixed printing of URLs when no webpage created so
