@@ -461,7 +461,7 @@ sub get_comics {
 			}
 		}
 
-		my ($base,$page,$expr,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
+		my ($base,$page,$expr,$pagebase,$exprbase,$funcbase,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
 	  SETUPDATA:
 		$base = $rli->{'base'} if exists $rli->{'base'};
 		$page = $rli->{'page'} if exists $rli->{'page'};
@@ -470,8 +470,8 @@ sub get_comics {
 		$func = $rli->{'func'} if exists $rli->{'func'};
 		$back = $rli->{'back'} if exists $rli->{'back'};
 		$referer = $rli->{'referer'} if exists $rli->{'referer'};
-		
-		if (!defined($rli->{'type'})) {
+				
+        if (!defined($rli->{'type'})) {
 			$rli->{'type'} = $default_filetype;
 			print STDERR "$proc: warning, no file type was supplied, " .
 				"defaulting to $default_filetype\n" if $extra_verbose;
@@ -484,6 +484,19 @@ sub get_comics {
 				"identified by $proc. Not using $proc.\n";
 			next;
 		}
+
+        # If $rli->{'pagebase'} is defined, set $pagebase to equal it
+        # Otherwise, just set $pagebase to equal $base
+        my $pagebase = defined($rli->{'pagebase'})?$rli->{'pagebase'}:$base;
+        
+        # If $rli->{'exprbase'} is defined, set $exprbase to equal it
+        # Otherwise, just set $exprbase to equal $base
+        my $exprbase = defined($rli->{'exprbase'})?$rli->{'exprbase'}:$base;
+                        
+        # If $rli->{'funcbase'} is defined, set $funcbase to equal it
+        # Otherwise, just set $funcbase to equal $base
+        my $funcbase = defined($rli->{'funcbase'})?$rli->{'funcbase'}:$base;
+                        
 		print "$comics_dir/$name\n"
 			if $verbose && ! $extra_verbose && ! $dont_download; 
 		
@@ -544,7 +557,7 @@ sub get_comics {
 		my $request;
 		my $i = 0; #number of the URL gotten
 		if (defined($page)) {
-			my $url = "$base$page";
+			my $url = "$pagebase$page";
 			print "$name($i): $url\n" if $extra_verbose;
 			#don't download if this is the last URL & $dont_download is set
 			if (!defined($func) && !defined($exprs) && $dont_download) {
@@ -601,7 +614,8 @@ sub get_comics {
 						unless grep {/^$proc$/} @bad_images;
 					goto FINISH_RLI;
 				}
-				$url = "$base$1";
+
+                $url = "$exprbase$1";
 				
 				#handle the multi-field expression hash
 				foreach (keys(%$mfeh)) {
@@ -736,7 +750,7 @@ sub get_comics {
 					next RLI;
 				}
 
-				my $url = "$base$litem";
+				my $url = "$funcbase$litem";
 				$j++; #used to append to the file name
 				
 				my $mname = $name;
