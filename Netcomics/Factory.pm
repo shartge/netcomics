@@ -68,8 +68,8 @@ sub new {
 sub init {
 	my $self = shift;
 	#only load the modules if needed
-	unless ($user_specified_comics && @selected_comics == 0 &&
-			!$do_list_comics) {
+	unless (($user_specified_comics && @selected_comics == 0 &&
+			!$do_list_comics) || keys(%hof)) {
 		
 		load_modules("Netcomics::Factory",@libdirs)
 			if keys(%hof) == 0;
@@ -86,6 +86,16 @@ sub init {
 			#copy the hof into this instance of the Factory.
 			%{$self->{'hof'}} = %hof;
 		}
+	} elsif (keys(%hof)) {
+		#modules were previously loaded
+		%{$self->{'hof'}} = %hof;
+		#reset some attributes
+		$self->{'rli_procs'} = {};
+		$self->{'rli'} = [];
+		$self->{'dates'} = [];
+		$self->{'existing_rli_files'} = [];
+		$self->{'files_retrieved'} = [];
+		$self->{'get_current'} = undef;
 	}
 	
 	#make sure user specified existing functions
