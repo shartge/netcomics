@@ -1,0 +1,154 @@
+#-*-Perl-*-
+
+foreach (qw(banditb room avalon real hh dt)) {
+    $hof{$_} = 0;
+}
+
+# Bandit Bruno
+# http://www.brunothebandit.com/
+# http://www.brunothebandit.com/comics/20000112a.gif
+
+sub banditb {
+    my $time = shift @_;
+    my @ltime = gmtime($time);
+    return undef if ($ltime[6] == 0); #no Sunday comics
+    return undef if $time < 932428800; #1st comic: July 20, 1999
+    my $rec = {
+        'title' => "Bruno the Bandit",
+        'author' => "Ian McDonald",
+        'type' => 'gif',
+        'main' => "http://www.brunothebandit.com/",
+        'archives' => "http://www.brunothebandit.com/",
+        'base' => "http://www.brunothebandit.com",
+        'page' => strftime("/comics/%Y%m%da.gif",@ltime),
+        'size' => [750,254]
+        };
+    return $rec;
+}
+
+# Roomies
+# http://www.roomies.org/d/19990328.html
+# http://www.roomies.org/comics/19990328a.gif
+
+sub room {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,8,8,97);
+    my @ltime = gmtime($time);
+
+    return undef 
+      if (($ltime[6] =~ /^(0|6)/) && ($time < mkgmtime(0,0,0,27,2,99)));
+
+    my $rec =
+      {
+       'title'    => "College Roomies from Hell",
+       'author'   => "David Willis",
+       'type'     => 'gif',
+       'main'     => "http://www.roomies.org/",
+       'archives' => "http://www.roomies.org/calendar.html",
+       'base'     => "http://www.roomies.org/",
+       'page'     => strftime("d/%Y%m%d.html", @ltime),
+       'exprs'    => [strftime("(comics/%Y%m%d\\w*\\.\\w+)\"", @ltime)],
+       'size'     => ($ltime[6] == 0 ? [700,497] : [693,212])
+      };
+    
+    return $rec;
+}
+
+# Avalon
+# http://www.avalonhigh.com/comics/avalon20000404.gif
+
+sub avalon {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,8,10,99);
+    my @ltime = gmtime($time);
+
+    my $rec =
+      {
+       'title'    => "Avalon",
+       'author'   => "Josh Phillips",
+       'type'     => 'gif',
+       'main'     => "http://www.avalonhigh.com/",
+       'archives' => "http://www.avalonhigh.com/archive/",
+       'base'     => "http://www.avalonhigh.com/comics/",
+       'page'     => strftime("avalon%Y%m%d.gif", @ltime),
+       'size'     => ($ltime[6] == 0 ? [600,729] : [600,275])
+      };
+    
+    return $rec;
+}
+
+# Real Life
+# http://reallife.webprovider.com/archives/rl112099.htm
+
+sub real {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,15,10,99);
+    my @ltime = gmtime($time);
+    my @m = ("jan", "feb", "mar", "apr", "may", "jun",
+             "jul", "aug", "sep", "oct", "nov", "dec");
+
+    my $rec =
+      {
+       'title'    => "Real Life",
+       'author'   => "Greg Dean",
+       'type'     => 'gif',
+       'main'     => "http://reallife.loonygames.com/",
+       'archives' => "http://reallife.loonygames.com/",
+       'base'     => "http://reallife.loonygames.com/archives/",
+       'page'     => strftime("%Y_%m_$m[$ltime[4]]/%Y%m%d.gif", @ltime),
+       'size'     => ($ltime[6] == 0 ? [530,863] : [530,582])
+      };
+    
+    return $rec;
+}
+
+# Hound's Home
+# http://www.houndshome.com/archives/990906.html
+
+sub hh {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,6,8,99);
+    my @ltime = gmtime($time);
+
+    my $ext = ($ltime[6] == 0) ? "jpg" : "gif";
+
+    my $rec =
+      {
+       'title'    => "Hounds Home",
+       'author'   => "Ryan Duchane",
+       'type'     => 'gif',
+       'main'     => "http://www.houndshome.com/",
+       'archives' => "http://www.houndshome.com/archives/",
+       'base'     => "http://www.houndshome.com/comics/",
+       'page'     => strftime("hh%Y%m%da.$ext", @ltime),
+       'size'     => ($ltime[6] == 0 ? [735,365] : [720,240])
+      };
+    
+    return $rec;
+}
+
+# Dragon Tails
+# http://www.dragon-tails.com/comics/000405.jpg
+
+sub dt {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,11,2,99);
+    my @ltime = gmtime($time);
+
+    my $rec =
+      {
+       'title'    => "Dragon Tails",
+       'author'   => "Tim Dawson",
+       'type'     => 'jpg',
+       'main'     => "http://www.dragon-tails.com/",
+       'archives' => "http://www.dragon-tails.com/comics/index.htm",
+       'base'     => "http://www.dragon-tails.com/comics/",
+       'page'     => strftime("%y%m%d.jpg", @ltime),
+       'size'     => [620,220]
+      };
+    
+    return $rec;
+}
+
+
+1;
