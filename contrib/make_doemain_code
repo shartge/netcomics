@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+# This program generates the code to be used in the doemain module. See
+# module for more information.
+
+qx#wget http://www.doemainofourown.com/archive.html#;
+my $input = "archive.html";
+my @numbers;
+my $i = 0;
+
+open(FILE, $input) || die "death!";
+$data = <FILE>;
+close(FILE);
+
+if (@output = $data =~ /A HREF="(\d*\.html)"/gi) {
+	foreach (@output) {
+		s/\.html//;
+		push(@numbers, $_);
+	}
+}
+
+my @days_published;
+
+foreach (@numbers) {
+	my @line = split(//, $_);
+	my $year = "@line[4]@line[5]";
+	if ($year eq "00") {
+		$year = "100";
+	}
+	if ($year < 90) {
+		$year = "1".$year;
+	}
+	print "	\$days_published[$i] = [ '$year', '@line[2]@line[3]', '@line[0]@line[1]' ];\n";
+	$i++
+}
+
