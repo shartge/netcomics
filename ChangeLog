@@ -1,5 +1,6 @@
 2001-02-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/sketch (sketch): Added Sketch of Love thanks to Max Zomborszki.
 	* doc/Comic_Module-HOWTO.html: Updated information about how RLIs
 	returned by functions are processed.
 	* lib/template: Encourage use of $baseurl.

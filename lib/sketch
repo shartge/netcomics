@@ -1,0 +1,50 @@
+#-*-Perl-*-
+
+$hof{"sketch"} = 0;
+
+#Sketch of Love http://sketchoflove.keenspace.com/
+
+sub sketch {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    # First comic 2000-Sep-02
+    return undef if ($time < mkgmtime(0,0,0,2,8,100));
+
+    #As of Oct 02, 2000 comics are in JPEG format
+    my $type = ($time < mkgmtime(0,0,0,2,9,100))? 'gif' : 'jpg';
+
+    my $rec = {
+	'title' => "Sketch of Love",
+	'author' => "Shari Hes",
+	'type' => $type,
+	'main' => "http://sketchoflove.keenspace.com/",
+	'archives' => "http://sketchoflove.keenspace.com/pages.html?archive.html",
+	'base' => "http://sketchoflove.keenspace.com",
+    };
+
+    $rec->{'page'} = strftime("/d/%Y%m%d.html",@ltime);
+
+    $rec->{'func'} = sub {
+        my $text = shift;
+
+        my $y = strftime("%Y",@ltime);
+        my $m = strftime("%m",@ltime);
+        my $d = strftime("%d",@ltime);
+        my @relurls = ();
+        #repeatedly match and replace.  
+
+        while (1) {
+            if ($text =~ s/SRC="(\/comics\/\w*$y$m$d\w?\.((:?jpg)|(:?gif)))"//i) {
+                # I don't use $2 now, but it may be used to determine the extension.
+                push(@relurls,$1);
+            } else {
+                last;
+            }
+        }
+        return @relurls;
+    };
+
+    return $rec;
+}
+
+1;

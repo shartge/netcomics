@@ -136,6 +136,7 @@ MODULES = lib/after_y2k \
 	lib/shermans_lagoon \
 	lib/shoe \
 	lib/sinfest \
+	lib/sketch \
 	lib/sluggy_freelance \
 	lib/small_grey \
 	lib/small_world \
