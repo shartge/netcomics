@@ -1,3 +1,8 @@
+2004-09-20  Sven Hartge  <hartge at user * sourceforge * net>
+
+	* removed unneeded make_frankandernest_hash
+	* Cleaning up a bit.
+
 2004-09-01  Chris Hostetter  <hossman at users * sourceforge * net>
 
 	* fixed Real Life Comics
