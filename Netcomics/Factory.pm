@@ -113,13 +113,10 @@ sub new {
 					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[1]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
-						print "new comic\n";
 						foreach (@list_of_files) {
-							print "Getting element of rli: $_\n";
 							my @stuff = split(/\//, $_);
 							my $time = "@stuff";
 							$time--;
-							print "trying to do stuff: @stuff\n";
 							$_ = "$stuff[1]";
 							push(@temporary_file_rebuild_array, $_)
 						}
@@ -127,7 +124,7 @@ sub new {
 						foreach (@temporary_file_rebuild_array) {
 							push(@{$rli->{'file'}}, $_);
 						}
-					a	next RLI_TEST;
+						next RLI_TEST;
 					}
 
 					# At this point, there's nothing we can do...
