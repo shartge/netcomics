@@ -1,4 +1,9 @@
-2000-07-06  Ben Hochstedler  <ben.hochstedler@med.ge.com>
+2000-07-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Moved source code from personal ClearCase vob to SourceForge CVS
+	repository.
+
+2000-07-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* potd/astronomy: Fixed author expression to grab as soon as
 	possible.
@@ -12,7 +17,7 @@
 	* netcomics: Changed type to not be applied to the filename until
 	the images have been downloaded.  Made type not a required field.
 
-2000-06-12  Ben Hochstedler  <ben.hochstedler@med.ge.com>
+2000-06-12  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/superosity: Fixed mktime => mkgmtime.
 	* lib/stuff_this: Fixed mktime => mkgmtime.
