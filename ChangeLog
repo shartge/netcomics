@@ -12,7 +12,8 @@
 	* doc/Modify_Webpage_Creation-HOWTO.html: Added descriptions of
 	the new items added for full theme support: WIDTH, HEIGHT, &
 	THEME_DIR.  Added a paragraph on creating themes with images.
-	* netcomics.spec (%files): Added contrib/mktheme
+	* netcomics.spec (%files): Added contrib/mktheme & added
+	Netcomics/HTML & Netcomics/HTML/Themes as managed directories.
 	* Makefile.PL: Added HTML/Themes/CleanRound.pm
 	* MANIFEST: Added Netcomics/HTML/Themes/CleanRound.pm &
 	contrib/mktheme.
