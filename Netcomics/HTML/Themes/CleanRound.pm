@@ -11,6 +11,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+# $Id$
+#
 
 use Netcomics::HTML::Theme;
 
@@ -35,6 +38,7 @@ END_LINKS
 
 $html{'body'} = <<END_BODY;
   <tr><td>
+      <center>
       <table cellspacing=0 cellpadding=0 border=0>
 	<tr>
 	  <td><img width=20 height=20 src="<THEME_DIR>/top_l.gif"></td>
@@ -57,6 +61,7 @@ $html{'body'} = <<END_BODY;
 	  <td><img width=20 height=20 src="<THEME_DIR>/bot_r.gif"></td>
 	</tr>
       </table>
+      </center>
       <CAPTION>
   </td></tr>
 END_BODY
