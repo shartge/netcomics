@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"shoe"} = 0;
+
+#Show http://macnelly.com/shoe_images
+sub shoe {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $time < 899251200; # first July 1, 1998
+    my ($day,$size) = ($ltime[6] == 0) ? ("sunday",[1047,742]) : 
+	("daily",[612,193]);
+    my $rec = {
+	'title' => "Shoe",
+	'author' => "Jeff McNelly",
+	'type' => 'jpeg',
+	'main' => "http://macnelly.com/shoe_page.html",
+	'archives' => "http://macnelly.com/shoefolder/shoe_archive.asp",
+	'base' => "http://macnelly.com/shoe_images",
+	'page' => strftime("%m%y/shoe_$day%m%d%y.jpeg",@ltime),
+	'size' => $size
+    };
+    return $rec;
+}
+
+1;
