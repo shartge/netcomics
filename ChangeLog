@@ -6,6 +6,8 @@
 
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/creators_syndicate: Removed Pen Men & Teenage Mutant Ninja
+	Turtles; fixed sizes on all comics.
 	* lib/alexsrestaurant (alex): Fixed archive & weekday size.
 	* Netcomics/HTML/Themes/NoStatus.pm: new theme which doesn't
 	include the status column in the index.
