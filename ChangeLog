@@ -1,3 +1,12 @@
+2001-03-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Fixed printing of URLs when no webpage created so
+	that the selected comics' URLs are always printed.  Also, if not
+	creating a webpage, filenames are now printed simliarly.
+	* netcomics: Fixed POD so that manpage example list items are
+	formatted correctly by adding titles to each item.  Changed the
+	BUGS list to simply reference the TODO file.
+
 2001-03-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (load_rli): Fixed bug in naming of rli files.

@@ -237,8 +237,8 @@ If you use wget, specify http_proxy = URL or ftp_proxy = URL in your
 
 Turns on comic separation mode, which puts comics into their own 
 subdirectories. This is useful for maintaining an archive of comics.
-B<It is a better idea to set the $separate_comics variable to 1 in the
-netcomicsrc file so that this feature is not intermittently used.>
+It is a better idea to set the $separate_comics variable to 1 in the
+netcomicsrc file so that this feature is not intermittently used.
 
 =item B<-q>
 
@@ -323,8 +323,11 @@ html files are named comic#.html.
 
 =item B<-nw>
 
-Don't create a webpage. Use this option to override the rc file setting
-if need be.
+Don't create a webpage. Use this option to override the rc file setting,
+make_webpage, if need be.  When no webpage is created, filenames of the
+selected comics will be printed.  If the B<-u> option is used, URLs will
+be printed instead.  Use B<-v> also to include the comic tiles before the
+filenames or URLs.
 
 =item B<-wt> I<title>
 
@@ -346,7 +349,8 @@ html files are named comic#.html.
 
 =over 3
 
-=item 1.
+=item 1. Run as a cronjob.
+
 Run as a cron job at 7:30am, Monday through Friday, removing
 the previous day's comics beforehand, and creating a web page.
 And for Monday, also retrieve Saturday & Sunday's comics.
@@ -355,7 +359,8 @@ And for Monday, also retrieve Saturday & Sunday's comics.
    30 07  *  *  1    /usr/bin/netcomics -n 3 -D -w
 
 
-=item 2.
+=item 2. Run as a cronjob, not so many on Monday.
+
 Same as before, except, for Monday, get Saturday's & Sunday's
 comics, and for Tuesday, get Monday & Tuesday's.  This is so there
 isn't such an overload of comics on Monday.
@@ -364,7 +369,12 @@ isn't such an overload of comics on Monday.
    30 07  *  *  2    /usr/bin/netcomics -n 2 -D -w
    30 07  *  *  3-5  /usr/bin/netcomics -D -w
 
-=item 3.
+=item 3. Run as a cronjob, email yourself the URLs.
+
+   30 07  *  *  *    /usr/bin/netcomics -uv | mailx -s "today's comics" $LOGNAME
+
+=item 4. Select comics, separate directory, different date format in webpage.
+
 Grab Dilbert & Foxtrot comics from the past 30 days, place them in /tmp,
 and create a web page with a specific title (<DATE> gets replaced with the
 name of the month).
@@ -372,25 +382,29 @@ name of the month).
    netcomics -c "dilbert ft" -n 30 -d /tmp -w -wt 'Dilbert & \
    Foxtrot Comics From the Month of <DATE FORMAT="%b">'
 
-=item 4.
+=item 5. Date range, start to finish, plus an extra date.
+
 Specify the date range of comics to retrieve to be from Feb 3, 1999
 to Feb 6, 1999, and also get comics on March 3, 1998.
 
    netcomics -S 2-3-99 -E 2-6-99 -T 3-3-98
 
-=item 5.
+=item 6. Date range, specify end & number of date, exclude some comics.
+
 Specify the date range of comics to retrieve to be from Jan 6, 1999
 and the 5 days before it.  Get all the comics except Jerkcity and Doodie
 
    netcomics -E 1-6-99 -n 6 -C jc -C doodie
 
-=item 6.
+=item 7. Specify number of days of comics, a number of days ago.
+
 Specify the date range of comics to retrieve to be all those that came
 available three, four, and five days ago.
 
    netcomics -N 3 -n 3
 
-=item 7.
+=item 8. Specify number of days of comics, a number of days ago.
+
 Specify the date range of comics to retrieve to be all those that are
 dated three, four, and five days ago.  This example is given to show
 the difference between B<-E> & B<-S>  (when given a number) and -N. All
@@ -409,19 +423,22 @@ with this example.
 See B<-A> for a more elegant way of downloading comics released in the
 past.
 
-=item 8.
+=item 9. Use wget.
+
 Use wget instead of libwww-perl (makes it so you don't have to install
 libwww-perl).
 
    netcomics -g
 
-=item 9.
+=item 10. Print webpage with URLs to stdout.
+
 Do not actually download the comics.  Output the webpage (which will point
 to the comics on the websites they actually are released from) to stdout.
 
    netcomics -uwo
 
-=item 10.
+=item 11. Pretend today's date is a different one.
+
 Download the Calvin & Hobbes, Alice and Dragon Tails as if the day the
 download was done was May 1st 2000.
  
@@ -434,14 +451,16 @@ since it is 14 days back.
 
 This behaviour also applies for the B<-E> and B<-S> options.
 
-=item 11.
+=item 12. Forcibly try to download those that failed.
+
 Have netcomics retry downloading comics it didn't successfully download,
 regardless of the number of times they've been retried (also remaking the
 webpage).
 
    netcomics -c "" -R 0 -W
 
-=item 12.
+=item 13. Forcibly redownload everything.
+
 Have netcomics ignore all previously downloaded (and not-yet downloaded) comics
 and redownload everything.  Note that this was netcomics' default behaviour
 prior to version 0.13. Also note this has the affect of resetting all comics'
@@ -449,21 +468,24 @@ retry counter to 1.
 
    netcomics -a
 
-=item 13.
+=item 14. List the supported comics.
+
 List all the supported comics, including their IDs that are used with the B<-c>
 option, and how old they are before being released on the website from which
 they are downloaded.
 
    netcomics -l
 
-=item 14.
+=item 15. Override rc file options.
+
 With a ~/.netcomicsrc file having $delete_files = 1 and $remake_webpage = 1
 or $make_webpage = 1, tell netcomics to not delete the previously downloaded
 comics and to not create or recreate the webpage.
 
    netcomics -nD -nw
 
-=item 15.
+=item 16. Create your own archives of comics.
+
 Tells netcomics to download Kevin & Kell and User Friendly for the last fifteen
 days, place them in separate directories, and then make a webpage with 10
 entries on each page.
@@ -500,10 +522,7 @@ downloaded comics.
 
 =over 4
 
-=item
-Some of the comics depend on having the LANG and/or LC_CTYPE set so that
-the abbreviated month names are of only a certain locale.   Therefore,
-these comics will not download for certain locals.
+See the TODO file in the source distribution.
 
 =back
 
@@ -1359,14 +1378,22 @@ if ($make_webpage) {
 
 	# Create the webpage.
 	$HTMLpage->create_webpage(@rli);
-} elsif ($dont_download) {
-	print "\nURLs for images:\n\n" if $verbose;
+} else {
+    #print filenames or urls.
 	foreach (@rli) {
 		my $rli = $_;
-		if ($rli->{'status'} == 2 && defined($rli->{'url'})) {
+		if ($rli->{'status'} =~ /[12]/) {
 			unless ($user_specified_comics &&
 					! grep(/^$rli->{'proc'}$/, @selected_comics)) {
-				print join("\n",@{$rli->{'url'}});
+				print "$rli->{'title'}:\n" if $verbose;
+				#dont_download is set when user requests urls only
+				if ($dont_download) {
+					print join("\n",@{$rli->{'url'}})
+						if defined $rli->{'url'};
+				} else {
+					print join("\n",map {"$comics_dir/$_"} @{$rli->{'file'}})
+						if defined $rli->{'file'};
+				}
 				print "\n";
 			}
 		}
@@ -1657,7 +1684,7 @@ sub get_comics {
 	}
 
 	if (defined $proxy_url) {
-		print "using proxy, $proxy_url ...\n" if $verbose;
+		print "using proxy, $proxy_url ...\n" if $extra_verbose;
 		$ua->proxy(['http', 'ftp'], $proxy_url);
 	}
 	my $response = undef;
