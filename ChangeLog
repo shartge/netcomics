@@ -1,3 +1,17 @@
+2002-10-17  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/small_grey (grey): Generally works now. Reset daysbehind and
+	added logic to determine if a comic wwas gif or jpg.
+	* lib/small_world (smwrld): Fixed.
+	* lib/wfc (gib): Gibberish has gone missing. The famousdesigns page
+	is GONE, and the wfcomics site makes no mention of a comic called
+	"Gibberish"
+	* lib/angry_flower (btaf): s/qwik.htm/qwik.html/;
+	* lib/toytrunk: Since it hasn't been updated in so long, reseting
+	the daysbehind.
+	* lib/rocky: Removing as the page now 404s.
+	* lib/fika: Removing as the page now 404s.
+
 2002-10-15  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/kingfeatures: All kingfeatures are set back 14 days.

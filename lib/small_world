@@ -15,8 +15,8 @@ sub smwrld  {
 	'author' => "Tom Briscoe",
 	'type' => 'gif',
 	'main' => "http://www.briscoe.org/",
-	'archives' => "http://www.briscoe.org/archive/index.html",
-	'base' => "http://www.briscoe.org/comics/",
+	'archives' => "http://www.briscoe.org/smallworld/index.cfm",
+	'base' => "http://www.briscoe.org/smallworld/comics/",
 	'size' => [550,260],
 	'page' => strftime("%Y/sw%m%d%y.gif",@ltime)
 	};

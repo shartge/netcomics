@@ -1,6 +1,6 @@
 #-*-mode: Perl; perl-continued-statement-offset: 2; perl-indent-level: 2;-*-
 
-foreach (qw(wl gib tjb cv)) {
+foreach (qw(wl tjb cv)) {
   $hof{$_} = 0;
 }
 
@@ -37,21 +37,6 @@ sub wl {
   return undef if ($mytime < 931824000);
   
   return wfc(shift(@_), "WildLife", "John Kovalic", "wildlife", "wl", [618,424]);
-}
-
-# Gibberish
-# http://www.famousdesigns.com/wfcomics/gibberish/index.shtml?19990624
-sub gib {
-  my ($mytime) = @_;
-  my @ltime = gmtime($mytime);
-  
-  # The strip is only on Thursday
-  return undef if ($ltime[6] != 4);
-  
-  # Nothing before 6/24/99
-  return undef if ($mytime < 930182400);
-  
-  return wfc(shift(@_), "Gibberish", "Ethan Wenberg", "gibberish", "", [618,188]);
 }
 
 # The Japanese Beetle

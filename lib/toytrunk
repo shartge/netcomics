@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"toy"} = 1;
+$hof{"toy"} = 1176;
 
 #Toy Trunk Railroad http://www.toytrunkrailroad.com
 sub toy  {

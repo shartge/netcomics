@@ -15,7 +15,7 @@ sub btaf {
 	'main' => "http://www.angryflower.com/", 
 	'archives' => "http://www.angryflower.com/long.htm", 
 	'base' => "http://www.angryflower.com/",
-	'page' => "qwik.htm",
+	'page' => "qwik.html",
 	'type' => 'gif',
     };
     
