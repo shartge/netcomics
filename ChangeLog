@@ -1,7 +1,11 @@
+2001-01-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (clean): Added removing tmp files left behind by cvs.
+
 2001-01-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-        * lib/alice: Changed days behind for Alice to 0 thanks to  
-          Sven Hartge.
+	* lib/alice: Changed days behind for Alice to 0 thanks to  
+	Sven Hartge.
 
 2001-01-09  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 

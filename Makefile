@@ -204,7 +204,7 @@ distclean:: clean
 
 #emacs produced backup files
 clean::
-	$(FIND) . -name "*~" -exec $(RM) {} \;
+	$(FIND) . \( -name "*~" -o -name ".#*" \) -exec $(RM) {} \;
 
 #Application targets & their associated phony targets
 install:: all
