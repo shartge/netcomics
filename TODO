@@ -32,6 +32,14 @@ set of file element templates, and a file element template.
 This means that the only time when the file size is used is when the
 image couldn't be downloaded.
 
+** Option for specifying comics to include in webpage
+This would mean that when the option is specified, only those comics
+selected by the user would be included in the webpage.
+
+** Create webpage with only the latest comics
+This option would have the webpage that's generated include only the
+latest strip of each comic in the repository.
+
 ----------------------------------------------------------------------
 
 * Comic Modules
