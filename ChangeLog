@@ -1,5 +1,7 @@
 2001-02-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/ccs (ccs): Updated for site changes thanks to Shawn Oakey.
+	Fixed author's name and updated the exceptions lists.
 	* lib/kevin-n-kell: (kk) Updated to get every day of the week,
 	thanks to Shawn Oakey.
 	Changed to use a baseurl, added the size field, and added grabbing

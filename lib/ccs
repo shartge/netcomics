@@ -1,32 +1,47 @@
 #-*-Perl-*-
 
-#Tack on the names of the subroutines to the list of functions
 $hof{'ccs'} = 0;
 
-#Cool Cat Studio http://www.coolcatstudio.com
-
+# CoolCat Studio
+# ex : http://www.coolcatstudio.com/comics/ccs$date.type
 sub ccs {
   my $time = shift;
   my @ltime = gmtime($time);
   my $date = strftime("%Y%m%d",@ltime);
 
+  #Exceptions lists last updated Feb. 4, 2001
+
   return undef if ($date < 20000313 || #first comic on March 13, 2000
 		   $date == 20000703 ||
 		   $date == 20000807 ||
-		   $date == 20000913);
+		   $date == 20000913 ||
+		   $date == 20001124 ||
+		   $date == 20001206 ||
+		   $date == 20001208 ||
+		   $date == 20001225 ||
+		   $date == 20001227 ||
+		   $date == 20001229 ||
+		   $date == 20010101 ||
+		   $date == 20010103);
 
-  return undef if ($ltime[6] !~ /[135]/ &&
-		   $date != 20000401);
+  return undef if ($ltime[6] !~ /[135]/ && !
+		   ($date == 20000401 ||
+		    $date == 20001207 ||
+		    $date == 20010104));
 
+  my $baseurl = "http://www.coolcatstudio.com";
   my $rec = {
        'title' => "Cool Cat Studio",
-       'author' => "Gisele Lagace",
+       'author' => "Gisèle Lagacé",
        'type' => 'gif',
-       'main' => "http://www.coolcatstudio.com",
-       'archives' => "http://www.coolcatstudio.com/pages/archives.html",
-       'base' => "http://www.coolcatstudio.com",
-       'page' => strftime("/support/%Y/CCS%m%d%Y.gif",@ltime),
-       'size' => [468, 599],
+       'main' => $baseurl,
+       'archives' => "$baseurl/pages/archives.html",
+       'base' => "$baseurl/",
+       'page' => "d/$date.html",
+       'exprs' => {
+	   'comic' => ["(comics/ccs$date\\w?\\.(:?(jpg|gif)))"],
+	   'type' => ["comics/ccs$date\\w?\\.:?(jpg|gif)"],
+       },
   };
 
   return $rec;
