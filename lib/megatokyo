@@ -35,8 +35,11 @@ sub megatokyo {
 				m/$date\s\[(\d+)\]/;
 				my $strip_num = $1;
 
+				if(length($strip_num) < 4) {
+					$strip_num = add_zero($strip_num, 4);
+				}
 				# Strip leading 0 from comics.
-				$strip_num =~ s/^0// if grep(/^0/, $strip_num); 
+				#$strip_num =~ s/^0// if grep(/^0/, $strip_num); 
 				push(@relurls, {
 								'page' => strftime("index.php?strip_id=$strip_num",@ltime),
 								'exprs' => {
@@ -58,6 +61,16 @@ sub megatokyo {
 		}
 	};
     return $rec;
+}
+
+sub add_zero {
+	my $strip_num = shift;
+	my $total = shift;
+	$strip_num = "0".$strip_num;
+	if(length($strip_num) < 4) {
+		$strip_num = add_zero($strip_num, 4);
+	}
+	return $strip_num;
 }
 
 1;

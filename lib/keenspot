@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 
-foreach (qw(ashfield alice avalon banditb crfh cotc menagerie ccs elf
+foreach (qw(ashfield alice banditb crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
    real rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
@@ -12,7 +12,7 @@ foreach (qw(ashfield alice avalon banditb crfh cotc menagerie ccs elf
 $hof{"hh"} = 60;
 
 #Set back one months for now
-#$hof{"avalon"} = 30;
+$hof{"avalon"} = 10;
 
 sub keenspot {  
   my ($title,$author,$date,$url,$index) = @_;
@@ -1506,7 +1506,7 @@ sub rpg {
     my $date2 = strftime("%Y%m%d", @ltime2);
 
 	# Last updated July 5, 2001
-    my @missing = (20010207);
+    my @missing = (20010207,20020106,20020118);
     my @extra = (20000827,20000903,20000910,20000917,20000928,20000930,
 				 20001005,20001009,20001021,20001027,20001029,20001103,
 				 20001105,20001010,20001225,20010206,20010320,20010405,
