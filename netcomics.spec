@@ -237,9 +237,12 @@ for file in $OLDMODULES; do
     fi
 done
 if test "x$oldmods" != "x"; then
-    echo "Warning!  You have old modules that should be deleted:"
-    echo "  $oldmods."
-    echo "Run the following commands to remove them:"
+   cat <<END
+Warning!  There may be some old modules installed that need to be
+deleted.  If you are updating this package, chances are they have
+already been removed.  However, run the following commands to make
+sure they are removed:
+END
     echo "  cd $LIBDIR; rm -f $oldmods"
 fi
 cat <<END
