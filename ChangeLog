@@ -1,3 +1,11 @@
+2000-11-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/uexpress: Reenabled now that the United Syndicate comics are
+	no longered carried by comiczone.
+	* lib/comiczone: Updated so that duplicated code between uexpress
+	and unitedmedia is the same.
+	* lib/unitedmedia: Updated to match new duplicated code in comiczone.
+
 2000-10-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile (MODULES): Added spaz_labs and removed dilbert.

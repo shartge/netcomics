@@ -8,29 +8,35 @@ foreach (qw(buckets dilbert gf topworld meatloaf tarzan ripleys)) {
 $hof{"fatcats"} = 1;
 
 #Keep in sync with comiczone.
-#They're exactly the same except for the baseurl.
+#They're exactly the same except for some of the values unique to this site
 sub unitedmedia {
     #get arguments (fp stands for file prefix, syn for syndicate)
     my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
+
+    #values unique to this site
+    my $oldest = 31; #31 days of comics available
+    my $baseurl = "http://www.unitedmedia.com";
+    my $pagedir = "archive";
+    my $imgdir = "$pagedir/images";
+    my $datefmt = "-%Y%m%d";
+
     my @ltime = gmtime($time);
     my @ntime = gmtime(time);
     my $ntime = mkgmtime(0,0,0,@ntime[3..5]);
-    my $first_avail = $ntime - (31 + $hof{$func})*(3600*24);
+    my $first_avail = $ntime - ($oldest + $hof{$func})*(3600*24);
     my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
     return undef if ! defined $size || $time < $first_avail;
-
-    my $baseurl = "http://www.unitedmedia.com";
     
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => 'gif',
-	'main' => "$baseurl/comics/$fp/ab.html",
-	'archives' => "$baseurl/$syn/$fp/archive/",
+	'main' => "$baseurl/$syn/$fp/",
+	'archives' => "$baseurl/$syn/$fp/$pagedir/",
 	'base' => $baseurl,
-	'exprs' => [strftime("(/$syn/$fp/archive/images/$fp\\d+\\.(gif|jpg))",
+	'exprs' => [strftime("(/$syn/$fp/$imgdir/$fp\\d+\\.(gif|jpg))",
 			     @ltime)],
-	'page' => strftime("/$syn/$fp/archive/$fp-%Y%m%d.html",@ltime),
+	'page' => strftime("/$syn/$fp/$pagedir/$fp$datefmt.html",@ltime),
 	'size' => $size,
     };
     

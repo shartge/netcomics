@@ -139,6 +139,7 @@ MODULES = lib/after_y2k \
 	lib/toytrunk \
 	lib/triangle_robert \
 	lib/tucson \
+	lib/uexpress \
 	lib/unitedmedia \
 	lib/user_friendly \
 	lib/wait_bob \
