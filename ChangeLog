@@ -1,3 +1,8 @@
+2001-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/whenigrowup (wigu): Updated thanks to 
+          Max Zomborszki.
+
 2001-03-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): updated for site changes.
