@@ -15,9 +15,9 @@
 package Netcomics::HTML::Page;
 
 use strict;
+use POSIX;
 use Netcomics::Config;
 use Netcomics::Util;
-use POSIX;
 use Netcomics::HTML::Themes::Default;
 
 sub new {
@@ -46,7 +46,8 @@ sub new {
 				@_
 			   };
 
-	print STDERR "attributes set...\n" if $extra_verbose;
+	print STDERR "Creating with template $self->{'theme'}->{'name'}.\n"
+		if $extra_verbose;
 
 	# Bless object and return it.
 	bless $self, $class;
@@ -154,9 +155,7 @@ sub generate {
 		$body_el =~ s/<COMIC_NAME>/$title/g;
 		$body_el =~ s/<CAPTION>/$caption/; 
 		$body_el =~ s/<COMIC_ID>/$comic_id/g;
-		
-		###############################
-		# Start massive code overhaul.
+
 		my $comic_images;
 		for ($[..$#image) {
 			my $num = $_ + 1;
@@ -220,8 +219,6 @@ sub generate {
 			$body_element =~ s/<SIZE>/$size/; 
 			$comic_images .= $body_element;
 		}
-		# End Massive Code Overhaul
-		###########################
 
 		$body_el =~ s/<ELEMENT>/$comic_images/;
 

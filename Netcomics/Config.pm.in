@@ -56,7 +56,7 @@ my $script_name = "netcomics";
 require Exporter;
 use vars qw(@EXPORT @ISA);
 @ISA = qw(Exporter);
-@EXPORT = qw/$date_fmt @libdirs $html_tmpl_dir $comics_dir $system_rc
+@EXPORT = qw/$date_fmt @libdirs $html_theme $comics_dir $system_rc
 	$verbose $extra_verbose $delete_files @selected_comics
 	$do_list_comics $make_webpage $remake_webpage $proxy_url
 	$days_of_comics $days_prior @dates $start_date $end_date
@@ -70,7 +70,7 @@ use vars qw(@EXPORT @ISA);
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
-    $webpage_datefmt
+    $webpage_datefmt @html_theme_dirs
 	$webpage_absolute_paths $comicpage_glade_dir
 /; 
 
@@ -87,12 +87,15 @@ use vars qw(@EXPORT @ISA);
 use vars('$date_fmt'); $date_fmt = "%Y%m%d"; #date format in filenames
 
 #default options values
-use vars ('@libdirs'); @libdirs = ("/usr/share/netcomics");
-use vars ('$html_tmpl_dir'); $html_tmpl_dir = "$libdirs[0]/html_tmpl";
+use vars ('@libdirs'); @libdirs = ("/usr/share/perl5/Netcomics/Comic");
+use vars ('@html_theme_dirs'); 
+@html_theme_dirs = ("/usr/share/perl5/Netcomics/HTML/Themes/");
+
+use vars ('$html_theme'); $html_theme = "Default";
 use vars ('$comicpage_glade_dir'); 
-$comicpage_glade_dir = "/usr/share/comicpage";
+$comicpage_glade_dir = "/usr/share/perl5/Netcomics/Comicpage";
 use vars ('$comics_dir'); $comics_dir = "/var/spool/netcomics";
-use vars ('$system_rc'); $system_rc = "/etc/netcomicsrc";
+use vars ('$system_rc'); $system_rc = "/usr/share/perl5/Netcomics/etc/netcomicsrc";
 use vars ('$verbose'); $verbose = 0; #default to not verbose
 use vars ('$extra_verbose'); $extra_verbose = 0; #default to not extra verbose
 use vars ('$delete_files'); $delete_files = 0;
@@ -148,7 +151,7 @@ use vars ('$webpage_filename_tmpl');
 $webpage_filename_tmpl = "comics<NUM>.html";
 use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
 use vars ('$webpage_templates'); 
-$webpage_templates = "/usr/share/netcomics/html_tmpl";
+$webpage_templates = "/usr/share/perl5/Netcomics/HTML/Themes";
 use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
 use vars ('$webpage_datefmt'); $webpage_datefmt = "%b %d, %Y";
 
@@ -419,14 +422,14 @@ sub processARGV {
 			}
 		}
 
-		#HTML Template Directory
+		# HTML Theme Name
 		elsif (/(-t)$/) {
 			if (@ARGV > 0) {
-				$html_tmpl_dir = shift(@ARGV);
-				append_to_given_options($1, $html_tmpl_dir);
+				$html_theme = shift(@ARGV);
+				#append_to_given_options($1, $html_tmpl_dir);
 			} else {
-				print STDERR "Need a directory for an argument to -t. " .
-					"Use -h for usage.\n";
+				print STDERR "Need the name of the theme you want to use" .
+					"for -t. Use -h for usage.\n";
 				exit 1;
 			}
 		}
@@ -781,7 +784,7 @@ usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
    -l: list supported comics & their identifiers (doesn't download comics)
    -L: sort comics by date in webpage, days behind when listing them
    -m: add dir to locations of comic modules
-       (default /usr/share/netcomics)
+       (default /usr/share/perl5/Netcomics/Comic)
    -M: only use directories for comics modules specified on the command line
    -n: retrieve this number of days of comics, going backwards. default is 1
    -N: retrieve this number of days prior to the currently available date
@@ -796,8 +799,7 @@ usage: netcomics [-aAbBDGhiIlLoPsuvv] [-[c|C] "comic ids"] [-p url]
    -nR:specify there's no maximum number of attempts (same as -R 0).
    -s: skip bad comics when creating the webpage
    -S: specify a starting date of a range of days of comics to retrieve
-   -t: location of html tmpl files
-       (default /usr/share/netcomics/html_tmpl)
+   -t: Name of HTML theme to use.
    -T: specify a specific date of comics to retrieve
    -u: don't download comics. print URLs on stdout, or if creating a
 	   webpage, have the images be implemented using the URLs.

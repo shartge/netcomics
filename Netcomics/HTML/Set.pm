@@ -158,7 +158,8 @@ sub create_set_of_pages {
 			 'filename' => $filename,
 			 'rli_dataset' => \%rlis,
 			 'comics_set' => [@comics_to_pass],
-			 'include_subdir' => $self->{'include_subdir'}
+			 'include_subdir' => $self->{'include_subdir'},
+			 'theme' => $self->{'theme'}
 			);
 
 		print STDERR "Object created...\n" if $extra_verbose;

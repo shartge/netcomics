@@ -33,6 +33,7 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 library_sort
 			 libdate_sort
 			 mkgmtime
+			 reflect_all
 			 samedate
 			 status_message
 			 syscmd
@@ -86,6 +87,9 @@ sub load_modules {
 
 			my $module;
 			foreach $module (@modules) {
+				if ($module eq "Default.pm") {
+					next;
+				}
 				print "$module " if $extra_verbose;
 				eval "package $namespace; require \"$libdir/$module\""
 					if (-r "$libdir/$module");

@@ -1,3 +1,15 @@
+2001-09-18  Elliot Glaysher  <glaysher@umich.edu>
+
+	* netcomics: Added changable theme support.
+	* netcomicsrc: Added entries in netcomicsrc for changable theme
+	support.
+	* Netcomics/Config.pm.in: Changed function of -t, and added variable
+	$html_theme.
+	* Netcomics/HTML.pm: Added changable theme support.
+	* Netcomics/Page.pm: Added changable theme support.
+	* Netcomics/Set.pm: Added changable theme support.
+	* Netcomics/HTML/Themes/Defualt.pm: Added a 'name' property.
+
 2001-09-16  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/inktank: Added thanks to Chris Hostetter. Replaces lib/angst.

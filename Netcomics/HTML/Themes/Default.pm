@@ -85,6 +85,7 @@ my $HTML_INDEX_ELEMENT = <<'END_INDEX_ELEMENT';
 END_INDEX_ELEMENT
 
 	my $self = {
+				'name' => "Default",
 				'head' => $HTML_HEAD,
 				'links' => $HTML_LINKS,
 				'body' => $HTML_BODY,

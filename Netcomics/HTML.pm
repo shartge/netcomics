@@ -21,6 +21,9 @@ use Netcomics::Util;
 use Netcomics::Config;
 use Netcomics::HTML::Set;
 
+# Load the templates into this namespace.
+load_modules("Netcomics::HTML::Themes", @html_theme_dirs);
+
 #class attributes
 my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
     "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>.\n";
@@ -29,14 +32,20 @@ my $files_mode = 0644;
 sub create_basic_page_set {
 	my $self = shift;
 	my @rli = @_;
-
-	my $HTMLpage = Netcomics::HTML::Set->new;
+	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
+	print "Creating with template $template->{'name'}.\n";
+	my $HTMLpage = Netcomics::HTML::Set->new(
+											 'theme' => $template
+											);
 	$HTMLpage->create_set_of_pages(@rli);
 }
 
 sub create_archive_webpages {
 	my $self = shift;
 	my @rli = @_;
+
+	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
+	print "Creating with template $template->{'name'}.\n";
 
 	# Create archive pages
 	my @selected_comics;
@@ -61,6 +70,7 @@ sub create_archive_webpages {
 		}
 		my $HTMLpage = Netcomics::HTML::Set->new
 		('output_dir' => "$comics_dir/$subdir",
+		 'theme' => $template,
 		 'include_subdir' => 0
 		);
 		print "Putting in directory $subdir\n";
