@@ -1,4 +1,4 @@
-2004-08-13  Clint Olson  <coandco at user * sourceforge * net>
+2004-08-13  Clint Olson  <coandco at users * sourceforge * net>
 
         * lib/creators_syndicate
               frankandernest
@@ -6,9 +6,6 @@
               unitedmedia: Changed the "days behind" records to 0, since
           they work perfectly fine fetching today's comics instead of 
           last week's.
-
-2004-08-13  Clint Olson  <coandco at user * sourceforge * net>
-
         * Netcomics/Factory.pm: Added three new attributes to the RLI
           definition: pagebase, exprbase, and funcbase.  With these,
           we can now easily get comics with different domains for their
