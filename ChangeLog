@@ -1,3 +1,8 @@
+2002-02-11  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot: Oh dear, I appear to have broken all of keenspot with
+	my last commit. Fixed.
+
 2002-02-07  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/keenspace (framed): Updated @missing list.

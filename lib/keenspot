@@ -47,7 +47,7 @@ sub keenspot {
    my @relurls = ();
     #repeatedly match and replace.  
         while (1) {
-          if ($text =~ s/src="().*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
             push(@relurls,$1);
             $rec->{'type'} = $5;
           } else {
