@@ -771,6 +771,7 @@ while (@ARGV)
     elsif (/-o/) {
 	$webpage_on_stdout = 1;
 	$given_options .= " -o";
+	$comics_per_page = undef;
 	$smushopt = 1;
     }
 
