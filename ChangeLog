@@ -1,3 +1,8 @@
+2001-07-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* doc/netcomics.pod (FILES): Added netcomicsrc files.
+	(SEE ALSO): added reference to comicpage.
+
 2001-07-06  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* doc/design.dia: Accidently uploaded a binary file last commit. This

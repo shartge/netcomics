@@ -510,7 +510,7 @@ entries on each page.
 
 =head1 FILES
 
-=over 29
+=over 4
 
 =item /usr/share/netcomics
 
@@ -521,9 +521,17 @@ Directory containing the modules that return RLIs.
 Directory containing the HTML template files used to create the
 web page.
 
+=item /etc/netcomicsrc
+
+System rc file.  This can be copied for each user's own .netcomicsrc file.
+
+=item ~/.netcomicsrc
+
+User rc file used to change the default settings.
+
 =item /var/spool/netcomics
 
-Default directory where comics and the web page are placed.
+Default directory where comics and web pages are placed.
 
 =item /usr/bin/display_comics
 
@@ -542,7 +550,7 @@ See the TODO file in the source distribution.
 
 =head1 SEE ALSO
 
-show_comics(1)
+show_comics(1) comicpage(1)
 
 =head1 AUTHOR
 
