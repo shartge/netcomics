@@ -7,6 +7,7 @@ foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp fw fusco hc itb
 #first Calvin & Hobbes strip was November 18, 1985.
 $hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
 $hof{"ga"} = 0;
+$hof{"ft"} = 0;
 
 $hof{"ucross"} = 0;
 
@@ -85,6 +86,12 @@ sub ga {
 sub ch {
     return ucomics_akamai(shift(@_), "Calvin and Hobbes", "Bill Watterson",
 			  [600,422], [600,200], "calvinandhobbes", "ch");
+}
+
+#Fox Trot http://www.ucomics.com/foxtrot/
+sub ft {
+    return ucomics_akamai(shift(@_), "FoxTrot", "Bill Amend",
+			  [600,422], [600,189], "foxtrot", "ft");
 }
 
 #http://images.ucomics.com/comics/cxpic/1999/cxpic990501.gif

@@ -97,7 +97,6 @@ MODULES = lib/after_y2k \
 	lib/fika \
 	lib/forbez \
 	lib/fordummies \
-	lib/foxtrot \
 	lib/frankandernest \
 	lib/freefall \
 	lib/gaming_u \
@@ -180,6 +179,7 @@ OLDMODULES = \
 	dilbert \
 	fatjesus \
 	fce \
+	foxtrot \
 	garfield \
 	glasbergen \
 	goats \

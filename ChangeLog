@@ -1,3 +1,8 @@
+2001-06-13  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/ucomics (ft): Added FoxTrot to ucomics.
+	* Makefile (MODULES): moved foxtrot into the disabled list.
+
 2001-05-29  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* lib/bayside, lib/toonvile: Updates by Shawn Oakey.
