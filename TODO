@@ -27,8 +27,6 @@ image couldn't be downloaded.
 
 ** Add Fat Boy and Little Man: http://www.fatboyandlittleman.com/
 
-** Add Mother Goose & Grimm
-
 ** Change comicspages_ed to use a 'func' to determine what comics to download.
 Should probably base it off of penny_arcade.
 
@@ -62,8 +60,6 @@ http://www.cs.cornell.edu/dali/
 For example, make it so that they can have their background set to
 that image.
 
-** Merge in comicpage.
-
 -----------------------------------------------------------------------
 
 * Distribution & Build Environment
@@ -76,8 +72,6 @@ that image.
 This should probably use CVS revision IDs.
 
 ** Remove dependency of the main rpm on the modules rpm.
-
-** Separate modules into their own debian package.
 
 -----------------------------------------------------------------------
 

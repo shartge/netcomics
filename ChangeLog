@@ -7,6 +7,8 @@
 	* debian/netcomics.menu:  "                                  "
 	* comicpage: Changed various instances of gtkcomics to ComicPage
 	* doc/comicpage.pod: Initial commit.
+	* TODO: Removed a couple of things that have been done (like merge
+	in comicpage)
 	
 2001-05-20  Elliot Glaysher  <nuriko.chan@home.com>
 
