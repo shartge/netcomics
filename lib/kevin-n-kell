@@ -20,8 +20,13 @@ sub kk {
 	'type' => 'gif',
 	'main' => "$baseurl/",
 	'archives' => "$baseurl/archive/index.html",
-	'base' => $baseurl,
-	'page' => strftime("/%Y/strips/kk%Y%m%d.gif",@ltime),
+	'size' => ($ltime[6] == 0 ? [585,390] : [585,190]),
+	'base' => strftime("$baseurl/%Y/",@ltime),
+	'page' => strftime("kk%m%d.html",@ltime),
+	'exprs' => {
+	    'comic' => ["(strips/kk$date.gif)"],
+	    'caption' => ["strips/kk$date.gif.*?<FONT.*?>\\s?(.*?)</FONT>"],
+	},
     };
     return $rec;
 }
