@@ -183,6 +183,14 @@ problem.
 ** Optionn to delete only those comics & status files that were successful
 or were unsuccessful and reached the maximum retry limit.
 
+** Add a signal catcher 
+if Crl-C'd during download, it would stop and then go to webpage creation.
+
+** Better file type handling
+Allow multiple-file-comics to have different types (sketch, eg: 20001211).
+Use file command to determine image type.
+Else, look for filetype in the url.
+
 -----------------------------------------------------------------------
 
 * Bugs
