@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(ac bc rug wiz pen obh sb shagg brew fhs heath zorro lib nin
+foreach (qw(ac bc rug wiz pen obh sb shagg brew fhs heath zorro nin
 	    ballard peach wee raw agnes toby)) {
     $hof{$_} = 7;
 }
