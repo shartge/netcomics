@@ -1,0 +1,11 @@
+date; netcomics -g "wget -quiet -O - " -v -w=10; date
+Wed Jun 16 14:25:33 CDT 1999
+...
+Wed Jun 16 14:31:32 CDT 1999
+= 6 minutes
+
+date ; netcomics -v -w=10 ; date
+Wed Jun 16 14:37:29 CDT 1999
+...
+Wed Jun 16 14:44:47 CDT 1999
+= 7 minutes 20 seconds
