@@ -1,3 +1,7 @@
+2001-11-27  Elliot Glaysher  <glaysher@umich.edu>
+
+	* lib/keenspot (elf): elf changed location of index. Fixed.
+
 2001-11-25  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Netcomics/Factory.pm (get_comics): Fixed typo in the "Please, before

@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(ashfield alice banditb crfh cotc menagerie ccs elf
+foreach (qw(ashfield alice avalon banditb crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
    real rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
@@ -12,7 +12,7 @@ foreach (qw(ashfield alice banditb crfh cotc menagerie ccs elf
 $hof{"hh"} = 60;
 
 #Set back one months for now
-$hof{"avalon"} = 30;
+#$hof{"avalon"} = 30;
 
 sub keenspot {  
   my ($title,$author,$date,$url,$index) = @_;
@@ -436,7 +436,7 @@ sub elf {
     my $title = "Elf Life";
     my $author = "Carson Fire";
     my $url = "http://www.elflife.com";
-    my $index = undef;
+    my $index = "index.shtml";
     
     return keenspot($title,$author,$date,$url,$index);
 }
