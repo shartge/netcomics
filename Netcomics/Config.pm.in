@@ -65,13 +65,13 @@ use vars qw(@EXPORT @ISA);
 	$reset_libdir $real_date $always_download $max_attempts
 	$show_tasks $separate_comics $single_rli_file $netcomics_rli_file
 	$suppress_rerun_command 
-	$rc_file %comics %groups
+	$rc_file %comics %groups $webpage_indexname_tmpl
 	$webpage_on_stdout $skip_bad_comics $sort_by_date $webpage_title
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
     $webpage_datefmt @html_theme_dirs $webpage_today
-	$webpage_absolute_paths $comicpage_glade_dir
+	$webpage_absolute_paths $comicpage_glade_dir $comics_per_index_page
 /; 
 
 #all the config options & their defaults.
@@ -149,12 +149,15 @@ use vars ('$background'); $background = "";
 use vars ('$webpage_index'); $webpage_index = 1;
 use vars ('$webpage_filename_tmpl'); 
 $webpage_filename_tmpl = "comics<NUM>.html";
+use vars ('$webpage_indexname_tmpl');
+$webpage_indexname_tmpl = "index<NUM>.html";
 use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
 use vars ('$webpage_templates'); 
 $webpage_templates = "/usr/share/perl5/Netcomics/HTML/Themes";
 use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
 use vars ('$webpage_datefmt'); $webpage_datefmt = "%b %d, %Y";
 use vars ('$webpage_today'); $webpage_today = 0;
+use vars ('$comics_per_index_page'); $comics_per_index_page = undef;
 
 =head2 new("scriptname")
 

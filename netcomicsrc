@@ -130,6 +130,9 @@ my $HOME = $ENV{'HOME'};
 ## Maximum number of comics per webpage. Default is undef (none).
 #$comics_per_page = 10;
 
+## Maximum number of index entries per webpage. Default is undef (none).
+#$comics_per_index_page = 100;
+
 ## HTML <BODY> attribute for the color of the unvisited links in the webpage
 #$link_color = "LINK=#9999FF";
 
@@ -155,8 +158,9 @@ my $HOME = $ENV{'HOME'};
 ## sequence number of the page (if $comics_per_page is set).
 #$webpage_filename_tmpl = "comics<NUM>.html";
 
-## Name of the generated index file for the webpages.
-#$webpage_index_filename = "index.html";
+## Name of the gnerated indexies for the webpages. "<NUM>" is replaced with
+## the page number, as with $webpage_filename_tmpl.
+#$webpage_indexname_tmpl = "index<NUM>.html";
 
 ## Create the webpages with embedded images linked using full pathnames (1)
 ## instead of relative (0; which is the default).

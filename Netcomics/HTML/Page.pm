@@ -66,7 +66,7 @@ sub generate {
 
 	#replace group-global info
 	my $body ="";
-	my $index = "";
+	my @index;
 
 	# Okay, now let's create the header and substitute information
 	# in.
@@ -146,7 +146,8 @@ sub generate {
 		if ($self->{'link_to_local_archives'}) {
 			# link to local archives
 
-			# If we're making indexies, then:
+			# If we're making indexies, then link to index, else link
+			# to the first page of comics.
 			if ($webpage_index) {
 				$title .= " <A HREF=\"$rli->{'subdir'}/index.html\">" .
 					"<FONT FACE=\"times\">" .
@@ -256,7 +257,7 @@ sub generate {
 			s/<FILE=CURRENT>/$self->{'filename'}/g;
 			s/<PAGE=CURRENT>/$self->{'group_number'}/g;
 			s/<COMIC_ID>/$comic_id/g;
-			$index .= $_;
+			push(@index, $_);
 		}
 		print STDERR "\n" if $extra_verbose;
 	}
@@ -265,7 +266,7 @@ sub generate {
 	my $tail_tmpl = $self->{'theme'}->{'html'}{'tail'};
 
 	# Catch all for common elements.
-	foreach (\$body, \$links, \$index, \$tail_tmpl) {
+	foreach (\$body, \$links, \$tail_tmpl) {
 		$$_ =~ s/<PAGETITLE>/$webpage_title/g;
 		$$_ =~ s/<CTIME>/$self->{'ctime'}/g;
 		$$_ =~ s/<DATE>/$self->{'datestr'}/g;
@@ -275,7 +276,7 @@ sub generate {
 			'links' => "$links",
 			'body' => "$body",
 			'tail_tmpl' => "$tail_tmpl",
-			'index' => "$index"
+			'index' => \@index
 		   });
 }
 

@@ -1,9 +1,9 @@
-#-*-Perl-*-
+#-*-CPerl-*-
 
 foreach (qw(ashfield alice avalon banditb crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
-   real rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
+   real rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
    cutewendy wigu youdamn)) {
    $hof{"$_"} = 0;
 }
@@ -47,7 +47,7 @@ sub keenspot {
    my @relurls = ();
     #repeatedly match and replace.  
         while (1) {
-          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:?\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
             push(@relurls,$1);
             $rec->{'type'} = $5;
           } else {
@@ -1498,6 +1498,38 @@ sub real {
     return keenspot($title,$author,$date,$url,$index);
 }
 
+sub rpg {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+	# Last updated July 5, 2001
+    my @missing = (20010207);
+    my @extra = (20000827,20000903,20000910,20000917,20000928,20000930,
+				 20001005,20001009,20001021,20001027,20001029,20001103,
+				 20001105,20001010,20001225,20010206,20010320,20010405,
+				 20010611,20010612,20010614,20010813,20010827,20010920);
+
+    #First comic on 20000827.
+    #Comic begins regular SWF schedule on 20001112
+    return undef if 
+		(($date < 20000827) ||             #first comic on August 27, 2000
+		 (($date >= 20000827 && $date < 20001112) &&
+		  (!grep(/$date/,@extra))) ||
+		 (($date >= 20001112) &&           # Sunday, Wednesay, Friday
+		  (($ltime[6] !~ /[035]/) && (!grep(/$date/,@extra)))) ||  
+		 grep(/$date/,@missing));
+
+    my $title = "RPG World";
+    my $author = "Ian J.";
+    my $url = "http://www.rpgworldcomic.com";
+    my $index = undef;
+    
+    return keenspot($title,$author,$date,$url,$index);
+}
+
 #Road Waffles
 sub rwaffles {
     my $time = shift;
@@ -1515,16 +1547,16 @@ sub rwaffles {
     #everyday until april 5, 2001
     #no new comics since april 5, 2001
     return undef if 
-      (($date < 19991108) || #first comic on November 8, 1999
-      (($date >= 19991108 && $date < 20000729) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      (($date >= 20000729 && $date < 20001113) &&
-      (!grep(/$date/,@extra))) ||
-      (($date >= 20001113 && $date < 20010405) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      (($date >= 20010405 && $date <= $date2) &&
-      (!grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
+		(($date < 19991108) || #first comic on November 8, 1999
+		 (($date >= 19991108 && $date < 20000729) &&
+		  ($ltime[6] !~ /[0123456]/)) ||
+		 (($date >= 20000729 && $date < 20001113) &&
+		  (!grep(/$date/,@extra))) ||
+		 (($date >= 20001113 && $date < 20010405) &&
+		  ($ltime[6] !~ /[0123456]/)) ||
+		 (($date >= 20010405 && $date <= $date2) &&
+		  (!grep(/$date/,@extra))) ||
+		 grep(/$date/,@missing));
 
     my $title = "Road Waffles";
     my $author = "eight";

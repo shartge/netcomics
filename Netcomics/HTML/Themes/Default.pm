@@ -34,19 +34,20 @@ $html{'head'} = <<END_HEAD;
   <H1><PAGETITLE> (<NUM=FIRST>-<NUM=LAST> of <NUM=TOTAL>)</H1>
 </CENTER>
 
-<TABLE WIDTH=100%>
 END_HEAD
 
 $html{'links'} = <<END_LINKS;
-<TR><TD>
-  <TABLE WIDTH=100%>
-    <TR>
-      <TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
-      <TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
-    </TR>
-  </TABLE>
-</TD></TR>
+<TABLE WIDTH=100%>
+  <TR>
+    <TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
+    <TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
+  </TR>
+</TABLE>
 END_LINKS
+
+$html{'pre_body'} = <<END_PRE_BODY;
+<TABLE WIDTH=100%>
+END_PRE_BODY
 
 $html{'body'} = <<END_BODY;
   <TR><TD ALIGN=CENTER>
@@ -60,12 +61,15 @@ $html{'body'} = <<END_BODY;
   </TD></TR>
 END_BODY
 
+$html{'post_body'} = <<END_POST_BODY;
+</TABLE>
+END_POST_BODY
+
 $html{'body_el'} = <<END_BODY_ELEMENT;
 <A HREF="<COMIC_FILE>"><IMG BORDER=0 SRC="<COMIC_FILE>" <SIZE>></A>
 END_BODY_ELEMENT
 
 $html{'tail'} = <<END_TAIL;
-</TABLE>
 
 <HR>
 <FONT SIZE=-1><CENTER>This page was created on <CTIME>.</CENTER></FONT>

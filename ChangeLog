@@ -1,3 +1,16 @@
+2001-12-20  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Set.pm: Now can create multi-paged indexes.
+	* Netcomics/HTML/Page.pm: Page.pm returns the index as a list that
+	can be seperated out at the Set.pm level.
+	* Netcomics/HTML/Themes/Default.pm: Created pre_body and post_body
+	templates.
+	* Netcomics/Config.pm.in: Added the variables $comics_per_index_page
+	and $webpage_indexname_tmpl.
+	* netcomicsrc: Added the variables $comics_per_index_page and 
+	$webpage_indexname_tmpl.
+	* lib/keenspot (rpg): Added a module for RPG World.
+
 2001-12-10  Elliot Glaysher  <glaysher@umich.edu>
 
 	* Makefile.PL (post_constants): Updated email address. How long has

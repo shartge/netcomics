@@ -71,7 +71,7 @@ sub create_set_of_pages {
 		print STDERR "Deleting old webpages (".$self->{'output_dir'} .
 				"/<index.html,comic*.html>).\n" if $verbose;
 		chdir $self->{'output_dir'};
-		unlink <index.html>;
+		unlink <index*.html>;
 		unlink <comic*.html>;
 	}
 
@@ -100,29 +100,7 @@ sub create_set_of_pages {
 			"comics on last page = $comics_on_last\n"
 				if $extra_verbose;
 
-	# Process the index.
-	my $index;
-	if ($webpage_index) {
-		#index head global info
-		$index = $self->{'theme'}->{'html'}{'head'};
-		$index =~ s/<PAGETITLE>/$webpage_title/g;
-		$index =~ s/<NUM=FIRST>/1/g;
-		$index =~ s/<NUM=(LAST|TOTAL)>/$num_comics/g;
-		$index =~ s/<PAGETITLE>/$webpage_title/g;
-		$index =~ s/<LINK_COLOR>/$link_color/g;
-		$index =~ s/<VLINK_COLOR>/$vlink_color/g;
-		$index =~ s/<BACKGROUND>/$background/g;
-
-		# Code that let's you use custom date strigs.
-		my $date = strftime("%b %d, %Y",gmtime(time()));
-		$index =~ s/<DATE>/$date/g;
-		my @ltime = localtime(time);
-		while ($index =~ /<DATE FORMAT="([^\"]*)">/) {
-			my $datestr = strftime($1,@ltime); 
-			$index =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
-		}
-	}
-
+	my @index_entries;
 	my $tail;
 
 	for my $group_num (1..$num_groups) {
@@ -172,12 +150,12 @@ sub create_set_of_pages {
 
 		my %returned = %{$HTML_Page->generate};
 
-		my $page = "$returned{'head'}$returned{'links'}$returned{'body'}" .
+		my $page = "$returned{'head'}$returned{'links'}$self->{'theme'}->{'html'}{'pre_body'}$returned{'body'}$self->{'theme'}->{'html'}{'post_body'}" .
 		"$returned{'links'}$returned{'tail_tmpl'}";
 
 		$tail = $returned{'tail_tmpl'};
 
-		$index .= $returned{'index'};
+		push(@index_entries, @{$returned{'index'}});
 
 		unless ($webpage_on_stdout) {
 			file_write("$self->{'output_dir'}/$filename",0664,"$page");
@@ -185,9 +163,95 @@ sub create_set_of_pages {
 			print STDERR "$page";
 		}
 	}
+
+	# Yes, pretty much this whole section of code is ripped from above.
+	# Sue me.
 	if ($webpage_index && ! $webpage_on_stdout) {
-		file_write("$self->{'output_dir'}/$webpage_index_filename",
-				   0664, "$index$tail");
+
+		# Determine number of index pages for comics. Yes this was ripped from
+		# above, yes this should be a sub. So sue me.
+		$comics_per_index_page = $num_comics
+			unless defined($comics_per_index_page); 
+		my $num_groups = $num_comics / $comics_per_index_page;
+		$num_groups =~ s/^(\d+)\.?\d*$/$1/;
+		my $comics_on_last = $num_comics % $comics_per_index_page;
+		$num_groups++ if $comics_on_last > 0;
+
+		for my $group_num (1..$num_groups) {
+			my $singlepage;
+			if ($num_groups >= 2) {
+				$singlepage = 0;
+			} else {
+				$singlepage = 1;
+			}
+
+			# Generate the first and last comic numbers in @sorted_comics.
+			my $first = ($group_num - 1) * $comics_per_index_page + 1;
+			my $last  = $first + $comics_per_index_page - 1;
+			$last = $first + $comics_on_last - 1 
+				if ($group_num == $num_groups && $comics_on_last > 0);
+
+			# Create what's going to be the index.
+			my $index;
+			my $index_head;
+			#index head global info
+			$index_head = $self->{'theme'}->{'html'}{'head'};
+			$index_head =~ s/<PAGETITLE>/$webpage_title/g;
+			$index_head =~ s/<NUM=FIRST>/$first/g;
+			$index_head =~ s/<NUM=LAST>/$last/g;
+			$index_head =~ s/<NUM=TOTAL>/$num_comics/g;
+			$index_head =~ s/<PAGETITLE>/$webpage_title/g;
+			$index_head =~ s/<LINK_COLOR>/$link_color/g;
+			$index_head =~ s/<VLINK_COLOR>/$vlink_color/g;
+			$index_head =~ s/<BACKGROUND>/$background/g;
+
+			# Code that let's you use custom date strigs.
+			my $date = strftime("%b %d, %Y",gmtime(time()));
+			$index_head =~ s/<DATE>/$date/g;
+			my @ltime = localtime(time);
+			while ($index_head =~ /<DATE FORMAT="([^\"]*)">/) {
+				my $datestr = strftime($1,@ltime); 
+				$index_head =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
+			}
+
+			# Now create the header with links to previous page, next page, and
+			# up if we have multiple groups. Otherwise leave $links blank.
+			my ($nextfile,$prevfile) = ($webpage_indexname_tmpl) x 2;
+			my $nextgroup = ($group_num == $num_groups) ? 1 : $group_num + 1;
+			my $prevgroup = $group_num - 1;
+			if ($group_num == 1) {
+				$prevgroup = $num_groups;
+			}
+
+			$nextgroup = 1 if $nextfile =~ s/<NUM>/$nextgroup/g;
+			$prevfile =~ s/<NUM>/$prevgroup/g;
+
+			my $links = "";
+			if ($num_groups > 1) {
+				$links = $self->{'theme'}->{'html'}{'links'};
+				$links =~ s/<FILE=PREV>/$prevfile/g;
+				$links =~ s/<FILE=NEXT>/$nextfile/g;
+				$links =~ s/<NUM>/$comics_per_page/g;
+			}
+
+			for my $comic_number ($first .. $last ) {
+				$index .= $index_entries[$comic_number - 1];
+			}
+
+			my $filename;
+			unless($num_groups == 1) {
+				($filename = $webpage_indexname_tmpl ) 
+					=~ s/<NUM>/$group_num/g;
+				file_write("$self->{'output_dir'}/$filename",
+						   0664, "$index_head$links$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$links$tail");
+			}
+			else {
+				($filename = $webpage_indexname_tmpl ) 
+					=~ s/<NUM>//g;
+				file_write("$self->{'output_dir'}/$filename",
+						   0664, "$index_head$self->{'theme'}->{'html'}{'pre_body'}$index$self->{'theme'}->{'html'}{'post_body'}$tail");
+			}
+		}
 	}
 	$self->{'theme'}->generate_images($self->{'output_dir'});
 }
