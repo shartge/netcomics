@@ -1,5 +1,7 @@
 2001-04-22  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* netcomics (create_webpage): Made create_webpage not die when
+	more than 8 files make up one strip.
 	* lib/bastich: Removed because it no longer exists.
 
 2001-04-19  Elliot Glaysher <nuriko.chan@home.com>

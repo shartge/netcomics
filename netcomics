@@ -2324,8 +2324,9 @@ sub create_webpage {
 	    my @gmtime = gmtime($rli->{'time'});
 	    my $comic_id = $rli->{'name'};
 	    my @image = @{$rli->{'file'}};
-	    die "\nComics made up of more than $#body_el_tmpl files are not" .
-		" supported.\n$inform_maintainer" if @image > $#body_el_tmpl;
+	    print STDERR "\nComics made up of more than $#body_el_tmpl files" .
+		" are not supported.\n$inform_maintainer", next
+		    if @image > $#body_el_tmpl;
 	    my $body_el = $body_el_tmpl[@image];
 	    
 	    my $title;
