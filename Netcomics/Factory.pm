@@ -88,7 +88,7 @@ sub new {
 			$single_rli_file = 1; #make sure this is on even if not specified
 			@files = ($netcomics_rli_file); #make it the only file to load.
 		}
-		foreach my $rli (load_rlis(@files)) {
+	RLI_TEST: foreach my $rli (load_rlis(@files)) {
 			$rli->{'reloaded'} = 1, $self->add_to_rli_list($rli) 
 				if defined $rli;
 			#make sure important data is correct in the rli (i.e. its files)
@@ -127,8 +127,7 @@ sub new {
 						foreach (@temporary_file_rebuild_array) {
 							push(@{$rli->{'file'}}, $_);
 						}
-						print Data::Dumper->Dump([$rli],[qw(*rli)]);
-						next;
+					a	next RLI_TEST;
 					}
 
 					# At this point, there's nothing we can do...
