@@ -22,7 +22,7 @@ sub unitedmedia {
 
     return undef if ! defined $size || $time < $first_avail;
 
-    my $baseurl = "http://www.unitedmedia.com";
+    my $baseurl = "http://www.comics.com";
     
     my $rec = {
 	'title' => $title,
