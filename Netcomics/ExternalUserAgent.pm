@@ -22,7 +22,7 @@ sub new {
 	    die "Error!  handling references unimplmemented.\n";
 	}
 	my $self = bless {
-	    'cmd' => 'wget -q -O - --header="Referer: %R" ',
+	    'cmd' => 'wget -q -O - --header="Referer: %R" \'%U\'',
 	    'verbose' => 0,
 	    'extra_verbose' => 0,
 	    'proxy' => undef
