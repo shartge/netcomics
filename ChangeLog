@@ -1,7 +1,10 @@
 2001-11-14  Elliot Glaysher  <glaysher@umich.edu>
 
 	* The "I should probably get off my lazy butt and do something" commit.
+	* lib/keenspace: Alphabetized order of comic modules.
 	* lib/keenspot (avalon): Updated Avalon's @missing list.
+	(keenspot): Fixed regex so it should work. changed "\w+" to "\w*" since
+	Avalon sometimes has filenames like avalon20010909s2.gif.
 
 2001-10-02  Elliot Glaysher  <glaysher@umich.edu>
 

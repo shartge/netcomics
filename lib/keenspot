@@ -47,7 +47,7 @@ sub keenspot {
    my @relurls = ();
     #repeatedly match and replace.  
         while (1) {
-          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date\w?\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+          if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date\w*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
             push(@relurls,$1);
             $rec->{'type'} = $5;
           } else {
@@ -157,7 +157,7 @@ sub avalon {
 	  20010826,20010827,20010828,20010829,20010830,20010831,20010902,
 	  20010917,20010918,20010919,20010920,20010921,20010923,20011014,
 	  20011015,20011016,20011017,20011018,20011019,20011021,20011105,
-	  20011006,20011007,20011008,20011009);
+	  20011106,20011107,20011108,20011109);
     my @extra = (20000401,20001223);
 
     #M to F until February 27, 2000
@@ -165,9 +165,9 @@ sub avalon {
     return undef if 
       (($date < 19991108) || #first comic on November 8, 1999
       (($date >= 19991108 && $date < 20000227) && 
-      ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
+       ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
       (($date >= 20000227 && $date <= $date2) &&
-      ($ltime[6] !~ /[012345]/ && !grep(/$date/,@extra))) ||
+       ($ltime[6] !~ /[012345]/ && !grep(/$date/,@extra))) ||
       grep(/$date/,@missing));
 
     my $title = "Avalon";
