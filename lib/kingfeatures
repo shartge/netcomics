@@ -212,7 +212,7 @@ sub jparker {
 #Katzenjammer Kids http://www.kingfeatures.com/comics/katzkids/index.htm
 sub katkids {
     my $time = shift;
-    my @ltime = localtime($time);
+    my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Katzenjammer Kids",
         "Hy Eisman", "katzkids",
@@ -298,7 +298,7 @@ sub pops {
 #Prince Valiant http://www.kingfeatures.com/comics/pvaliant/index.htm
 sub  pvaliant{
     my $time = shift;
-    my @ltime = localtime($time);
+    my @ltime = gmtime($time);
     return undef if $ltime[6] != 0; #sun only
     return kingfeature3($time,"Prince Valiant",
 	"John Cullen Murphy & Cullen Murphy", "pvaliant",

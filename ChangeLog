@@ -1,3 +1,8 @@
+2001-05-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/kingfeatures (pvaliant,katkids): changed use of localtime()
+	to gmtime().
+
 2001-05-18  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* lib/toonvile, lib/kingfeatures, lib/keenspace, lib/spaz_labs: Let's
