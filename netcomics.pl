@@ -89,30 +89,45 @@ if ($remake_webpage) {
 				   'type' => $type,
 				   'file' => [$file]
 				   };
+
+		my $qmfile = quotemeta($file);
+		next if grep(/^$qmfile$/,@comics) ||
+			grep(/^$qmfile$/,@existing_rli_files); #skip this file 
+
 		if (defined($num)) {
 			#this is part of a multi-file comic
 			#recreate the file array because the one we're looking
 			#at may not be image #1.
 			$rli->{'file'}->[$num - 1] = $file;
-			my @multifiles = grep(/^$name(-\d+)?\.\w+$/,@files);
-			@files = grep(!/^$name(-\d+)?\.\w+$/,@files);
+			my $qmname = quotemeta($name);
+			$qmname =~ s/ /_/;
+			my @multifiles = grep(/^$qmname(-\d+)?\.\w+$/,@files);
+			@files = grep(!/^$qmname(-\d+)?\.\w+$/,@files);
+
+			my $warning_logged = 0;
 			for (@multifiles) {
 				my $file = $_;
+				my $qmfile = quotemeta($file);
 				#make sure that none of the files in the multi-file comic
 				#have an rli status file
-				if (grep(/^$file$/,@comics) ||
-					grep(/^$file$/,@existing_rli_files)) {
-					print STDERR "Warning: $name has some stale file(s).\n"
-						if $verbose;
-					next RMW;
+				if (! grep(/^$qmfile$/,@comics) &&
+					! grep(/^$qmfile$/,@existing_rli_files)) {
+					if (! $warning_logged && $verbose) {
+						#this may be that a multi-file comic was redownloaded
+						#for the same day and returned fewer comics than it
+						#did for the previous download (and the previous
+						#download's wasn't removed first).
+						print STDERR "Warning: $name may have some stale " .
+							"file(s).\n";
+						$warning_logged = 1;
+					}
+					#add this file to the $rli's file list
+					my ($title,$date,$type,$num) = parse_name($file);
+					$rli->{'file'}->[$num - 1] = $file;
 				}
-				#add this file to the $rli's file list
-				my ($title,$date,$type,$num) = parse_name($file);
-				$rli->{'file'}->[$num - 1] = $file;
 			}
 		}
-		next if grep(/^$file$/,@comics) ||
-			grep(/^$file$/,@existing_rli_files); #skip this file 
+
 		#no associated rli status file, generate our own rli hash for the file.
 		print STDERR "Warning: $name has no status file; some " .
 			"info about it may be lost.\n" if $verbose;
