@@ -1,3 +1,8 @@
+2002-03-23  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Factory.pm (load_RLI_files): Fixed syntax error
+	introduced in previous version.
+
 2002-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/Factory.pm (load_RLI_files): fixed incorrectly

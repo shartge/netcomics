@@ -76,7 +76,7 @@ sub load_RLI_files {
 	unless (-d $comics_dir) {
 		if (! $show_tasks) {
 			mkdir($comics_dir,0777) || die "could not create $comics_dir: $!";
-		} else if ($extra_verbose) {
+		} elsif ($extra_verbose) {
 			print "Would have created the directory: $comics_dir";
 		}
 	} elsif ($delete_files) {
@@ -84,7 +84,7 @@ sub load_RLI_files {
 			chdir $comics_dir || die "could not cd to $comics_dir: $!";
 			unlink <*.*>;
 			unlink <.*.rli>;
-		} else if ($extra_verbose) {
+		} elsif ($extra_verbose) {
 			print "Would have cleaned the directory: $comics_dir";
 		}
 	} else {
