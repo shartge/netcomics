@@ -15,7 +15,8 @@ sub nm {
 	'type' => $sfx,
 	'main' => "http://www.thenorm.com/",
 	'archives' => "http://www.thenorm.com/strips/strips.asp",
-	'base' => "http://www.thenorm.com/",
+#	'base' => "http://www.thenorm.com/",
+	'base' => "http://206.138.137.57/",
 	'page' => "arch/" . strftime("%y%m%d.$sfx",@ltime),
 	'size' => [475,155]
 	};
