@@ -84,6 +84,7 @@ MODULES = lib/after_y2k \
 	lib/comiczone \
 	lib/creators_syndicate \
 	lib/curiosities \
+	lib/doemain \
 	lib/doodie \
 	lib/doonesbury \
 	lib/dork_tower \
