@@ -71,6 +71,7 @@ $VERSION = do {my @r=(q$@VERSION@$=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
 	$webpage_on_stdout $skip_bad_comics $sort_by_date $webpage_title
 	$webpage_index_title $comics_per_page $link_color $vlink_color
 	$index_link_color $index_vlink_color $background $webpage_index
+	$user_archive_path
 	$webpage_filename_tmpl $webpage_templates $webpage_index_filename
     $webpage_datefmt @html_theme_dirs $webpage_today
 	$webpage_absolute_paths $comicpage_glade_dir $comics_per_index_page
@@ -161,6 +162,7 @@ use vars ('$webpage_absolute_paths'); $webpage_absolute_paths = 0;
 use vars ('$webpage_datefmt'); $webpage_datefmt = "%b %d, %Y";
 use vars ('$webpage_today'); $webpage_today = 0;
 use vars ('$comics_per_index_page'); $comics_per_index_page = undef;
+use vars ('$user_archive_path'); $user_archive_path = undef;
 
 =head2 new("scriptname")
 

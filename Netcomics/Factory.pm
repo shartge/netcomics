@@ -27,10 +27,10 @@ use Netcomics::Config qw/@dates @libdirs $comics_dir
 $show_tasks $extra_verbose $delete_files $netcomics_rli_file
 $single_rli_file $separate_comics $verbose $user_specified_comics
 $user_unspecified_comics @selected_comics $date_fmt $always_download
-$dont_download $max_attempts $external_cmd $proxy_url $skip_bad_comics
-$suppress_rerun_command $days_of_comics $given_options $do_list_comics
-$sort_by_date $real_date $prefer_color %comics $end_date $start_date
-$days_prior/;
+$dont_download $max_attempts $user_archive_path $external_cmd $proxy_url 
+$skip_bad_comics $suppress_rerun_command $days_of_comics $given_options 
+$do_list_comics $sort_by_date $real_date $prefer_color %comics $end_date 
+$start_date $days_prior/;
 
 require Exporter;
 use vars qw($VERSION);
@@ -486,6 +486,14 @@ sub get_comics {
 				"identified by $proc. Not using $proc.\n";
 			next;
 		}
+	# Use the user-defined archive link if it exists, 
+	# otherwise leave it alone
+	if (defined($user_archive_path)) {
+		my $relativepath = $rli->{'title'};
+	        $relativepath =~ s/\s/_/g;
+	        $rli->{'archives'} = "$user_archive_path/$relativepath/";
+	}
+	
 
         # If $rli->{'pagebase'} is defined, set $pagebase to equal it
         # Otherwise, just set $pagebase to equal $base
