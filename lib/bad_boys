@@ -21,7 +21,8 @@ sub badboys {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,19,1,100); #1st comic: Feb 19, 2000
     my @ltime = gmtime($time);
-    my $page = strftime("%m%d%y", @ltime),
+    my $time_fmt = ($time < mkgmtime(0,0,0,1,0,101) ? "%m%d%y" : "%Y%m%d");
+    my $page = strftime($time_fmt, @ltime);
 
     my $tdiff = (time() - $time)/(24*3600);
     $tdiff = $1 if $tdiff =~ /(\d+)\.\d+/;    

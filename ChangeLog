@@ -1,5 +1,6 @@
 2001-02-03  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/bad_boys (badboys): Updated thanks to Max Zomborszki.
 	* lib/helen (helen): Updated thanks to Max Zomborszki.
 	* lib/angst (angst): Updated thanks to Max Zomborszki.
 
