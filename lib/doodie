@@ -15,7 +15,7 @@ sub doodie {
     my %rec = ('title' => "Doodie",
 	       'author' => "Tom Winkler",
 	       'type' => "gif",
-	       'main' => $doodiebase;
+	       'main' => $doodiebase,
 	       'archives' => $blablabase . $archives,
 	       'tz' => 8,
 	       'hour' => 1);
@@ -33,12 +33,12 @@ sub doodie {
     my $pic_expr = '"(homes/doodie/pics/.*?)"';
     my $caption_expr = $date_expr . '.*?(<div.*?<\/div>)';
     if ($daysago == 0) {
-	$rec{'base'} = $doodiebase,
+	$rec{'base'} = $doodiebase;
 	$rec{'page'} = "";
 	$rec{'exprs'} = {'comic' => [$date_expr . '.*?' . $pic_expr],
 			 'caption' => [$caption_expr]};
     } else {
-	$rec{'base'} = $blablabase,
+	$rec{'base'} = $blablabase;
 	$rec{'page'} = $archives . "&startr=" . ($daysago - 1);
 	$rec{'exprs'} = {
 	    'comic' => ['href="(members/doodie/index\.cfm\?[^"]+)">\s*<[^>]+>' 
