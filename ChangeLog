@@ -1,5 +1,7 @@
 2000-11-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/wandering (wander): Fixed author's name.
+
 	* Makefile (MODULES): Added Farcus, Greystone Inn, Living in
 	Greytown, and Wandering Ones (thanks to Shawn Oakey).  Added
 	Cool Cat Studio (thanks to Ben Cordes).

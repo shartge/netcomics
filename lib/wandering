@@ -19,7 +19,7 @@ sub wander {
 
     my $rec = {
 	'title' => "Wandering Ones",
-	'author' => "Maritza Campos",
+	'author' => "Clint Hollingsworth",
 	'main' => "http://www.wanderingones.com/",
 	'archives' => "http://www.wanderingones.com",
 	'base' => "http://www.wanderingones.com/",
