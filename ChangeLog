@@ -1,5 +1,7 @@
 2002-05-30  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* Netcomics/ExternalUserAgent.pm (request): Added single quotes
+	around %U when it is appended to the command.
 	* show_comics: Made it use Netcomics::Config to process the system
 	& user rc files.
 	* doc/Modify_Webpage_Creation-HOWTO.html, *Comic_Module-HOWTO.html:

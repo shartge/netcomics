@@ -16,6 +16,10 @@ package Netcomics::ExternalUserAgent;
 use Netcomics::MyResponse;
 use strict;
 
+require Exporter;
+use vars qw($VERSION);
+$VERSION = do {require Netcomics::Config; $Netcomics::Config::VERSION;};
+
 sub new {
 	my ($class,$init) = @_;
 	if (ref $init) {
@@ -80,7 +84,7 @@ sub request {
 	if ($cmdline =~ /%[Uu]/) {
 	    $cmdline =~ s/%[Uu]/$url/;
 	} else {
-	    $cmdline .= " $url";
+	    $cmdline .= " '$url'";
 	}
 	print "Running: '$env$cmdline'." if $self->{'extra_verbose'};
 	my $content = `$env$cmdline`;
