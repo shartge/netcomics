@@ -1,0 +1,39 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"angst"} = 0;
+
+# Angst Technology
+# ex: http://www.inktank.com/images/cartoons/00-08-28.gif
+sub angst {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if $time < mkgmtime(0,0,0,28,7,100); #first comic Aug 28, 2000
+    my $date = strftime("%y-%m-%d",@ltime);
+    my $baseurl = "http://www.inktank.com";
+    my $rec = {
+	'title' => "Angst Technology",
+	'author' => "Barry T. Smith",
+	'type' => 'gif',
+	'main' => $baseurl,
+	'archives' => "$baseurl/archive.cfm",
+	'base' => "$baseurl/",
+	'size' => [450, 615],
+	'page' => "archive.cfm",
+	'func' => sub {
+	    $_ = shift;
+	    my @relurls = ();
+	    if (m/<option value="$date">.* - (.*)<\/option>/) {
+		push @relurls, {
+		    'caption' => $1,
+		    'page' => "images/cartoons/$date.gif",
+		    'func' => undef,
+		};
+	    }
+	    return @relurls;
+	},
+    };
+    return $rec;
+}
+
+1;

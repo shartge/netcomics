@@ -1,19 +1,22 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"doon"} = 14;
+$hof{"doon"} = 0;
 
 #Doonesbury http://www.doonesbury.com/dailydose/
 sub doon {
     my @ltime = gmtime(shift(@_));
     my $rec = {
-	'title' => "Doonesbury",
-	'author' => "G. B. Trudeau",
-	'type' => 'gif',
-	'main' => "http://www.doonesbury.com/",
-	'archives' => "http://www.doonesbury.com/dailydose/",
-	'base' => "http://www.doonesbury.com/dailydose/strips",
-	'page' => strftime("/%Y/%m/db%y%m%d.gif",@ltime)
+        'title' => "Doonesbury",
+        'author' => "G. B. Trudeau",
+        'type' => 'gif',
+        'main' => "http://www.doonesbury.com/",
+        'archives' => "http://www.doonesbury.com/strip/dailydose/",
+        'base' => "http://",
+        'page' => strftime("www.doonesbury.com/strip/dailydose/index.cfm?uc_full
+_date=%Y%m%d&uc_comic=db",@ltime),
+        'exprs' => [strftime("//([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/imag
+es.ucomics.com/comics/db/%Y/db%y%m%d.gif)",@ltime)]
     };
     return $rec;
 }

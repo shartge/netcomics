@@ -10,7 +10,7 @@ sub spooner {
     my $t_day = strftime("%Y%m%d",@ltime);
     return undef if $t_day > 19990402; #going under syndication
     my $rec = {
-        'name' => strftime("Spooner-${date_fmt}.jpg",@ltime),
+        'title' => "Spooner",
         'base' => "http://home.earthlink.net/~dawsoncomics/",
         'page' => lc strftime("%m%d_frame.html",@ltime),
         'exprs' => ["IMG SRC=\"(\\w+\\.[Jj][Pp][Ee]?[Gg])\""]

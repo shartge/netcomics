@@ -1,0 +1,74 @@
+#-*-Perl-*-
+
+$hof{"badboys"} = 0;
+
+#Bad Boys of Computer Science http://hotzp.com/badboys/
+
+#Design:
+#
+# Bad Boys comics are very sporatic in the release date, so a function
+# is used to detect if there's one matching the date.  That closure is
+# also used to find the caption, so it puts together a mfeh with the
+# webpage, the caption, and another anonymous function that then
+# finds the image file.  This 2nd anonymous function (which isn't
+# a closure, btw) fixes the image names found to work with the
+# base URL originally supplied.
+#
+# Note that this design required changes to netcomics, and so will
+# only work with version 0.13.1 or later.
+
+sub badboys {
+    my $time = shift;
+    return undef if $time < mkgmtime(0,0,0,19,1,100); #1st comic: Feb 19, 2000
+    my @ltime = gmtime($time);
+    my $page = strftime("%m%d%y", @ltime),
+
+    my $tdiff = (time() - $time)/(24*3600);
+    $tdiff = $1 if $tdiff =~ /(\d+)\.\d+/;    
+
+    my $baseurl = "http://hotzp.com/badboys";
+    my $rec = {
+	'title' => "The Bad Boys of Computer Science",
+	'author' => "Nicholas Yu",
+	'type' => 'jpg',
+	'main' => $baseurl,
+	'archives' => "$baseurl/archives.html",
+	'base' => "$baseurl/",
+	'page' => "archives.html",
+	'func' => sub {
+	    $_ = shift;
+	    my @urls = ();
+	    if (m/"(archives\/$page.html)">("[^\"]+")/) {
+		#reconstruct the fields to now download the page and
+		#look for the image.  Some images are not relative URLS,
+		#so we have to use another function to handle that.
+
+		push @urls, {
+		    'page' => $1,
+		    'func' => sub {
+			$_ = shift;
+			my @relurls = ();
+			if (m/Comic for/g && m/<IMG SRC="([^\"]+)">/g) {
+			    $relurl = $1;
+			    #fix not-relative URLS
+			    unless ($relurl =~ s%/badboys/%%) {
+				#else, prepend "archives/" for relative URLS
+				$relurl = "archives/$relurl";
+			    }
+			    push @relurls, $relurl;
+			} else {
+			    print "Error in bad_boys module: " .
+				"could not find image in webpage.\n";
+			}
+			return @relurls;
+		    },
+		    'caption' => $2,
+		};
+	    }
+	    return @urls;
+	},
+    };
+    return $rec;
+}
+
+1;

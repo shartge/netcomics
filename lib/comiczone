@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(ao aj betty bl com dr fbofw geech grizz herman js knc luann mar
-	    meg nancy oth peanuts rm rose warped)) {
+	    meg nancy oth peanuts pearls rm rose warped)) {
     $hof{$_} = 0;
 }
 
@@ -161,6 +161,12 @@ sub oth {
 sub peanuts {
     return comiczone(shift(@_),"Peanuts","Charles Schulz","comics",
 		     "peanuts",[600,425],[600,200],"peanuts");
+}
+
+#Pearls Before Swine  http://www.comiczone.com/comics/pearls/archive
+sub pearls {
+    return comiczone(shift(@_),"Pearls Before Swine","Stephan Pastis",
+                     "comics","pearls",[727,350],[600,202],"pearls");
 }
 
 #Robotman  http://www.comiczone.com/comics/robotman/archive
