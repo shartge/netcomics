@@ -1,0 +1,171 @@
+#-*-Perl-*-
+
+foreach (qw(pretzel loose worth rex phantom rla grain bobo catshands 
+	fairgame hi ick kudzu newbreed sylvia thatlife mickey)) {
+    $hof{$_} = 0;
+}
+
+#this should be something like Dec. 13, 1999 minus Aug 30, 1994, but
+#that would be very hard to calculate.
+$hof{'dilbertcl'} = 0;
+
+
+#Mercury Center Comics 	
+sub mercury {
+    my ($time,$title,$author,$file,$wd_type,$sun_type,$wd_size,$sun_size,$id)
+	= @_;
+    my @ltime = gmtime($time);
+    if ($ltime[6] == 0) {
+        $size = $sun_size;
+        $type = $sun_type;
+    } else {
+        $size = $wd_size;
+        $type = $wd_type;
+    }                                      
+    return undef unless defined($size) && defined($type);
+    my $rec = {
+	'title' => $title,
+	'author' => $author,
+	'type' => $type,
+	'main' => "http://cgi.mercurycenter.com/cgi-bin/comics/show.cgi?ID=$id&DATE=TODAY",
+	'archives' => "http://cgi.mercurycenter.com/cgi-bin/comics/show.cgi?ID=$id&DATE=TODAY",
+	'base' => "http://www.mercurycenter.com/premium/comics/",
+	'page' => strftime("%m_%d/$file.$type",@ltime),
+	'size' => $size
+	};
+    return $rec;
+}
+
+#Pretzel Logic
+sub pretzel {
+#not sure what days, try everyday
+    my $time = shift;
+    #return if $time < 894240000;
+    return mercury($time,"Pretzel Logic","","pretzel",
+		       'gif','gif',[250,296],[250,296],89);
+}
+
+
+#Loose Parts
+sub loose {
+    my $time = shift;
+    #return if $time < 894240000;
+#doesn't seem to be sunday, disable that
+    return mercury($time,"Loose Parts","Dave Blazek","loose",
+                       'gif',undef,[252,297],[922,645],117);
+}                                     
+
+#Mary Worth
+sub worth {
+    my $time = shift;
+    return mercury($time,"Mary Worth","John Saunders","mary_worth",
+                       'gif',undef,[525,157],[250,296],70);
+}                             
+
+#Rex Morgan
+sub rex {
+    my $time = shift;
+    return mercury($time,"Rex Morgan","Wilson and DiPreta","rex_morgan",
+                       'gif','gif',[525,157],[620,460],92);
+}                                                   
+
+#Phantom
+sub phantom {
+    my $time = shift;
+    return mercury($time,"Phantom","Created by Lee Falk","phantom",
+                       'gif',undef,[525,157],[250,296],85);
+}
+
+#Real Life Adventures
+sub rla {
+    my $time = shift;
+    return mercury($time,"Real Life Adventures","Gary Wise and Lance Aldrich",
+		   "real_life",'gif',undef,[263,331],[250,296],91);
+}                                                                                                      
+#Against The Grain
+sub grain {
+    my $time = shift;
+    return mercury($time,"Against The Grain","Glenn Foden","against_the_grain",
+                       'gif',undef,[525,157],[250,296],70);
+}                                                   
+
+#Bobos Progress
+sub bobo {
+    my $time = shift;
+    return mercury($time,"Bobos Progress","","bobo",
+                       'gif',undef,[525,157],[250,296],126);
+}
+
+# Cats With Hands
+sub catshands {
+    my $time = shift;
+    return mercury($time,"Cats With Hands","","cats",
+                       'gif',undef,[525,157],[250,296],127);
+}
+
+#Dilbert Classics
+sub dilbertcl {
+    my $time = shift;
+    return mercury($time,"Dilbert Classics","Scott Adams","dilbert",
+                       'gif','gif',[725,509],[250,296],116);
+}
+
+#Fair Game
+sub fairgame {
+    my $time = shift;
+    return mercury($time,"Fair Game","","fair_game",
+                       'gif',undef,[252,331],[250,296],40);
+}
+
+#Hi & Lois
+sub hi {
+    my $time = shift;
+    return mercury($time,"Hi and Lois","Greg & Brian Walker","hi_lois",
+                       'gif',undef,[525,157],[250,296],57);
+}
+
+#Ick
+sub ick {
+    my $time = shift;
+    return mercury($time,"Ick","","ick",
+                       'gif',undef,[525,157],[250,296],59);
+}
+
+#Kudzu
+sub kudzu {
+    my $time = shift;
+    my $rec = mercury($time,"Kudzu","Doub Marlette","kudzu",
+		      'gif',undef,[525,157],[250,296],63);
+    $rec->{'back'} = \&kudzu_ctoons if defined($rec);
+    return $rec;
+}
+
+#New Breed
+sub newbreed {
+    my $time = shift;
+    return mercury($time,"The New Breed","","new_breed",
+                       'gif',undef,[252,313],[250,296],77);
+}
+
+#Sylvia
+sub sylvia {
+    my $time = shift;
+    return mercury($time,"Sylvia","Nicole Hollander","sylvia",
+                       'gif',undef,[525,161],[250,296],105);
+}
+
+#That's Life
+sub thatlife {
+    my $time = shift;
+    return mercury($time,"Thats Life","","thats_life",
+                       'gif','gif',[252,310],[620,308],123);
+}
+
+#Mickey Mouse
+sub mickey {
+    my $time = shift;
+    return mercury($time,"Mickey Mouse","","mickey_mouse",
+                       'gif',undef,[525,157],[250,296],72);
+}                                                                                                                                                                                                            
+
+1;
