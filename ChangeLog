@@ -1,3 +1,18 @@
+2001-03-27  Elliot Glaysher <nuriko.chan@home.com>
+
+	* TODO: After using the new -P function, I updated the TODO
+	because of a minor problem in the generation of the index.html
+	file.
+	
+2001-03-26  Elliot Glaysher <nuriko.chan@home.com>
+
+	* netcomics: Modified behaviour of the -P. Now stores just file
+	names in the $rli->{'file'}. This modification was neccesary 
+	because of my changes to...
+	* Netcomics/HTML.pm: Reworked most of HTML.pm. When  -P is
+	activated, now creates a seperate set of HTML pages in each
+	directory for each comic being archived.
+	
 2001-03-11  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics: Small change so $rli->{'base'}, $rli->{'page'},

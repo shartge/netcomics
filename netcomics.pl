@@ -79,7 +79,11 @@ be placed in each html file.  Each file is named "comic#.html", and an
 
 I<netcomics> can also maintain archives of comics for you with the use
 of the B<-P> feature. Using this will separate all comics of a single
-title into their own separate directories.
+title into their own separate directories. Using the B<-P> also effects
+the behaviour of the generation of HTML pages: for each comic, a different
+set of HTML pages is generated. It is a better idea to set the variable
+$seperate_comics to 1 in your netcomicsrc file so this option is not
+intermittently used.
 
 B<Disclaimer:> Do not put the comics up on the Internet!  You should
 only use them for your own use.  Also, do not redistribute the comics
@@ -1194,7 +1198,13 @@ unless (-d $comics_dir) {
 			$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
 			for (@{$rli->{'file'}}) {
 				my $file = $_;
-				if (-f "$comics_dir/$file") {
+				my $test_file_name;
+				unless ($separate_comics) {
+					$test_file_name = "$comics_dir/$file";
+				} else {
+					$test_file_name = "$comics_dir/$rli->{'subdir'}/$file";
+				}
+				if (-f "$test_file_name") {
 					push(@existing_rli_files,$file);
 				} elsif ($rli->{'status'} == 1) {
 					print STDERR "Warning: $file is missing in $comics_dir\n"
@@ -1377,7 +1387,11 @@ if ($make_webpage) {
 	$HTMLpage->{'sort_by_date'} = $sort_by_date;
 
 	# Create the webpage.
-	$HTMLpage->create_webpage(@rli);
+	unless ($separate_comics) {
+		$HTMLpage->create_webpage(@rli);
+	} else {
+		$HTMLpage->create_webpage_set(\@rli, \@selected_comics);
+	}
 } else {
     #print filenames or urls.
 	foreach (@rli) {
@@ -2029,8 +2043,7 @@ sub get_comics {
 						push(@images,$mname);
 						$rli->{'file'} = [] unless defined $rli->{'file'};
 						if ($separate_comics) {
-							$rli->{'file'}->[@{$rli->{'file'}}] = 
-								$rli->{'subdir'}."/".$mname;
+							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
 						} else {
 							$rli->{'file'}->[@{$rli->{'file'}}] = $mname;
 						}
@@ -2052,7 +2065,7 @@ sub get_comics {
 
 			#save the image to its file if it was successfully downloaded.
 			if ($separate_comics) {
-				$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+				$rli->{'file'} = [ "$name" ];
 				file_write("$comics_dir/$rli->{'subdir'}/$name",
 						   $files_mode, $response->content);
 			} else {

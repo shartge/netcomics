@@ -214,3 +214,6 @@ weird.
 
 ** Work on speeding up loading numerous (+1000) RLIs. Glob RLIs into one
 file?
+
+** Fix bug regarding index.html files that are a list of ALL comics while
+using the -P feature. (No clue on this one...)
