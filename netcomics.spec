@@ -30,53 +30,15 @@ Prefix: /usr
 This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
-%changelog
-* Sun Jul  8 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
-- Added a netcomics requires for netcomics-data >= 0.14.
-- Updated for the change in Makefile -> Makefile.PL
-- Trimmed changelog to only include changes to the spec.
-* Fri Jul  6 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.2-1
-- updated version
-* Mon May 21 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
-- Added /usr/lib/perl5 files & comicpage manpage.
-* Fri Apr 27 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
-- Added conf file /etc/netcomicsrc. Made Version, Release, & OLDMODULES
-  to be replaced by the Makefile.
-* Sun Feb 18 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
-- added gzip of manpages, doc files for data pkg, & check for old modules.
-* Tue Aug 25 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
-- Added Astronomy Picture of the Day.
-* Tue Nov 30 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.11-1
-- Changed /usr/lib/netcomics to /usr/share/netcomics.
-- Added TODO.
-* Sat Sep 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.10-1
-- Separated modules into their own RPM.
-* Wed Aug 4 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.9.1-1
-- Made distribution a little more GNU compliant.
-* Wed Jun 16 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.8-1
-- Added a new display script: show_comics.  Removed dependancies on perl 
-  CPAN modules! Added support for specifying the program to use to fetch URLs.
-  Added support for comic Stuff This, and made other various updates.
-- For RPM spec: added BuildRoot
-* Mon Apr 5 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.6-1
-- Added contrib/comics_update, updated post install info text
-* Wed Mar 3 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.5-1
-- Added template as document & moved html files to doc directory
-* Wed Feb 17 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.3-1
-- fixed typo in the post-install message & added Howto file
-* Tue Feb 16 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.2-2
-- added manpage
-* Mon Feb 15 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.2-1
-- added comiczone comics, and a CHANGES file
-* Sun Feb 14 1999 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.1-1
-- initial version
-
 # Provide perl-specific find-{provides,requires}.
 %define __find_provides /usr/lib/rpm/find-provides.perl
 %define __find_requires /usr/lib/rpm/find-requires.perl
 
 #specify these without the install prefix
 %define installsitelib lib/perl5/site_perl
+
+#doc files that can be compressed
+%define gzdocs ChangeLog AUTHORS NEWS README TODO LICENSE-GPL
 
 %prep
 %setup -q
@@ -91,7 +53,8 @@ mkdir -p $RPM_BUILD_ROOT/usr/$installsitelib
 make PREFIX=$RPM_BUILD_ROOT/usr TMPBASE=$RPM_BUILD_ROOT/var/spool \
      INSTALLSITELIB=$RPM_BUILD_ROOT/usr/%{installsitelib} install
 
-gzip -9nvf `find $RPM_BUILD_ROOT/usr -name '*.[1-9]' -print`
+gzip -9nvf `find $RPM_BUILD_ROOT/usr -name '*.[1-9]' -print` \
+     %{gzdocs}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,7 +96,7 @@ END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/*.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime netcomicsrc doc/design.dia
+%doc *.gz doc/*.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime netcomicsrc doc/design.dia
 /usr/bin/netcomics
 /usr/bin/show_comics
 /usr/bin/comicpage
@@ -151,6 +114,80 @@ END
 
 %files data
 %defattr(-,root,root)
-%doc ChangeLog AUTHORS NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
+%doc *.gz doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
 /usr/%{installsitelib}/Netcomics/Comic
 /usr/%{installsitelib}/Netcomics/html_tmpl
+
+%define date    %(echo `LC_ALL="C" date +"%a %b %d %Y"`)
+%changelog
+* %{date} Ben Hochstedler <hochstrb@cs.rose-hulman.edu> %{version}-%{release}
+
+$Log$
+Revision 1.14  2001-07-19 17:04:34  hochstrb
+Added gzip of some doc files; reworked changelog to be RCS generated
+
+Revision 1.13  2001/07/19 14:59:08  hochstrb
+- merged OO branch into head
+
+Revision 1.12  2001/07/18 18:03:39  hochstrb
+- fixed %post data to report the old modules *may* need to be deleted.
+
+Revision 1.7.8.7  2001/07/19 12:04:36  hochstrb
+- merged HEAD into OO branch
+
+Revision 1.11  2001/07/18 16:15:22  hochstrb
+- changes in preparation for 0.13.2
+
+Revision 1.10  2001/07/17 20:18:54  hochstrb
+- updated for preperation to release 0.13.2
+
+Revision 1.7.8.6  2001/07/08 15:14:48  hochstrb
+- Updated to work with new Makefile.PL for CPAN.
+
+Revision 1.7.8.5  2001/05/22 14:24:08  hochstrb
+- Further updates to make all files in the distribution handled properly
+
+Revision 1.7.8.4  2001/05/21 19:26:32  hochstrb
+- further changes for doc files & updated the rpm spec.
+
+Revision 1.7.8.3  2001/04/27 12:02:02  hochstrb
+- Added macros that get replaced when netcomics.spec is installed.
+
+Revision 1.7.8.2  2001/03/04 16:28:17  hochstrb
+- merged main.
+
+Revision 1.9  2001/02/18 15:33:06  hochstrb
+- Updated for V0.13.1 release.
+
+Revision 1.7.8.1  2001/02/15 16:03:36  hochstrb
+- Merged main
+
+Revision 1.8  2001/02/13 00:21:07  hochstrb
+- Updated for 0.13.1
+
+Revision 1.7  2000/08/25 16:18:10  hochstrb
+- branches:  1.7.8;
+Added info on new comics
+
+Revision 1.6  2000/08/25 12:40:38  hochstrb
+- Added reference to new comic: Gaming U
+
+Revision 1.5  2000/08/25 12:38:01  hochstrb
+- Updated in preperation for 0.13
+
+Revision 1.4  2000/08/16 12:43:56  hochstrb
+- Added utilization of rli status files for download avoidance &
+  tracking attempts 
+
+Revision 1.3  2000/07/26 15:40:23  hochstrb
+- Added referer and external command macros capabilities
+
+Revision 1.2  2000/07/20 13:37:10  hochstrb
+- Changed location of download site and homepage.
+
+Revision 1.1  2000/04/23 16:26:25  hochstrb
+- Initial revision
+
+Revision 1.1.1.1  2000/04/23 16:26:25  hochstrb
+- Import of netcomics sources from clearcase.
+
