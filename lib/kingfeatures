@@ -26,7 +26,8 @@ sub kingfeature {
 	'main' => $base,
 	'archives' => $base,
 	'base' => "http://est.rbma.com/content/",
-	'page' => strftime("${fp}.%Y%m%d.$sf",@ltime)
+	'page' => strftime("${fp}?date=%Y%m%d",@ltime),
+	'referer' => "http://www.kingfeatures.com",
 	};
     $rec->{'size'} = $size if defined $size;
     return $rec;
@@ -44,6 +45,13 @@ sub kingfeature2 {
   $res->{'page'} = strftime("${fp}%y$month%d.$sf", @ltime);
 
   return $res;
+}
+
+sub kingfeature3 {
+    my ($time,$title,$author,$dir,$fp,$size,$sfx,$sunday) = @_;
+    my $rec = kingfeature2(@_);
+    $rec->{'base'} = "http://www.kingfeatures.com/comics/$dir/";
+    return $rec;
 }
 
 # The Amazing Spider-Man
@@ -100,12 +108,12 @@ sub blondie {
 }
 
 sub bonerark {
-    return kingfeature2(shift(@_),"Boners Ark","Frank Johnson",
+    return kingfeature3(shift(@_),"Boners Ark","Frank Johnson",
 			"bonerark","bot", [480,142]);
 }
 
 sub bfather {
-    return kingfeature2(shift(@_),"Bringing Up Father","Frank Johnson",
+    return kingfeature3(shift(@_),"Bringing Up Father","Frank Johnson",
 		       "bfather","brt",[480,144]);
 }
 
@@ -115,7 +123,7 @@ sub buckles {
 }
 
 sub claire {
-    return kingfeature2(shift(@_),"Claire and Weber","Doug Shannon","claire",
+    return kingfeature3(shift(@_),"Claire and Weber","Doug Shannon","claire",
 		       "cwt",[480,149]);
 }
 
@@ -174,13 +182,13 @@ sub hg {
 
 #Hazel http://www.kingfeatures.com/comics/hazel/index.htm
 sub hazel {
-    return kingfeature2(shift(@_),"Hazel","Ted Key",
+    return kingfeature3(shift(@_),"Hazel","Ted Key",
 	"hazel","hat", [243,285]);
 }
 
 #Henry http://www.kingfeatures.com/comics/henry/index.htm
 sub henry {
-    return kingfeature2(shift(@_),"Henry","","henry","het",
+    return kingfeature3(shift(@_),"Henry","","henry","het",
 		       [480,157]);
 }
 
@@ -226,7 +234,7 @@ sub mf {
 
 #Mandrake the Magician
 sub mandrake {
-    return kingfeature2(shift(@_),"Mandrake the Magician",
+    return kingfeature3(shift(@_),"Mandrake the Magician",
 	"Created by Lee Falk & drawn by Fred Fredericks", "mandrake","mmt", 
 	[480,145]);
 }
@@ -245,7 +253,7 @@ sub ma {
 
 #Moose Miller http://www.kingfeatures.com/comics/mmiller/index.htm
 sub mmiller {
-    return kingfeature2(shift(@_),"Moose Miller",
+    return kingfeature3(shift(@_),"Moose Miller",
 	"Bob Weber Sr", "mmiller","mot", [480,149]);
 }
 
@@ -275,7 +283,7 @@ sub popeye {
 
 #Pops Place http://www.kingfeatures.com/comics/popplace/index.htm
 sub pops {
-    return kingfeature2(shift(@_),"Pops Place","Sam C Rawls",
+    return kingfeature3(shift(@_),"Pops Place","Sam C Rawls",
 	"popplace","ppt", [480,140]);
 }
 
@@ -329,7 +337,7 @@ sub sf {
 
 #Sam & Silo http://www.kingfeatures.com/comics/sam_silo/
 sub ss {
-    return kingfeature2(shift(@_),"Sam and Silo","Jerry Dumas",
+    return kingfeature3(shift(@_),"Sam and Silo","Jerry Dumas",
 			"sam_silo","sst",
 		       [480,149]);
 }
@@ -360,7 +368,7 @@ sub tiger {
 
 #Trudy http://www.kingfeatures.com/comics/trudy/
 sub trudy {
-    return kingfeature2(shift(@_),"Trudy","Jerry Marcus","trudy","trt",
+    return kingfeature3(shift(@_),"Trudy","Jerry Marcus","trudy","trt",
 		       [247,306]);
 }
 
