@@ -1,0 +1,25 @@
+#-*-Perl-*-
+$hof{"avalon"} = 0;
+
+# Avalon
+# http://www.avalonhigh.com/comics/avalon20000404.gif
+sub avalon {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,8,10,99); #first comic Nov 8, 1999
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Avalon",
+	'author' => "Josh Phillips",
+	'type' => 'gif',
+	'main' => "http://www.avalonhigh.com/",
+	'archives' => "http://www.avalonhigh.com/",
+	'base' => "http://www.avalonhigh.com",
+	'page' => strftime("/d/%Y%m%d.html", @ltime),
+	'exprs' => [strftime("SRC=\"(/comics/avalon%Y%m%d.gif)",@ltime)],
+	'size' => ($ltime[6] == 0 ? [600,729] : [600,275]),
+    };
+    return $rec;
+}
+
+1;
