@@ -30,8 +30,11 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
-* Wed Jul 26 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
-- Added info about new referer capabilities.
+* Tue Aug 25 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13-1
+- Added info about new referer and download avoidance capabilities.
+- Added the comics: Whenigrowup, Dr. Fun, Sinfest, Sempai, Everything Jake,
+  Can of the Cats.
+- Added Astronomy Picture of the Day.
 * Sun Apr 23 2000 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.12-1
 - Added the comics: 9 Chickweed Lane, Absurd Notion, Against The Grain,
   Alice, Avalon, Badlands, Bobos Progress, Boonies, Broom-Hilda, Buckets,
@@ -156,7 +159,7 @@ END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html
+%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html potd/astronomy
 /usr/bin/netcomics
 /usr/bin/show_comics
 %attr(-,root,man) /usr/man/man1/netcomics.1
