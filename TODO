@@ -70,6 +70,13 @@ http://www.furcrazy.com/limpidity/
 
 ** Internationalize & localize software, including html templates
 
+** Add select of language preference.
+Like color preference, this would be another argument sent to the
+module functions.  If the comic is in multiple languages, it would
+download the user's prefered language.  Ex: Love Is... at
+ComicsPage.com is in English and Spanish:
+http://www.comicspage.com/loveis/
+
 -----------------------------------------------------------------------
 
 * Displaying Comics
