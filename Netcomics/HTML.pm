@@ -40,6 +40,18 @@ sub create_basic_page_set {
 	$HTMLpage->create_set_of_pages(@rli);
 }
 
+sub create_toplevel_page_set {
+	my $self = shift;
+	my @rli = @_;
+	my $template = eval "Netcomics::HTML::Themes::$html_theme->new";
+	print "Creating with template $template->{'name'}.\n";
+	my $HTMLpage = Netcomics::HTML::Set->new(
+											 'theme' => $template,
+											 'link_to_local_archives' => 1,
+											);
+	$HTMLpage->create_set_of_pages(@rli);
+}
+
 sub create_archive_webpages {
 	my $self = shift;
 	my @rli = @_;

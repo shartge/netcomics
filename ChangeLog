@@ -1,8 +1,14 @@
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML.pm (create_toplevel_page_set): Added function.
+	Basically create_basic_page_set with special conditions.
+	* netcomics: Have netcomics use the new create_toplevel_page_set()
+	for toplevel pages instead of create_basic_page_set().
 	* Netcomics/HTML/Set.pm (create_set_of_pages): Changed 'group_num' to
 	'group_number' in every instance. A small bug was being caused by
 	inconsistent usage of both in both Set.pm and Page.pm.
+	(new): Added new default property, 'link_to_local_archives' => 0.
+	(create_set_of_pages): Pass the new preperty to Page.pm.
 	* Netcomics/Config.pm.in: Strange construct was causing bug. Fixed
 	now. (Seems to be related to how -i was supposed to catch -I. Or not
 	catch it, as the case seemed)

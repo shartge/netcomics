@@ -37,6 +37,7 @@ sub new {
 				'index' => undef,
 				'group_number' => 1,
 				'num_groups' => 1,
+				'link_to_local_archives' => 0,
 
 				# Pass these fields if you want proper pages generated...
 				'first_comic' => 1,
@@ -138,10 +139,27 @@ sub generate {
 		} else {
 			$title .= " ($date)";
 		}
-		if (defined($_ = $rli->{'archives'})) {
-			#link to the site's archives
-			$title .= " <A HREF=\"$_\"><FONT FACE=\"times\">" .
-				"<I>(archives)</I></FONT></A>";
+
+		# Archive Information
+		if ($self->{'link_to_local_archives'}) {
+			# link to local archives
+
+			# If we're making indexies, then:
+			if ($webpage_index) {
+				$title .= " <A HREF=\"$rli->{'subdir'}/index.html\">" .
+					"<FONT FACE=\"times\">" .
+						"<I>(archives)</I></FONT></A>";
+			} else {
+				$title .= " <A HREF=\"$rli->{'subdir'}/comics1.html\">" .
+					"<FONT FACE=\"times\">" .
+						"<I>(archives)</I></FONT></A>";
+			}
+		} else {
+			if (defined($_ = $rli->{'archives'})) {
+				#link to the site's archives
+				$title .= " <A HREF=\"$_\"><FONT FACE=\"times\">" .
+					"<I>(archives)</I></FONT></A>";
+			}
 		}
 		print STDERR "$rli->{'title'} ($date)" if $extra_verbose;
 

@@ -140,7 +140,7 @@ if ($make_webpage) {
 		Netcomics::HTML->create_basic_page_set(@rli);
 	} else {
 		Netcomics::HTML->create_archive_webpages(@rli);
-		Netcomics::HTML->create_basic_page_set(@rli);
+		Netcomics::HTML->create_toplevel_page_set(@rli);
 	}
 } else {
     my $user_specified_no_comics = 

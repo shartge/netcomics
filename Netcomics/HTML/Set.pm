@@ -34,6 +34,7 @@ sub new {
 				'output_dir' => $comics_dir,
 				'webpage_on_stdout' => $webpage_on_stdout,
 				'include_subdir' => 1,
+				'link_to_local_archives' => 0,
 
 				# The templates:
 				'theme' => $HTML_Theme,
@@ -156,6 +157,7 @@ sub create_set_of_pages {
 			 'last_comic' => $last,
 			 'total_comics' => $num_comics,
 			 'filename' => $filename,
+			 'link_to_local_archives' => $self->{'link_to_local_archives'},
 			 'rli_dataset' => \%rlis,
 			 'comics_set' => [@comics_to_pass],
 			 'include_subdir' => $self->{'include_subdir'},
