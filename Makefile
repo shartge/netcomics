@@ -2,7 +2,7 @@ APPNAME	= netcomics
 AP2NAME	= display_comics
 AP3NAME = show_comics
 RCFILE	= netcomicsrc
-VERSION	= 0.13
+VERSION	= 0.13.1
 PKGVERSION = 1
 
 #The 4 most commonly changed paths.  All occurrances of these in the
@@ -496,10 +496,18 @@ label:
 	$(CT) mklbtype -nc V$(VERSION)
 	$(CT) mklabel -recurse V$(VERSION) .
 
+install_local:
+	$(MAKE) install PREFIX=/usr/local
+
+install_home:
+	$(MAKE) install PREFIX=$(HOME) \
+		TMPDIR=$(HOME)/comics SYSRCDIR=$(HOME)/etc
+
 install_for_ben:
-	$(MAKE) install PREFIX=/home/benh \
-		TMPDIR=/home/benh/www/comics PERL=/mms/local/bin/perl \
-		PERLTK=/mms/local/bin/tkperl SYSRCDIR=/home/benh/etc
+	@perl=`which perl`; tkperl=`which tkperl`; \
+	$(MAKE) install PREFIX=$(HOME) \
+		TMPDIR=$(HOME)/www/comics PERL=$$perl \
+		PERLTK=$$tkperl SYSRCDIR=$(HOME)/etc
 
 .PHONY: all doc install clean distclean archives rpm dist install_for_ben \
 devel bin deb install_html install_mods
