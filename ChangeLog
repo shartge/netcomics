@@ -4,6 +4,7 @@
 	returned by functions are processed.
 	* lib/template: Encourage use of $baseurl.
 	* lib/lcd (lcd): Added LCD thanks to Max Zomborszki.
+	Added exceptions lists.
 	* lib/bad_boys (badboys): Updated thanks to Max Zomborszki.
 	* lib/helen (helen): Updated thanks to Max Zomborszki.
 	* lib/angst (angst): Updated thanks to Max Zomborszki.

@@ -6,8 +6,44 @@ $hof{"lcd"} = 0;
 sub lcd {
     my $time = shift;
     my @ltime = gmtime($time);
-    # First comic 1999-Apr-05
-    return undef if ($time < mkgmtime(0,0,0,5,3,99));
+    my @ntime = gmtime(time);
+    my $date = strftime("%Y%m%d",@ltime);
+    my $today = (strftime("%Y%m%d",@ntime) == $date ? 1 : 0);
+
+    #before Nov. 1, 1999, usually only produced on Mon & Wed, after that
+    #added Fridays.
+    my $daysofweek = ($date < 19991101 ? 13 : 135);
+
+    #exceptions tables last updated Feb. 3, 2001
+    my @missing =
+	(19990426,19990428,19990524,19990526,19990531,19990602,19990628,
+	 19990630,19990705,19990707,19990714,19990721,19990728,19990804,
+	 19990809,19990811,19990818,19990823,19990825,19990901,19990908,
+	 19990915,19990922,19990927,19990929,19991004,19991006,19991201,
+	 19991203,19991206,19991208,19991210,19991217,19991227,19991229,
+	 20000103,20000105,20000107,20000124,20000126,20000128,20000131,
+	 20000202,20000204,20000211,20000218,20000225,20000301,20000303,
+	 20000317,20000324,20000331,20000407,20000414,20000428,20000508,
+	 20000510,20000512,20000522,20000602,20000609,20000616,20000623,
+	 20000802,20000804,20000807,20000809,20000811,20000920,20000922,
+	 20000925,20000927,20000929,20001002,20001004,20001006,20001011,
+	 20001013,20001016,20001018,20001020,20001101,20001103,20001113,
+	 20001115,20001117,20001120,20001122,20001124,20001201,20001204,
+	 20001206,20001208,20001218,20001220,20001222,20001227,20001229,
+	 20010101,20010103,20010105,20010119,20010126,20010129,20010131,
+	 20010202);
+
+    my @extras =
+	(19991010,19991225,20000130,20000704,20010120,20010128);
+    
+    #always try to get today's, else return undef if we know it to be missing.
+    my @in_extras = grep(/$date/,@extras);
+    my @in_missing = grep(/$date/,@missing);
+    return undef if
+	(($date < 19990405) ||   # First comic 1999-Apr-05
+	 (!$today && $ltime[6] !~ /[$daysofweek]/ && ! @in_extras) ||
+	 (@in_missing));
+
 
     # Do not wish to use strftimes %b since that is locale dependent.
     my @months = qw/jan feb mar apr may jun jul aug sep oct nov dec/;
@@ -19,7 +55,7 @@ sub lcd {
 	'author' => "Bryan M. Richter",
 	'type' => 'gif',
 	'main' => "$baseurl/",
-	'archives' => "$baseurl/archives/archives.html",
+	'archives' => "$baseurl/archives/",
 	'base' => $baseurl,
 	'page' => strftime("/strips%y/$month%y/lcd%Y%m%d.gif",@ltime),
     };
