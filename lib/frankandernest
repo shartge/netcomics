@@ -250,7 +250,7 @@ sub fae {
     'main' => "http://www.frankandernest.com/",
     'archives' => "http://www.frankandernest.com/view/",
     'base' => "http://www.frankandernest.com/",
-    'size' => ($ltime[6] == 0? [504,288] : [450,166]),
+    'size' => ($ltime[6] == 0? [725,400] : [600,200]),
     };
 
   if ($ltime[5] < 100) {

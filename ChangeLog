@@ -1,5 +1,6 @@
 2002-04-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/frankandernest (fae): updated sizes.
 	* lib/alexsrestaurant (alex): Fixed sizes.
 
 2002-03-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
