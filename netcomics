@@ -457,8 +457,8 @@ comics and to not create or recreate the webpage.
 
 =item 15.
 Tells netcomics to download Kevin & Kell and User Friendly for the last fifteen
-days, place them in separate directories, and then make a webpage with 10 entries
-on each page.
+days, place them in separate directories, and then make a webpage with 10
+entries on each page.
 
 	netcomics -n 15 -W=10 -P -c "kk uf"
 
@@ -650,359 +650,359 @@ my $did_c_already = 0;
 #parse command line options
 while (@ARGV) 
 {
-	$_ = shift(@ARGV);
+    $_ = shift(@ARGV);
 
-	#Get specific comics or don't get a specific comics
-	if (/-(c)$/i) {
-		if (@ARGV > 0) {
-		    my @ids = split(' ',shift(@ARGV));
-			unless ($did_c_already) {
-			    if ($1 eq 'c') {
-		            $user_specified_comics = 1;
-		            @selected_comics = @ids;
-		        } else {
-		            $user_unspecified_comics = 1;
-		            @selected_comics = @ids;
-			    }
-			} else {
-				if ($1 eq 'c') {
-		            $user_specified_comics = 1;
-		            push(@selected_comics, @ids);
-		        } else {
-		            $user_unspecified_comics = 1;
-		            push(@selected_comics, @ids);
-			    }
-			}
-		    $did_c_already = 1;
+    #Get specific comics or don't get a specific comics
+    if (/-(c)$/i) {
+	if (@ARGV > 0) {
+	    my @ids = split(' ',shift(@ARGV));
+	    unless ($did_c_already) {
+		if ($1 eq 'c') {
+		    $user_specified_comics = 1;
+		    @selected_comics = @ids;
 		} else {
-		    print STDERR "Need a space-delimitted list of comic id's.";
-		    print STDERR "  Use -h for usage.\n";
-		    exit 1;
+		    $user_unspecified_comics = 1;
+		    @selected_comics = @ids;
 		}
-		if ($user_unspecified_comics && $user_specified_comics) {
-		    print STDERR "Can only use one of -c and -C. Use -h for usage.\n";
-		    exit 1;
+	    } else {
+		if ($1 eq 'c') {
+		    $user_specified_comics = 1;
+		    push(@selected_comics, @ids);
+		} else {
+		    $user_unspecified_comics = 1;
+		    push(@selected_comics, @ids);
 		}
+	    }
+	    $did_c_already = 1;
+	} else {
+	    print STDERR "Need a space-delimitted list of comic id's.";
+	    print STDERR "  Use -h for usage.\n";
+	    exit 1;
+	}
+	if ($user_unspecified_comics && $user_specified_comics) {
+	    print STDERR "Can only use one of -c and -C. Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+    
+    #List supported comics
+    elsif (/-l/) {
+	$do_list_comics++;
+	$smushopt = 1;
+    }
+    
+    #set the directory
+    elsif (/-d$/) {
+	if (@ARGV > 0) {
+	    $comics_dir = shift(@ARGV);
+	    $given_options .= " -d $comics_dir";
+	} else {
+	    print STDERR "Need a directory name. Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+    
+    #verbosity
+    elsif (/-v/) {
+	if ($verbose) {
+	    $extra_verbose = 1;
+	    if ($given_options =~ /^(.*)-v([^v].*)$/) {
+		$given_options = $1 . $2;
+	    }
+	    $given_options .= " -vv";
+	} else {
+	    $verbose = 1;
+	    $given_options .= " -v";
+	}
+	$smushopt = 1;
+    }
+    
+    # Seperate comics into their own directories
+    elsif (/-P/) {
+	$separate_comics = 1;
+	$smushopt = 1;
+	$given_options .= " -P";
+    }
+    
+    #Delete the files
+    elsif (/-D/) {
+	$delete_files = 1;
+	$smushopt = 1;
+    }
+
+    #Don't delete the files
+    elsif (/-nD/) {
+	$delete_files = 0;
+	$given_options .= " -nD";
+    }
+
+    #webpage title
+    elsif (/-wt$/) {
+	if (@ARGV > 0) {
+	    $webpage_title = shift(@ARGV);
+	    $given_options .= " -wt '$webpage_title'";
+	} else {
+	    print STDERR "Need a string for an argument to -wt. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #webpage on standard out
+    elsif (/-o/) {
+	$webpage_on_stdout = 1;
+	$given_options .= " -o";
+	$smushopt = 1;
+    }
+
+    #don't create a webpage
+    elsif (/-nw$/) {
+ 	$make_webpage = 0;	
+	$remake_webpage = 0;
+	$given_options .= " -nw";
+    }
+
+    #Create webpage?
+    elsif (/-(w)(=.+)?/i) {
+	if (defined($2)) {
+	    if ($2 =~ /^=(\d+)$/) {
+		$comics_per_page = $1;
+	    } else {
+		print STDERR "Number of comics per page for -W & -w must be " .
+		    "a positive integer.\n";
+		exit 1;
+	    }
+	} else {
+	    $smushopt = 1;
+	}
+ 	$make_webpage = 1;
+	$remake_webpage = ($1 =~ /W/)? 1 : 0;
+    }
+
+    #Use a Proxy?
+    elsif (/-p$/) {
+	if (@ARGV > 0) {
+	    $proxy_url = shift(@ARGV);
+	    $given_options .= " -p $proxy_url";
+	} else {
+	    print STDERR "Need a URL to use as the proxy. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #Number of days of comics to get, going backwards
+    elsif (/-n$/) {
+	if (@ARGV > 0) {
+	    $days_of_comics = shift(@ARGV);
+	} else {
+	    print STDERR "Need a number for an argument to -n. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #HTML Template Directory
+    elsif (/-t$/) {
+	if (@ARGV > 0) {
+	    $html_tmpl_dir = shift(@ARGV);
+	    $given_options .= " -t $html_tmpl_dir";
+	} else {
+	    print STDERR "Need a directory for an argument to -t. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #Comic Module Directory
+    elsif (/-m$/) {
+	if (@ARGV > 0) {
+	    my $dir = shift(@ARGV);
+	    unshift(@newlibdirs,$dir);
+	    $given_options .= " -m $dir";
+	} else {
+	    print STDERR "Need a directory for an argument to -m. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
+
+    #clear out libdirs
+    elsif (/-M$/) {
+	@libdirs = ();
+	$given_options .= " -M";
+	$smushopt = 1;
+    }
+
+    # Real date day
+    elsif (/-A$/) {
+	$real_date = 1;
+	$given_options .= " -A";
+	$smushopt = 1;
+    }
+
+    #Specified date
+    elsif (/-([STE])$/) {
+	my $type = $1;
+	my $good = 0;
+	
+	if (@ARGV > 0) {
+	    my $ds = shift(@ARGV);
+	    my $ts = undef;
+	    if ($ds =~ /([0-1]?[0-9])-([0-3]?[0-9])-(19|20)?([0-9][0-9])/) {
+		my $year = defined($4) ? $4 : $3;
+		$year += 100 if $year < 70;
+		$ts = mkgmtime(0,0,12,$2,$1-1,$year);
+	    } elsif ($ds =~ /^([+-]?\d+)$/) {
+		$ts = time - ($1 * 24*3600);
+	    }
+	    if (defined($ts)) {
+		$given_options .= " -$type $ds";
+		$good = 1;
+		$_ = $type;
+		if (/T/) {
+		    push(@dates,$ts);
+		} elsif (/S/) {
+		    $start_date = $ts;
+		} elsif (/E/) {
+		    $end_date = $ts;
+		}
+	    }
 	}
 	
-	#List supported comics
-	elsif (/-l/) {
-		$do_list_comics++;
-		$smushopt = 1;
+	unless ($good) {
+	    print STDERR "Need a date for an argument to -$type. ";
+	    print STDERR "It has the form: MM-DD-[YY]YY\nOr it is the number ";
+	    print STDERR "of days prior to day to specify the date.\n";
+	    exit 1;
 	}
-	
-	#set the directory
-	elsif (/-d$/) {
-		if (@ARGV > 0) {
-		    $comics_dir = shift(@ARGV);
-		    $given_options .= " -d $comics_dir"
-			} else {
-				print STDERR "Need a directory name. Use -h for usage.\n";
-				exit 1;
-			}
-	}
-	
-	#verbosity
-	elsif (/-v/) {
-		if ($verbose) {
-		    $extra_verbose = 1;
-		    if ($given_options =~ /^(.*)-v([^v].*)$/) {
-				$given_options = $1 . $2;
-		    }
-		    $given_options .= " -vv";
-		} else {
-		    $verbose = 1;
-		    $given_options .= " -v";
-		}
-		$smushopt = 1;
-	}
-	
-	# Seperate comics into their own directories
-	elsif (/-P/) {
-		$separate_comics = 1;
-		$smushopt = 1;
-		$given_options .= " -P";
-	}
-	
-	#Delete the files
-	elsif (/-D/) {
-		$delete_files = 1;
-		$smushopt = 1;
-	}
+    }
 
-	#Don't delete the files
-	elsif (/-nD/) {
-		$delete_files = 0;
-		$given_options .= " -nD";
-	}
+    #skip bad comics
+    elsif (/-s/) {
+	$skip_bad_comics = 1;
+	$given_options .= " -s";
+	$smushopt = 1;
+    }
 
-	#webpage title
-	elsif (/-wt$/) {
-		if (@ARGV > 0) {
-		    $webpage_title = shift(@ARGV);
-		    $given_options .= " -wt '$webpage_title'";
-		} else {
-		    print STDERR "Need a string for an argument to -wt. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
+    #date format used when naming files
+    elsif (/-f$/) {
+	if (@ARGV > 0) {
+	    $date_fmt = shift(@ARGV);
+	    $given_options .= " -f '$date_fmt'";
+	} else {
+	    print STDERR "Need a date format for an argument to -f. " .
+		"Use -h for usage.\n";
+	    exit 1;
 	}
+    }
 
-	#webpage on standard out
-	elsif (/-o/) {
-		$webpage_on_stdout = 1;
-		$given_options .= " -o";
-		$smushopt = 1;
+    #Number of days of comics to get, going backwards
+    elsif (/-N$/) {
+	if (@ARGV > 0) {
+	    $days_prior = shift(@ARGV);
+	    $given_options .= " -N $days_prior";
+	} else {
+	    print STDERR "Need a number for an argument to -N. " .
+		"Use -h for usage.\n";
+	    exit 1;
 	}
+    }
 
-	#don't create a webpage
-	elsif (/-nw$/) {
-		$make_webpage = 0;	
-		$remake_webpage = 0;
-		$given_options .= " -nw";
+    #external program to use instead of LWP
+    elsif (/-g(=(.+))?([^=]+)?$/) {
+	$given_options .= " -g";
+	if (defined($2)) {
+	    $external_cmd = $2;
+	} elsif (! defined($3) && @ARGV > 0 && $ARGV[0] !~ /^-/) {
+	    $external_cmd = shift(@ARGV);
+	} else {
+	    $smushopt = 1;
 	}
+	$given_options .= " '$external_cmd'" if defined $external_cmd;
+    }
 
-	#Create webpage?
-	elsif (/-(w)(=.+)?/i) {
-		if (defined($2)) {
-		    if ($2 =~ /^=(\d+)$/) {
-				$comics_per_page = $1;
-		    } else {
-				print STDERR "Number of comics per page for -W & -w must be " .
-					"a positive integer.\n";
-				exit 1;
-		    }
-		} else {
-		    $smushopt = 1;
-		}
-		$make_webpage = 1;
-		$remake_webpage = ($1 =~ /W/)? 1 : 0;
-	}
+    #print URLs or put them in the webpage?
+    elsif (/-u/) {
+	$dont_download = 1;
+	$given_options .= " -u";
+	$smushopt = 1;
+    }
 
-	#Use a Proxy?
-	elsif (/-p$/) {
-		if (@ARGV > 0) {
-		    $proxy_url = shift(@ARGV);
-		    $given_options .= " -p $proxy_url";
-		} else {
-		    print STDERR "Need a URL to use as the proxy. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
+    #get b/w if possible
+    elsif (/-(b)/i) {
+	$prefer_color = ($1 =~ /B/)? 1 : 0;
+	$given_options .= " -$1";
+	$smushopt = 1;
+    }
 
-	#Number of days of comics to get, going backwards
-	elsif (/-n$/) {
-		if (@ARGV > 0) {
-		    $days_of_comics = shift(@ARGV);
-		} else {
-		    print STDERR "Need a number for an argument to -n. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
+    #sort by date
+    elsif (/-L/) {
+	$sort_by_date = 1;
+	$smushopt = 1;
+	$given_options .= " -L";
+    }
 
-	#HTML Template Directory
-	elsif (/-t$/) {
-		if (@ARGV > 0) {
-		    $html_tmpl_dir = shift(@ARGV);
-		    $given_options .= " -t $html_tmpl_dir";
-		} else {
-		    print STDERR "Need a directory for an argument to -t. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
+    #no index for webpaegs
+    elsif (/-(i)/i) {
+	$webpage_index = ($1 =~ /I/)? 1 : 0;
+	$smushopt = 1;
+	$given_options .= " -$1";
+    }
 
-	#Comic Module Directory
-	elsif (/-m$/) {
-		if (@ARGV > 0) {
-		    my $dir = shift(@ARGV);
-		    unshift(@newlibdirs,$dir);
-		    $given_options .= " -m $dir";
-		} else {
-		    print STDERR "Need a directory for an argument to -m. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
+    #rc filename
+    elsif (/-r$/) {
+	#already did the work of checking to make sure its good
+	shift(@ARGV);
+	$given_options .= " -r '$rc_file'";
+    }
 
-	#clear out libdirs
-	elsif (/-M$/) {
-		@libdirs = ();
-		$given_options .= " -M";
-		$smushopt = 1;
-	}
+    #always download
+    elsif (/-a$/) {
+	$always_download = 1;
+	$smushopt = 1;
+	#don't add to given options 
+    }
 
-	# Real date day
-	elsif (/-A$/) {
-		$real_date = 1;
-		$given_options .= " -A";
-		$smushopt = 1;
+    #maximum retries
+    elsif (/-(n?R)$/) {
+	my $good = 0;
+	if ($1 eq 'nR') {
+	    $good = 1;
+	    $max_attempts = 0;
+	} elsif (@ARGV > 0) {
+	    $max_attempts = shift(@ARGV);
+	    $good = 1 if $max_attempts =~ /^\d+$/;
 	}
+	if (! $good) {
+	    print STDERR "You must specify a number, 0 or greater, with -R. " .
+		"Use -h for usage.\n";
+	    exit 1;
+	}
+    }
 
-	#Specified date
-	elsif (/-([STE])$/) {
-		my $type = $1;
-		my $good = 0;
-		
-		if (@ARGV > 0) {
-		    my $ds = shift(@ARGV);
-		    my $ts = undef;
-		    if ($ds =~ /([0-1]?[0-9])-([0-3]?[0-9])-(19|20)?([0-9][0-9])/) {
-				my $year = defined($4) ? $4 : $3;
-				$year += 100 if $year < 70;
-				$ts = mkgmtime(0,0,12,$2,$1-1,$year);
-			} elsif ($ds =~ /^([+-]?\d+)$/) {
-				$ts = time - ($1 * 24*3600);
-		    }
-		    if (defined($ts)) {
-				$given_options .= " -$type $ds";
-				$good = 1;
-				$_ = $type;
-				if (/T/) {
-				    push(@dates,$ts);
-				} elsif (/S/) {
-				    $start_date = $ts;
-				} elsif (/E/) {
-				    $end_date = $ts;
-				}
-		    }
-		}
-		
-		unless ($good) {
-		    print STDERR "Need a date for an argument to -$type. ";
-		    print STDERR "It has the form: MM-DD-[YY]YY\nOr it is the number ";
-		    print STDERR "of days prior to day to specify the date.\n";
-		    exit 1;
-		}
-	}
+    #show tasks
+    elsif (/-q$/) {
+	$show_tasks = 1;
+	$smushopt = 1;
+	$given_options .= " -q";
+    }
 
-	#skip bad comics
-	elsif (/-s/) {
-		$skip_bad_comics = 1;
-		$given_options .= " -s";
-		$smushopt = 1;
-	}
+    #Usage
+    else {
+	print STDERR "Unknown option: $_.\n" unless /-h/;
+	usage();
+    }
 
-	#date format used when naming files
-	elsif (/-f$/) {
-		if (@ARGV > 0) {
-			$date_fmt = shift(@ARGV);
-			$given_options .= " -f '$date_fmt'";
-		} else {
-			print STDERR "Need a date format for an argument to -f. " .
-				"Use -h for usage.\n";
-			exit 1;
-		}
+    #Allow for smushed-together options
+    if ($smushopt) {
+	$smushopt = 0;
+	if (/-.(.+)/) {
+	    unshift(@ARGV,"-$1");
+	    print "Pushing -$1 onto command line arguments.\n" 
+		if $extra_verbose;
 	}
-
-	#Number of days of comics to get, going backwards
-	elsif (/-N$/) {
-		if (@ARGV > 0) {
-		    $days_prior = shift(@ARGV);
-		    $given_options .= " -N $days_prior";
-		} else {
-		    print STDERR "Need a number for an argument to -N. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
-
-	#external program to use instead of LWP
-	elsif (/-g(=(.+))?([^=]+)?$/) {
-		$given_options .= " -g";
-		if (defined($2)) {
-		    $external_cmd = $2;
-		} elsif (! defined($3) && @ARGV > 0 && $ARGV[0] !~ /^-/) {
-		    $external_cmd = shift(@ARGV);
-		} else {
-		    $smushopt = 1;
-		}
-		$given_options .= " '$external_cmd'" if defined $external_cmd;
-	}
-
-	#print URLs or put them in the webpage?
-	elsif (/-u/) {
-		$dont_download = 1;
-		$given_options .= " -u";
-		$smushopt = 1;
-	}
-
-	#get b/w if possible
-	elsif (/-(b)/i) {
-		$prefer_color = ($1 =~ /B/)? 1 : 0;
-		$given_options .= " -$1";
-		$smushopt = 1;
-	}
-
-	#sort by date
-	elsif (/-L/) {
-		$sort_by_date = 1;
-		$smushopt = 1;
-		$given_options .= " -L";
-	}
-
-	#no index for webpaegs
-	elsif (/-(i)/i) {
-		$webpage_index = ($1 =~ /I/)? 1 : 0;
-		$smushopt = 1;
-		$given_options .= " -$1";
-	}
-
-	#rc filename
-	elsif (/-r$/) {
-		#already did the work of checking to make sure its good
-		shift(@ARGV);
-		$given_options .= " -r '$rc_file'";
-	}
-
-	#always download
-	elsif (/-a$/) {
-		$always_download = 1;
-		$smushopt = 1;
-		#don't add to given options 
-	}
-
-	#maximum retries
-	elsif (/-(n?R)$/) {
-		my $good = 0;
-		if ($1 eq 'nR') {
-		    $good = 1;
-		    $max_attempts = 0;
-		} elsif (@ARGV > 0) {
-		    $max_attempts = shift(@ARGV);
-		    $good = 1 if $max_attempts =~ /^\d+$/;
-		}
-		if (! $good) {
-		    print STDERR "You must specify a number, 0 or greater, with -R. " .
-				"Use -h for usage.\n";
-		    exit 1;
-		}
-	}
-
-	#show tasks
-	elsif (/-q$/) {
-		$show_tasks = 1;
-		$smushopt = 1;
-		$given_options .= " -q";
-	}
-
-	#Usage
-	else {
-		print STDERR "Unknown option: $_.\n" unless /-h/;
-		usage();
-	}
-
-	#Allow for smushed-together options
-	if ($smushopt) {
-		$smushopt = 0;
-		if (/-.(.+)/) {
-		    unshift(@ARGV,"-$1");
-		    print "Pushing -$1 onto command line arguments.\n" 
-				if $extra_verbose;
-		}
-	}
+    }
 }
 
 #tack on user-given directories.
@@ -1140,26 +1140,26 @@ unless (-d $comics_dir) {
     closedir(DIR);
     @files = sort(grep(s/\.(.+)\.rli$/$1/,@files));
     for (@files) {
-		my $name = $_;
-		my $rli = load_rli($name);
-		if (! defined($rli)) {
-		    print STDERR "Warning: $name did not load.\n";
-		    next;
-		}
-		$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
-		#save the files managed by this rli status file so we know which
-		#files were already downloaded before we start downloading more.
-		for (@{$rli->{'file'}}) {
-		    my $file = $_;
-		    if (-f "$comics_dir/$file") {
-				push(@existing_rli_files,$file);
-		    } elsif ($rli->{'status'} == 1) {
-				print STDERR "Warning: $name is missing $file in $comics_dir\n"
-			    if $verbose;
-			#make it so that this one will be retried.
-			$rli->{'status'} = 0;
-		    }
-		}
+	my $name = $_;
+	my $rli = load_rli($name);
+	if (! defined($rli)) {
+	    print STDERR "Warning: $name did not load.\n";
+	    next;
+	}
+	$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
+	#save the files managed by this rli status file so we know which
+	#files were already downloaded before we start downloading more.
+	for (@{$rli->{'file'}}) {
+	    my $file = $_;
+	    if (-f "$comics_dir/$file") {
+		push(@existing_rli_files,$file);
+	    } elsif ($rli->{'status'} == 1) {
+		print STDERR "Warning: $name is missing $file in $comics_dir\n"
+		    if $verbose;
+		#make it so that this one will be retried.
+		$rli->{'status'} = 0;
+	    }
+	}
     }
     print "Rli's reloaded: " . @rli . "\n" if $extra_verbose;
 
@@ -1585,12 +1585,12 @@ sub get_comics {
 	my $name = undef;
 
 	if ($separate_comics) {
-		$rli->{'subdir'} = $rli->{'title'};
-		$rli->{'subdir'} =~ s/\s/_/g;
-		if (! -e "$comics_dir/$rli->{'subdir'}" ) {
-			print "Creating directory $rli->{'subdir'}\n" if $verbose;
-			mkdir("$comics_dir/$rli->{'subdir'}", 0755);
-		}
+	    $rli->{'subdir'} = $rli->{'title'};
+	    $rli->{'subdir'} =~ s/\s/_/g;
+	    if (! -e "$comics_dir/$rli->{'subdir'}" ) {
+		print "Creating directory $rli->{'subdir'}\n" if $verbose;
+		mkdir("$comics_dir/$rli->{'subdir'}", 0755);
+	    }
 	}
 		
 	#first construct the name because this is also used by webpage creation
@@ -1925,9 +1925,9 @@ RELURL:	    while (@relurls) {
 		$i++; #simply keep track for debugging purposes
 	    }
 	    if ($j < 0) {
-			#assume the @relurl returned contained a hash which added
-			#fields to the rli which now need to be reprocessed.
-			goto SETUPDATA;
+		#assume the @relurl returned contained a hash which added
+		#fields to the rli which now need to be reprocessed.
+		goto SETUPDATA;
 	    }
 		}
 	} else  {
@@ -1936,14 +1936,15 @@ RELURL:	    while (@relurls) {
 	    $name .= "." . $rli->{'type'};
 
 	    #save the image to its file if it was successfully downloaded.
-		if ($separate_comics) {
-		    $rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
-			file_write("$comics_dir/$rli->{'subdir'}/$name",$files_mode, 
-			   $response->content);
-		} else {
-		    $rli->{'file'} = [ "$name" ];
-			file_write("$comics_dir/$name",$files_mode, $response->content);
-		}
+	    if ($separate_comics) {
+		$rli->{'file'} = [ "$rli->{'subdir'}/$name" ];
+		file_write("$comics_dir/$rli->{'subdir'}/$name",
+			   $files_mode, $response->content);
+	    } else {
+		$rli->{'file'} = [ "$name" ];
+		file_write("$comics_dir/$name",
+			   $files_mode, $response->content);
+	    }
 	    push(@images,$name)
 		unless $dont_download || $rli->{'status'} == 2;
 	}
