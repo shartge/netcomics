@@ -2,7 +2,7 @@
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
 	    fatcats bullsnbears grandave duncan randolph reality shirley 
-	    soupnutz lupo)) {
+	    soupnutz lupo trevor)) {
     $hof{$_} = 0;
 }
 foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
@@ -207,11 +207,28 @@ sub cheap {
 }
 
 
-# Trevor! - never mind, this is two gifs per panel!
+# Trevor! - interactive two gifs per panel, but we'll just download them all.
 sub trevor {
-    return unitedmedia(shift(@_),"Trevor!",
-		       "Piper and Lee","comics","trevor",
-		       undef,[600,200],"trevor");
+    my $rec = unitedmedia(shift(@_),"Trevor!",
+			  "Piper and Lee","comics","trevor",
+			  0,0,"trevor");
+    $rec->{'func'} = sub {
+	my $text = shift;
+	my $id = "trevor";
+	my @relurls = ();
+	#repeatedly match and replace.  
+        while (1) {
+	    if ($text =~ s/\.src = "(\/comics\/$id\/archive\/images\/$id\d+_\d\w?\.gif)"//i) {
+		unshift(@relurls,$1);
+	    } else {
+		last;
+	    }
+        }
+	return sort(@relurls);
+    };
+    $rec->{'exprs'} = undef;
+    $rec->{'size'} = undef;
+    return $rec;
 }
 
 
