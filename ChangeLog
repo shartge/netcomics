@@ -1,3 +1,8 @@
+2001-09-19  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Netcomics/HTML/Themes/Default.pm: Updated so it makes prettier
+	HTML.
+
 2001-09-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/ExternalUserAgent.pm (request): Made it so that the

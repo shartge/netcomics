@@ -19,12 +19,14 @@ sub new {
 
 my $HTML_HEAD = <<'END_HEAD';
 <HTML>
+
 <HEAD>
-<TITLE><PAGETITLE> (<NUM=FIRST>-<NUM=LAST> of <NUM=TOTAL>)</TITLE>
+  <TITLE><PAGETITLE> (<NUM=FIRST>-<NUM=LAST> of <NUM=TOTAL>)</TITLE>
 </HEAD>
+
 <BODY <LINK_COLOR> <VLINK_COLOR> <BACKGROUND>>
 <CENTER>
-<H1><PAGETITLE> (<NUM=FIRST>-<NUM=LAST> of <NUM=TOTAL>)</H1>
+  <H1><PAGETITLE> (<NUM=FIRST>-<NUM=LAST> of <NUM=TOTAL>)</H1>
 </CENTER>
 
 <TABLE WIDTH=100%>
@@ -32,10 +34,12 @@ END_HEAD
 
 my $HTML_LINKS = <<'END_LINKS';
 <TR><TD>
-<TABLE WIDTH=100%><TR>
-<TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
-<TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
-</TR></TABLE>
+  <TABLE WIDTH=100%>
+    <TR>
+      <TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
+      <TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
+    </TR>
+  </TABLE>
 </TD></TR>
 END_LINKS
 
@@ -66,11 +70,13 @@ END_TAIL
 
 my $HTML_LINKS_INDEX = <<'END_LINKS_INDEX';
 <TR><TD>
-<TABLE WIDTH=100%><TR>
-<TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
-<TD ALIGN=center><A HREF="<FILE=INDEX>">Index</A></TD>
-<TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
-</TR></TABLE>
+  <TABLE WIDTH=100%>
+    <TR>
+      <TD ALIGN=left><A HREF="<FILE=PREV>">Previous <NUM> Comics</A></TD>
+      <TD ALIGN=center><A HREF="<FILE=INDEX>">Index</A></TD>
+      <TD ALIGN=right><A HREF="<FILE=NEXT>">Next <NUM> Comics</A></TD>
+    </TR>
+  </TABLE>
 </TD></TR>
 END_LINKS_INDEX
 
