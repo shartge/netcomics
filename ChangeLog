@@ -1,3 +1,11 @@
+2002-05-24  Sven Hartge  <netcomics@ds9.argh.org>
+
+        * lib/keenspot: expanded exists-lists for wendy, simplified the
+        return-undef expression, changed cutewendy to exists-list based
+        approach. Updated wendy release cycle
+        * Makefile.PL, lib/bf, MANIFEST: added module for German
+        Userfriendly (Benutzerfreundlich)
+
 2002-05-24  Elliot Glaysher  <glaysher@umich.edu>
 
 	* lib/helen: Fix by sizer. (see ML for more info on this!)
