@@ -461,7 +461,9 @@ sub get_comics {
 			}
 		}
 
-		my ($base,$page,$expr,$pagebase,$exprbase,$funcbase,$exprs,$func,$back,$mfeh,$referer) = (undef)x8;
+		my
+        ($base,$page,$expr,$pagebase,$exprbase,$funcbase,$exprs,$func,$back,$mfeh,$referer)
+        = (undef)x11;
 	  SETUPDATA:
 		$base = $rli->{'base'} if exists $rli->{'base'};
 		$page = $rli->{'page'} if exists $rli->{'page'};

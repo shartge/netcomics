@@ -1,3 +1,16 @@
+2004-08-13  Clint Olson  <coandco at user * sourceforge * net>
+
+        * Netcomics/Factory.pm: Added three new attributes to the RLI
+          definition: pagebase, exprbase, and funcbase.  With these,
+          we can now easily get comics with different domains for their
+          HTML pages and images.
+        * doc/Comic_Module-HOWTO.html: Added the new attributes to the
+          RLI documentation
+        * lib/user_friendly: The first comic to use the new pagebase
+          and exprbase attributes.  Replaced base => 'http://' hack,
+          which kind of defeated the purpose for a base attribute in
+          the first place.
+
 2004-08-02  Sven Hartge  <hartge at users * sourceforge * net>
 
         * lib/grimmy: New webpage for Mother Goose and Grimm
