@@ -1,0 +1,18 @@
+Source: netcomics
+Section: contrib/web
+Priority: optional
+Maintainer: Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
+Build-Depends-Indep: debhelper
+Standards-Version: 3.1.1
+
+Package: netcomics
+Architecture: all
+Depends: ${perl:Depends}, libwww-perl | wget, libhtml-parser-perl | wget
+Suggests: libimage-size-perl | file
+Description: Retrieve comic strips from the Web
+ netcomics is a perl script that can retrieve comic strips from the Web
+ that are continuously being updated each day. netcomics utilizes a
+ modular set of library perl scripts that provide it information on
+ where to find each specific comic strip.  It is most often run as a
+ cron job, along with a provided script, show_comics, to display it
+ on your workstation. It also can create webpages with the comics.
