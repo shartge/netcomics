@@ -9,15 +9,19 @@ sub bayside {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,3,4,99); #1st comic: may 03, 1999
     my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
     my $rec = {
 	'title' => "Life at Bayside",
 	'author' => "Curtis",
-	'type' => 'gif',
 	'main' => "http://www.baysid.com/",
 	'archives' => "http://www.baysid.com/archive/",
-	'base' => "http://www.baysid.com",
-	'page' => strftime("/d/%Y%m%d.html",@ltime),
-	'exprs'    => [strftime("SRC=\"(/comics/LAB%Y%m%d.*?gif)",@ltime)],
+	'base' => "http://www.baysid.com/",
+	'page' => strftime("d/$date.html",@ltime),
+        'exprs' => {
+            'comic' => ["(comics/LAB$date\\w?\\.(:?(jpg|gif|png)))"],
+            'type' => ["comics/LAB$date\\w?\\.:?(jpg|gif|png)"],
+        },
     };
 
     return $rec;
