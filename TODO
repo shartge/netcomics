@@ -40,6 +40,11 @@ selected by the user would be included in the webpage.
 This option would have the webpage that's generated include only the
 latest strip of each comic in the repository.
 
+** Group comics by pages, index by comic names
+For example, all Dilbert strips would be on their own page,
+Foxtrot in its own.  The index page would then have links to
+the pages themselves, and not to the individual comic strips.
+
 ----------------------------------------------------------------------
 
 * Comic Modules
@@ -239,3 +244,9 @@ weird.
 ** Work on speeding up loading numerous (+1000) RLIs.
 *** Glob RLIs into one file?
 *** Use a Berkly DB file for storing persistant data?
+
+** -o should imply -W
+When the user specifies to output the webpage on STDOUT, it should
+always create the webpage.
+
+** verbose output should always be sent on STDERR.
