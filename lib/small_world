@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"smwrld"} = 21;
+
+#Small World
+sub smwrld  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #thu, fri 
+    return undef unless $ltime[6]==4 || $ltime[6]==5;
+    
+    my $rec = {
+	'title' => "Small World",
+	'author' => "Tom Briscoe",
+	'type' => 'gif',
+	'main' => "http://www.briscoe.org/",
+	'archives' => "http://www.briscoe.org/archive/index.html",
+	'base' => "http://www.briscoe.org/comics/",
+	'size' => [550,260],
+	'page' => strftime("%Y/sw%m%d%y.gif",@ltime)
+	};
+    return $rec;
+}
+
+1;
