@@ -1,5 +1,8 @@
 2001-05-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/nando (NandoComics): Major update to this module.
+	Reimplimented catching of exceptions, added a missing list for
+	Alex's Restaurant & added start of archives for all of them.
 	* lib/kingfeatures (pvaliant,katkids): changed use of localtime()
 	to gmtime().
 
