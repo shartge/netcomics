@@ -1,3 +1,12 @@
+2001-02-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics.spec (%post data): Added check for deprecated modules
+	(%files data): Added documentation files
+	* doc/netcomics.lsm (Description): Updated for 0.13.1
+	* Makefile ($(DEBFILE)): Added su-ing to root & chowning the deb pkg.
+	(label): Updated tagging for cvs.
+	(dist): Updated list of things to do after making the distributions.
+
 2001-02-16  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/doodie (doodie): Fixed current day retrieval.

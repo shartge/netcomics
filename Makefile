@@ -23,7 +23,8 @@ POD2MAN = pod2man --center="Web Utilities" --release="netcomics-$(VERSION)"
 POD2HTML= pod2html
 INSTALL	= install
 ETAGS	= etags
-CT	= cleartool
+CVS	= cvs
+CHOWN	= chown
 
 BININSTALLFLAGS	= -m 755
 LIBINSTALLFLAGS	= -m 644
@@ -414,13 +415,13 @@ $(DEBFILE): debian/rules ../$(TARGZFILE)
 	cd ..; \
 	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xvf - ; \
 	cd $(APPNAME)-$(VERSION); \
-	$(MAKE) -f debian/rules binary; \
+	su -c "$(MAKE) -f debian/rules binary; \
+	$(CHOWN) $$LOGNAME $@; \
 	cd ..; \
-	$(RM) -r $(APPNAME)-$(VERSION)
+	$(RM) -r $(APPNAME)-$(VERSION)"
 
 #Maintanence targets
 preparchive: distclean all
-	$(RM) .cmake.state
 
 archives: preparchive ../$(TARBZ2FILE) ../$(TARGZFILE)
 
@@ -429,11 +430,15 @@ rpm:	$(RHRPMS)/noarch/$(RPMFILE)
 deb:	$(DEBFILE)
 
 dist:	archives rpm deb
-	echo "Don't forget to clearmake label when you're done."
+	@echo "Now do the following:"
+	@echo "* check in any changes still pending"
+	@echo "* make tag"
+	@echo "* sign the packages."
 
+tag: label
 label:
-	$(CT) mklbtype -nc V$(VERSION)
-	$(CT) mklabel -recurse V$(VERSION) .
+	ver=`echo $(VERSION) | sed 's/\./_/g'`; \
+	cd ..; $(CVS) tag V$$ver
 
 install_local:
 	$(MAKE) install PREFIX=/usr/local

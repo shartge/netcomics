@@ -6,7 +6,7 @@ Copyright: GPL
 Group: Applications/Networking
 URL: http://netcomics.sourceforge.net/
 Source: http://download.sourceforge.net/netcomics/netcomics-%{version}.tar.bz2
-Prefix: /usr
+Prefixes: /usr,/var
 Packager: Ben Hochstedler <hochstrb@cs.rose-hulman.edu>
 BuildArchitectures: noarch
 BuildRoot: /tmp/%{name}-%{version}-root
@@ -23,13 +23,16 @@ on your workstation. It also can create webpages with the comics.
 %package data
 Summary: Comic modules that instruct netcomics on how to obtain comic strips.
 Group: Applications/Networking
-Requires: netcomics
+Requires: netcomics >= 0.13.1
+Prefix: /usr
 
 %description data
 This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Sun Feb 18 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
+- added gzip of manpages, doc files for data pkg, & check for old modules.
 * Wed Feb 7 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.13.1-1
 - Added the comics: Big Nate, The Big Picture, Bizarro, Bobos Progress,
   The Boondocks, Bulls n Bears, Cartoon Web: BizWit, Cartoon Web: Caricatures,
@@ -149,32 +152,67 @@ rm -rf $RPM_BUILD_ROOT
 #        PERL=/usr/local/bin/perl dist
 
 make BUILDROOT=$RPM_BUILD_ROOT NOREMAKE=1 install
+gzip -9nvf $RPM_BUILD_ROOT/usr/man/man1/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %preun
 rm -f /var/spool/netcomics/*
+rm -f /var/spool/netcomics/.*.rli
 
 %post
 cat <<END
-FYI:
-* The -a option behaves a little differently when used with -c.  See
-  the netcomics manpage and/or usage for details.
-# For a list of the new comics, see the NEWS file.
+FYI: The -a option now behaves a little differently when used with -c.  See
+     the netcomics manpage and/or usage for details.
+END
+
+%post data
+LIBDIR=$RPM_INSTALL_PREFIX/share/netcomics
+#The following list is to be kept in sync with that in the Makefile
+OLDMODULES="\
+	banditbruno \
+	bobbins \
+	calvin-n-hobbes \
+	ctoons \
+	dilbert \
+	glasbergen \
+	goats \
+	roomies \
+	uexpress \
+	worldviews \
+	"
+oldmods=""
+cd $LIBDIR
+for file in $OLDMODULES; do
+    if [ -f $file ]; then
+        oldmods="$oldmods $file"
+	#making them unreadible makes it so netcomics won't load them.
+	chmod a-r $file
+    fi
+done
+if test "x$oldmods" != "x"; then
+    echo "Warning!  You have old modules that should be deleted:"
+    echo "  $oldmods."
+    echo "Run the following commands to remove them:"
+    echo "  cd $LIBDIR; rm -f $oldmods"
+fi
+cat <<END
+For a list of the new comics, see the NEWS file.
 END
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html potd/astronomy
+%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html
 /usr/bin/netcomics
 /usr/bin/show_comics
-%attr(-,root,man) /usr/man/man1/netcomics.1
-%attr(-,root,man) /usr/man/man1/show_comics.1
+%attr(-,root,man) /usr/man/man1/netcomics.1.gz
+%attr(-,root,man) /usr/man/man1/show_comics.1.gz
 %config /usr/bin/display_comics
 %attr(-,root,users) %dir /var/spool/netcomics
 %attr(-,root,users) %dir /usr/share/netcomics
 
 %files data
 %defattr(-,root,root)
+%doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html lib/template doc/Comic_Module-HOWTO.html potd/astronomy
 /usr/share/netcomics
