@@ -1,5 +1,7 @@
 2001-11-18  Elliot Glaysher  <glaysher@umich.edu>
 
+	* lib/doemain (doemain): Updated for sanity.
+	* lib/keenspace (machall): Wrote a machall module.
 	* lib/keenspot (elf): Updated missing comics list.
 
 2001-11-16  Elliot Glaysher  <glaysher@umich.edu>

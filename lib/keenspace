@@ -1,6 +1,6 @@
-#-*-Perl-*-
+#-*-CPerl-*-
 foreach (qw(boxjam heaven framed stereo rocr fce sketch fatjc roses 
-  zap spork tang ais forbez tap)) {
+  zap spork tang ais forbez tap machall)) {
   $hof{$_} = 0;
 };
 foreach (qw(attwf)) {
@@ -363,6 +363,75 @@ sub heaven {
     my $url = "nemo";
 
     return keenspace($title,$author,$date,$url);
+}
+
+# Mac Hall
+sub machall {
+	my $time = shift;
+	my $time2 = time();
+    my @ltime = gmtime($time);
+	my @ltime2 = gmtime($time2);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+	# Your probably wondering why this is needed when I have a 'func' below.
+	# Some days Ian just posts a rant in /plaintext/ which we can't get w/
+	# the current netcomics methods. Therefore we need both a missing AND
+	# a func.
+    my @missing = (20010830,20010904,20010907,20010914,20011001,20011004,
+				   20011008,20011009,20011017,20011018,20011026,20011029,
+				   20011031,20011113);
+
+    return undef 
+      if (($date < 20001107) || #first comic on October 7, 2000.
+          grep(/$date/,@missing));
+
+    my $rec = {
+        'title' => "Mac Hall",
+        'author' => "Ian McConville",
+        'main' => "http://machall.keenspace.com",
+        'archives' => "http://machall.keenspace.com/archive.html",
+        'base' => "http://machall.keenspace.com/",
+        'page' => "archive.html",
+		# As much as I'd love to use keenspace(), Mac Hall's release schedule
+		# is so erratic that using a @missing list doesn't makes no sense.
+		# Besides, if I ever get my idea about archive lists implimented, this
+		# won't be a problem.
+		#
+		# Since I'm going to be working up some of my favorite strips, which
+		# don't come out on a regular schedule, I'm thinking of turning this
+		# into keenspace2();
+		'func' => sub {
+			my $input_page = shift;
+			my @relurls;
+			if (grep(/$date/, $input_page)) {
+				my $page = strftime("d/%Y%m%d.html",@ltime);
+				if ($date == $date2) {
+					$page = "d/today.html";
+				}
+				push(@relurls, {
+								'page' => $page,
+								'exprs' => {
+											'comic'=>['(comics/\d+.jpg)'],
+										   },
+								'func' => undef
+							   }
+					);
+			} else {
+				push(@relurls, {
+								'page' => undef,
+								'func' => undef,
+								'base' => undef,
+								'status' => 0
+							   }
+					);
+			};
+			return @relurls;
+		},
+			  };
+	
+
+    return $rec;
 }
 
 #Rogues of Clwyd-Rhan
