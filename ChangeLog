@@ -1,3 +1,11 @@
+2001-04-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile (POD2MANRULES,POD2HTMLRULES): Added these rules to
+	produce the manpages & html pages for the pod files.  Generalized
+	the rules for producing man & html pages.
+	(remake_check): Changed to simply run make distclean to remove the
+	files that need to be regenerated.
+
 2001-04-27  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* netcomics, show_comics -> doc/netcomics.pod, show_comics.pod:

@@ -22,6 +22,7 @@ TMPBASE	= $(BUILDROOT)/var/spool
 SYSRCDIR = $(BUIDLROOT)/etc
 PERLLIBROOT = $(BUILDROOT)/usr/lib/perl5
 PERLINSTDIR = $(PERLLIBROOT)/site_perl/Netcomics
+TMPBUILDDIR = $(BUIDLROOT)/tmp/$(APPNAME)
 
 RM	= rm -f
 FIND	= find
@@ -35,6 +36,9 @@ CVS	= cvs
 CHOWN	= chown
 LN	= ln
 CHMOD	= chmod
+MV	= mv
+CP	= cp
+RMDIR	= rm -rf
 
 LIBPERMS = 644
 BININSTALLFLAGS	= -m 755
@@ -245,13 +249,12 @@ remake_check:
 		[ $(APPNAME) != netcomics ] \
 	      ) && ( [ $(NOREMAKE) != 1 ] && [ $(MAKE) != clearmake ] ) ); then\
 		echo "Having documentation & scripts reproduced in doc & bin.";\
-		$(RM) bin/$(APPNAME) bin/$(AP2NAME) bin/$(AP3NAME) \
-			doc/$(APPNAME).pod doc/$(AP3NAME).pod \
-			Netcomics/Config.pm; \
+		$(MAKE) distclean; \
 	fi
 
 #Use this macro for creating any template file.
 SUBPATHS = \
+	echo "Generating $@ from $<"; \
 	$(PERL) -pe s%/usr/bin%$(BINDIR)%gm $< \
 	| $(PERL) -pe s%$(BINDIR)/perl%$(PERL)%gm \
 	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm \
@@ -281,12 +284,10 @@ install:: all
 	$(INSTALL) $(BININSTALLFLAGS) bin/$(AP3NAME) $(BINDIR)/$(AP3NAME)
 
 bin/$(AP2NAME): $(AP2NAME)
-	$(PERL) -pe s%/usr/bin/perl%$(PERL)%gm $(AP2NAME) \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm > $@
+	@$(SUBPATHS)
 
 bin/$(AP3NAME): $(AP3NAME)
-	$(PERL) -pe s%/usr/bin/perl%$(PERLTK)%gm $(AP3NAME) \
-	| $(PERL) -pe s%/var/spool/netcomics%$(TMPDIR)%gm > $@
+	@$(SUBPATHS)
 
 bin:: bin/$(AP2NAME) bin/$(AP3NAME)
 
@@ -295,7 +296,7 @@ distclean::
 	$(RM) bin/$(AP3NAME)
 
 bin/$(APPNAME): $(APPNAME)
-	$(SUBPATHS)
+	@$(SUBPATHS)
 
 bin:: bin/$(APPNAME)
 
@@ -308,7 +309,7 @@ distclean::
 	$(RM) debian/*.1
 
 etc/$(RCFILE): $(RCFILE)
-	$(SUBPATHS)
+	@$(SUBPATHS)
 
 etc:: etc/$(RCFILE)
 
@@ -331,21 +332,30 @@ distclean::
 
 #Documentation targets & their associated phony targets
 
-distclean::
-#	$(RM) doc/$(APPNAME).pod
-#	$(RM) doc/$(AP3NAME).pod
+POD2MANRULES = \
+	$(RM) $@; \
+	$(SUBPATHS); \
+	$(MKDIR) $(TMPBUILDDIR)/doc; \
+	$(CP) $@ $(TMPBUILDDIR)/$<; \
+	$(RM) $@; \
+	echo "$(POD2MAN) --section=$$section $< > $@"; \
+	$(POD2MAN) --section=$$section $(TMPBUILDDIR)/$< > $@; \
+	$(RM) $(TMPBUILDDIR)/$<; \
+	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
-doc/$(APPNAME).1: doc/$(APPNAME).pod
-	@$(RM) $@
-	@$(CD) doc;\
-	echo "$(POD2MAN) --section=1 $(APPNAME).pod > $(APPNAME).1";\
-	$(POD2MAN) --section=1 $(APPNAME).pod > $(APPNAME).1
+POD2HTMLRULES = \
+	$(RM) $@; \
+	$(SUBPATHS); \
+	$(MKDIR) $(TMPBUILDDIR)/doc; \
+	$(CP) $@ $(TMPBUILDDIR)/$<; \
+	$(RM) $@; \
+	echo "$(POD2HTML) $< > $@"; \
+	$(POD2HTML) $(TMPBUILDDIR)/$< > $@; \
+	$(RM) pod2html-itemcache pod2html-dircache $(TMPBUILDDIR)/$<; \
+	$(RMDIR) $(TMPBUILDDIR)/doc $(TMPBUILDDIR);
 
-doc/$(AP3NAME).1: doc/$(AP3NAME).pod
-	@$(RM) $@
-	@$(CD) doc;\
-	echo "$(POD2MAN) --section=1 $(AP3NAME).pod > $(AP3NAME).1";\
-	$(POD2MAN) --section=1 $(AP3NAME).pod > $(AP3NAME).1
+%.1: %.pod
+	@section=1; $(POD2MANRULES)
 
 distclean::
 	$(RM) doc/$(APPNAME).1
@@ -360,15 +370,8 @@ doc:: doc/$(APPNAME).1
 
 doc:: doc/$(AP3NAME).1
 
-doc/$(APPNAME).html: doc/$(APPNAME).pod
-	@$(RM) $@
-	$(POD2HTML) $? > $@
-	$(RM) pod2html-itemcache pod2html-dircache
-
-doc/$(AP3NAME).html: doc/$(AP3NAME).pod
-	@$(RM) $@
-	$(POD2HTML) $? > $@
-	$(RM) pod2html-itemcache pod2html-dircache
+%.html: %.pod
+	@$(POD2HTMLRULES)
 
 distclean::
 	$(RM) doc/$(APPNAME).html
@@ -398,7 +401,7 @@ install_pms: $(PERLMODULES:%=Netcomics/%)
 	$(INSTALL) $(LIBINSTALLFLAGS) $(PERLMODULES) $(PERLINSTDIR)
 
 Netcomics/Config.pm: Netcomics/Config.pm.in
-	$(SUBPATHS)
+	@$(SUBPATHS)
 
 distclean::
 	$(RM) Netcomics/Config.pm
@@ -435,7 +438,7 @@ install::
 
 #Make an RPM
 $(RHSPECS)/$(RPMSPEC): $(RPMSPEC)
-	$(SUBPATHS)
+	@$(SUBPATHS)
 
 $(RHSOURCES)/$(TARGZFILE): ../$(TARGZFILE)
 	$(INSTALL) $(LIBINSTALLFLAGS) ../$(TARGZFILE) $(RHSRCS)
