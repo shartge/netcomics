@@ -1,3 +1,9 @@
+2001-09-19  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* MANIFEST: removed angst; added inktank and mrlowe.
+	* Makefile.PL (@modules): moved angst to @oldmodules; added
+	inktank and mrlowe.
+
 2001-09-18  Elliot Glaysher  <glaysher@umich.edu>
 
 	* netcomics: Added changable theme support.
@@ -8,7 +14,7 @@
 	* Netcomics/HTML.pm: Added changable theme support.
 	* Netcomics/Page.pm: Added changable theme support.
 	* Netcomics/Set.pm: Added changable theme support.
-	* Netcomics/HTML/Themes/Defualt.pm: Added a 'name' property.
+	* Netcomics/HTML/Themes/Default.pm: Added a 'name' property.
 
 2001-09-16  Elliot Glaysher  <glaysher@umich.edu>
 

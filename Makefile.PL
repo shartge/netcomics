@@ -59,7 +59,6 @@ my @modules = qw(
 after_y2k
 an
 angry_flower
-angst
 bad_boys
 badlands
 bruno
@@ -87,6 +86,7 @@ freefall
 gaming_u
 gilthorp
 helen
+inktank
 jerkcity
 joyoftech
 k_chronicles
@@ -101,6 +101,7 @@ madam-n-eve
 megatokyo
 mercury
 mom
+mrlowe
 nando
 newshounds
 norm
@@ -137,6 +138,7 @@ wiley
 
 my @old_modules = qw(
 alice
+angst
 avalon
 banditbruno
 bastich

@@ -26,6 +26,7 @@ contrib/localtime
 contrib/make_bruno_hash
 contrib/make_doemain_code
 contrib/make_frankandernest_hash
+contrib/make_helpdesk_dates
 contrib/make_stuffthis_hash
 contrib/mktime
 contrib/perlreflectiontest
@@ -55,7 +56,6 @@ doc/show_comics.pod
 lib/after_y2k
 lib/an
 lib/angry_flower
-lib/angst
 lib/bad_boys
 lib/badlands
 lib/bruno
@@ -91,6 +91,7 @@ lib/freefall
 lib/gaming_u
 lib/gilthorp
 lib/helen
+lib/inktank
 lib/jerkcity
 lib/joyoftech
 lib/k_chronicles
@@ -105,6 +106,7 @@ lib/madam-n-eve
 lib/megatokyo
 lib/mercury
 lib/mom
+lib/mrlowe
 lib/nando
 lib/newshounds
 lib/norm
