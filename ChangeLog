@@ -1,6 +1,8 @@
 2000-11-02  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* lib/mercury: Removed comics moved to ctoons.
+	* lib/uexpress: Moved Real Life Adventures from mercury & added
+	Baldo and The Big Picture (thanks to Shawn Oakey).
+	* lib/mercury: Removed comics moved to ctoons & uexpress.
 	* lib/ctoons: Moved Kudzu, Loose Parts, Silvia, Cats With
 	Hands, Against the Grain from mercury (thanks to Sven Hartge & Kai
 	Wurm)

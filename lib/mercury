@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(pretzel phantom rla fairgame ick newbreed thatlife mickey)) {
+foreach (qw(pretzel phantom fairgame ick newbreed thatlife mickey)) {
     $hof{$_} = 0;
 }
 
@@ -52,12 +52,6 @@ sub phantom {
                        'gif',undef,[525,157],[250,296],85);
 }
 
-#Real Life Adventures
-sub rla {
-    my $time = shift;
-    return mercury($time,"Real Life Adventures","Gary Wise and Lance Aldrich",
-		   "real_life",'gif',undef,[263,331],[250,296],91);
-}                                                                                                      
 #Dilbert Classics
 sub dilbertcl {
     my $time = shift;

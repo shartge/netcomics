@@ -1,7 +1,7 @@
 #-*-Perl-*-
 #Tack on the names of the subroutines to the list of functions
-foreach (qw(adam bz bd cathy cd cth corn cr cs dp hc fw fusco itb 
-	    boffo ob sc stsp tank ziggy)) {
+foreach (qw(adam baldo bigp bz bd cathy cd cth corn cr cs dp hc fw fusco itb 
+	    boffo ob rla sc stsp tank ziggy)) {
     $hof{$_} = 14;
 }
 
@@ -45,6 +45,18 @@ sub uexpress {
 sub adam {
     return uexpress(shift(@_),"Adam at Home","Brian Basset","comics","ad",
 		    [600,428],[600,200],"adam");
+}
+
+#Baldo http://www.uexpress.com/ups/comics/ba/
+sub baldo {
+    return uexpress(shift(@_),"Baldo","Cantu & Castellanos","comics","ba",
+		    [600,412],[300,310],"baldo");
+}
+
+#The Big Picture http://www.uexpress.com/ups/comics/bi/
+sub bigp {
+    return uexpress(shift(@_),"The Big Picture","Lennie Peterson","comics","bi",
+		    [600,412],[300,310],"bigp");
 }
 
 #Bizzaro http://www.uexpress.com/ups/comics/bz/
@@ -135,6 +147,12 @@ sub boffo {
 sub ob {
     return uexpress(shift(@_),"Overboard","Chip Dunham","comics","ob",
 		    [600,276],[600,200],"ob");
+}
+
+#Real Life Adventures http://www.uexpress.com/ups/comics/rl/
+sub rla {
+    return uexpress(shift(@_),"Real Life Adventures","Aldrich and Wise",
+		    "comics","rl",[600,412],[300,310],"rla");
 }
 
 #Second Chances http://www.uexpress.com/ups/comics/se/
