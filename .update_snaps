@@ -5,7 +5,8 @@ cd $HOME/src/netcomics
 rm -f netcomics-*cvs.*z*
 cd netcomics
 perl Makefile.PL
-make -s archives
+make -s preparchive
+make tarballs
 cd ..
 mkdir $snapsdir.new
 cp netcomics-*cvs.*z* $snapsdir.new

@@ -400,6 +400,10 @@ install::
 
 bz2dist: $(DISTVNAME).tar.bz2
 
+#override these from MakeMaker to make them more quiet.
+TARFLAGS=cf
+ZIPFLAGS=-rq
+
 $(DISTVNAME).tar.bz2 : distdir
 	$(PREOP)
 	$(TO_UNIX)
@@ -434,7 +438,7 @@ $(RHRPMS)/noarch/$(RPMFILE): $(RHSPECS)/$(RPMSPEC) \
 #Make a Debian package
 ../$(DEBFILE): $(DEBFILES:%=debian/%) $(TARGZFILE)
 	cd ..; \
-	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xvf - ; \
+	$(GZIP) -d -c $(TARGZFILE) | $(TAR) xf - ; \
 	cd $(DISTVNAME); \
 	su -c "$(MAKE) -f debian/rules binary; \
 		   $(CHOWN) $$LOGNAME $@; $(RM_RF) ../$(DISTVNAME)"
@@ -461,10 +465,12 @@ distclean::
 preparchive: distclean
 	$(PERL) Makefile.PL
 
-archives: preparchive
+tarballs:
 	$(MAKE) $(TARBZ2FILE)
 	$(MAKE) $(TARGZFILE)
 	$(MAKE) $(ZIPFILE)
+
+archives: preparchive tarballs
 
 rpm:
 	$(RM) $(RHSPECS)/$(RPMSPEC)
