@@ -470,7 +470,7 @@ sub generate_HTML_page {
 		for ($[..$#image) {
 			my $num = $_ + 1;
 			my $image = $image[$_];
-			$image = $image;
+			next unless defined $image;
 			my $size = undef;
 			#get the size from the file (status==1)
 			$size = image_size( ($comics_dir . "/$image") ) 

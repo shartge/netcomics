@@ -1,3 +1,10 @@
+2001-05-15  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/Factory.pm (setup): Removed resetting of
+	existing_rli_files.
+	* Netcomics/HTML.pm (generate_HTML_page): Fixed use of unitialized
+	value.
+
 2001-05-14  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* Netcomics/Factory.pm (get_comic): Changed code so it doesn't use

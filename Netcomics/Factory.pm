@@ -128,7 +128,6 @@ sub setup {
 	}
 	%{$self->{'hof'}} = %hof;
 	# Reset these values whether we need them or not.
-	$self->{'existing_rli_files'} = [];
 	$self->{'files_retrieved'} = [];
 	$self->{'get_current'} = undef;
 
