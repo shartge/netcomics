@@ -105,14 +105,10 @@ sub load_RLI_files {
 			#make sure important data is correct in the rli (i.e. its files)
 			for (@{$rli->{'file'}}) {
 				my $file = $_;
-				my $test_file_name;
-				if ($separate_comics) {
-					$test_file_name = "$comics_dir/$rli->{'subdir'}/$file";
-				} else {
-					$test_file_name = "$comics_dir/" . $file;
-				}
+				my $test_dir = $separate_comics ?
+					"$comics_dir/$rli->{'subdir'}" : "$comics_dir";
 
-				if (-f "$test_file_name") {
+				if (-f "$test_dir/$file") {
 					push(@{$self->{'existing_rli_files'}},$file);
 				} elsif ($rli->{'status'} == 1) {
 					#print Data::Dumper->Dump([$rli],[qw(*rli)]);
@@ -121,7 +117,7 @@ sub load_RLI_files {
 					my @stuff = split(/\//, $file);
 					my $time = "@stuff";
 					$time--;
-					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[$#stuff]") {
+					if (-f "$test_dir/$stuff[$#stuff]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
 						foreach (@list_of_files) {
@@ -1138,7 +1134,8 @@ sub load_rlis {
 			$@=0;
 			eval {require $file;};
 			if ($@) {
-				die "Error loading rli status file: '$file':\n$@.";
+				warn "Warning: Failed to load file (skipping it):\n$@.\n";
+				next;
 			} elsif (@rli == 0 && keys(%rli) == 0) {
 				print STDERR "Loading rli status file, $file, " .
 					"resulted in an empty rli\n";
