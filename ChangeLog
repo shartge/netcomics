@@ -1,3 +1,9 @@
+2001-05-01  Elliot Glayhser  <nuriko.chan@home.com>
+
+	* gtkcomic, Netcomics/Gtkcomics.pm: Initial checkin. Please note
+	that in there current state there's minimal funcionality, with
+	the exception of listing comics. It's good at that.
+	
 2001-04-29  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Netcomics/Factory.pm (init): Made it so that the same Factory
