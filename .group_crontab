@@ -5,7 +5,7 @@ MAILTO=netcomics-maintainers@lists.sourceforge.net
 #Update the website
 32 05 * * * cd $HOME/src/netcomics; cvs -q update -d; cd website; make -s all install
 # Generate daily CVS snapshots and copy them into the webspace
-40 05 * * * $HOME/src/netcomics/.update_snaps
+40 05 * * * $HOME/src/netcomics/netcomics/.update_snaps
 #
 # Newline at the end is needed, or crond won't execute the last line.
 # Thus putting a dummy comment at the last line assures all jobs are
