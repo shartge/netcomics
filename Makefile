@@ -72,7 +72,6 @@ MODULES = lib/after_y2k \
 	lib/bayside \
 	lib/bigpanda \
 	lib/boatanchor \
-	lib/boxjam \
 	lib/bruno \
 	lib/callahan \
 	lib/cartoonweb \
@@ -96,8 +95,6 @@ MODULES = lib/after_y2k \
 	lib/exploitation \
 	lib/falling_dream \
 	lib/farcus \
-	lib/fatjesus \
-	lib/fce \
 	lib/fika \
 	lib/fordummies \
 	lib/foxtrot \
@@ -108,11 +105,11 @@ MODULES = lib/after_y2k \
 	lib/gpf \
 	lib/greystoneinn \
 	lib/greytown \
-	lib/heaven_and_earth \
 	lib/helen \
 	lib/janesworld \
 	lib/jerkcity \
 	lib/k_chronicles \
+	lib/keenspace \
 	lib/kevin-n-kell \
 	lib/kingfeatures \
 	lib/laughseeds \
@@ -136,7 +133,6 @@ MODULES = lib/after_y2k \
 	lib/red_meat \
 	lib/road_waffles \
 	lib/rocky \
-	lib/rogues \
 	lib/roommates \
 	lib/sempai \
 	lib/soaprope \
@@ -144,7 +140,6 @@ MODULES = lib/after_y2k \
 	lib/shermans_lagoon \
 	lib/shoe \
 	lib/sinfest \
-	lib/sketch \
 	lib/sluggy_freelance \
 	lib/small_grey \
 	lib/small_world \
@@ -174,12 +169,18 @@ MODULES = lib/after_y2k \
 OLDMODULES = \
 	banditbruno \
 	bobbins \
+	boxjam \
 	calvin-n-hobbes \
 	ctoons \
 	dilbert \
+	fatjesus \
+	fce \
 	glasbergen \
 	goats \
+	heaven_and_earth \
+	rogues \
 	roomies \
+	sketch \
 	uexpress \
 	worldviews \
 

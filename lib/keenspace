@@ -1,0 +1,324 @@
+#-*-Perl-*-
+foreach (qw(boxjam heaven attwf framed stereo rocr fce sketch fatjc)) {
+  $hof{$_} = 0;
+};
+
+
+# keenspace
+sub keenspace {
+    my ($title,$author,$date,$url) = @_;
+    if ($url =~ /http:\/\//) {$baseurl = $url;}
+    else {$baseurl = "http://$url.keenspace.com";}
+
+    my $rec = {
+        'title' => "$title",
+        'author' => "$author",
+        'main' => $baseurl,
+        'archives' => $baseurl,
+        'base' => $baseurl,
+        'page' => "/d/$date.html",
+    };
+
+    #heaven and Earth, Rogues of Clwyd-Rhan, Sketch of Love 
+    #do not always stick to one image per comic each day
+    #No Sterotypes has multiple images often usually Sundays
+    $rec->{'func'} = sub {
+ 	 my $text = shift;
+     my @relurls = ();
+  	  #repeatedly match and replace.  
+  	  while (1) {
+	    if ($text =~ s/src=".*?(\/comics\/.*?$date\w?\.((:?jpg)|(:?gif)))"//i) {
+		  push(@relurls,$1);
+          $rec->{'type'} = $2;
+	    } else {
+		  last;
+	    }
+	  }
+	  if ($text =~ s/selected>(.*?)<\/option>//i) {
+        $rec->{'caption'} = $1;
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+# Heaven and Earth
+sub heaven {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (20001227,20001229);
+    my @extra = (0,0);
+
+    #comics only on MWF
+    return undef 
+      if (($date < 20001225) || #first comic on Dec 25, 2000
+      grep(/$date/,@missing)||
+  	  ($ltime[6] =~ /[0246]/ && !grep(/$date/,@extra)));
+
+    my $title="Heaven and Earth";
+    my $author="Jon Sarn";
+    my $url = "nemo";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+# Boxjam's Doodle
+sub boxjam {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (0);
+    my @extra = (20000401,20000527);
+
+    #no comics on Sunday or Saturday
+    return undef 
+    if (($date < 19990422) || # First comic April 22, 1999
+      grep(/$date/,@missing) ||
+  	  ($ltime[6] =~ /[06]/ && !grep(/$date/,@extra)));
+
+    my $title="Boxjams Doodle";
+    my $author="Boxjam";
+    my $url = "boxjam";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+# And then there was Fred
+sub attwf {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (20001226,20001227,20001228,20001229,20001230,
+      20001231,20010101,20010102,20010103,20010104,20010105,
+      20010106,20010107,20010109,20010110,20010111,20010112,
+      20010113,20010114,20010115,20010116,20010117,20010118,20010119);
+
+    return undef
+        if ($date < 20000828) || #first comic on Aug 28, 2000
+         grep(/$date/,@missing) ||
+         ($date > 20010206); #last comic on Feb 6, 2001
+
+    my $title="And Then There Was Fred";
+    my $author="Walter Retlaw";
+    my $url = "fred";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+# Framed
+sub framed {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (20001007,20001014,20001021,20001028,20001104,
+      20001111,20001118,20001125,20001202,20001209,20001216,
+      20001230,20010106,20010113,20010120,20010127,20010210);
+
+    return undef
+        if (($date < 20001003) || #first comic on Oct 03, 2000
+          grep(/$date/,@missing));
+
+    my $title="Framed";
+    my $author="Damonk";
+    my $url = "framed";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+# No Stereotypes
+sub stereo {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (0);
+
+    return undef
+        if (($date < 20001113) || #first comic on Nov 13, 2000
+          grep(/$date/,@missing));
+
+    my $title="No Sterotypes";
+    my $author="Amber glych Greenlee";
+    my $url = "glych";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+#Rogues of Clwyd-Rhan
+sub rocr {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    #exceptions list developed from the archives page.
+    #last updated Feb 28, 2001
+    my @missing = (20000719,20000909,20000919,20000928,20000929,
+        20001102,20001105,20001112,20001119,20001126,20001203,
+        20001210,20001217,20001224,20010107,20010113,20010120,
+        20010121,20010127,20010128,20010203,20010204,20010210,
+        20010211,20010217,20010228,20010224,20010225);
+
+    return undef 
+      if (($date < 20000701) || #first comic on July 1, 2000
+          ($date >= 20001001 && $date <= 20001031) || #a whole month
+          grep(/$date/,@missing));
+
+    my $title="Rogues of Clwyd-Rhan";
+    my $author="Reinder Dijkhuis";
+    my $url = "http://www.rocr.net";
+
+    return keenspace($title,$author,$date,$url);
+
+}
+
+#Fight, Cast, or Evade http://fightcastorevade.keenspace.com/
+sub fce {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated March 1, 2001
+    my @missing = (0);
+    my @extra = (20001210);
+
+    #comics only on MWF
+    return undef 
+    if (($date < 20000731) || #first comic on July 31, 2000
+      grep(/$date/,@missing) ||
+  	  ($date < 20001104 && $ltime[6] =~ /[02356]/ && !grep(/$date/,@extra)) ||
+      ($ltime[6] =~ /[0246]/ && !grep(/$date/,@extra)));
+
+
+    return undef if ($date < 20000731); # First comic: 7/31/2000
+    return undef if (($date <  20001202) && ($ltime[6] !~ m/[14]/));
+
+    #exception list last updated Feb. 4, 2001
+    return undef if (($date >= 20001202) && ($ltime[6] !~ m/[135]/) &&
+		   ($date != 20001210)); #extra one
+
+    my $title="Fight Cast Or Evade";
+    my $author="Matt Trepal";
+    my $url = "fightcastorevade";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+#Sketch of Love http://sketchoflove.keenspace.com/
+sub sketch {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d",@ltime);
+
+    #exception tables last updated Feb. 14, 2001
+    my @missing = (20000924,20001008,20001009,20001021,20001105,
+        20001112,20001113,20001119,20001125,20001208,20010207,20010209);
+    my @extra = (20001207);
+
+    #Before Nov. 25, 2000, released every day except for some exceptions.
+    #Afterwards, released almost always on Mon Wed Fri
+    return undef if
+	  (($date < 20000902) || # First comic 2000-Sep-02
+      grep(/$date/,@missing) ||
+  	  ($date > 20001125 && 
+       $ltime[6] !~ /[135]/ && 
+       !grep(/$date/,@extra)));
+
+    my $title="Sketch of Love";
+    my $author="Shari Hes";
+    my $url = "sketchoflove";
+
+    return keenspace($title,$author,$date,$url);
+}
+
+# Fat Jesus
+# ex : http://fatjesus.keenspace.com/comics/fatjesus$date.type
+sub fatjc {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    #last updated Feb. 28, 2001
+    my @missing = 
+	(20001004,20001005,20001006,20001007,20001008,20001009,20001010,
+	 20001011,20001012,20001013,20001014,20001015,20001022,20001023,
+	 20001024,20001025,20001026,20001027,20001028,20001029,20001030,
+	 20001031,20001101,20001102,20001103,20001104,20001105,20001109,
+	 20001110,20001111,20001117,20001118,20001119,20001121,20001124,
+	 20001125,20001126,20001201,20001230,20001231,20010101,20010102,
+	 20010103,20010105,20010103,20010105,20010107,20010108,20010109,
+	 20010113,20010114,20010122,20010123,20010124,20010125,20010126,
+	 20010128);
+
+    #the origin series has a total of 39.  Since the first comic is on
+    #Oct 3, 2000, the start of archive adjusted for the origin series is
+    #Aug 25, 2000
+    return undef
+        if ($date < 20000825 || 
+	    grep(/$date/,@missing));
+
+    my $title="Fat Jesus";
+    my $author="Mike Leffel";
+    my $url = "fatjesus";
+
+    
+    if ($date < 20001003) {
+  	  #origin series
+	  #ex: http://fatjesus.keenspace.com/fj_origin01/ORIGIN_1_FJ001.gif
+  	  my $series;
+	  my $n;
+      if ($url =~ /http:\/\//) {$baseurl = $url;}
+      else {$baseurl = "http://$url.keenspace.com";}
+
+      my $rec = {
+        'title' => "$title",
+        'author' => "$author",
+        'main' => $baseurl,
+        'archives' => $baseurl,
+        'base' => $baseurl,
+        'page' => "/d/$date.html",
+      };
+	  $rec->{'size'} = [566,415]; #series 2 & 3 size
+	  #origin 1: aug 25 - Sep 2; 9 total
+	  if ($date <= 20000902) {
+	    $series = 1;
+	    if ($date > 20000831) {
+		  $n = $date - 20000893;
+	    } else {
+		  $n = $date - 20000824;
+	    }
+	    $rec->{'size'} = ($date == 20000825 ? [566,830] : [708,519]);
+	  } elsif ($date <= 20000914) {
+	    #origin #2: Sep 3 - 14; 12 total
+	    $series = 2;
+	    $n = $date - 20000902;
+	  } else {
+	    #origin #3: Sep 15 - Oct 2; 18 total
+	    $series = 3;
+	    if ($date < 20001001) {
+		  $n = $date - 20000914;
+	    } else {
+		  $n = $date - 20000984;
+	    }
+	  }
+	  $rec->{'caption'} = "Origin $series.$n";
+	  $n = "0$n" if $n < 10;
+	  $rec->{'type'} = 'gif';
+	  $rec->{'page'} = "/fj_origin0$series/ORIGIN_${series}_FJ0$n.gif";
+      return $rec;
+    } else {
+      # Normal Strips
+      return keenspace($title,$author,$date,$url);
+    }
+}
+
+1;

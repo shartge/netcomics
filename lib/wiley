@@ -1,24 +1,28 @@
 #-*-Perl-*-
 
-$hof{"wiley"} = 15;
+$hof{"wiley"} = 0;
 
 # Wiley's Non Sequitur
-# ex : http://www.wileytoons.com/archive/1999/mar99/030199.jpg
-# ex : http://www.non-sequitur.net/archive/2000/04/nq000411????.gif
+# ex : http://www.non-sequitur.net/archives/images/2001/february/MMDD.jpg
 sub wiley {
     my $time = shift;
-    return undef if $time < 698198400; #1st comic: Feb 16, 1992
     my @ltime = gmtime($time);
+    my $month = strftime ("%m", @ltime);
+    my $year = strftime ("%Y", @ltime);
+    my $monthday = strftime ("%m%d", @ltime);
+    my $date = strftime ("%Y%m%d", @ltime);
+    return undef if($date < 19920216); #1st comic: Feb 16, 1992
+    my @months = (qw(january february march april may june july august 
+                    september october november december));
+    my $baseurl = "http://www.non-sequitur.net";
     my $rec = {
 	'title' => "Wiley Non Sequitur",
 	'author' => "Wiley (be sure to buy a subscription from him)",
-	'type' => 'gif',
-	'main' => "http://www.non-sequitur.net",
-	'archives' => "http://www.non-sequitur.net/archive",
-	'base' => "http://www.non-sequitur.net/archive",
-	'page' => strftime("/%Y/%m/nq%y%m%d.html",@ltime),
-	'exprs' => [strftime("(/%Y/%m/nq\\d+\\.gif)",@ltime)],
-	'size' => ($ltime[6] == 0 ? [614,1080] : [744,1338])
+	'type' => 'jpg',
+	'main' => $baseurl,
+	'archives' => "$baseurl/archives/",
+	'base' => $baseurl,
+	'page' => "/archives/images/$year/$months[$month-1]/$monthday.jpg",
     };
     return $rec;
 }

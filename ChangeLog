@@ -1,3 +1,10 @@
+2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
+	* Thanks to Shawn@mar.dfo-mpo.gc.ca for:
+	** Putting lib/boxjam, lib/fatjesus, lib/fce,
+	lib/heaven_and_earth, lib/rogues, and lib/sketch into the new
+	lib/keenspace module.
+	** Fixing lib/wiley.
+
 2001-02-24  Elliot Glaysher <nuriko.chan@home.com>
 	* netcomics: Fixed behaviour of the -c option. -c now
 	over-rides the rc files, instead of adding the comics to the
