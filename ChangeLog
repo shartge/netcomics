@@ -1,9 +1,14 @@
 2001-05-21  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* netcomics.spec (%files): Added /usr/lib/perl5 files & comicpage 
+	manpage.
 	* doc/.cvsignore: Fixed so that it wasn't ignoring controlled
 	files & ignoring all the generated files.
 	* Makefile (doc/Config.pod): Added generation of pod for Config.pm.
 	(doc): Added generation of comicpage man & html pages.
+	(DEBFILES): Updated to reflect actual list of files.
+	(DOCFILES): Added this to include the names of all the controlled
+	doc files.
 
 2001-05-21  Elliot Glaysher  <nuriko.chan@home.com>
 

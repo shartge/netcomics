@@ -224,13 +224,24 @@ HTMLTEMPLATES = \
 	body_el1.html body_el2.html body_el3.html body_el4.html\
 	body_el5.html body_el6.html body_el7.html body_el8.html
 
-DEBFILES = changelog conffiles control copyright cron.daily dirs docs rules
+DEBFILES = changelog control copyright cron.daily dirs docs \
+	netcomics-modules.dirs netcomics-modules.files \
+	netcomics.conffiles netcomics.dirs netcomics.files \
+	netcomics.manpages netcomics.menu rules
+
+DOCFILES = \
+	old_Comic_Module-HOWTO.html \
+	netcomics.lsm \
+	Modify_Webpage_Creation-HOWTO.html \
+	Comic_Module-HOWTO.html \
+	$(APPNAME).pod \
+	$(AP3NAME).pod \
+	$(AP4NAME).pod \
+	design.dia
 
 ALLFILES = Makefile README LICENSE-GPL ChangeLog INSTALL NEWS $(RPMSPEC) \
 	$(APPNAME) $(AP2NAME) $(AP3NAME) $(AP4NAME) \
-	doc/old_Comic_Module-HOWTO.html \
-	doc/netcomics.lsm doc/Modify_Webpage_Creation-HOWTO.html \
-	doc/Comic_Module-HOWTO.html contrib/comics_update $(MODULES) \
+	contrib/comics_update $(MODULES) $(DOCFILES:%=doc/%) \
 	$(HTMLTEMPLATES:%=$(HTMLTMPLDIR)/%) $(PERLMODULES:%=Netcomics/%) \
 	$(DEBFILES:%=debian/%)
 
@@ -393,6 +404,7 @@ distclean::
 
 install::
 	$(MKDIR) $(MKDIRFLAGS) $(MANDIR1)
+	$(MKDIR) $(MKDIRFLAGS) $(PERLMANDIR3)
 	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(APPNAME).1 $(MANDIR1)
 	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(AP3NAME).1 $(MANDIR1)
 	$(INSTALL) $(LIBINSTALLFLAGS) doc/$(AP4NAME).1 $(MANDIR1)

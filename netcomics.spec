@@ -31,6 +31,8 @@ This is the modular library of perl scripts that provide netcomics the
 information it needs to download comic strips from the Web.
 
 %changelog
+* Mon May 21 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
+- Added /usr/lib/perl5 files & comicpage manpage.
 * Fri Apr 27 2001 Ben Hochstedler <hochstrb@cs.rose-hulman.edu> 0.14-1
 - Added conf file /etc/netcomicsrc. Made Version, Release, & OLDMODULES
   to be replaced by the Makefile.
@@ -155,7 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 #        PERL=/usr/local/bin/perl dist
 
 make BUILDROOT=$RPM_BUILD_ROOT NOREMAKE=1 install
-gzip -9nvf $RPM_BUILD_ROOT/usr/man/man1/*
+gzip -9nvf $RPM_BUILD_ROOT/usr/man/man1/* \
+     $RPM_BUILD_ROOT/usr/lib/perl5/man/man3/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -198,8 +201,12 @@ END
 %doc ChangeLog NEWS README TODO LICENSE-GPL doc/Modify_Webpage_Creation-HOWTO.html doc/netcomics.html doc/netcomics.lsm lib/template contrib/comics_update contrib/localtime contrib/local2gmtime contrib/mktime doc/Comic_Module-HOWTO.html doc/old_Comic_Module-HOWTO.html netcomicsrc
 /usr/bin/netcomics
 /usr/bin/show_comics
+/usr/bin/comicpage
+%attr(-,root,man) %dir /usr/lib/perl5/site_perl/Netcomics
 %attr(-,root,man) /usr/man/man1/netcomics.1.gz
 %attr(-,root,man) /usr/man/man1/show_comics.1.gz
+%attr(-,root,man) /usr/man/man1/comicpage.1.gz
+%attr(-,root,man) /usr/lib/perl5/man/man3/Netcomics::Config.3.gz
 %config /usr/bin/display_comics
 %config /etc/netcomicsrc
 %attr(-,root,users) %dir /var/spool/netcomics
