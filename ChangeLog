@@ -1,3 +1,7 @@
+2002-04-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/alexsrestaurant (alex): Fixed sizes.
+
 2002-03-31  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* Makefile.PL (macro): Updated PKGVERSION for 0.14 release.
