@@ -107,6 +107,7 @@ MODULES = lib/after_y2k \
 	lib/kevin-n-kell \
 	lib/kingfeatures \
 	lib/laughseeds \
+	lib/lcd \
 	lib/lily_wong \
 	lib/madam-n-eve \
 	lib/megatokyo \

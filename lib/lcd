@@ -1,0 +1,30 @@
+#-*-Perl-*-
+
+$hof{"lcd"} = 0;
+
+#LCD http://lcdthestrip.com/
+sub lcd {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    # First comic 1999-Apr-05
+    return undef if ($time < mkgmtime(0,0,0,5,3,99));
+
+    # Do not wish to use strftimes %b since that is locale dependent.
+    my @months = qw/jan feb mar apr may jun jul aug sep oct nov dec/;
+    my $month = $months[$ltime[4]];
+    
+    my $baseurl = "http://lcdthestrip.com";
+    my $rec = {
+	'title' => "LCD",
+	'author' => "Bryan M. Richter",
+	'type' => 'gif',
+	'main' => "$baseurl/",
+	'archives' => "$baseurl/archives/archives.html",
+	'base' => $baseurl,
+	'page' => strftime("/strips%y/$month%y/lcd%Y%m%d.gif",@ltime),
+    };
+
+    return $rec;
+}
+
+1;
