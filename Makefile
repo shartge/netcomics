@@ -96,6 +96,7 @@ MODULES = lib/after_y2k \
 	lib/falling_dream \
 	lib/farcus \
 	lib/fika \
+	lib/forbez \
 	lib/fordummies \
 	lib/foxtrot \
 	lib/frankandernest \

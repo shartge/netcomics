@@ -1,9 +1,9 @@
 2001-03-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
-	* Makefile (MODULES): Added Help Desk & Lost and Found thanks to 
-          Max Zomborszki.
+	* Makefile (MODULES): Added Help Desk, Life on Forbez, &
+	Lost and Found thanks to Max Zomborszki.
 	* lib/whenigrowup (wigu): Updated thanks to 
-          Max Zomborszki.
+	Max Zomborszki.
 
 2001-03-18  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
