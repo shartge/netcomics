@@ -232,6 +232,15 @@ subdirectories. This is useful for maintaining an archive of comics.
 It is a better idea to set the $separate_comics variable to 1 in the
 netcomicsrc file so that this feature is not intermittently used.
 
+=item B<-Q>
+
+Supresses the final error message that prints out the command to rerun
+to attempt to try to retreive the comics that failed to download.
+
+=item B<-nQ>
+
+Disable suppression of final error message (override rc file setting).
+
 =item B<-q>
 
 Show what comics would be downloaded.  Don't actually do anything.
@@ -595,6 +604,7 @@ use vars ('$always_download'); $always_download = 0;
 use vars ('$max_attempts'); $max_attempts = 3;
 use vars ('$show_tasks'); $show_tasks = 0;
 use vars ('$separate_comics'); $separate_comics = 0;
+use vars ('$suppress_rerun_command'); $suppress_rerun_command = 0;
 
 #Options set through an rc file
 use vars ('$rc_file'); $rc_file = "$ENV{'HOME'}/.netcomicsrc";
@@ -1006,6 +1016,19 @@ while (@ARGV)
 	$show_tasks = 1;
 	$smushopt = 1;
 	$given_options .= " -q";
+    }
+
+    #suppress final error message
+    elsif (/-Q$/) {
+	$suppress_rerun_command = 1;
+	$smushopt = 1;
+	$given_options .= " -Q";
+    }
+
+    #unsuppress final error message
+    elsif (/-nQ$/) {
+	$suppress_rerun_command = 0;
+	$given_options .= " -nQ";
     }
 
     #Usage
@@ -2011,20 +2034,20 @@ FINISH_RLI:
     
     print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
 	if $extra_verbose && !$dont_download;
-    if (@bad_images > 0) {
-	print "To try retrieving the images that failed, run this command:\n";
-	print "$script_name -nR";
+    if (@bad_images > 0 && ! $suppress_rerun_command) {
+	print STDERR 
+	    "To try retrieving the images that failed, run this command:\n" .
+		"$script_name -nR";
 	if (! $data_dumper_installed) {
-	    print " -c \"@bad_images\"";
-	    print " -n $days_of_comics" if ++$days_of_comics > 1;
+	    print STDERR " -c \"@bad_images\"";
+	    print STDERR " -n $days_of_comics" if ++$days_of_comics > 1;
 	}
 	if ($make_webpage) {
-	    print " -W";
-	    print "=$comics_per_page" if defined $comics_per_page;
+	    print STDERR " -W";
+	    print STDERR "=$comics_per_page" if defined $comics_per_page;
 	}
-	print $given_options;
-	print "\n";
-	print <<END;
+	print STDERR "$given_options\n";
+	print STDERR <<END;
 Please, before sending in a bug report on a comic that doesn't download,
 try over a period of several days (or weeks, depending on the problem) to
 see if it just happened to be that the website maintainer for that comic
@@ -2816,6 +2839,8 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -o: write the webpage on standard out
    -p: use the given url as the proxy
    -P: separate comics into their own subdirectories
+   -Q: suppress the error message at the end with the command to rerun.
+   -nQ:override rc file option, disabling suppression of final error message.
    -q: show what comics would be downloaded; don't actually do anything.
    -r: specify the rc filename (default ~/.netcomicsrc)
    -R: specify the max attempts to download a comic between invocations

@@ -1,3 +1,10 @@
+2001-04-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomicsrc: Added supress_rerun_command option
+	* netcomics (get_comics): Changed ending error message about
+	reporting bugs & failed comics to be printed to stderr.  Added an
+	option to suppress the message.
+
 2001-04-01  Elliot Glaysher <nuriko.chan@home.com>
 
 	* lib/ucomics (ga): Updated the days behind from 14 to 0 thanks
