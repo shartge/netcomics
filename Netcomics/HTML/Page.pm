@@ -89,9 +89,9 @@ sub generate {
 
 	# 
 	my ($nextfile,$prevfile) = ($webpage_filename_tmpl) x 2;
-	my $nextgroup = ($self->{'group_num'} == $self->{'num_groups'})? 1 : $self->{'group_num'} + 1;
-	my $prevgroup = $self->{'group_num'} - 1;
-	if ($self->{'group_num'} == 1) {
+	my $nextgroup = ($self->{'group_number'} == $self->{'num_groups'})? 1 : $self->{'group_number'} + 1;
+	my $prevgroup = $self->{'group_number'} - 1;
+	if ($self->{'group_number'} == 1) {
 		$prevgroup = $self->{'num_groups'};
 	}
 	$nextgroup = 1 if $nextfile =~ s/<NUM>/$nextgroup/g;
@@ -234,7 +234,7 @@ sub generate {
 			s/<COMIC_AUTHOR>/$author/g;
 			s/<COMIC_STATUS>/$rli->{'stat'}/g;
 			s/<FILE=CURRENT>/$self->{'filename'}/g;
-			s/<PAGE=CURRENT>/$self->{'group_num'}/g;
+			s/<PAGE=CURRENT>/$self->{'group_number'}/g;
 			s/<COMIC_ID>/$comic_id/g;
 			$index .= $_;
 		}

@@ -1,10 +1,15 @@
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML/Set.pm (create_set_of_pages): Changed 'group_num' to
+	'group_number' in every instance. A small bug was being caused by
+	inconsistent usage of both in both Set.pm and Page.pm.
 	* Netcomics/Config.pm.in: Strange construct was causing bug. Fixed
 	now. (Seems to be related to how -i was supposed to catch -I. Or not
 	catch it, as the case seemed)
 	* Netcomics/HTML/Page.pm (generate): Fixed REALLY DUMB bug screwing
 	up URLs.
+	(generate): Changed numerous stupid instances of 'group_num' to
+	'group_number'
 	* AUTHORS: Corrected email address.
 	* debian/changelog: Corrected email address.
 	* INSTALL: Updated Debian build instructions.

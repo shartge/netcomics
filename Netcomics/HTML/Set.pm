@@ -151,7 +151,7 @@ sub create_set_of_pages {
 		my $HTML_Page = Netcomics::HTML::Page->new
 			('webpage_title' => "$webpage_title",
 			 'num_groups' => $num_groups,
-			 'group_num' => $group_num,
+			 'group_number' => $group_num,
 			 'first_comic' => $first,
 			 'last_comic' => $last,
 			 'total_comics' => $num_comics,
