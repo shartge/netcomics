@@ -1,3 +1,8 @@
+2001-05-27  Elliot Glaysher  <nuriko.chan@home.com>
+
+	* comicpage.glade: Initial commit of the glade file used to generate
+	the comicpage interface.
+	
 2001-05-25  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* debian/.cvsignore: Created so I don't get all those ? <filename>
