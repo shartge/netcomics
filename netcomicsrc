@@ -10,6 +10,9 @@ my $HOME = $ENV{'HOME'};
 ## Create downloaded files with the following permissions (default 0644)
 #$files_mode = 0644;
 
+## Use one RLI file (-G).
+#$single_rli_file = 1;
+
 ## Change the location of the html template directory
 #$html_tmpl_dir = "$HOME/share/netcomics/html_tmpl";
 

@@ -169,6 +169,12 @@ if you want to use the default command which is:
 
 You'll probably just want to set $external_cmd in your rc file.
 
+=item B<-G>
+
+Puts all rli information into one .rli file, named I<.netcomics.rli>
+by default. Like B<-P>, it is a good idea to set $single_rli_file in
+your netcomicsrc file instead of using this from the command line.
+
 =item B<-h>
 
 Show usage. Comics will not be downloaded.
@@ -587,6 +593,9 @@ use vars ('$reset_libdir'); $reset_libdir = 0;
 use vars ('$real_date'); $real_date = 0;
 use vars ('$always_download'); $always_download = 0;
 use vars ('$max_attempts'); $max_attempts = 3;
+use vars ('$show_tasks'); $show_tasks =1;
+use vars ('$single_rli_file'); $single_rli_file = 0;
+use vars ('$netcomics_rli_file'); $netcomics_rli_file = ".netcomics.rli";
 use vars ('$show_tasks'); $show_tasks = 0;
 use vars ('$separate_comics'); $separate_comics = 0;
 
@@ -696,6 +705,12 @@ while (@ARGV)
 		    print STDERR "Can only use one of -c and -C. Use -h for usage.\n";
 		    exit 1;
 		}
+	}
+	
+	#Put @rli into one large file.
+	elsif (/-G/) {
+		$single_rli_file = 1;
+		$smushopt = 1;
 	}
 	
 	#List supported comics
@@ -1152,31 +1167,54 @@ unless (-d $comics_dir) {
 	opendir(DIR,$comics_dir) || die "could not open $comics_dir: $!";
 	my @files = readdir(DIR);
 	closedir(DIR);
-	@files = sort(grep(s/\.(.+)\.rli$/$1/,@files));
-	for (@files) {
-		my $name = $_;
-		my $rli = load_rli($name);
-		if (! defined($rli)) {
-			print STDERR "Warning: $name did not load.\n";
-			next;
+	@files = sort(grep(s/(\..+\.rli)$/$1/,@files));
+    if (grep(/^$netcomics_rli_file$/, @files)) {
+        $single_rli_file = 1; #make sure this is on even if not specified
+        my @loading_rlis = load_rlis($netcomics_rli_file);
+        foreach my $rli (@loading_rlis) {
+			$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
+			for (@{$rli->{'file'}}) {
+				my $file = $_;
+				if (-f "$comics_dir/$file") {
+					push(@existing_rli_files,$file);
+				} elsif ($rli->{'status'} == 1) {
+					print STDERR "Warning: $file is missing in $comics_dir\n"
+						if $verbose;
+					#make it so that this one will be retried.
+					$rli->{'status'} = 0;
+				}
+			}
 		}
-		$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
-		#save the files managed by this rli status file so we know which
-		#files were already downloaded before we start downloading more.
-		for (@{$rli->{'file'}}) {
-			my $file = $_;
-			if (-f "$comics_dir/$file") {
-				push(@existing_rli_files,$file);
-			} elsif ($rli->{'status'} == 1) {
-				print STDERR "Warning: $name is missing $file in $comics_dir\n"
-					if $verbose;
-				#make it so that this one will be retried.
-				$rli->{'status'} = 0;
+        goto FINISHED_LOADING_RLIS;
+    } else {
+    	unless ($single_rli_file) {
+			for (@files) {
+				my $name = $_;
+				my $rli = load_rli($name);
+				if (! defined($rli)) {
+					print STDERR "Warning: $name did not load.\n";
+					next;
+				}
+				$rli->{'reloaded'} = 1, add_to_rli_list($rli) if defined $rli;
+				#save the files managed by this rli status file so we know which
+				#files were already downloaded before we start downloading more.
+				for (@{$rli->{'file'}}) {
+					my $file = $_;
+					if (-f "$comics_dir/$file") {
+						push(@existing_rli_files,$file);
+					} elsif ($rli->{'status'} == 1) {
+						print STDERR "Warning: $name is missing $file in $comics_dir\n"
+							if $verbose;
+						#make it so that this one will be retried.
+						$rli->{'status'} = 0;
+					}
+				}
 			}
 		}
 	}
 }
 
+FINISHED_LOADING_RLIS:
 print "Rli's reloaded: " . @rli . "\n" if $extra_verbose;
 
 print Data::Dumper->Dump([\%rli_procs],[qw(*rli_procs)])
@@ -1218,6 +1256,7 @@ if ($show_tasks) {
 
 #get_comics returns a list of comics which is used to help determine
 #if a comic in the directory was just downloaded or not.
+#dump_rli(\@rli) if $single_rli_file;
 my @comics = get_comics();
 
 if ($remake_webpage) {
@@ -1641,15 +1680,14 @@ sub get_comics {
 				mkdir("$comics_dir/$rli->{'subdir'}", 0755);
 			}
 		}
-		
+						
 		#first construct the name because this is also used by webpage creation
 		if (defined($rli->{'title'})) {
 			#todo: stick in here, using options to determine how to
 			#name the file.
 			$name = strftime("$rli->{'title'}-${date_fmt}",gmtime($time));
 		} else { 
-			print STDERR "Error: No name or title provided for the " .
-				"comic identified by $proc. Not using $proc\n";
+			print STDERR "Error: No name or title provided for the comic identified by $proc. Not using $proc\n";
 			next;
 		}
 		$name =~ s/\s/_/g;
@@ -2006,8 +2044,13 @@ sub get_comics {
 	  FINISH_RLI:
 		$rli->{'tries'} = 0 unless defined $rli->{'tries'};
 		$rli->{'tries'}++;
-		dump_rli($rli) unless $rli->{'status'} == 3;
+		unless ($single_rli_file) {
+			print "calling finish\n";
+			dump_rli($rli) unless $rli->{'status'} == 3;
+		}
 	}
+	
+	dump_rli(\@rli) if $single_rli_file;
 	
 	print "\nImages retrieved and placed in $comics_dir:\n@images\n" 
 		if $extra_verbose && !$dont_download;
@@ -2015,7 +2058,7 @@ sub get_comics {
 		print "To try retrieving the images that failed, run this command:\n";
 		print "$script_name -nR";
 		if (! $data_dumper_installed) {
-			print " -c \"@bad_images\"";
+			print " -c \"". @bad_images."\"";
 			print " -n $days_of_comics" if ++$days_of_comics > 1;
 		}
 		if ($make_webpage) {
@@ -2052,13 +2095,19 @@ sub rli_filename {
 	return '.' . shift(@_) . '.rli';
 }
 
-#persistently store an rli hash.
+#persistently store an rli hash, or a bunch of hashes.
 sub dump_rli {
-	my $rli = shift;
-	if ($data_dumper_installed) {
-		file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
-				   $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
-	}
+    my $rli = shift;
+    if ($data_dumper_installed) {
+        if (ref($rli) eq "ARRAY") {
+            my @rli = @$rli;
+            file_write($comics_dir . '/' . $netcomics_rli_file,
+                       $files_mode,Data::Dumper->Dump([\@rli],[qw(*rli)]));
+        } else {
+            file_write($comics_dir . '/' . rli_filename($rli->{'name'}),
+                       $files_mode,Data::Dumper->Dump([$rli],[qw(*rli)]));
+        }
+    }
 }
 
 use vars '%rli';
@@ -2075,23 +2124,51 @@ sub load_rli {
 		if ($@) {
 			print STDERR "Error loading rli status file: '$file':\n$@.\n";
 			print STDERR "Skipping."
-			} elsif (! defined(%rli)) {
-				print "Loaded rli status file, $file, " .
-					"resulted in an empty rli\n";
-			} else {
-				#Make sure necessary fields are there
-				$rli{'tries'} = 1 if ! defined $rli{'tries'};
-				#I'm not sure if this needs to be done or not, but to make sure
-				#the same hash isn't being passed around, return a reference to
-				#a locally created copy the rli.
-				my %rlic = %rli;
-				return \%rlic;
-			}
+		} elsif (! defined(%rli)) {
+			print "Loaded rli status file, $file, " .
+				"resulted in an empty rli\n";
+		} else {
+			#Make sure necessary fields are there
+			$rli{'tries'} = 1 if ! defined $rli{'tries'};
+			#I'm not sure if this needs to be done or not, but to make sure
+			#the same hash isn't being passed around, return a reference to
+			#a locally created copy the rli.
+			my %rlic = %rli;
+			return \%rlic;
+		}
 	} elsif ($extra_verbose) {
 		print "No rli status file, $file, found\n";
 	}
 	return undef;
 }
+
+sub load_rlis {
+	my $rli_name = shift;
+	my $file = $comics_dir . '/' . $netcomics_rli_file;
+	local(@rli);
+	@rli = ();
+	if (-f $file && -r $file) {
+		$@=0;
+		eval {require $file;};
+		if ($@) {
+			print STDERR "Error loading rli status file: '$file':\n$@.\n";
+			exit 0;
+		} elsif (! defined(@rli)) {
+			print STDERR "Loaded global rli status file, $file, " .
+				"resulted in an empty rli\n";
+		} else {
+			#Make sure necessary fields are there
+			foreach $_ (@rli) {
+				$_->{'tries'} = 1 if ! defined $_->{'tries'};
+			}
+			return @rli;
+		}
+	} elsif ($extra_verbose) {
+		print "No global rli status file, $file, found\n";
+	}
+	return undef;
+}
+
 
 sub image_size {
 	my $file = shift;
@@ -2361,6 +2438,7 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -E: specify the ending date of a range of days of comics to retrieve
    -f: specify the date format used when naming files. default: '%y%m%d'
    -g: specify an external program to use instead of libwww-perl
+   -G: use one large rli file for storage (workaround for buggy reiserfs)
    -h: show usage (doesn't download comics)
    -i: don't create an index for the webpages
    -I: create an index for the webpages (override rc file setting)
