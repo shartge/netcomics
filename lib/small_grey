@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"grey"} = 2;
+
+#small greY http://www.smallgrey.com/
+sub grey  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+#mon-fri http://www.smallgrey.com/images/smallgreY_100899.gif
+#sunday http://www.smallgrey.com/images/sunday28.gif
+
+#not sure how to do the sunday, just do weekdays for now
+return undef if $ltime[6]==0||$ltime[6]==6;
+    my $rec = {
+	'title' => "small graY",
+	'author' => "Richard Dana Interlandi",
+	'type' => 'gif',
+	'main' => "http://www.smallgrey.com/frame.html",
+	'archives' => "http://www.smallgrey.com/frame.html",
+	'base' => "http://www.smallgrey.com/images/",
+	'size' => [592,178],
+	'page' => strftime("smallgreY_%m%d%y.gif ",@ltime)
+	};
+    return $rec;
+}
+
+1;

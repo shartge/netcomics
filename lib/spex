@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"spex"} = 0;
+
+#Spex and Wally http://home.att.net/~spexandwally/
+sub spex  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #wed and Sun
+    return undef unless $ltime[6]==0 || $ltime[6]==3;
+    my $rec = {
+	'title' => "Spex and Wally",
+	'author' => "Scott Loving",
+	'type' => 'gif',
+	'size' => [568,220],
+	'main' => "http://home.att.net/~spexandwally/index.html",
+	'archives' => "http://home.att.net/~spexandwally/arch.html",
+	'base' => "http://home.att.net/~spexandwally/images/strips/",
+	'page' => strftime("sw%m%d%y.gif",@ltime)
+	};
+    return $rec;
+}
+
+1;
+

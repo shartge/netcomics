@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"toy"} = 1;
+
+#Toy Trunk Railroad http://www.toytrunkrailroad.com
+sub toy  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return undef if $time < 933206400; #first comic on July 29, 1999
+    my $rec = {
+	'title' => "Toy Trunk Railroad",
+	'author' => "Erik Sansom",
+	'type' => 'gif',
+	'size' => [555,179],
+	'main' => "http://www.toytrunkrailroad.com/main.asp",
+	'archives' => "http://www.toytrunkrailroad.com/archive.asp",
+	'base' => "http://www.toytrunkrailroad.com/",
+	'page' => strftime("%y%m%d.gif",@ltime)
+	};
+    return $rec;
+}
+
+1;
+

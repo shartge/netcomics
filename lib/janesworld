@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"jworld"} = 0;
+
+#Show Janes World
+sub jworld  {
+    my @ltime = gmtime(shift(@_));
+    #only mon-fri
+    return undef if $ltime[6] ==0 || $ltime[6]==6;                
+    my $rec = {
+	'title' => "Janes World",
+	'author' => "Paige Braddock",
+	'type' => 'gif',
+	'size' => [500,358],
+	'base' => "http://www.pb9.com/arch/",
+	'archives' => "http://www.pb9.com/3weekly.asp",
+	'main' => "http://www.pb9.com",
+	
+    };
+	$rec->{'page'} = 
+	    strftime("%y%m%d.gif",@ltime);
+    return $rec;
+}
+
+1;

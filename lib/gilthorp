@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"gil"} = 0;
+
+#Gil Thorp http://www.gilthorp.com/webextra/gilthorp/
+sub gil {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #1st comic: Jan 6, 1997, only mon-fri
+    return undef if $time < 852508800 || $ltime[6] == 0 || $ltime[6] == 6;
+
+    my @monthconv = ("jan", "feb", "mar", "apr", "may", "jun",
+                     "jul", "aug", "sep", "oct", "nov", "dec");
+    my $b = $monthconv[$ltime[4]];
+    my $rec = {
+	'title' => "Gil Thorp",
+	'author' => "Jerry Jenkins and Ray Burns",
+	'type' => 'gif',
+	'size' => [508,158],
+	'main' => "http://www.gilthorp.com/",
+	'archives' => "http://www.gilthorp.com/webextra/gilthorp/archive.frm",
+	'base' => "http://www.gilthorp.com/",
+	'page' => strftime("webextra/gilthorp/strips%y/$b/%m%d%y.gif",
+			   @ltime)
+	};
+    return $rec;
+}
+
+1;
+

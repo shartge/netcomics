@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"downearth"} = 2;
+
+#Down to Earth ex: http://downtoearth.bta.com/strips/100399.gif
+sub downearth  {
+    my $time = shift;
+    my @ltime = gmtime($time);
+#    return undef if $time < 933206400; 
+    my $rec = {
+	'title' => "Down To Earth",
+	'author' => "Gavin Chafin & Steve Wood",
+	'type' => 'gif',
+	'main' => "http://downtoearth.bta.com/",
+	'archives' => "http://downtoearth.bta.com/strips.htm",
+	'base' => "http://downtoearth.bta.com/strips/",
+	'size' => [704,243],
+	'page' => strftime("%m%d%y.gif",@ltime)
+	};
+    return $rec;
+}
+
+1;
+
