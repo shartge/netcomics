@@ -1,24 +1,115 @@
 #-*-Perl-*-
 
 #Tack on the names of the subroutines to the list of functions
-$hof{"cweb"} = 0;
+$hof{"wvotd"} = 0;
+foreach (qw(votw kal cwc cws cwet wotw cwbw cwww)) {$hof{$_} = 7;}
 
-#Show Cartoon Web
-sub cweb {
-    my @ltime = gmtime(shift(@_));
-    #not on Sunday
-    return undef if $ltime[6] ==0;
+#Cartoon Web  http://cartoonweb.com/
+sub cartoon_web {
+    my ($time,$title,$author,$main,$dir,$pfx,$start) = @_;
+    #most archives start on Apr. 3, 2000
+    $start = mkgmtime(0,0,0,3,3,100) unless defined $start;
+    return undef if $time < $start;
+
+    my @ltime = gmtime($time);
+    my $site="http://cartoonweb.com/";
     my $rec = {
-	'title' => "Cartoon Web",
-	'author' => "Various Artists",
+	'title' => "Cartoon Web: $title",
+	'author' => $author,
 	'type' => 'gif',
-	'size' => [353,450],
-	'main' => "http://www.cartoonweb.com/cwstoon.asp",
-	'archives' => "http://www.cartoonweb.com/cwstoon.asp",
-	'base' => "http://www.cartoonweb.com/archive/daily/",
-	'page' => strftime("%m_%y/daily%m%d%y.gif",@ltime),
+	'main' => "$site/$main",
+	'archives' => "$site/$main",
+	'base' => "$site/archive/$dir/",
+	'page' => strftime("%m%y/$pfx%m%d%y.gif",@ltime),
     };
     return $rec;
+}
+
+sub wvotd {
+    my $time = shift;
+    #not on Sunday
+    my @ltime = gmtime($time);
+    return undef if $ltime[6] ==0;
+    #start of archive is 15 weeks ago.
+    my @today = gmtime(time());
+    $today[0] = 0; $today[1] = 0; $today[2] = 0;
+    my $start = mkgmtime(@today) - (15*7*3600);
+    return cartoon_web($time,"World View of the day","Various Artists",
+		       "cwstoon.asp","daily","daily",$start);
+}
+
+sub votw {
+    my $time = shift;
+    #not on Saturday or Sunday
+    my @ltime = gmtime($time);
+    return undef if $ltime[6] =~ /[06]/;
+    return cartoon_web($time,"Views of the World","Various Artists",
+		       "features/worldview/main.asp","wv","views",
+		       mkgmtime(0,0,0,15,4,100)); #starts May 15, 2000
+}
+
+sub kal {
+    my $time = shift;
+    #only on Mon Wed Fri
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] =~ /[135]/;
+    return cartoon_web($time,"Kal","Kal",
+		       "features/kal/Kal.asp","kal","kal",
+		       mkgmtime(0,0,0,24,3,100)); #starts Apr 24, 2000
+}
+
+sub cwc {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"Caricatures","Various Artists",
+		       "features/caricatures/main.asp","caric","caric");
+}
+
+sub cws {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"Symbolics","Various Artists",
+		       "features/symbolics/main.asp","symbolics","sym");
+}
+
+sub cwet {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"Ecotoon","Various Artists",
+		       "features/ecotoon/main.asp","ecotoon","ecotoon");
+}
+
+sub wotw {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"Wit of the World","Various Artists",
+		       "features/worldwit/main.asp","wit","wit");
+}
+
+sub cwbw {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"BizWit","Various Artists",
+		       "features/bizwit/main.asp","bizwit","bizwit");
+}
+
+sub cwww {
+    my $time = shift;
+    #only on Monday
+    my @ltime = gmtime($time);
+    return undef unless $ltime[6] == 1;
+    return cartoon_web($time,"WitWomen","Various Artists",
+		       "features/witwomen/main.asp","witwomen","ww");
 }
 
 1;

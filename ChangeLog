@@ -1,3 +1,34 @@
+2000-10-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/elf_life: Updated to handle website change to use jpg
+	(thanks to Max Zomborszki)
+
+2000-09-17  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/cartoonweb: Fixed starts of archives.
+
+2000-09-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/cartoonweb (cartoon_web): Moved "Views of the World" from
+	worldview into here.  Renamed Cartoon Web to "World View of the
+	Day", and fixed the modules for updates to cartoonweb's website.
+	Also added the following comics:
+	cwbw     Cartoon Web: BizWit
+	cwc      Cartoon Web: Caricatures
+	cwet     Cartoon Web: Ecotoon
+	kal      Cartoon Web: Kal
+	cws      Cartoon Web: Symbolics
+	wotw     Cartoon Web: Wit of the World
+	cwww     Cartoon Web: WitWomen
+
+2000-09-04  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Update gpf thanks to Max Zomborszki
+
+2000-09-01  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Removed bobbins at the request of its author, John Allison.
+
 2000-08-26  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics: Fixed manpage entries for -I and -i.

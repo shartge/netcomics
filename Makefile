@@ -144,7 +144,6 @@ MODULES = lib/after_y2k \
 	lib/wfc \
 	lib/whenigrowup \
 	lib/wiley \
-	lib/worldviews \
 	lib/youdamn
 
 OLDMODULES = \

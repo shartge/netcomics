@@ -11,16 +11,18 @@ $hof{"elf"} = 1;
 sub elf {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,14,5,99); #1st comic 06/14/1999
+    #As of September 30, 2000 comics are in JPEG format
+    my $type = ($time < mkgmtime(0,0,0,30,8,100))? 'gif' : 'jpg';
     my @ltime = gmtime($time);
     my $rec = {
 	'title' => "Elf Life",
 	'author' => "Carson Fire",
-	'type' => 'gif',
+	'type' => $type,
 	'main' => "http://www.elflife.com/",
 	'archives' => "http://www.elflife.com/archive.htm",
 	'base' => "http://www.elflife.com",
 	'page' => strftime("/d/%Y%m%d.html",@ltime),
-	'exprs' => [strftime("SRC=\"(/comics/%Y%m%d.*?gif)",@ltime)],
+	'exprs' => [strftime("SRC=\"(/comics/%Y%m%d.*?$type)",@ltime)],
     };
     return $rec;
 }
