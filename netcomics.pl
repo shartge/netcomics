@@ -208,6 +208,8 @@ per page for B<-W> or B<-w> if you use this option.
 =item B<-p> I<url>
 
 Specify a URL to use as a proxy.  Both HTTP and FTP are supported.
+If you use wget, specify http_proxy = URL or ftp_proxy = URL in your
+.wgetrc file.
 
 =item B<-q>
 
