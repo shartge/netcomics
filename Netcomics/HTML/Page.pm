@@ -196,21 +196,23 @@ sub generate {
 
 			# Check for various variables and compensate for how they
 			# effect the $image variable.
-			if ($webpage_absolute_paths) {
-				if ($separate_comics) {
-					$image = $comics_dir."/".$rli->{'subdir'}."/".$image;
-				} else {
-					$image = $comics_dir."/".$image;
-				}
-			} else {
-				if ($separate_comics) {
-					if ($self->{'include_subdir'}) {
-						$image = $rli->{'subdir'}."/".$image;
+			unless ($dont_download) {
+				if ($webpage_absolute_paths) {
+					if ($separate_comics) {
+						$image = $comics_dir."/".$rli->{'subdir'}."/".$image;
 					} else {
-						# Do nothing. $image is correct.
+						$image = $comics_dir."/".$image;
 					}
 				} else {
-					# Do nothing. $imge is correct.
+					if ($separate_comics) {
+						if ($self->{'include_subdir'}) {
+							$image = $rli->{'subdir'}."/".$image;
+						} else {
+							# Do nothing. $image is correct.
+						}
+					} else {
+						# Do nothing. $imge is correct.
+					}
 				}
 			}
 

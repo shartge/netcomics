@@ -1,5 +1,7 @@
 2001-09-22  Elliot Glaysher  <glaysher@umich.edu>
 
+	* Netcomics/HTML/Page.pm (generate): Fixed REALLY DUMB bug screwing
+	up URLs.
 	* AUTHORS: Corrected email address.
 	* debian/changelog: Corrected email address.
 	* INSTALL: Updated Debian build instructions.
