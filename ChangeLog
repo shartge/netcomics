@@ -1,5 +1,7 @@
 2001-07-08  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* contrib/perlreflectiontest: Added this file to make sure this
+	code (which we'll need for module OO-ization) isn't lost.
 	* doc/netcomics.pod (FILES): Added netcomicsrc files.
 	(SEE ALSO): added reference to comicpage.
 

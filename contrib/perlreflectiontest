@@ -1,0 +1,45 @@
+#!/usr/bin/perl
+
+package Netcomics::RLI;
+
+package Netcomics::RLI::UserFriendly;
+@ISA = ("Netcomics::RLI");
+
+$id = "uf";
+
+package KevinAndKell;
+@ISA = ("Netcomics::RLI");
+
+$id = "kk";
+
+package main;
+
+my %modules = ();
+
+sub processSyms {
+    my $package = shift;
+    foreach (keys(%{$package})) {
+	if ($_ =~ /::$/ && $_ ne $package) {
+	    my $subpkg = "$package$_";
+	    if (grep(/^ISA$/, keys(%{$subpkg}))) {
+		if (grep(/Netcomics::RLI/, @{"$subpkg\ISA"})) {
+		    my $class = $subpkg;
+		    $class =~ s/::$//;
+		    $modules{$class} = ${"$subpkg\id"};
+		}
+	    } else {
+		processSyms($subpkg);
+	    }
+	}
+    }
+}
+
+#search the whole namespace for classes of type Netcomics::RLI
+processSyms("main::");
+
+print "Subclasses of Netcomics::RLI:\n";
+
+foreach (keys(%modules)) {
+    print "$modules{$_}\t$_\n";
+}
+
