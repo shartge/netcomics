@@ -16,8 +16,42 @@
 
 package Netcomics::Config;
 
+=head1 NAME
+
+Netcomics::Config - Configuration class used by Netcomics classes
+
+=head1 SYNOPSIS
+
+use Netcomics::Config;
+my $config = Netcomics::Config-new("script name");
+$config->setUsageProc(\&usage);
+$config->processARGV(@ARGV);
+
+=head1 DESCRIPTION
+
+The Config class initializes a set of global variables when instantiated.
+The variables are set first from rc files and then from the commandline.
+Following is the order of precidence:
+
+=over
+
+=item default
+
+=item system rc file
+
+=item user rc file
+
+=item commandline
+
+=back
+
+=head1 METHODS
+
+=cut
+
 use POSIX;
 use strict;
+use Carp;
 
 my $script_name = "netcomics";
 
@@ -113,6 +147,13 @@ use vars ('$webpage_index_filename'); $webpage_index_filename = "index.html";
 use vars ('$webpage_templates'); 
 $webpage_templates = "/usr/share/netcomics/html_tmpl";
 
+=head2 new("scriptname")
+
+Create a new config object.  Pass in the name of the script if you want to
+use netcomics' usage() proc but have it use your script's name instead.
+
+=cut
+
 #pass in a reference to a config object (not yet implemented)
 #or the name of the script.
 sub new {
@@ -124,20 +165,34 @@ sub new {
 	}
 	#else ;instantiation with a Config object currently not supported.
 
-	my $self = {
-		'script_name' => $scriptName,
-		'usage' => \&usage,
-	};
+	my $self = {'script_name' => $scriptName,
+				'usage' => \&usage,
+				'loaded_rcfiles' => [],
+			   };
 	bless $self, $class;
 	return $self;
 }
+
+=head2 setUsageProc(\&myusage)
+
+Before running processARGV(), set the usage function to the one specific
+for your script.
+
+=cut
 
 sub setUsageProc {
 	my $self = shift;
 	my $proc = shift;
 	$self->{'usage'} = $proc;
 }
- 
+
+=head2 processARGV()
+
+Main method which does all the work of loading the rc files and
+parsing the commandline.
+
+=cut
+
 sub processARGV {
     my $self = shift;
     my @ARGV = @_;
@@ -391,7 +446,7 @@ sub processARGV {
 				if ($ds =~ /([0-1]?[0-9])-([0-3]?[0-9])-(19|20)?([0-9][0-9])/) {
 					my $year = defined($4) ? $4 : $3;
 					$year += 100 if $year < 70;
-					$ts = mkgmtime(0,0,12,$2,$1-1,$year);
+					$ts = Netcomics::Util::mkgmtime(0,0,12,$2,$1-1,$year);
 				} elsif ($ds =~ /^([+-]?\d+)$/) {
 					$ts = time - ($1 * 24*3600);
 				}
@@ -593,6 +648,12 @@ sub processARGV {
 
 }
 
+=head2 load_rcfile(files)
+
+Use this to load another rc file to override variables set.
+
+=cut
+
 sub load_rcfile {
 	my $self = shift;
 	foreach (@_) {
@@ -601,25 +662,44 @@ sub load_rcfile {
 		    $@=0;
 		    eval {require $file;};
 		    if ($@) {
-				print STDERR "Error loading rcfile: '$file':\n$@.\n";
-				exit 1;
-		    }
+				croak "Error loading rcfile: '$file':\n$@";
+		    } elsif (! grep(/^$file$/,@{$self->{'loaded_rcfiles'}})) {
+				push(@{$self->{'loaded_rcfiles'}}, $file);
+			}
 		}
 	}
 }
 
 sub clear_date_settings {
 	# Clear date stuff.
-	$days_of_comics = 1;
+	$days_of_comics = undef;
 	$end_date = undef;
 	$start_date = undef;
+	$days_prior = 0;
 	@dates = ( );
 
 	# Clear comic list.
 	@selected_comics = ( );
-	$user_specified_comics = 1;   
-	$user_unspecified_comics = undef; 
+	$user_specified_comics = 0;
+	$user_unspecified_comics = 0;
 }
+
+=head2 loaded_rc_files()
+
+Returns the rc files loaded.
+
+=cut
+
+sub loaded_rcfiles {
+	my $self = shift;
+	return @{$self->{'loaded_rcfiles'}};
+}
+
+=head2 usage()
+
+Default usage() method for netcomics.  Use setUsageProc() to override.
+
+=cut
 
 sub usage {
 	my $self = shift;
@@ -678,3 +758,18 @@ END
 	exit 0;
 }
 
+1;
+
+=head1 SEE ALSO
+
+L<Netcomics::Factory>, L<Netcomics::HTML>
+
+=cut
+
+
+# Local Variables:
+# cperl-indent-level: 4
+# cperl-continued-brace-offset: -4
+# cperl-continued-statement-offset: 4
+# cperl-label-offset: -4
+# End:

@@ -1,3 +1,30 @@
+2001-05-14  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Netcomics/GtkComics.pm: added using strict;
+	* Netcomics/Config.pm.in: Added pod.
+	(clear_date_settings): Fixed resetting of config options.
+	(processARGV): Fixed call to Util::mkgmtime.
+	(loaded_rcfiles): This method returns the names of the actual rc
+	files loaded.
+	(load_rcfile): Changed to croak instead of exit if rc file fails
+	loading.  Added keeping track of the rc files loaded.
+	* Netcomics/Util.pm (samedate): Added this new function which
+	compares two time vals & returns true or false if they are of the
+	same date.
+	* Netcomics/Factory.pm (get_comic): Added this new method which
+	returns the rli & its index for the specific comic & date.
+	(remove_from_rli_list): Added this new method to consolodate the
+	removal of an rli from the rli & rli_procs lists.
+	(build_rli_array_helper): Updated to use the new get_comic() and
+	remove_from_rli_list() methods.
+	(new): Changed to die instead of exit if load_modules()
+	fails. Fixed initializing the date array from the config object.
+	(setup): Moved resetting the date array to
+	Config::clear_date_settings().
+	* gtkcomics (Display_comic): Moved functionality for downloading a
+	comic for a specific date into Factory.pm.  Finished functionality
+	for displaying comic downloaded.
+
 2001-05-13  Elliot Glaysher  <nuriko.chan@home.com>
 
 	* gtkcomics (Display_comic) : More updates. On the way to actually 

@@ -19,6 +19,7 @@
 #
 #---------------------------------------------------------------------
 package Netcomics::GtkComics;
+use strict;
 
 BEGIN {
 	our @ISA = qw(Exporter);
@@ -78,7 +79,7 @@ sub create_main_window {
 			#
 			# Construct a GtkPixmapMenuItem 'menu_file_exit'
 			$widgets->{'menu_file_exit'} = Gnome::Stock->menu_item('Menu_Quit', 'Exit');
-			$forms->{'window_comic_page'}{accelgroup}->add(81, ['control_mask'], ['visible', 'locked'], $widgets->{'menu_file_exit'}, 'activate');
+			$forms->{'window_comic_page'}{'accelgroup'}->add(81, ['control_mask'], ['visible', 'locked'], $widgets->{'menu_file_exit'}, 'activate');
 			$forms->{'window_comic_page'}{'menu_file'}->append($widgets->{'menu_file_exit'} );
 			$widgets->{'menu_file_exit'}->show;
 			$forms->{'window_comic_page'}{'menu_file_exit'} = $widgets->{'menu_file_exit'};

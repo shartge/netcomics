@@ -23,6 +23,7 @@ use Netcomics::Config;
 use Netcomics::MyResponse;
 use Netcomics::MyRequest;
 use Netcomics::Util;
+use Netcomics::ExternalUserAgent;
 
 use vars qw(%rli @rli); #only used for importing modules & .rli files.
 use vars qw(%hof);
@@ -51,7 +52,7 @@ sub new {
 		'rli_procs' => {}, #hash of hashes of indexes into @rli.
 		'hof' => {},
 		'rli' => [],
-		'dates' => [],
+		'dates' => \@dates,
 		'existing_rli_files' => [],
 		'files_retrieved' => [],
 		'conf' => $conf,
@@ -63,16 +64,7 @@ sub new {
 	# Load comic modules.
 	load_modules("Netcomics::Factory",@libdirs)
 		if keys(%hof) == 0;
-	if (keys(%hof) == 0) {
-		# Error if no modules found.
-		print STDERR "\nThere were no comic modules succesfully loaded.  ";
-		print STDERR "Please check the setting\nof \@libdirs in the system";
-		print STDERR " and user rc file and on the command line:\n";
-		print STDERR "\@libdirs = @libdirs\n";
-		print STDERR "Also, check the installation of netcomics.\n";
-		exit 1;
-	}
-	%{$self->{'hof'}} = %hof;
+	#check later in setup() to make sure that there were no errors.
 
 	# We need Data::Dumper for the next part.
 	$data_dumper_installed = requireDataDumper;
@@ -125,8 +117,17 @@ sub new {
 sub setup {
 	my $self = shift;
 
+	# first make sure the modules were successfully loaded.
+	if (keys(%hof) == 0) {
+		# Error if no modules found.
+		die "There were no comic modules succesfully loaded.  " .
+			"Please check the setting\nof \@libdirs in the system" .
+				" and user rc file and on the command line:\n" .
+					"\@libdirs = @libdirs\n" .
+						"Also, check the installation of netcomics.\n";
+	}
+	%{$self->{'hof'}} = %hof;
 	# Reset these values whether we need them or not.
-	$self->{'dates'} = [];
 	$self->{'existing_rli_files'} = [];
 	$self->{'files_retrieved'} = [];
 	$self->{'get_current'} = undef;
@@ -217,7 +218,7 @@ sub build_rli_array_helper {
 	my $rlis = $self->{'rli'};
 	while (($fun,$days) = each %{$self->{'hof'}}) {
 		next if $self->{'get_current'} && ! defined $days;
-		print "$fun " if $extra_verbose;
+		print " $fun" if $extra_verbose;
 		foreach $time (@{$self->{'dates'}}) {
 		    if ($self->{'get_current'}) {
 				$rli = $self->run_rli_func($fun,$time,$fun,$days);
@@ -227,10 +228,10 @@ sub build_rli_array_helper {
 		    if (defined($rli)) {
 				#reget the time (incase of $self->{'get_current'})
 				my $time = $rli->{'time'};
-				#first remove any rli with that date & proc from the list.
-				if (defined($self->{'rli_procs'}{$fun}) && 
-					defined($self->{'rli_procs'}{$fun}->{$time})) {
-					my $i = $self->{'rli_procs'}{$fun}->{$time};
+				#Find an rli with that date & proc, and if it exists,
+				#borrow some of its info and then delete it.
+				my ($old_rli,$i) = $self->get_comic($fun, $time, 1);
+				if (defined($old_rli)) {
 					#use status info if user didn't specify always download,
 					#or if the user did specify always download and the user
 					#specified some comics and this isn't one of them &&
@@ -253,10 +254,11 @@ sub build_rli_array_helper {
 						}
 					}
 					#remove the old one
-					$rlis->[$i] = undef;
+					$self->remove_from_rli_list($old_rli);
+					print "*" if $extra_verbose;
 				}
 				#add the new one
-				$rlis->[@$rlis] = $rli;
+				$self->add_to_rli_list($rli);
 			}
 		}
 	}
@@ -783,6 +785,49 @@ sub days_behind {
 	return $self->{'hof'}{$proc};
 }
 
+#Return an rli ref and an index into $self->{'rli'} for the specified comic
+#and date.
+#If a third option, dont_download, is true it will simply return the rli &
+#index if it exists without doing anything else.  Else, it will attempt to
+#download it by first running clear_date_settings, changing the settings
+#for getting the comic, and running get_comics().
+sub get_comic {
+	my $self = shift;
+	my ($comic,$date,$dont_download) = @_;
+	$dont_download = 0 unless defined $dont_download;
+
+	#determine if this comic's been downloaded before
+ FINDIT:
+	if (defined($self->{'rli_procs'}{$comic})) {
+		foreach my $time (keys(%{$self->{'rli_procs'}{$comic}})) {
+			if (samedate($date, $time)) {
+				my $rlis_ndx = $self->{'rli_procs'}{$comic}{$time};
+				my $rli = $self->{'rli'}[$rlis_ndx];
+				return ($rli,$rlis_ndx)
+					if $dont_download || $self->skip_rli($rli);
+			}
+		}
+	}
+	return undef if $dont_download;
+
+	#Since we weren't told not to download it, let's try getting that
+	#comic for the specified date!
+	$self->{'conf'}->clear_date_settings();
+	@selected_comics = ($comic);
+	$user_specified_comics = 1;
+	push(@{$self->{'dates'}},$date);
+
+	$self->setup();
+
+	# Let's get the comics!
+	my @rli = $self->get_comics();
+
+	#yah, bad programming style, but it avoids code duplication:
+	$dont_download = 1;
+	goto FINDIT;
+}
+
+
 #persistently store an rli hash, or a bunch of hashes.
 sub dump_rli {
 	my $self = shift;
@@ -825,6 +870,23 @@ sub add_to_rli_list {
 	$self->{'rli_procs'}->{$proc} = {} 
 		if ! defined($self->{'rli_procs'}->{$proc});
 	$self->{'rli_procs'}->{$proc}->{$time} = $i;
+}
+
+sub remove_from_rli_list {
+	my $self = shift;
+	foreach my $rliref (@_) {
+		my $proc = $rliref->{'proc'};
+		my $time = $rliref->{'time'};
+		my ($rli, $i) = $self->get_comic($proc, $time, 1);
+		if (defined($rli)) {
+			if ($rli ne $rliref) {
+				die "Bug in netcomics: rli to remove does not match the one" .
+					" found.";
+			}
+			$self->{'rli'}[$i] = undef;
+			delete $self->{'rli_procs'}->{$proc}->{$time};
+		}
+	}
 }
 
 #Returns a hash ref of the comics & days behind indexed by name.

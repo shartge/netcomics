@@ -35,6 +35,7 @@ use vars qw(@EXPORT @ISA $tz $imgsize_loaded);
 			 library_sort
 			 libdate_sort
 			 mkgmtime
+			 samedate
 			 status_message
 			 syscmd
 			 );
@@ -255,4 +256,10 @@ sub syscmd {
 	return system($cmd);
 }
 
+#are the given two times during the same date?
+sub samedate {
+	my $t1 = strftime("%Y%m%d",gmtime($_[0]));
+	my $t2 = strftime("%Y%m%d",gmtime($_[1]));
+	return ($t1 == $t2);
+}
 1;

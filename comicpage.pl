@@ -25,6 +25,7 @@ use Netcomics::Factory;
 use Netcomics::Util;
 use Data::Dumper;
 
+$| = 1;
 my $NAME = "Gtkcomics";
 
 init Gnome $NAME;
@@ -41,7 +42,7 @@ print "Creating Netcomics object\n";
 # Create the $factory object, and get the @comic_names .
 my $script_name = "gtkcomics";
 my $conf = Netcomics::Config->new($script_name);
-$conf->load_rcfile("/etc/netcomicsrc", "$ENV{'HOME'}/.netcomicsrc");
+$conf->load_rcfile($system_rc,$rc_file);
 
 $verbose = 1;
 $extra_verbose = 1;
@@ -59,11 +60,12 @@ print "Sorting...\n";
 my $list = $forms->{'window_comic_page'}{'list1'};
 $list->set_selection_mode( 'single' );
 my @unified_comic_array;
-my %name_lookup;
+my (%name_lookup, %procs);
 foreach my $name (@names) {
 	my ($f, $d) = @{$names{$name}};
 	my $tmpref = [ "$name" ];
 	$name_lookup{$name} = "$f";
+	$procs{$f} = $name;
 	push(@unified_comic_array, $tmpref);
 }
 
@@ -131,33 +133,25 @@ sub Display_comic {
 	$calendar = $forms->{'window_comic_page'}{'calendar_date_comic_selection'};
 	(my $year, my $month, my $day) = $calendar->get_date();
 	print "$year:$month:$day\n";
-
-	#$conf->clear_date_settings();
-	@selected_comics = ( "$proc" );
 	my $day_to_download = mkgmtime(0,0,12,$day,$month,$year-1900);
-	&Netcomics::Config::clear_date_settings;
+	my $comic_name = $procs{$proc};
 
-	$end_date = $day_to_download; # (no -E)
-	$start_date = $day_to_download; # (no -S)
-
-	$factory->setup();
-
-	# Let's get the comics!
-	my @rli = $factory->get_comics();
-	my @comics = $factory->files_retrieved();
-	my @existing_rli_files = $factory->existing_rli_files();
-	my $get_current = $factory->get_current();
-	print Data::Dumper->Dump([@comics],[qw(*@comics)]);
-	print Data::Dumper->Dump([$factory->{'rli'}],[qw(*$factory->{'rli'})]);
-	print Data::Dumper->Dump([$get_current],[qw(*$get_current)]);
-
-	#my %retrieved = @comics[0];
-	#my $filename = $comics_dir.$retrieved{'file'}[0];
-	#print "Going to display: $filename \n";
-
-	#$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
-	#$forms->{'window_comic_page'}{'pixmap1'}->show();
-	#$info->set_status("Displaying $filename");
+	$info->set_status("Please wait while downloading $comic_name...");
+	my ($rli,$i) = $factory->get_comic($proc, $day_to_download);
+	if ($extra_verbose) {
+		print Data::Dumper->Dump([$rli],[qw(*rli)]);
+	}
+	if (defined($rli) && $rli->{'status'} == 1) {
+		my $filename = "$comics_dir/$rli->{'file'}[0]";
+		print "Going to display: $filename \n" if $extra_verbose;
+		
+		$forms->{'window_comic_page'}{'pixmap1'}->load_file($filename);
+		$forms->{'window_comic_page'}{'pixmap1'}->show();
+		$info->set_status("Displayed: $filename");
+	} else {
+		$info->set_status(strftime("Could not download $comic_name for %x",
+								   gmtime($day_to_download)));
+	}
 }
 
 sub shut_me_down {
