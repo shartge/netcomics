@@ -90,6 +90,7 @@ MODULES = lib/after_y2k \
 	lib/dysentery \
 	lib/elf_life \
 	lib/everythingjake \
+	lib/exploitation \
 	lib/falling_dream \
 	lib/farcus \
 	lib/fatjesus \
