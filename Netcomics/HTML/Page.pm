@@ -18,7 +18,7 @@ use strict;
 use POSIX;
 use Netcomics::Config;
 use Netcomics::Util;
-use Netcomics::HTML::Themes::Default;
+use Netcomics::HTML::Theme;
 
 sub new {
 	my $class = shift;
@@ -33,7 +33,7 @@ sub new {
 				'comics_set' => [ ],
 				'datestr' => strftime($webpage_datefmt, gmtime(time())),
 				'ctime' => ctime(time()),
-				'theme' => new Netcomics::HTML::Themes::Default,
+				'theme' => undef,
 				'index' => undef,
 				'group_number' => 1,
 				'num_groups' => 1,
@@ -47,6 +47,12 @@ sub new {
 				'filename' => stripout($webpage_filename_tmpl,'<NUM>'),
 				@_
 			   };
+
+	if (! defined($self->{'theme'})) {
+		print STDERR "No theme specified.  Using the defualt.\n"
+			if $extra_verbose;
+		$self->{'theme'} = eval "Netcomics::HTML::Themes::$html_theme->new";
+	}
 
 	print STDERR "Creating with template $self->{'theme'}->{'name'}.\n"
 		if $extra_verbose;
@@ -85,7 +91,7 @@ sub generate {
 	$head =~ s/<DATE>/$self->{'datestr'}/g;
 	my @ltime = localtime(time);
 	while ($head =~ /<DATE FORMAT="([^\"]*)">/) {
-		my $datestr = strftime($1,@ltime); 
+		my $datestr = strftime($1,@ltime);
 		$head =~ s/<DATE FORMAT="([^\"]*)">/$datestr/;
 	}
 
@@ -174,8 +180,10 @@ sub generate {
 
 		# If we have a caption, we had better display it.
 		my $caption = "";
-		$caption = "<TR><TD><CENTER>" . $rli->{'caption'} . 
-			"</CENTER></TD></TR>" if defined $rli->{'caption'};
+		if (defined $rli->{'caption'}) {
+			$caption = $self->{'theme'}->{'html'}{'caption'};
+			$caption =~ s/<CAPTION_DATA>/$rli->{'caption'}/g;
+		}
 
 		#global body element fields
 		my $body_el = $self->{'theme'}->{'html'}{'body'};
@@ -222,7 +230,7 @@ sub generate {
 			print STDERR " $num: $image" if $extra_verbose;
 
 			# Check for various variables and compensate for how they
-			# effect the $image variable.
+			# affect the $image variable.
 			unless ($dont_download) {
 				if ($webpage_absolute_paths) {
 					if ($separate_comics) {
@@ -243,7 +251,7 @@ sub generate {
 				}
 			}
 
-			# Substitue in the values and add tack it on to $comic_images...
+			# Substitue in the values and add tack it on to $comic_images
 			$body_element =~ s/<COMIC_FILE>/$image/g;
 			$body_element =~ s/<SIZE>/$size/; 
 			$comic_images .= $body_element;

@@ -12,13 +12,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+use Netcomics::HTML::Theme;
+
 package Netcomics::HTML::Themes::Default;
-
-use MIME::Base64;
-
-my @html_keys = qw(head links body body_el tail links_index links_element);
-my @imgs_keys =
-	qw(top_l top top_r bot_l bot bot_r left right prev index next);
+use vars '@ISA'; @ISA = ("Netcomics::HTML::Theme");
+use strict;
 
 my (%html,%imgs);
 
@@ -44,7 +42,6 @@ $html{'links'} = <<END_LINKS;
   </TR>
 </TABLE>
 END_LINKS
-
 $html{'pre_body'} = <<END_PRE_BODY;
 <TABLE WIDTH=100%>
 END_PRE_BODY
@@ -61,13 +58,17 @@ $html{'body'} = <<END_BODY;
   </TD></TR>
 END_BODY
 
-$html{'post_body'} = <<END_POST_BODY;
-</TABLE>
-END_POST_BODY
-
 $html{'body_el'} = <<END_BODY_ELEMENT;
 <A HREF="<COMIC_FILE>"><IMG BORDER=0 SRC="<COMIC_FILE>" <SIZE>></A>
 END_BODY_ELEMENT
+
+$html{'caption'} = <<END_CAPTION;
+<TR><TD><CENTER><CAPTION_DATA></CENTER></TD></TR>
+END_CAPTION
+
+$html{'post_body'} = <<END_POST_BODY;
+</TABLE>
+END_POST_BODY
 
 $html{'tail'} = <<END_TAIL;
 
@@ -100,58 +101,23 @@ $html{'index_element'} = <<END_INDEX_ELEMENT;
 END_INDEX_ELEMENT
 
 sub new {
-	#takes these optional arguments: imgs hash ref & an html hash ref
 	my ($class, $name, $r_imgs, $r_html) = @_;
-
-	my $self = bless {
-				'name' => $name || "Default",
-				'html' => \%html,
-				'imgs' => \%imgs,
-			   }, $class;
-
-	#only copy only standard-named keys because that's all that Page.pm
-	#cares about.
+	$name = "Default" unless defined $name;
+	my %html_c = %html;
+	my %imgs_c = %imgs;
 	if (defined($r_html)) {
-		foreach my $key (@html_keys) {
-			$self->{'html'}{$key} = $r_html->{$key} if defined $r_html->{$key};
+		#only copy the html templates that get used
+		foreach (@Netcomics::HTML::Theme::html_keys) {
+			$html_c{$_} = $r_html->{$_} if defined $r_html->{$_};
 		}
 	}
 	if (defined($r_imgs)) {
-		foreach my $key (keys(%$r_imgs)) {
-			$self->{'imgs'}{$key} = $r_imgs->{$key};
+		foreach (keys(%$r_imgs)) { #copy all images
+			$imgs_c{$_} = $r_imgs->{$_};
 		}
 	}
-	#print "CREATED KEYS:".keys(%$self->{'imgs'});
-	
-	return bless $self, $class;
-}
-
-sub generate_images {
-	my $self = shift;
-	my $target_directory = shift;
-
-	my %images = %{$self->{'imgs'}};
-
-	foreach (keys(%images)) {
-		print "Saving image $_...\n";
-		my $decoded = decode_base64($images{$_});
-		open(F,">$target_directory/$_") || die "could not open file: $!\n";
-		print F $decoded;
-		close(F);
-	}
+    return $class->SUPER::new($name, \%imgs_c, \%html_c);
 }
 
 1;
 
-
-# Local Variables:
-# tab-width: 4
-# cperl-indent-level: 4
-# cperl-continued-brace-offset: -4
-# cperl-continued-statement-offset: 4
-# cperl-label-offset: -4
-# perl-indent-level: 4
-# perl-continued-brace-offset: -4
-# perl-continued-statement-offset: 4
-# perl-label-offset: -4
-# End:

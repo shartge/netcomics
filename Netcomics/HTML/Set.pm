@@ -16,7 +16,7 @@ package Netcomics::HTML::Set;
 
 use strict;
 use Netcomics::Config;
-use Netcomics::HTML::Themes::Default;
+use Netcomics::HTML::Theme;
 use Netcomics::Util;
 use Netcomics::HTML::Page;
 use POSIX;
@@ -27,8 +27,6 @@ my $inform_maintainer = "Please inform the maintainer of netcomics:\n" .
 sub new {
 	my $class = shift;
 
-	my $HTML_Theme = new Netcomics::HTML::Themes::Default;
-
 	my $self = {
 				# The important stuff; properties, etc.
 				'output_dir' => $comics_dir,
@@ -38,11 +36,17 @@ sub new {
 				'webpage_filename_tmpl' => $webpage_filename_tmpl,
 
 				# The templates:
-				'theme' => $HTML_Theme,
+				'theme' => undef,
 
 				# Override previous settings.
 				@_
 			   };
+
+	if (! defined($self->{'theme'})) {
+		print STDERR "No theme specified.  Using the defualt.\n"
+			if $extra_verbose;
+		$self->{'theme'} = eval "Netcomics::HTML::Themes::$html_theme->new";
+	}
 
 	# Bless object and return it.
 	bless $self, $class;
