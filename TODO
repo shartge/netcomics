@@ -1,0 +1,135 @@
+-*-mode: outline; outline-regexp: "[*\f]+" -*-
+
+----------------------------------------------------------------------
+
+* Webpage Creation Features
+
+** Include icon links in webpages.
+
+** Add web page creation option to specify order of comics in web pages.
+(partially done with -L)
+
+** Separate file element out of body element template. 
+Have 2 templates for the body elements--a template wrapper around a
+set of file element templates, and a file element template.
+
+** Include banner ads with comics
+
+----------------------------------------------------------------------
+
+* Comic Modules
+
+** Finish each of the disabled modules.
+
+** Add Mosquito Creek: http://frontpage.pangea.ca/jrobbins/
+
+** Add Fat Boy and Little Man: http://www.fatboyandlittleman.com/
+
+** Add Mother Goose & Grimm
+
+** Change comicspages_ed to use a 'func' to determine what comics to download.
+Should probably base it off of penny_arcade.
+
+-----------------------------------------------------------------------
+
+* Globalization
+
+** Add timezone adjustment logic & include general TZ for each rli.
+
+** Add i18n & L10n for documentation & html templates.
+
+-----------------------------------------------------------------------
+
+* Displaying Comics
+
+** Find a program that can display animated gifs.
+
+** Find screen savers that can show the comics.
+
+-----------------------------------------------------------------------
+
+* Distribution Maintanence
+
+** Create an icon for netcomics.
+
+** Change Makefile to use automake and autoconf.
+
+** Provide a way to automatically download updates to the modules.
+
+** Remove dependency of the main rpm on the modules rpm.
+
+** Separate modules into their own debian package.
+
+-----------------------------------------------------------------------
+
+* General Features
+
+** Support multi-file sizes.
+
+** Add an option to specify the umask of the files created.
+
+** Add mechanism to add support for downloading categories of comics.
+
+** Add an option to specify the number of retries to get a comic:
+-r <# of retries>
+
+** Support randomly released comics.
+In other words, make it so that comics that do not adhere to a time
+schedule for released can be downloaded intuitively.  This includes:
+http://www.kaniamania.com/
+http://www.gibbleguts.com/
+http://www.nic.com/~cheah/limpid.html (Limpidity)
+
+** Create a CGI script that would produce webpages on the fly.
+
+** Add a GUI for configuring netcomics & possibly displaying comics
+
+** Add a daemonized mode
+
+** Add a way to more flexibly define the name to give to files.
+
+** Optimize netcomics so same URL doesn't get downloaded many times.
+Perhaps add a field called static that would list the names of the
+other fields that never change.
+
+** Add support for set names.
+
+** Add option to get a whole archive of comics.
+
+** Add ability to specify a set of dates per comic.
+
+** Add sort by author option & list author names in -l output.
+
+** Add advertisement download feature
+
+** Include ability to download banner ads
+
+** Restructure modules so that non-RLI fields don't have to be accessed
+through running the function.
+
+** Add capability for user to override days behind info in rc file.
+
+** Output an error message saying that modules package wasn't installed
+or the module directory path is wrong if no modules are found.
+
+** Have netcomics create persistent info files for each comic downloaded.
+These files would include info like author, caption, download status,
+URLs (main, archives, remote version of comic strip), etc.  Then, add
+support to webpage creation to utilize this info when recreating
+webpages.  The webpage creation could also then be put into another
+script, with the infrastructure for reading persistent info files put
+into a perl module.  This would also make it so that netcomics could
+better work in a daemon mode where it can continually monitor comic
+strips that haven't yet successfully downloaded.
+
+-----------------------------------------------------------------------
+
+* Bugs
+
+** Fix bug from Archimede on 12/14/99
+
+** From Chris McAvaney: When I get netcomics to re-create the html pages,
+it puts the newer formated gif files in the comics1.html file and not
+the last file.  So the sorting routine must be doing something a bit
+wierd.
+
