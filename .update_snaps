@@ -1,0 +1,20 @@
+#!/bin/bash
+snapsdir=/home/groups/n/ne/netcomics/htdocs/snaps
+
+cd $HOME/src/netcomics
+rm -f netcomics-*cvs.*z*
+cd netcomics
+perl Makefile.PL
+make -s archives
+cd ..
+mkdir $snapsdir.new
+cp netcomics-*cvs.*z* $snapsdir.new
+date > $snapsdir.new/lastmod
+mv $snapsdir $snapsdir.old
+mv $snapsdir.new $snapsdir
+rm -rf $snapsdir.old
+chgrp netcomics $snapsdir/*
+chmod g+w $snapsdir/*
+chgrp netcomics $snapsdir
+chmod g+w $snapsdir
+
