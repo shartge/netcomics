@@ -1,42 +1,42 @@
 #-*-Perl-*-
 
-#Tack on the names of the subroutines to the list of functions
-foreach (qw(buckets dilbert gf topworld meatloaf tarzan ripleys)) {
+foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
+	    fatcats bullsnbears grandave duncan randolph reality shirley 
+	    soupnutz lupo )) {
     $hof{$_} = 0;
 }
 
-$hof{"fatcats"} = 1;
+# "creators" and "wash" are 1 week behind
+foreach (qw(cheap pcpixel flightdeck grandclause pickles redrover
+	    mrlowe )) {
+    $hof{$_} = 7;
+}
 
 #Keep in sync with comiczone.
-#They're exactly the same except for some of the values unique to this site
+#They're exactly the same except for the baseurl.
 sub unitedmedia {
     #get arguments (fp stands for file prefix, syn for syndicate)
     my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
-
-    #values unique to this site
-    my $oldest = 31; #31 days of comics available
-    my $baseurl = "http://www.unitedmedia.com";
-    my $pagedir = "archive";
-    my $imgdir = "$pagedir/images";
-    my $datefmt = "-%Y%m%d";
-
     my @ltime = gmtime($time);
     my @ntime = gmtime(time);
     my $ntime = mkgmtime(0,0,0,@ntime[3..5]);
-    my $first_avail = $ntime - ($oldest + $hof{$func})*(3600*24);
+    my $first_avail = $ntime - (31 + $hof{$func})*(3600*24);
     my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
+
     return undef if ! defined $size || $time < $first_avail;
+
+    my $baseurl = "http://www.unitedmedia.com";
     
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => 'gif',
 	'main' => "$baseurl/$syn/$fp/",
-	'archives' => "$baseurl/$syn/$fp/$pagedir/",
+	'archives' => "$baseurl/$syn/$fp/archive/",
 	'base' => $baseurl,
-	'exprs' => [strftime("(/$syn/$fp/$imgdir/$fp\\d+\\.(gif|jpg))",
-			     @ltime)],
-	'page' => strftime("/$syn/$fp/$pagedir/$fp$datefmt.html",@ltime),
+	'exprs' => [strftime("(/$syn/$fp/archive/images/$fp\\d+\\.(gif|jpg))",
+			  @ltime)],
+	'page' => strftime("/$syn/$fp/archive/$fp-%Y%m%d.html",@ltime),
 	'size' => $size,
     };
     
@@ -92,4 +92,146 @@ sub ripleys {
 		       [725,514],[300,430],"ripleys");
 }
 
+# 9 Chickweed Lane
+sub chickw {
+    return unitedmedia(shift(@_),"9 Chickweed Lane",
+		       "Brooke McEldowney","comics","chickweed",
+		       [725,521],[600,214],"chickw");
+}
+
+# Big Nate
+sub bignate {
+    return unitedmedia(shift(@_),"Big Nate",
+		       "Lincoln Peirce","comics","bignate",
+		       [725,514],[300,430],"bignate");
+}
+
+# Bull$ n Bear$ 
+sub bullsnbears {
+    my @ltime = gmtime($_[0]);
+    return undef if $ltime[6] == 0; #not on sundays
+    return unitedmedia(shift(@_),"Bulls n Bears",
+		       "Wells and Lindstrom","comics","bullsnbears",
+		       0,[600,200],"bullsnbears");
+}
+
+# Flight Deck
+sub flightdeck {
+    return unitedmedia(shift(@_),"Flight Deck",
+		       "Peter Waldner","creators","flightdeck",
+		       [600,276],[300,340],"flightdeck");
+}
+
+# Grand Avenue
+sub grandave {
+    return unitedmedia(shift(@_),"Grand Avenue",
+		       "Steve Breen","comics","grandave",
+		       [600,276],[600,218],"grandave");
+}
+
+# Grandfather Clause
+sub grandclause {
+    return unitedmedia(shift(@_),"Grandfather Clause",
+		       "Chris Wright","creators","grandfathersclause",
+		       [600,276],[600,218],"grandclause");
+}
+
+# Lupo Alberto
+sub lupo {
+    my @ltime = gmtime($_[0]);
+    return undef if $ltime[6] != 0; #only sundays
+    return unitedmedia(shift(@_),"Lupo Alberto",
+		       "Silver","comics","lupo",
+		       [600,276],[600,218],"lupo");
+}
+
+# Mr. Lowe
+sub mrlowe {
+    return unitedmedia(shift(@_),"Mr. Lowe",
+		       "Mark Pett","creators","mrlowe",
+		       [600,276],[600,218],"mrlowe");
+}
+
+# PC And Pixel
+sub pcpixel {
+    return unitedmedia(shift(@_),"PC and Pixel",
+		       "Bui and Johnson","wash","pcnpixel",
+		       [600,276],[600,218],"pcpixel");
+}
+
+# Pickles
+sub pickles {
+    return unitedmedia(shift(@_),"Pickles",
+		       "Brian Crane","wash","pickles",
+		       [600,276],[600,218],"pickles");
+}
+
+# Raising Duncan
+sub duncan {
+    return unitedmedia(shift(@_),"Raising Duncan",
+		       "Chris Browne","comics","raisingduncan",
+		       [600,276],[600,218],"duncan");
+}
+
+# Randolph Itch 2:00 AM
+sub randolph {
+    return unitedmedia(shift(@_),"Randolph Itch 2:00 AM",
+		       "Tom Toles","comics","randolphitch",
+		       undef,[300,375],"randolph");
+}
+
+# Reality Check
+sub reality {
+    return unitedmedia(shift(@_),"Reality Check",
+		       "Dave Whammond","comics","reality",
+		       undef,[300,375],"reality");
+}
+
+# Red and Rover
+sub redrover {
+    return unitedmedia(shift(@_),"Red and Rover",
+		       "Brian Basset","wash","redandrover",
+		       undef,[600,200],"redrover");
+}
+
+# Shirley and Son
+sub shirley {
+    return unitedmedia(shift(@_),"Shirley and Son",
+		       "Jerry Bittle","comics","shirleynson",
+		       undef,[600,218],"shirley");
+}
+
+# Soup to Nutz
+sub soupnutz {
+    return unitedmedia(shift(@_),"Soup to Nutz",
+		       "Rick Stromoski","comics","soup2nutz",
+		       undef,[600,218],"soupnutz");
+}
+
+# That's Life -- the one in mercury is being used.
+sub thatslife2 {
+    return unitedmedia(shift(@_),"That's Life",
+		       "Mike Twohy","wash","thatslife",
+		       undef,[300,362],"thatslife");
+}
+
+# Cheap Thrills Cuisine
+sub cheap {
+    my @ltime = gmtime($_[0]);
+    return undef if $ltime[6] != 3; #only wednesdays
+    return unitedmedia(shift(@_),"Cheap Thrills Cuisine",
+		       "Lombardo and Bui","wash","cheapthrills",
+		       undef,[725,270],"cheap");
+}
+
+
+# Trevor! - never mind, this is two gifs per panel!
+sub trevor {
+    return unitedmedia(shift(@_),"Trevor!",
+		       "Piper and Lee","comics","trevor",
+		       undef,[600,200],"trevor");
+}
+
+
 1;
+

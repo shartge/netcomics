@@ -80,7 +80,6 @@ MODULES = lib/after_y2k \
 	lib/comicspage_ed \
 	lib/comiczone \
 	lib/creators_syndicate \
-	lib/ctoons \
 	lib/curiosities \
 	lib/doodie \
 	lib/doonesbury \
@@ -171,6 +170,7 @@ OLDMODULES = \
 	banditbruno \
 	bobbins \
 	calvin-n-hobbes \
+	ctoons \
 	dilbert \
 	glasbergen \
 	goats \

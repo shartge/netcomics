@@ -1,5 +1,25 @@
 2001-02-07  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
+	* lib/mercury: Fixed broken comics & removed Ick & Mickey Mouse.
+	* lib/ctoons: removed because the site's gone.
+	* lib/unitedmedia: Updated thanks to Sizer.
+	Comics moved here: 9 Chickweed Lane, PC N Pixel
+	New comics:
+	Big Nate
+	Bulls and Bears
+	Cheap Thrills Cuisine
+	Flight Deck
+	Grand Avenue
+	Grandfather Clause
+	Lupo Alberto
+	Mr. Lowe
+	Pickles
+	Raising Duncan
+	Randolph Itch 2:00 AM
+	Reality Check
+	Red and Rover
+	Shirley and Son
+	Soup to Nutz
 	* lib/ucomics,uexpress: Moved comics from uexpress to ucomics
 	thanks to Tim Kimber
 	* lib/ozy_millie (ozy): Updated for site change thanks to Sizer.
