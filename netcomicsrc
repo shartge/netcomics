@@ -16,6 +16,10 @@ my $HOME = $ENV{'HOME'};
 ## Change the download directory location (default /var/spool/netcomics)
 #$comics_dir = "$HOME/comics";
 
+## Place different comics in their own directories? (default 0)
+## (Usefull for archiving)
+#$separate_comics = 1;
+
 ## Set the verbosity (both either 1 or 0) (default 0 for both)
 #$verbose = 1;
 #$extra_verbose = 1;

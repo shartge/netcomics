@@ -1,3 +1,8 @@
+2001-02-22  Elliot Glaysher <nuriko.chan@home.com>
+	* netcomics: Added -P feature which separates comics into their
+	own directories. For archive and organization freaks like
+	myself.
+
 2001-02-21  Elliot Glaysher <nuriko.chan@home.com>
 	* lib/doemain: Added A Doemain of Our Own.
 
