@@ -3,7 +3,7 @@
 # module for more information.
 use POSIX;
 
-#qx#wget http://www.doemainofourown.com/archive.html#;
+qx#wget http://www.doemainofourown.com/archive.html#;
 my $input = "archive.html";
 my @numbers;
 my $i = 0;

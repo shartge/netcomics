@@ -1,3 +1,8 @@
+2001-03-15  Elliot Glaysher <nuriko.chan@home.com>
+
+	* lib/doemain: Fixed module so it won't load while the author
+	is redesigning her website.
+
 2001-03-11  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* netcomics (get_comics): Fixed bug introduced with new separate
@@ -31,6 +36,7 @@
 	functions now in toonville.
 
 2001-03-01  Elliot Glaysher <nuriko.chan@home.com>
+
 	* Thanks to Shawn Oakey for:
 	** Putting lib/boxjam, lib/fatjesus, lib/fce,
 	lib/heaven_and_earth, lib/rogues, and lib/sketch into the new
@@ -38,16 +44,19 @@
 	** Fixing lib/wiley.
 
 2001-02-24  Elliot Glaysher <nuriko.chan@home.com>
+
 	* netcomics: Fixed behaviour of the -c option. -c now
 	over-rides the rc files, instead of adding the comics to the
 	list of comics to download.
 
 2001-02-22  Elliot Glaysher <nuriko.chan@home.com>
+
 	* netcomics: Added -P feature which separates comics into their
 	own directories. For archive and organization freaks like
 	myself.
 
 2001-02-21  Elliot Glaysher <nuriko.chan@home.com>
+
 	* lib/doemain: Added A Doemain of Our Own.
 
 2001-02-20  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
