@@ -1,3 +1,7 @@
+2001-03-06  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* netcomics: Minor updates to single rli status file feature.
+
 2001-03-05  Elliot Glaysher <nuriko.chan@home.com>
 
 	* netcomics: Added -G, which puts all RLI information into one

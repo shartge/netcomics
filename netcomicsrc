@@ -10,7 +10,9 @@ my $HOME = $ENV{'HOME'};
 ## Create downloaded files with the following permissions (default 0644)
 #$files_mode = 0644;
 
-## Use one RLI file (-G).
+## Store comic download status information in one file (-G).
+## This is helpful for managing a directory that holds many comics,
+## potentially speeding up netcomics' startup time.
 #$single_rli_file = 1;
 
 ## Change the location of the html template directory

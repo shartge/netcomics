@@ -1185,9 +1185,8 @@ unless (-d $comics_dir) {
 				}
 			}
 		}
-        goto FINISHED_LOADING_RLIS;
-    } else {
-    	unless ($single_rli_file) {
+	} else {
+		unless ($single_rli_file) {
 			for (@files) {
 				my $name = $_;
 				my $rli = load_rli($name);
@@ -1214,7 +1213,6 @@ unless (-d $comics_dir) {
 	}
 }
 
-FINISHED_LOADING_RLIS:
 print "Rli's reloaded: " . @rli . "\n" if $extra_verbose;
 
 print Data::Dumper->Dump([\%rli_procs],[qw(*rli_procs)])
@@ -2045,7 +2043,6 @@ sub get_comics {
 		$rli->{'tries'} = 0 unless defined $rli->{'tries'};
 		$rli->{'tries'}++;
 		unless ($single_rli_file) {
-			print "calling finish\n";
 			dump_rli($rli) unless $rli->{'status'} == 3;
 		}
 	}
@@ -2164,7 +2161,7 @@ sub load_rlis {
 			return @rli;
 		}
 	} elsif ($extra_verbose) {
-		print "No global rli status file, $file, found\n";
+		print STDERR "No global rli status file, $file, found\n";
 	}
 	return undef;
 }
@@ -2422,11 +2419,11 @@ sub usage
 	print << "END";
 ©2000 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
 usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
-	             [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
-	             [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw]
+                 [-S,-T,-E date [-A]] [-n,-N days] [-d,-m,-t dir] [-f date_fmt]
+                 [-g [program]] [-nD] [-r rc_file] [-W,-w[=n]] [-nw]
    -a: if comics are specified, forcibly try to download them and also try
-	   to download any comics that weren't successfully downloaded.
-	   if comics aren't specified, forcibly (re)download all comics.
+       to download any comics that weren't successfully downloaded.
+       if comics aren't specified, forcibly (re)download all comics.
    -A: act as if the days specified with S, T or E were today
    -b: specify that you prefer the comics to be in black & white--not color
    -B: specify that you prefer the comics color (override rc file setting)
@@ -2438,7 +2435,7 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -E: specify the ending date of a range of days of comics to retrieve
    -f: specify the date format used when naming files. default: '%y%m%d'
    -g: specify an external program to use instead of libwww-perl
-   -G: use one large rli file for storage (workaround for buggy reiserfs)
+   -G: store comic status information in one file
    -h: show usage (doesn't download comics)
    -i: don't create an index for the webpages
    -I: create an index for the webpages (override rc file setting)
@@ -2460,7 +2457,7 @@ usage: netcomics [-abBDhiIlLosuvv] [-c,-C "comic ids"] [-p proxy] [-R retries]
    -t: location of html tmpl files (default /usr/share/netcomics/html_tmpl)
    -T: specify a specific date of comics to retrieve
    -u: don't download comics. print URLs on stdout, or if creating a
-	   webpage, have the images be implemented using the URLs.
+       webpage, have the images be implemented using the URLs.
    -v: be a little verbose
    -vv:be extra verbose
    -w: create an html file, index.html, n comics per page
