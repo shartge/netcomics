@@ -121,7 +121,6 @@ sluggy_freelance
 small_grey
 small_world
 spaz_labs
-spex
 spooner
 story_minute
 stuff_this
@@ -188,6 +187,7 @@ sketch
 soaprope
 suburban
 superosity
+spex
 tom_the_dancing_bug
 uexpress
 wandering

@@ -1,3 +1,8 @@
+2002-03-28  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* Makefile.PL: Removed spex.
+	* MANIFEST: Removed spex.
+
 2002-03-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/comicspage_ed: removed all sizes because of the inconsistency.
