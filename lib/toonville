@@ -1,0 +1,96 @@
+#-*-Perl-*-
+
+foreach (qw(zt ba obh grimm)) {
+  $hof{$_} = 0;
+}
+
+sub toonville {
+    ($title,$author,$dir,$prefix,$date,$type) = @_;
+    my $baseurl = "http://webcenter.toonville.aol.com/";
+
+    $rec = {
+        'title' => $title,
+        'author' => $author,
+        'type' => $type,
+        'main' => $baseurl,
+        'archives' => $baseurl,
+        'base' => $baseurl,
+        'page' => "Content1/$dir/$prefix$date.$type",
+    },
+    return $rec;
+}
+  
+# Zits
+sub zt {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+      $date = strftime("%m%d", @ltime);
+    } else {
+      $date = strftime("%m%d%y", @ltime);
+    }
+    if ($ltime[6] == 0) {
+      $type = "jpg";
+    } else {
+      $type = "gif";
+    }
+    my $title = 'Zits';
+    my $dir = $title;
+    my $author = "Jerry Scott & Jim Borgman";
+    my $prefix = 'zits';
+    return toonville($title,$author,$dir,$prefix,$date,$type);
+}
+
+# Baby Blues
+sub ba {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+      $date = strftime("%m%d", @ltime);
+    } else {
+      $date = strftime("%m%d%y", @ltime);
+    }
+    my $type = "jpg";
+    my $title = 'Baby Blues';
+    my $dir = 'Babyblues';
+    my $author = "Rick Kirkman & Jerry Scott";
+    my $prefix = 'baby';
+    return toonville($title,$author,$dir,$prefix,$date,$type);
+}
+
+# One Big Happy
+sub obh {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+      $date = strftime("%m%dg", @ltime);
+    } else {
+      $date = strftime("%m%d%y", @ltime);
+    }
+    my $type = "jpg";
+    my $title = 'One Big Happy';
+    my $dir = 'OBH';
+    my $author = "Rick Detorie";
+    my $prefix = 'obh';
+    return toonville($title,$author,$dir,$prefix,$date,$type);
+}
+
+# Mother Goose and Grimm
+sub grimm {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%m%d%y", @ltime);
+    my $type = "gif";
+    my $title = 'Mother Goose and Grimm';
+    my $dir = 'Grimmy';
+    my $author = "Mike Peters";
+    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+      $prefix = '';
+    } else {
+      $prefix = 'Grimm';
+    }
+    return toonville($title,$author,$dir,$prefix,$date,$type);
+}
+
+1;
+
