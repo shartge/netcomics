@@ -1,3 +1,8 @@
+2001-06-27  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
+
+	* lib/doodie (doodie): Fixed to handle getting the complete
+	archive with no failures.
+
 2001-06-26  Elliot Glaysher  <elliot@navibox>
 
 	* TODO: Added a priority section to fix broken modules.
