@@ -17,7 +17,7 @@
 use strict;
 use POSIX;
 BEGIN {my $d="/usr/lib/perl5/site_perl"; push(@INC,$d) if ! grep(/^$d$/,@INC);}
-use Netcomics::Config;
+use Netcomics::Config qw/$comics_dir $verbose $extra_verbose/;
 
 #Tk loading is delayed until needed so that this script is usable  w/out 
 #PerlTk can still use this script
@@ -36,6 +36,7 @@ my $created_lock = 0;
 my @start_time = ();
 
 my $conf = new Netcomics::Config($progname);
+$conf->processARGV(); #this also loads in the rc file.
 
 ##all this CLI needs to be put into a subclass of Netcomics::Config.
 
