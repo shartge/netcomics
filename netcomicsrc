@@ -35,8 +35,10 @@ my $HOME = $ENV{'HOME'};
 ## Delete files in $comics_dir before downloading (default 0)
 #$delete_files = 1;
 
-## Select comics to either download or not download
-#@selected_comics = (qw());
+## Select comics to either download or not download.  Use netcomics -l to
+## get a list of comic IDs & place them between the parenthesis.  For
+## example, this would get only Garfied & User Friendly: qw(gar uf)
+#@selected_comics = qw();
 
 ## You must uncomment one of the following if you defined @selected_comics
 ## (both default to 0)
