@@ -506,7 +506,7 @@ my %opts =
 
 if ($ExtUtils::MakeMaker::VERSION >= 5.43) {
 	$opts{'AUTHOR'} = "Ben Hochstedler <hochstrb\@cs.rose-hulman.edu> " .
-		"Elliot Glaysher <eglayshe\@umich.edu>";
+		"Elliot Glaysher <glaysher\@umich.edu>";
 	$opts{'ABSTRACT'} =
 		"A set of tools that automates downloading & viewing comics from " .
 			"the Web";

@@ -1,3 +1,13 @@
+2001-12-10  Elliot Glaysher  <glaysher@umich.edu>
+
+	* Makefile.PL (post_constants): Updated email address. How long has
+	THAT been wrong!?
+	* netcomics: Optimized the order in which things happen so RLI files
+	aren't reloaded if all the user wants is a list. Speeds things up
+	immensly if user has +3000 RLI files.
+	* Netcomics/Factory.pm (load_RLI_files): Split off loading RLI files 
+	into a seperate function.
+
 2001-12-10  Ben Hochstedler  <hochstrb@cs.rose-hulman.edu>
 
 	* lib/keenspot: Updated GPF based on changes submitted by

@@ -67,6 +67,11 @@ sub new {
 	# We need Data::Dumper for the next part.
 	$data_dumper_installed = requireDataDumper;
 
+	return $self;
+}
+
+sub load_RLI_files {
+	my $self = shift;
 	#Make sure the temp dir exists
 	unless (-d $comics_dir) {
 		mkdir($comics_dir,0777) || die "could not create $comics_dir: $!"; 
@@ -106,6 +111,8 @@ sub new {
 
 					# use only the final pathname
 					my @stuff = split(/\//, $file);
+					my $time = "@stuff";
+					$time--;
 					if (-f "$comics_dir/$rli->{'subdir'}/$stuff[$#stuff]") {
 						my @list_of_files = @{$rli->{'file'}};
 						my @temporary_file_rebuild_array;
@@ -132,8 +139,6 @@ sub new {
 		}
 	}
 	print "Rli's reloaded: " . @{$self->{'rli'}} . "\n" if $extra_verbose;
-
-	return $self;
 }
 
 sub setup {

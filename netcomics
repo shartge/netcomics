@@ -48,9 +48,11 @@ $| = 1; #autoflush on STDERR & STDOUT
 my $data_dumper_installed = requireDataDumper();
 
 my $factory = Netcomics::Factory->new($conf);
-$factory->setup;
 
 $factory->list_comics(), exit(0) if ($do_list_comics);
+
+$factory->load_RLI_files;
+$factory->setup;
 
 #get_comics returns a list of comics which is used to help determine
 #if a comic in the directory was just downloaded or not.
