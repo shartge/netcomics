@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-foreach (qw(obh grimm)) {
+foreach (qw(obh)) {
   $hof{$_} = 0;
 }
 
@@ -34,24 +34,6 @@ sub obh {
     my $dir = 'OBH';
     my $author = "Rick Detorie";
     my $prefix = 'obh';
-    return toonville($title,$author,$dir,$prefix,$date,$type);
-}
-
-# Mother Goose and Grimm
-sub grimm {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my $date = strftime("%m%d%y", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime);
-    my $type = "gif";
-    my $title = 'Mother Goose and Grimm';
-    my $dir = 'Grimmy';
-    my $author = "Mike Peters";
-    if ($date2 < 20010211) {# || $date2 > 20010513) {
-      $prefix = '';
-    } else {
-      $prefix = 'grimm';
-    }
     return toonville($title,$author,$dir,$prefix,$date,$type);
 }
 
