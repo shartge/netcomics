@@ -1,0 +1,26 @@
+#-*-Perl-*-
+$hof{"real"} = 0;
+
+# Real Life
+# http://reallife.webprovider.com/archives/rl112099.htm
+sub real {
+    my $time = shift @_;
+    return undef if $time < mkgmtime(0,0,0,15,10,99);
+    my @ltime = gmtime($time);
+    my @m = ("jan", "feb", "mar", "apr", "may", "jun",
+	     "jul", "aug", "sep", "oct", "nov", "dec");
+
+    my $rec = {
+	'title'    => "Real Life",
+	'author'   => "Greg Dean",
+	'type'     => 'gif',
+	'main'     => "http://reallifecomics.com/",
+	'archives' => "http://reallifecomics.com/",
+	'base'     => "http://reallifecomics.com",
+	'page' => strftime("/d/%Y%m%d.html",@ltime),
+	'exprs'    => [strftime("SRC=\"(/comics/%Y%m%d.*?gif)",@ltime)],
+    };
+    return $rec;
+}
+
+1;
