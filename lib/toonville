@@ -24,7 +24,7 @@ sub toonville {
 sub zt {
     my $time = shift;
     my @ltime = gmtime($time);
-    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+    if ($ltime[3] < 11 && $ltime[4] <= 1 && $ltime[5] == 101) {
       $date = strftime("%m%d", @ltime);
     } else {
       $date = strftime("%m%d%y", @ltime);
@@ -45,7 +45,7 @@ sub zt {
 sub ba {
     my $time = shift;
     my @ltime = gmtime($time);
-    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+    if ($ltime[3] < 11 && $ltime[4] <= 1 && $ltime[5] == 101) {
       $date = strftime("%m%d", @ltime);
     } else {
       $date = strftime("%m%d%y", @ltime);
@@ -62,7 +62,7 @@ sub ba {
 sub obh {
     my $time = shift;
     my @ltime = gmtime($time);
-    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+    if ($ltime[3] < 11 && $ltime[4] <= 1 && $ltime[5] == 101) {
       $date = strftime("%m%dg", @ltime);
     } else {
       $date = strftime("%m%d%y", @ltime);
@@ -84,7 +84,7 @@ sub grimm {
     my $title = 'Mother Goose and Grimm';
     my $dir = 'Grimmy';
     my $author = "Mike Peters";
-    if ($ltime[3] < 11 && $ltime[4] <= 2 && $ltime[5] == 101) {
+    if ($ltime[3] < 11 && $ltime[4] <= 1 && $ltime[5] == 101) {
       $prefix = '';
     } else {
       $prefix = 'Grimm';
