@@ -122,7 +122,7 @@ sub flightdeck {
 sub fae {
     return unitedmedia(shift(@_), "Frank and Ernest",
 		       "Bob Thaves","comics","franknernest",
-		       [725,400],[600,200],"franknernest");
+		       [725,400],[600,200],"fae");
 }
 
 # Grand Avenue
