@@ -29,7 +29,7 @@ sub pa {
 	'func' => sub {
 	    $_ = shift;
 	    my @relurls = ();
-	    if (/"(view\.php3\?date=$date)">$date3 (.*)<\/option>/) {
+	    if (/"(view\.php3\?date=$date)">$date3([^<]*)<\/option>/) {
 		push @relurls, {
 		    'caption' => $2,
 		    'page' => "$baseurl/$1",
