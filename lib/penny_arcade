@@ -32,7 +32,8 @@ sub pa {
 	    if (/"(view\.php3\?date=$date)">$date3([^<]*)<\/option>/) {
 		push @relurls, {
 		    'caption' => $2,
-		    'page' => "$baseurl/$1",
+		    'page' => "/$1",
+		    'base' => $baseurl,
 		    'exprs' => {
 			'comic' => ["img src=\"([^\"]*/$date2\.?\\.+?((?i)(jpg|gif|png)))\""],
 			'type' => ["img src=\"[^\"]*/$date2\.?\\.+?((?i)jpg|gif|png)\""],
