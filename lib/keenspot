@@ -2,8 +2,8 @@
 
 foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
-   lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal
-   rpg rwaffles ssdd schlock sheldon sinf soap suburban sp wander wendy
+   lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal rpg
+   rwaffles ssdd schlock sheldon sinf soap suburban sp twolumps wander wendy
    cutewendy youdamn chopping fatjc kpanic)) {
    $hof{"$_"} = 0;
 }
@@ -2005,6 +2005,30 @@ sub sp {
     my $url = "http://www.superosity.com";
     my $index = undef;
     
+    return keenspot($title,$author,$date,$url,$index);
+}
+
+#Two Lumps: The Adventures of Ebenezer and Snooch
+sub twolumps {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my $date = strftime("%Y%m%d", @ltime);
+
+    # Last updated November 1, 2005
+    my @missing = ();
+    my @extra = (20040316, 20040620, 20040821, 20041102, 20041214);
+
+    # comic published on Mon, Wed, and Fri
+    return undef if
+      ( ($date < 20040316) || # first comic 16-Mar-2004
+        (grep(/$date/,@missing)) ||
+        ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra)) );
+
+    my $title = "Two Lumps: The Adventures of Ebenezer and Snooch";
+    my $author = "J. Grant and Mel Hynes";
+    my $url = "twolumps";
+    my $index = undef;
+
     return keenspot($title,$author,$date,$url,$index);
 }
 

@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 foreach (qw(heaven framed stereo fce sketch roses flint
-  zap spork tang ais forbez oddjobs ua twolumps)) {
+  zap spork tang ais forbez oddjobs ua)) {
   $hof{$_} = 0;
 };
 foreach (qw(attwf)) {
@@ -595,29 +595,6 @@ sub tap {
 
     return keenspace($title,$author,$date,$url);
 
-}
-
-#Two Lumps: The Adventures of Ebenezer and Snooch
-sub twolumps {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my $date = strftime("%Y%m%d", @ltime);
-
-    # exception tables last updated June 19, 2001
-    my @missing = ();
-    my @extra = (20040316, 20040620, 20040821, 20041102, 20041214);
-
-    # comic published on Mon, Wed, and Fri
-    return undef if
-      ( ($date < 20040316) || # first comic 16-Mar-2004
-        (grep(/$date/,@missing)) ||
-        ($ltime[6] !~ /[135]/ && !grep(/$date/,@extra)) );
-
-    my $title = "Two Lumps: The Adventures of Ebenezer and Snooch";
-    my $author = "J. Grant and Mel Hynes";
-    my $url = "twolumps";
-
-    return keenspace($title,$author,$date,$url);
 }
 
 #Untitled Again
