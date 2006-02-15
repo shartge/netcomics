@@ -6,7 +6,6 @@ sub cad {
     my $time = shift(@_);
     my @ltime = gmtime($time);
     
-    my $url = strftime("%Y-%m-%d",@ltime);
     my $date = strftime("%Y%m%d",@ltime);
     
     return undef unless $date > 20021022;
@@ -19,10 +18,9 @@ sub cad {
 	'type' => 'jpg',
 	'main' => $base,
 	'base' => $base,
-	'archives' => $base . '?t=archives',
-	'page' => '?t=archives',
-	'exprs' => ["(/\\?t=archives&date=$url)",
-		    "(/images/comics/.*?\.jpg)"],
+	'archives' => $base . 'archives.php',
+	'page' => "comic.php?d=$date",
+	'exprs' => ["/(comics/$date\.jpg)"],
 	};
     return $rec;
 }
