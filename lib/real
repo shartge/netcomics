@@ -16,22 +16,26 @@ sub real {
 		    July August September October November December
 		    </body>);
 		    
-    my $mon = $months[$ltime[4]];
-    my $bound = $months[$ltime[4]+1];
+    #my $mon = $months[$ltime[4]];
+    #my $bound = $months[$ltime[4]+1];
     my $day = $ltime[3];
+    my $year =  strftime("%Y", @ltime);
+    my $full =  strftime("%Y%m%d", @ltime);
+    my $date =  strftime("%y%m%d", @ltime);
     
     my $base = 'http://reallifecomics.com';
-    my $arc = strftime('/archive_%Y.php',@ltime);
+    my $arc = strftime('/archive/%Y.html',@ltime);
     
     my $rec = {
 	'title' => "Real Life",
 	'author' => "Greg Dean",
 	'type' => 'png',
 	'base' => $base,
+	'main' => $base . '/',
 	'archives' => $base . $arc,
 	'page' => $arc,
-	'exprs' => ["$mon.*?<a\\s*href=\"(\/daily.php\\?strip_id=\\d+)\">$day</a>.*?$bound",
-		    "'(/daily.php\\?do_command=show_strip.*?)'"],
+	'exprs' => ["href=\"(/archive/$date.html)\"",
+		    "src=\"(/comics/$year/${full}_\\d+\\.png)\""],
     };
     
     return $rec;
