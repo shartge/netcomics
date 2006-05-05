@@ -22,18 +22,17 @@ sub pa {
     my $rec = {
 	'title' => "Penny Arcade",
 	'author' => "Mike Krahulik and Jerry Holkins",
-	'main' => $baseurl,
-	'archives' => "$baseurl/search.php",
-	'base' => "",
-	'page' => "$baseurl/search.php",
+	'base' => $baseurl,
+	'archives' => "/archive",
+	'main' => "/",
+	'page' => "/archive",
 	'func' => sub {
 	    $_ = shift;
 	    my @relurls = ();
-	    if (/"(view\.php\d?\?date=$date)">$date3([^<]*)<\/option>/) {
+	    if (/<option\s+value="$baseurl([^>]*)">\s*$date3([^<]*)<\/option>/) {
 		push @relurls, {
 		    'caption' => $2,
-		    'page' => "/$1",
-		    'base' => $baseurl,
+		    'page' => "$1",
 		    'exprs' => {
 			'comic' => ["img src=\"([^\"]*/$date2\.?\\.+?((?i)(jpg|gif|png)))\""],
 			'type' => ["img src=\"[^\"]*/$date2\.?\\.+?((?i)jpg|gif|png)\""],
