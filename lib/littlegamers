@@ -19,26 +19,26 @@ sub lg {
     # need a "hard" bound for the regexp with the next "year", or
     # something we expect to see at the end of the page if "year"
     # isn't the same as the current year...
-    my $hard =  ($ltime[5] == (gmtime())[5] ? "</body>" : ('>'.($year+1).'<'));
+    my $hard =  ($ltime[5] == (gmtime())[5] ? "</body>" : ('January, '.($year+1).'<'));
 		    
-    my $day = $ltime[3];
+    my $day = strftime('%d',@ltime);
     my $mon = $months[$ltime[4]];
     my $bound = $months[$ltime[4]+1];
 
     
     my $base = 'http://www.little-gamers.com';
-    my $arc = '/archives.php';
+    my $arc = '/hamham_archives.php';
 
     my $rec = {
 	'title' => "Little Gamers",
 	'author' => "Christian Fundin",
-	'type' => 'gif',
 	'main' => "$base/",
 	'base' => $base,
 	'archives' => $base . $arc,
 	'page' => $arc,
-	'exprs' => ["$year.*?$mon.*?<a\\s*href=\"(\/(index\.php)?\\?strip_id=\\d+)\">$day</a>.*?$bound.*?$hard",
-		    "'(/(index\.php)?\\?do_command=show_strip.*?)'"],
+	'exprs' => ["$mon, $year.*?(/(index\\.php)?\\?comicID=\\d+)\"[^>]*>$day</a>.*?$bound.*?$hard",
+		    "(/comics/\\d+\\.\\w+)\""
+		    ],
 
 	};
     return $rec;
