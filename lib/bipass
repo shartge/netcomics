@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+$hof{"bipass"} = 0;
+
+sub bipass {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    
+    my $date = strftime("%Y%m%d", @ltime);
+    my $month = strftime("%Y%m", @ltime);
+    my $baseurl = "http://www.cartoonme.net/";
+    my $rec = {
+	'title' => "Taking the Bi-Pass",
+	'author' => "David Buist",
+	'base' => $baseurl,
+	'archives' => $baseurl.'archive.php',
+	'main' => $baseurl,
+	'page' => "archive.php?start=$month&end=$month",
+	'exprs' => [
+		    "href=\"(\[^\"\]*$date\[^\"\]*)\"",
+		    "src=\"/(\[^\"\]*$date\[^\"\]*)\"",
+		    ],
+    };
+    return $rec;
+}
+
+1;
