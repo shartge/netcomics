@@ -370,7 +370,7 @@ sub get_comics {
 			require HTTP::Request;
 			require HTTP::Response;
 			require HTTP::Request::Common;
-			$ua = LWP::UserAgent->new;
+			$ua = LWP::UserAgent->new(parse_head => 0);
 			$new_request = sub {
 				my $request = new HTTP::Request 'GET', shift;
 				return add_referer($request,shift(@_));
