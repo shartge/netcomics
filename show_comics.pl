@@ -27,7 +27,7 @@ $| = 1;
 my $progname = "show_comics";
 my @def_time = ("17","00");
 my $dont_ask = 0;    
-my $cmd = "nice -19 xv";
+my $cmd = "nice -19 display";
 my $check_display_cmd = "xdpyinfo";
 my $rcfile = $ENV{'HOME'} . "/.comics";
 my $lockfile = $ENV{'HOME'} . "/.show_comics_lock";
@@ -36,6 +36,7 @@ my $created_lock = 0;
 my @start_time = ();
 my $wait_until_start_time = 0;
 my $wait_interv = 1; # 1 minute
+my $comics_dir_cmd = undef;
 
 my $conf = new Netcomics::Config($progname);
 $conf->processARGV(); #this also loads in the rc file.
@@ -63,6 +64,16 @@ while (@ARGV)
 	    $comics_dir = shift(@ARGV);
 	} else {
 	    errmsg("Need a directory name. Use -h for usage.\n");
+	    exit 1;
+	}
+    }
+
+    #set the read comics dir command
+    elsif (/^-D$/) {
+	if (@ARGV > 0) {
+	    $comics_dir_cmd = shift(@ARGV);
+	} else {
+	    errmsg("Need a command. Use -h for usage.\n");
 	    exit 1;
 	}
     }
@@ -225,10 +236,20 @@ if (! $wait_until_start_time && ! $dont_ask) {
 }
 
 #Create a list of files to display
-opendir(DIR,$comics_dir) || 
-    die "Could not open the directory to $comics_dir: $!";
-my @files = grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR));
-closedir(DIR);
+my @files = ();
+if (defined($comics_dir_cmd)) {
+    open(CMD,"$comics_dir_cmd |") ||
+	die "Could not run $comics_dir_cmd: $!";
+    push(@files, grep(/\.(gif|jpg|jpeg|png)$/,<CMD>));
+    chomp(@files);
+    @files = split(/ /,$files[0]) if @files == 1;
+    close(CMD);
+} else {
+    opendir(DIR,$comics_dir) ||
+	die "Could not open the directory to $comics_dir: $!";
+    push(@files, grep(/\.(gif|jpg|jpeg|png)$/,readdir(DIR)));
+    closedir(DIR);
+}
 if (-f $rcfile && -r $rcfile) {
     open(FILE,"<$rcfile") || die "Could not open the file $rcfile: $!";
     my @comics = <FILE>;
@@ -261,7 +282,16 @@ infomsg("Displaying $num comics from now until $leave_hour:$leave_min, " .
 #display the comics!
 if (@files > 0) {
     foreach (@files) {
-	my $syscmd = "$cmd $comics_dir/$_";
+	my $file = $_;
+	my $syscmd = $cmd;
+	if ($syscmd =~ /[^%]%[fd]/) {
+	    #not perfect, but unlikely $cmd would begin with %[fc]
+	    $syscmd =~ s/([^%])%f/$1$file/g;
+	    $syscmd =~ s/([^%])%c/$1$comics_dir/g;
+	    $syscmd =~ s/%%/%/g;
+	} else {
+	    $syscmd .= "$comics_dir/$_";
+	}
 	infomsg("Running '$syscmd'\n") if $verbose;
 	if ($delaytime > 0) {
 	    system("$syscmd &");
@@ -340,7 +370,7 @@ END
     $hour = "0$hour" if $hour =~ /^\d$/;
     $minute = "0$minute" if $minute =~ /^\d$/;
 
-    infomsg("Time leaving: $leave_hour:$leave_min\n") if $extra_verbose;
+    infomsg("Time leaving: $hour:$minute\n") if $extra_verbose;
 
     return ($hour,$minute);
 }
@@ -421,10 +451,11 @@ sub usage {
     print <<END;
 $progname:  Show comics downloaded with netcomics, distributed over time
 (c)1999 Ben Hochstedler <hochstrb\@cs.rose-hulman.edu>
-usage: show_comics [-hvw] [-c cmd] [-d dir] [-f rcfile] [-l|-t hh:mm] [-p [cmd]]
-                   [-k lockfile|-K] [-s hh:mm]
+usage: show_comics [-h] [-c cmd] [-d dir] [-f rcfile] [-l|-t hh:mm] [-p [cmd]]
+                   [-D cmd] [-k lockfile|-K] [-s hh:mm]
   -c: specify the command used to display each comic strip (def: "nice -19 xv")
   -d: specify the directory where the comics reside (def: /var/spool/netcomics)
+  -D: specify an alternate command for reading the directory of comics
   -f: specify the file containing the list of comics to display (def: ~/.comics)
   -h: display usage
   -k: specify the name of the lock file (def: ~/.show_comics_lock)
