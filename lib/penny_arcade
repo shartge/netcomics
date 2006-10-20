@@ -10,34 +10,33 @@ $hof{"pa"} = 0;
 #First use a function to determine if the specified date exists,
 #then have it return just a hash to update the rli with the correct info.
 
+# ex:
+# 1) Page = http://www.penny-arcade.com/comic/2006/09/11
+# 2) Strip = http://www.penny-arcade.com/images/2006/20060911.jpg
+# 3) url entry = <div id="comicstrip"><img src="/images/2006/20060911.jpg" alt="Horse D'Oeuvres" /></div
 sub pa {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,18,10,98); #first comic Nov. 18, 1998
     my @ltime = gmtime($time);
-    my $date = strftime("%Y-%m-%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime);
-    my $date3 = strftime("%m/%d/%Y", @ltime);
-    my $year = strftime("%Y", @ltime);
     my $baseurl = "http://www.penny-arcade.com";
     my $rec = {
 	'title' => "Penny Arcade",
 	'author' => "Mike Krahulik and Jerry Holkins",
-	'base' => $baseurl,
-	'archives' => "/archive",
-	'main' => "/",
-	'page' => "/archive",
+	'main' => $baseurl,
+	'archives' => "$baseurl/archive",
+	'base' => "$baseurl/",
+	'page' => strftime("comic/%Y/%m/%d", @ltime),
 	'func' => sub {
 	    $_ = shift;
 	    my @relurls = ();
-	    if (/<option\s+value="$baseurl([^>]*)">\s*$date3([^<]*)<\/option>/) {
+	    if (m%<div id=\"comicstrip\"><img src=\"\/([^\"]+?)\"%) {
+		my $tmp = $1;
+		my $type = $1 if ($tmp =~ m%\.(\w+)$%);
 		push @relurls, {
-		    'caption' => $2,
-		    'page' => "$1",
-		    'exprs' => {
-			'comic' => ["img src=\"([^\"]*/$date2\.?\\.+?((?i)(jpg|gif|png)))\""],
-			'type' => ["img src=\"[^\"]*/$date2\.?\\.+?((?i)jpg|gif|png)\""],
-            },
-            'func' => undef,   
+		    'page' => $tmp,
+		    'comic' => $tmp,
+		    'type' => $type,
+		    'func' => undef,   
 		};
 	    }
 	    return @relurls;
