@@ -1,3 +1,14 @@
+2006-10-19  Ben Hochstedler  <hochstrb at users * sourceforge * net>
+
+	* Netcomics/Factory.pm: prevent getting "Parsing of undecoded
+	UTF-8 will give garbage when decoding entities" message
+	* lib/penny_arcade: Fixed thanks to Martial Michel
+	* netcomics, comicspage, display_comics, show_comics: removed as
+	they duplicate the ones with the .pl and netcomics and comicspage
+	conflict with the directory names on case insensitive file
+	systems.
+	* show_comics.pl: copied updates from show_comics
+
 2005-05-01  Chris Hostetter  <hossman at users * sourceforge * net>
 
 	* fixed Penny Arcade
