@@ -1,3 +1,33 @@
+2006-12-19  Clint Olson  <coandco at users * sourceforge * net>
+
+	* lib/twokinds:  Added definition file for Two Kinds
+	* lib/fauxpas:   Added definition file for Faux Paus
+	* lib/denizen:   Added definition file for Dungeons and Denizens
+	* lib/catena:    Added definition file for Catena Manor
+	* lib/ffsimple:  Added simplified (and working) definition file for Freefall
+	* lib/cheer:     Added definition file for The Wotch: Cheer!
+	* lib/atland:    Added definition file for Atland
+	* lib/wotch:     Added definition file for The Wotch
+	* lib/evilinc:   Added definition file for Evil, Inc.
+	* lib/dume:      Added definition file for Dume
+	* lib/sjungle:   Added definition file for Suburban Jungle
+	* lib/nowhereu:  Added definition file for Nowhere University
+	* lib/niptuck:   Added definition file for Nip and Tuck
+	* lib/questor:   Added definition file for Tales of the Questor
+	* lib/ghollow:   Added definition file for Goblin Hollow
+	* lib/oots:      Added definition file for Order of the Stick
+	* lib/blastwave: Added definition file for Gone with the Blastwave
+	* lib/inherit:   Added definition file for Inherit the Earth
+	* lib/nopink:    Added definition file for No Pink Ponies
+	* lib/foxtails:  Added definition file for Fox Tails
+	* lib/foxfire:   Added definition file for Foxfire
+	* lib/cnk:       Added definition file for Chivalry and Knavery
+	* lib/misfile:   Added definition file for Misfile
+	* lib/dmfa:      Added definition file for Dan and Mab's Furry Adventure
+	* lib/b2w:       Added definition file for Between Two Worlds
+	* lib/earthsong: Added definition file for Earthsong
+
+
 2006-10-19  Ben Hochstedler  <hochstrb at users * sourceforge * net>
 
 	* Netcomics/Factory.pm: prevent getting "Parsing of undecoded
