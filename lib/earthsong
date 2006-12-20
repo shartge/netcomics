@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"earthsong"} = 0;
+
+#Earthsong http://www.earthsongsaga.com/
+sub earthsong {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 4));
+
+    my $rec = {
+	'title' => "Freefall",
+	'author' => "Lady Yates",
+	'type' => 'jpg',
+	'main' => "http://www.earthsongsaga.com",
+	'archives' => "http://www.earthsongsaga.com/archives.html",
+	'base' => "http://www.earthsongsaga.com/",
+	'page' => "index.html",
+	'expr' => "(images\/vol[0-9]\/ch[0-9]\/[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

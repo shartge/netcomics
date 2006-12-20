@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"ghollow"} = 0;
+
+#Goblin Hollow http://utlt.comicgenesis.com/
+sub ghollow {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Goblin Hollow",
+        'author' => "Ralph E. Hayes, Jr.",
+        'type' => 'gif',
+        'main' => "http://utlt.comicgenesis.com/",
+        'archives' => "http://utlt.comicgenesis.com/archives.html",
+        'base' => "http://utlt.comicgenesis.com",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/gh%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

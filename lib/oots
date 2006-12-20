@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"oots"} = 0;
+
+#Order of the Stick http://www.giantitp.com
+sub oots {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+
+    my $rec = {
+	'title' => "Order of the Stick",
+	'author' => "Rich Burlew",
+	'type' => 'gif',
+	'main' => "http://www.giantitp.com",
+	'archives' => "http://www.giantitp.com/comics/oots.html",
+	'base' => "http://www.giantitp.com/",
+	'page' => "/index.html",
+	'exprs' => ["(comics/oots[0-9]+.html)", "(comics\/images\/[a-zA-Z0-9-]+.[a-z][a-z][a-z])"]
+	};
+    return $rec;
+}
+
+1;
+
+

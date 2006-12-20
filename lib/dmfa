@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"dmfa"} = 0;
+
+#Dan and Mab's Furry Adventure http://www.missmab.com/
+sub dmfa {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+
+    my $rec = {
+	'title' => "Dan and Mab\'s Furry Adventure",
+	'author' => "Amber M. Panyko",
+	'type' => 'jpg',
+	'main' => "http://www.missmab.com",
+	'archives' => "http://www.missmab.com/arch.php",
+	'base' => "http://www.missmab.com/",
+	'page' => "index.php",
+	'expr' => "(Comics\/Vol[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

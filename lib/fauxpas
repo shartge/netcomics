@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"fauxpas"} = 0;
+
+#Faux Pas http://ozfoxes.com/fauxpas.htm
+sub fauxpas {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+
+    my $rec = {
+	'title' => "Faux Pas",
+	'author' => "The Carspekens",
+	'type' => 'jpg',
+	'main' => "http://ozfoxes.com/fauxpas.htm",
+	'archives' => "http://www.ozfoxes.net/cgi/pl-fp1.cgi",
+	'base' => "http://ozfoxes.com/",
+	'page' => "fauxpas.htm",
+	'expr' => "(fp\/fp[0-9-]+.jpg)",
+	};
+    return $rec;
+}
+
+1;
+
+

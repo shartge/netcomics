@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"inherit"} = 0;
+
+#Inherit the Earth http://www.inherittheearth.net/
+sub inherit {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 2));
+
+    my $rec = {
+	'title' => "Inherit the Earth",
+	'author' => "Wyrmkeep Entertainment",
+	'type' => 'gif',
+	'main' => "http://www.inherittheearth.net/",
+	'archives' => "http://www.inherittheearth.net/archives.html",
+	'base' => "http://www.inherittheearth.net",
+	'page' => "/",
+	'expr' => "(\/strips\/[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

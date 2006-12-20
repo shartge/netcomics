@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"cnk"} = 0;
+
+#Chivalry and Knavery http://www.chivalryandknavery.com/
+sub cnk {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 0) && ($ltime[6] != 3));
+
+    my $rec = {
+	'title' => "Chivalry and Knavery",
+	'author' => "Coop",
+	'type' => 'jpg',
+	'main' => "http://www.chivalryandknavery.com/",
+	'archives' => "http://www.chivalryandknavery.com/ck001.html",
+	'base' => "http://www.chivalryandknavery.com/",
+	'page' => "index.html",
+	'expr' => "(images\/strip[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

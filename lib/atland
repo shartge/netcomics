@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"atland"} = 0;
+
+#Realm of Atland http://www.realmofatland.com/
+sub atland {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if ($ltime[6] != 4);
+
+    my $rec = {
+	'title' => "Atland",
+	'author' => "Nate Piekos",
+	'type' => 'jpg',
+	'main' => "http://www.realmofatland.com/",
+	'archives' => "http://www.realmofatland.com/",
+	'base' => "http://www.realmofatland.com/",
+	'page' => "index.php",
+	'expr' => "(images\/strips\/atland[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

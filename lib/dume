@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"dume"} = 0;
+
+#Dume http://www.otterdude.com/
+sub dume {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 5));
+
+    my $rec = {
+	'title' => "Dume",
+	'author' => "Jonas and Rayce",
+	'type' => 'jpg',
+	'main' => "http://www.otterdude.com/",
+	'archives' => "http://www.otterdude.com/archive.php",
+	'base' => "http://www.otterdude.com/",
+	'page' => "index.php",
+	'expr' => "(strips\/[0-9a-zA-Z]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

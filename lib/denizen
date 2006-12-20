@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"denizen"} = 0;
+
+#Dungeons and Denizens http://www.dungeond.com/
+sub denizen {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Dungeons and Denizens",
+        'author' => "Graveyard Greg",
+        'type' => 'jpg',
+        'main' => "http://www.dungeond.com/",
+        'archives' => "http://www.dungeond.com/d/20060402.html",
+        'base' => "http://www.dungeond.com",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

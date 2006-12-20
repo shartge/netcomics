@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"b2w"} = 0;
+
+#Between Two Worlds http://www.between-two-worlds.net
+sub b2w {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Between Two Worlds",
+	'author' => "JJ Naas",
+	'type' => 'jpg',
+	'main' => "http://www.between-two-worlds.net/",
+	'archives' => "http://www.between-two-worlds.net/archives.html",
+	'base' => "http://www.between-two-worlds.net/",
+	'page' => "index.html",
+	'expr' => "(story\/[0-9]+.[a-z][a-z][a-z])",
+	};
+    return $rec;
+}
+
+1;
+
+

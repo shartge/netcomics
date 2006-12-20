@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"questor"} = 0;
+
+#Tales of the Questor http://npc.comicgenesis.com/
+sub questor {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Tales of the Questor",
+        'author' => "Ralph E. Hayes, Jr.",
+        'type' => 'png',
+        'main' => "http://npc.comicgenesis.com/",
+        'archives' => "http://npc.comicgenesis.com/archives.html",
+        'base' => "http://npc.comicgenesis.com",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/npc%Y%m%d.[a-x][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

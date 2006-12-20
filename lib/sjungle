@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"sjungle"} = 0;
+
+#Suburban Jungle http://www.suburbanjungle.com/
+sub sjungle {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5) && ($ltime[6] != 6));	
+
+    my $rec = {
+        'title' => "Suburban Jungle",
+        'author' => "John Robey",
+        'type' => 'gif',
+        'main' => "http://www.suburbanjungle.com/",
+        'archives' => "http://www.suburbanjungle.com/archives.html",
+        'base' => "http://www.suburbanjungle.com/",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/sj%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ffsimple"} = 0;
+
+#Freefall http://www.purrsia.com/freefall/
+sub ffsimple {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+
+    my $rec = {
+	'title' => "Freefall",
+	'author' => "Mark Stanley",
+	'type' => 'png',
+	'main' => "http://freefall.purrsia.com",
+	'archives' => "http://freefall.purrsia.com/archives/carc.htm",
+	'base' => "http://freefall.purrsia.com",
+	'page' => "/default.htm",
+	'expr' => "(\/ff[0-9]+\/[0-9a-zA-Z]+.png)",
+	};
+    return $rec;
+}
+
+1;
+
+

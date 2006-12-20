@@ -1,0 +1,25 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"niptuck"} = 0;
+
+#Nip And Tuck http://nipandtuck.comicgenesis.com/
+sub niptuck {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Nip and Tuck",
+        'author' => "Ralph E. Hayes, Jr.",
+        'type' => 'gif',
+        'main' => "http://nipandtuck.comicgenesis.com/",
+        'archives' => "http://nipandtuck.comicgenesis.com/archives.html",
+        'base' => "http://nipandtuck.comicgenesis.com",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/nt%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

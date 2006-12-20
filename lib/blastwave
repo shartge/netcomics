@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"blastwave"} = 0;
+
+#Gone with the Blastwave http://www.blastwavecomic.com/
+sub blastwave {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Gone with the Blastwave",
+        'author' => "Kimmo Lemetti",
+        'type' => 'jpg',
+        'main' => "http://www.blastwavecomic.com/",
+        'archives' => "http://www.blastwavecomic.com/index.php?strip_id=1",
+        'base' => "http://www.blastwavecomic.com/",
+        'page' => strftime("istrip_files/strips/%Y%m%d.jpg",@ltime)
+        };
+    return $rec;
+}
+
+1;

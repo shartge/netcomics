@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"foxfire"} = 0;
+
+# Foxfire http://foxfire.comicgenesis.com/
+sub foxfire {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $rec = {
+        'title' => "Foxfire",
+        'author' => "Luke Turner",
+        'type' => 'jpg',
+        'main' => "http://foxfire.comicgenesis.com/",
+        'archives' => "http://foxfire.comicgenesis.com/Archives.html",
+        'base' => "http://foxfire.comicgenesis.com",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(\/comics\/ffc%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;

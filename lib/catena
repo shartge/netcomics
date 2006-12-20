@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"catena"} = 1;
+
+#Catena Manor http://www.catenamanor.com
+sub catena {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 1));
+
+    my $rec = {
+        'title' => "Catena Manor",
+        'author' => "Tracy Pierce",
+        'type' => 'jpg',
+        'main' => "http://www.catenamanor.com",
+        'archives' => "http://www.catenamanor.com/comics/",
+        'base' => strftime("http://www.catenamanor.com/comics/%y/",@ltime),
+        'page' => strftime("%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;
