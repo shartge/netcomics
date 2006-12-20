@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"misfile"} = 0;
+
+#Misfile http://www.misfile.com/
+sub misfile {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] == 0) || ($ltime[6] == 6));
+
+    my $rec = {
+	'title' => "Misfile",
+	'author' => "Chris Hazelton",
+	'type' => 'jpg',
+	'main' => "http://www.misfile.com/",
+	'archives' => "http://www.misfile.com/index.php?menu=archives",
+	'base' => "http://www.misfile.com/",
+	'page' => "index.php",
+	'expr' => "(overlay.php\\?pageCalled=[0-9]+)",
+	};
+    return $rec;
+}
+
+1;
+
+

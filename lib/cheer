@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"cheer"} = 0;
+
+#Cheer http://cheer.thewotch.com
+sub cheer {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return if (($ltime[6] != 2) && ($ltime[6] != 4) && ($ltime[6] != 6));	
+
+    my $rec = {
+        'title' => "The Wotch: Cheer!",
+        'author' => "Tselsebar",
+        'type' => 'jpg',
+        'main' => "http://cheer.thewotch.com/",
+        'archives' => "http://cheer.thewotch.com/archives.php",
+        'base' => "http://cheer.thewotch.com/",
+        'page' => strftime("index.php?date=%Y%m%d",@ltime),
+        'exprs' => [strftime("(strips\/%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        };
+    return $rec;
+}
+
+1;
