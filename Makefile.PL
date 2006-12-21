@@ -532,7 +532,7 @@ package main;
 
 my %opts =
 	('NAME' => 'netcomics',
-	 'VERSION' => "0.14.1cvs",
+	 'VERSION' => "0.15cvs",
 	 'PM' => {(map {("Netcomics/$_" =>
 				   '$(INST_LIBDIR)/$(MY_INST_SUBDIR)/' . $_)} @pm_to_install),
 			  (map {("$_" =>

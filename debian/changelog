@@ -1,3 +1,9 @@
+netcomics (0.15-1) unstable; urgency=low
+
+  * "New" upstream version
+  
+ -- Sven Hartge <sven@svenhartge.de>  Thu, 21 Dec 2006 21:12:02 +0100
+
 netcomics (0.14.1-1) unstable; urgency=low
 
   * 0.14 contained a b0rk kingfeatures. This fixes it.
