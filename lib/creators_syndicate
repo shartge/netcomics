@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 
-foreach (qw(ac bc rug wiz sb shagg brew fhs
+foreach (qw(rug wiz shagg brew fhs
 	    ballard peach wee raw agnes)) {
     $hof{$_} = 0;
 }
@@ -38,14 +38,6 @@ sub creators_syn {
     return $rec;
 }
 
-#AndyCapp (i.e. http://www.creators.com/0624/cap/cap0624g.gif)
-#http://www.creators.com/0617/cap/cap0623g.gif
-#http://www.creators.com/0617/cap/cap0622g.gif
-sub ac {
-    return creators_syn(shift(@_),"Andy Capp","Reg Smiythe","cap",
-			[600,235],[725,383]);
-}
-
 #Ask Shagg (i.e. http://www.creators.com/0624/shg/shg0624g.gif)
 sub shagg {
     my $time = shift;
@@ -58,12 +50,6 @@ sub shagg {
     }
 }
  
-#B.C. http://www.creators.com/comics/bc/
-sub bc {
-    return creators_syn(shift(@_),"B.C.","Johnny Hart","bc",
-			[600,235],[725,526]);
-}
-
 #Rugrats http://www.creators.com/comics/rug/
 sub rug {
     return creators_syn(shift(@_),"Rugrats","Scott Gray & Steve Crespo",
@@ -76,11 +62,7 @@ sub wiz {
 			"Johnny Hart","wiz",[600,235],[725,520]);
 }
 
-#Speed Bump http://www.creators.com/comics/speed/
-sub sb {
-    return creators_syn(shift(@_),"Speed Bump","Dave Coverly","bmp",
-			[300,450],[725,258]);
-}
+
 
 #Strange Brew http://www.creators.com/comics/brew/
 sub brew {
