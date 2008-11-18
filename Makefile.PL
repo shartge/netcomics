@@ -81,7 +81,6 @@ cheer
 cnk
 comicspage
 comicspage_ed
-comiczone
 creators_syndicate
 curiosities
 denizen
