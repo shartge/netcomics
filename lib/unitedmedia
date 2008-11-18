@@ -160,7 +160,7 @@ sub lupo {
 # PC And Pixel
 sub pcpixel {
     return unitedmedia(shift(@_),"PC and Pixel",
-		       "Bui and Johnson","wash","pcnpixel",
+		       "Bui and Johnson","wash","pc_and_pixel",
 		       [725,498],[600,218],"pcpixel");
 }
 
