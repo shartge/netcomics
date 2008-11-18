@@ -9,8 +9,16 @@ foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
     $hof{$_} = 0;
 }
 
-#Keep in sync with comiczone.
-#They're exactly the same except for the baseurl.
+foreach (qw(ao aj betty bl com dr fbofw geech grizz herman js knc mar
+	    meg nancy pearls monty rose jworld)) {
+    $hof{$_} = 0;
+}
+
+foreach (qw(lm)) {
+    $hof{$_} = 7;
+}
+
+#####
 sub unitedmedia {
     #get arguments (fp stands for file prefix, syn for syndicate)
     my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
@@ -33,37 +41,12 @@ sub unitedmedia {
 	'base' => $baseurl,
 	'pagebase' => $baseurl,
 	'exprbase' => "http://assets.comics.com",
-	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.full\\.gif)"],
+	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.full\\.(gif|jpg|png))"],
 	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
 	'size' => $size,
     };
     
     return $rec;
-}
-
-#Peanuts  http://www.comiczone.com/comics/peanuts/archive
-sub peanuts {
-    return unitedmedia(shift(@_),"Peanuts","Charles Schulz","comics",
-		     "peanuts",[600,425],[600,148],"peanuts");
-}
-
-
-#Heathcliff http://www.creators.com/comics/heath/
-sub heathcliff {
-    return unitedmedia(shift(@_),"Heathcliff","George Gately",
-			"comics","heathcliff",[300,450],[725,529],"heathcliff");
-}
-
-#Over The Hedge  http://www.comiczone.com/comics/hedge/archive
-sub oth {
-    return unitedmedia(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
-                     "comics","over_the_hedge",[725,481],[600,210],"oth");
-}
-
-#Luann  http://www.comics.com/luann/
-sub luann {
-    return unitedmedia(shift(@_),"Luann","Greg Evans","comics","luann",
-		     [725,374],[600,212],"luann");
 }
 
 ####################################################################
@@ -243,7 +226,7 @@ sub dilbert {
     $rec->{'base'} = $baseurl;
     $rec->{'pagebase'} = undef;
     $rec->{'exprbase'} = undef;
-    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.strip\\.gif)"],
+    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.strip\\.(gif|jpg|png)"],
     $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime),
 
     return $rec;
@@ -283,6 +266,162 @@ sub trevor {
     return $rec;
 }
 
+###################################
+
+#Peanuts  http://www.comiczone.com/comics/peanuts/archive
+sub peanuts {
+    return unitedmedia(shift(@_),"Peanuts","Charles Schulz","comics",
+		     "peanuts",[600,425],[600,148],"peanuts");
+}
+
+
+#Heathcliff http://www.creators.com/comics/heath/
+sub heathcliff {
+    return unitedmedia(shift(@_),"Heathcliff","George Gately",
+			"comics","heathcliff",[300,450],[725,529],"heathcliff");
+}
+
+#Over The Hedge  http://www.comiczone.com/comics/hedge/archive
+sub oth {
+    return unitedmedia(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
+                     "comics","over_the_hedge",[725,481],[600,210],"oth");
+}
+
+#Luann  http://www.comics.com/luann/
+sub luann {
+    return unitedmedia(shift(@_),"Luann","Greg Evans","comics","luann",
+		     [725,374],[600,212],"luann");
+}
+
+
+# these could be moved into unitedmedia, but they're here fore now
+
+#Alley Oop  http://www.unitedmedia.com/comics/alleyoop/archive
+sub ao {
+    return unitedmedia(shift(@_),"Alley Oop","Dave Gaue & Jack Bender","comics",
+		     "alleyoop",[725,530],[600,192],"ao");
+}
+
+#Arlo and Janis http://www.unitedmedia.com/comics/arlonjanis/archive
+sub aj {
+    return unitedmedia(shift(@_),"Arlo and Janis","Jimmy Johnson","comics",
+		     "arlonjanis",[725,523],[600,202],"aj");
+}
+
+#Betty http://www.unitedmedia.com/comics/betty/archive
+sub betty {
+    return unitedmedia(shift(@_),"Betty","Gary Delainey & Gerry Rasmussen",
+		     "comics","betty",[725,381],[600,208],"betty");
+}
+
+#The Born Loser http://www.unitedmedia.com/comics/bornloser/archive
+sub bl {
+    return unitedmedia(shift(@_),"The Born Loser","Chip Sansom","comics",
+		     "bornloser",[725,530],[600,200],"bl");
+}
+
+#Committed http://www.unitedmedia.com/comics/committed/archive
+sub com {
+    return unitedmedia(shift(@_),"Committed","Michael Fry","comics","committed",
+		     [725,382],[300,415],"com");
+}
+
+# Drabble http://www.unitedmedia.com/comics/drabble/archive
+sub dr {
+    return unitedmedia(shift(@_),"Drabble","Kevin Fagan","comics","drabble",
+		     [725,504],[600,200],"dr");
+}
+
+#For Better or For Worser http://www.unitedmedia.com/comics/forbetter/archive
+sub fbofw {
+    return unitedmedia(shift(@_),"For Better or For Worse","Lynn Johnston",
+		     "comics","forbetter",[725,535],[600,222],"fbofw");
+}
+
+#Geech 
+sub geech {
+    return unitedmedia(shift(@_),"Geech","Jerry Bittle","comics","geech",
+		    [725,536],[600,218],"geech");
+}
+
+#The Grizzwells http://www.unitedmedia.com/comics/grizzwells/archive
+sub grizz {
+    my $today = shift();
+    return unitedmedia($today,"The Grizzwells","Bill Schorr","comics",
+			 "grizzwells",undef,[600,218],"grizz");
+}
+
+#Herman  http://www.unitedmedia.com/comics/herman/archive
+sub herman {
+    return unitedmedia(shift(@_),"Herman","Jim Unger","comics","herman",
+		     [725,532],[300,372],"herman");
+}
+
+#JumpStart  http://www.unitedmedia.com/comics/jumpstart/archive
+sub js {
+    return unitedmedia(shift(@_),"JumpStart","Robb Armstrong","comics",
+		     "jumpstart",[725,532],[600,197],"js");
+}
+
+#Kit 'n' Carlyle  http://www.unitedmedia.com/comics/kitncarlyle/archive
+sub knc {
+    my $today = shift();
+    return unitedmedia($today,"Kit-n-Carlyle","Larry Wright","comics",
+			 "kitncarlyle",undef,[300,375],"knc");
+}
+
+# Liberty Meadows  http://www.unitedmedia.com/comics/liberty/archive/
+sub lm {
+    return unitedmedia(shift(@_),"Liberty Meadows","Frank Cho","creators",
+		     "liberty",[650,306],[625,200],"lm");
+}
+
+#Marmaduke  http://www.unitedmedia.com/comics/marmaduke/archive
+sub mar {
+    return unitedmedia(shift(@_),"Marmaduke","Brad Anderson","comics","marmaduke",
+		     [725,512],[300,336],"mar");
+}
+
+#Meg!  http://www.unitedmedia.com/comics/meg/archive
+sub meg {
+    return unitedmedia(shift(@_),"Meg!","Greg Curfman","comics","meg",
+		     [600,200],[600,200],"meg");
+}
+
+#Nancy  http://www.unitedmedia.com/comics/nancy/archive
+sub nancy {
+    return unitedmedia(shift(@_),"Nancy","Guy and Brad Gilchrist","comics",
+		     "nancy",[725,527],[600,215],"nancy");
+}
+
+#Pearls Before Swine  http://www.unitedmedia.com/comics/pearls/archive
+sub pearls {
+    return unitedmedia(shift(@_),"Pearls Before Swine","Stephan Pastis",
+                     "comics","pearls",[727,350],[600,228],"pearls");
+}
+
+#Monty  http://www.unitedmedia.com/comics/monty/archive
+sub monty {
+    return unitedmedia(shift(@_),"Monty","Jim Meddick","comics","monty",
+		     [725,531],[600,210],"monty");
+}
+
+#Rose is Rose  http://www.unitedmedia.com/comics/roseisrose/archive
+sub rose {
+    return unitedmedia(shift(@_),"Rose is Rose","Pat Brady","comics","roseisrose",
+		     [725,537],[600,200],"rose");
+}
+
+#Janes World  http://www.unitedmedia.com/comics/janesworld/archive
+sub jworld {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    return undef if($ltime[6] == 0);
+    return unitedmedia($time,"Janes World","Paige Braddock","comics",
+        "janesworld",[500,358],[600,203],"jworld");
+}
+
+###################################
 
 1;
 
