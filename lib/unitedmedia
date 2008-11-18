@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
-	    fatcats bullsnbears fae grandave duncan reality shirley luann
+	    fatcats bullsnbears fae grandave duncan reality shirley luann oth
 	    soupnutz lupo trevor)) {
     $hof{$_} = 0;
 }
@@ -41,13 +41,19 @@ sub unitedmedia {
     return $rec;
 }
 
+#Over The Hedge  http://www.comiczone.com/comics/hedge/archive
+sub oth {
+    return unitedmedia(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
+                     "comics","over_the_hedge",[725,481],[600,210],"oth");
+}
+
 #Luann  http://www.comics.com/luann/
 sub luann {
     return unitedmedia(shift(@_),"Luann","Greg Evans","comics","luann",
 		     [725,374],[600,212],"luann");
 }
 
-####
+####################################################################
 
 #Buckets http://www.unitedmedia.com/comics/buckets/
 sub buckets {

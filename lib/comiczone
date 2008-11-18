@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(ao aj betty bl com dr fbofw geech grizz herman js knc mar
-	    meg nancy oth peanuts pearls monty rose jworld)) {
+	    meg nancy peanuts pearls monty rose jworld)) {
     $hof{$_} = 0;
 }
 
@@ -143,12 +143,6 @@ sub meg {
 sub nancy {
     return comiczone(shift(@_),"Nancy","Guy and Brad Gilchrist","comics",
 		     "nancy",[725,527],[600,215],"nancy");
-}
-
-#Over The Hedge  http://www.comiczone.com/comics/hedge/archive
-sub oth {
-    return comiczone(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
-		     "comics","hedge",[725,481],[600,210],"oth");
 }
 
 #Peanuts  http://www.comiczone.com/comics/peanuts/archive
