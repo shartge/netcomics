@@ -2,7 +2,7 @@
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
 	    fatcats bullsnbears fae grandave duncan reality shirley luann oth
-	    soupnutz lupo trevor heathcliff)) {
+	    soupnutz lupo trevor heathcliff peanuts)) {
     $hof{$_} = 0;
 }
 foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
@@ -40,6 +40,13 @@ sub unitedmedia {
     
     return $rec;
 }
+
+#Peanuts  http://www.comiczone.com/comics/peanuts/archive
+sub peanuts {
+    return unitedmedia(shift(@_),"Peanuts","Charles Schulz","comics",
+		     "peanuts",[600,425],[600,148],"peanuts");
+}
+
 
 #Heathcliff http://www.creators.com/comics/heath/
 sub heathcliff {
