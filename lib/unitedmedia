@@ -1,7 +1,7 @@
 #-*-Perl-*-
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
-	    fatcats bullsnbears fae grandave duncan reality shirley 
+	    fatcats bullsnbears fae grandave duncan reality shirley luann
 	    soupnutz lupo trevor)) {
     $hof{$_} = 0;
 }
@@ -23,22 +23,31 @@ sub unitedmedia {
     return undef if ! defined $size || $time < $first_avail;
 
     my $baseurl = "http://www.comics.com";
-    
+
     my $rec = {
 	'title' => $title,
 	'author' => $author,
 	'type' => 'gif',
-	'main' => "$baseurl/$syn/$fp/",
-	'archives' => "$baseurl/$syn/$fp/archive/",
+	'main' => "$baseurl/$fp/",
+	'archives' => "$baseurl/$fp/",
 	'base' => $baseurl,
-	'exprs' => [strftime("(/$syn/$fp/archive/images/$fp\\d+\\.(gif|jpg))",
-			  @ltime)],
-	'page' => strftime("/$syn/$fp/archive/$fp-%Y%m%d.html",@ltime),
+	'pagebase' => $baseurl,
+	'exprbase' => "http://assets.comics.com",
+	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.full\\.gif)"],
+	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
 	'size' => $size,
     };
     
     return $rec;
 }
+
+#Luann  http://www.comics.com/luann/
+sub luann {
+    return unitedmedia(shift(@_),"Luann","Greg Evans","comics","luann",
+		     [725,374],[600,212],"luann");
+}
+
+####
 
 #Buckets http://www.unitedmedia.com/comics/buckets/
 sub buckets {
@@ -46,11 +55,6 @@ sub buckets {
 		       [725,380],[600,210],"buckets");
 }
 
-#Dilbert http://www.unitedmedia.com/comics/dilbert/
-sub dilbert {
-    return unitedmedia(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
-		       [725,515],[600,210],"dilbert");
-}
 
 #Fat Cats http://www.unitedmedia.com/comics/fatcats/
 sub fatcats {
@@ -206,6 +210,25 @@ sub cheap {
 		       undef,[725,270],"cheap");
 }
 
+#Dilbert http://www.unitedmedia.com/comics/dilbert/
+sub dilbert {
+
+    my @ltime = gmtime(@_[0]);
+    my $rec = unitedmedia(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
+		       [725,515],[600,210],"dilbert");
+
+    my $baseurl = "http://dilbert.com";
+
+    $rec->{'main'} = $baseurl;
+    $rec->{'archives'} = $baseurl;
+    $rec->{'base'} = $baseurl;
+    $rec->{'pagebase'} = undef;
+    $rec->{'exprbase'} = undef;
+    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.strip\\.gif)"],
+    $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime),
+
+    return $rec;
+}
 
 # Trevor! - interactive two gifs per panel, but we'll just download them all.
 sub trevor {

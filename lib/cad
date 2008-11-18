@@ -14,7 +14,7 @@ sub cad {
 
     my $rec = {
 	'title' => 'Ctrl-Alt-Del',
-	'author' => 'Absath',
+	'author' => 'Tim Buckley',
 	'type' => 'jpg',
 	'main' => $base,
 	'base' => $base,

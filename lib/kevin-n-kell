@@ -13,7 +13,7 @@ sub kk {
 	     ($date < 20000703)) || #no Sun or Sat strips before this date
 	    ($date < 19950904)); #start of archive
 
-    my $baseurl = "http://www.kevinandkell.com/";
+    my $baseurl = "http://www.kevinandkell.com";
     my $rec = {
 	'title' => "Kevin n Kell",
 	'author' => "Bill Holbrook",
@@ -22,10 +22,10 @@ sub kk {
 	'archives' => "$baseurl/archive/index.html",
 	'size' => ($ltime[6] == 0 ? [585,390] : [585,190]),
 	'base' => strftime("$baseurl/%Y/",@ltime),
-	'page' => strftime("kk%m%d.html",@ltime),
+	'page' => strftime("kk%m%d.html",@ltie),
 	'exprs' => {
 	    'comic' => ["(strips/kk$date.gif)"],
-	    'caption' => ["strips/kk$date.gif.*?<FONT.*?>\\s?(.*?)</FONT>"],
+	    'caption' => ["strips/kk$date.gif.*??<div id=\"caption\"><span>\\s?(.*?)</span></div>"],
 	},
     };
     return $rec;
