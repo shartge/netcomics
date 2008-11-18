@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 
-foreach (qw(ac bc rug wiz sb shagg brew fhs heath
+foreach (qw(ac bc rug wiz sb shagg brew fhs
 	    ballard peach wee raw agnes)) {
     $hof{$_} = 0;
 }
@@ -88,11 +88,6 @@ sub brew {
 			[300,450],[725,272]);
 }
 
-#Heathcliff http://www.creators.com/comics/heath/
-sub heath {
-    return creators_syn(shift(@_),"Heathcliff","George Gately","hth",
-			[300,450],[725,529]);
-}
 
 #For Heaven's Sake! http://www.creators.com/comics/hev/
 sub fhs {

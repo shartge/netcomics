@@ -2,7 +2,7 @@
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
 	    fatcats bullsnbears fae grandave duncan reality shirley luann oth
-	    soupnutz lupo trevor)) {
+	    soupnutz lupo trevor heathcliff)) {
     $hof{$_} = 0;
 }
 foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
@@ -39,6 +39,12 @@ sub unitedmedia {
     };
     
     return $rec;
+}
+
+#Heathcliff http://www.creators.com/comics/heath/
+sub heathcliff {
+    return unitedmedia(shift(@_),"Heathcliff","George Gately",
+			"comics","heathcliff",[300,450],[725,529],"heathcliff");
 }
 
 #Over The Hedge  http://www.comiczone.com/comics/hedge/archive
@@ -219,7 +225,7 @@ sub cheap {
 #Dilbert http://www.unitedmedia.com/comics/dilbert/
 sub dilbert {
 
-    my @ltime = gmtime(@_[0]);
+    my @ltime = gmtime($_[0]);
     my $rec = unitedmedia(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
 		       [725,515],[600,210],"dilbert");
 

@@ -25,7 +25,7 @@ sub kk {
 	'page' => strftime("kk%m%d.html",@ltime),
 	'exprs' => {
 	    'comic' => ["(strips/kk$date.gif)"],
-	    'caption' => ["strips/kk$date.gif.*??<div id=\"caption\"><span>\\s?(.*?)</span></div>"],
+	    'caption' => ["strips/kk$date.gif.*?<div id=\"caption\"><span>\\s?(.*?)</span></div>"],
 	},
     };
     return $rec;
