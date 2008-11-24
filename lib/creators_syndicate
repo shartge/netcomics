@@ -1,6 +1,6 @@
 #-*-CPerl-*-
 
-foreach (qw(rug wiz shagg brew fhs
+foreach (qw(rug shagg brew fhs
 	    ballard peach wee raw agnes)) {
     $hof{$_} = 0;
 }
@@ -55,14 +55,6 @@ sub rug {
     return creators_syn(shift(@_),"Rugrats","Scott Gray & Steve Crespo",
 			"rug", [600,235],[725,538]);
 }
-
-#The Wizard of Id http://www.creators.com/comics/wiz/
-sub wiz {
-    return creators_syn(shift(@_),"The Wizard of Id","Brant Parker & " .
-			"Johnny Hart","wiz",[600,235],[725,520]);
-}
-
-
 
 #Strange Brew http://www.creators.com/comics/brew/
 sub brew {

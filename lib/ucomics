@@ -3,14 +3,10 @@
 # TODO: ucomics(), ucomics_akamai() and ucomics_direct() should be
 #       rewritten to be only one uniform function.
 
-foreach (qw(adam baldo bigp bd cathy cth corn dp fw fusco hc itb 
+foreach (qw(adam baldo bigp bd cathy ch cth corn dp fbofw fw fusco hc itb ucross
 	    jm boffo ob rla stsp tank ziggy kudzu psmueller ga ucross ft ttdb wiley)) {
     $hof{$_} = 0;
 }
-#first Calvin & Hobbes strip was November 18, 1985.
-$hof{"ch"} = (365*11) + 3; #11 years, 2 of which were leap years & 1 day behind
-
-$hof{"ucross"} = 0;
 
 sub ucomics {
 
@@ -257,5 +253,13 @@ sub wiley {
   return ucomics_direct($time,"Non Sequitur","Wiley Miller",undef,
     [600,193],"nq","nq");
 }
+
+#For Better or For Worse
+sub fbofw {
+    return ucomics(shift(@_),"For Better or For Worse","Lynn Johnston",
+                     "forbetterorforworse","fb",[600,808],[600,195],"fbofw");
+}
+
+
 
 1;
