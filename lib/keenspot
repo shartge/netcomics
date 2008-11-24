@@ -20,7 +20,7 @@ sub keenspot {
 	if (!defined($index)) {$index = "index.html";}
 	my @ltime2 = gmtime(time);
 	
-	my $page = "/d/$date.html";
+	my $page = "/D/$date.html";
 	if ($index =~ /wander/) {
 		$page = "/D/$date.html";
 		$index = "index.html";
