@@ -2,7 +2,7 @@
 
 foreach (qw(chickw buckets dilbert gf topworld meatloaf tarzan ripleys bignate
 	    fatcats bullsnbears fae grandave duncan reality shirley luann oth
-	    soupnutz lupo trevor heathcliff peanuts sb ac bc)) {
+	    soupnutz lupo trevor heathcliff peanuts sb ac bc wiz)) {
     $hof{$_} = 0;
 }
 foreach (qw(cheap pcpixel pickles flightdeck redrover thatslife)) {
@@ -67,6 +67,12 @@ sub ac {
 sub sb {
     return unitedmedia(shift(@_),"Speed Bump","Dave Coverly","comics","speed_bump",
 			[300,450],[725,258],"sb");
+}
+
+#The Wizard of Id
+sub wiz {
+    return unitedmedia(shift(@_),"The Wizard of Id","Brant Parker & Johnny Hart","comics",
+			"wizard_of_id",[600,235],[725,520],"wiz");
 }
 
 ####################################################################
