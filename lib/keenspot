@@ -43,9 +43,9 @@ sub keenspot {
 		my @relurls = ();
 		#repeatedly match and replace.  
         while (1) {
-			if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:??[a-zA-Z_0-9\-\+]*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+			if ($text =~ s/src=".*?(\/(comics|strips|\d+)\/.*?$date:??[a-zA-Z_0-9\-\+]*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
 				my $file = $1;
-				my $type = $5;
+				my $type = $4;
 				push(@relurls,$file) unless grep(/$file/, @relurls);
 				$rec->{'type'} = $type;
 			} else {
