@@ -41,7 +41,7 @@ sub unitedmedia {
 	'base' => $baseurl,
 	'pagebase' => $baseurl,
 	'exprbase' => "http://assets.comics.com",
-	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.full\\.(gif|jpg|png))"],
+	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.(gif|jpg|png))"],
 	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
 	'size' => $size,
     };
@@ -246,7 +246,7 @@ sub dilbert {
     $rec->{'base'} = $baseurl;
     $rec->{'pagebase'} = undef;
     $rec->{'exprbase'} = undef;
-    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+\\.strip\\.(gif|jpg|png))"],
+    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.(gif|jpg|png))"],
     $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime),
 
     return $rec;
