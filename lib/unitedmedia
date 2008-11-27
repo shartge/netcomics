@@ -331,7 +331,7 @@ sub ao {
 #Arlo and Janis
 sub aj {
     return unitedmedia(shift(@_),"Arlo and Janis","Jimmy Johnson","comics",
-		     "arlonjanis",[725,523],[600,202],"aj");
+		     "arlo&janis",[725,523],[600,202],"aj");
 }
 
 #Betty
