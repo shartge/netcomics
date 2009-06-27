@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"sinf"} = 0;
+
+# Sinfest
+# http://www.sinfest.net/comikaze/comics/2009-06-15.gif
+sub sinf {
+    my $time = shift(@_);
+    my @ltime = gmtime($time);
+    #first comic on January 17, 2000
+    my $date = strftime("%Y%m%d",@ltime);
+    return undef unless $date > 20000117;
+
+    my $rec = {
+	'title' => "Sinfest",
+	'author' => "Tatsuya Ishida",
+	'type' => 'gif',
+	'main' => "http://www.sinfest.net",
+	'archives' => "http://www.sinfest.net/archive.php",
+	'base' => "http://www.sinfest.net/comikaze/comics/",
+	'page' => strftime("%Y-%m-%d.gif", @ltime),
+#	'size' => [703,276],
+    };
+
+    return $rec;
+}
+
+1;

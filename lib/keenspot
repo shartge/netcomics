@@ -3,7 +3,7 @@
 foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal rpg
-   rwaffles ssdd schlock sheldon sinf soap suburban sp twolumps wander wendy
+   rwaffles ssdd schlock sheldon soap suburban sp twolumps wander wendy
    cutewendy youdamn chopping fatjc kpanic)) {
    $hof{"$_"} = 0;
 }
@@ -1850,33 +1850,33 @@ sub sheldon {
     return keenspot($title,$author,$date,$url,$index);
 }
 
-#Sinfest
-sub sinf {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
-    my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
-
-   # Last updated July 5, 2001
-    my @missing = (20000131,20000222,20000223,20000224,20000225,20000226,
-      20000227,20000228,20000229);
-    my @extra = ();
-
-    #Everyday until present
-    return undef if 
-      (($date < 20000117) || #first comic on January 17, 2000
-      (($date >= 20000117 && $date <= $date2) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      grep(/$date/,@missing));
-
-    my $title = "Sinfest";
-    my $author = "Tatsuya Ishida";
-    my $url = "http://www.sinfest.net";
-    my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
-}
+##Sinfest
+#sub sinf {
+#    my $time = shift;
+#    my @ltime = gmtime($time);
+#    my @ltime2 = gmtime(time);
+#    my $date = strftime("%Y%m%d", @ltime);
+#    my $date2 = strftime("%Y%m%d", @ltime2);
+#
+#   # Last updated July 5, 2001
+#    my @missing = (20000131,20000222,20000223,20000224,20000225,20000226,
+#      20000227,20000228,20000229);
+#    my @extra = ();
+#
+#    #Everyday until present
+#    return undef if 
+#      (($date < 20000117) || #first comic on January 17, 2000
+#      (($date >= 20000117 && $date <= $date2) &&
+#      ($ltime[6] !~ /[0123456]/)) ||
+#      grep(/$date/,@missing));
+#
+#    my $title = "Sinfest";
+#    my $author = "Tatsuya Ishida";
+#    my $url = "http://www.sinfest.net";
+#    my $index = undef;
+#    
+#    return keenspot($title,$author,$date,$url,$index);
+#}
 
 #Soap on a Rope
 sub soap {

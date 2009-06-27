@@ -145,6 +145,7 @@ sempai
 sourcewars
 shermans_lagoon
 shoe
+sinf
 sjungle
 slowwave
 sluggy_freelance
