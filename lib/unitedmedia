@@ -252,7 +252,7 @@ sub dilbert {
     $rec->{'base'} = $baseurl;
     $rec->{'pagebase'} = undef;
     $rec->{'exprbase'} = undef;
-    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.strip\\.(gif|jpg|png))"],
+    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.strip(\\.sunday)?\\.(gif|jpg|png))"],
     $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime),
 
     return $rec;
