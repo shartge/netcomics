@@ -2,7 +2,7 @@
 
 foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
-   lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal rpg
+   lostfound  bayside rad greytown mp mcs mena3 newshounds nukees ozy pentasmal rpg
    rwaffles ssdd schlock sheldon soap suburban sp twolumps wander wendy
    cutewendy youdamn chopping fatjc kpanic)) {
    $hof{"$_"} = 0;
@@ -1457,6 +1457,32 @@ sub mcs {
     my $title = "The Mr Chuck Show";
     my $author = "John Myers";
     my $url = "http://www.mrchuckshow.com";
+    my $index = undef;
+    
+    return keenspot($title,$author,$date,$url,$index);
+}
+
+#Menage a 3
+sub mena3 {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+    my @missing = ();
+    my @extra = ();
+
+    #T-T-Sat
+    return undef if 
+      (($date < 20080517) || #first comic on May 17, 2008
+      (($date >= 20080517 && $date <= $date2) &&
+      ($ltime[6] !~ /[246]/)) ||
+      grep(/$date/,@missing));
+
+    my $title = "Menage a 3";
+    my $author = "Gisele Lagace";
+    my $url = "http://www.menagea3.net";
     my $index = undef;
     
     return keenspot($title,$author,$date,$url,$index);
