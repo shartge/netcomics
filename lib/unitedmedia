@@ -32,17 +32,42 @@ sub unitedmedia {
 
     my $baseurl = "http://www.comics.com";
 
+    #Design:
+    #
+    #First use a function to determine if the specified date exists,
+    #then have it return just a hash to update the rli with the correct info.
+
+
     my $rec = {
 	'title' => $title,
 	'author' => $author,
-	'type' => 'gif',
 	'main' => "$baseurl/$fp/",
 	'archives' => "$baseurl/$fp/",
 	'base' => $baseurl,
 	'pagebase' => $baseurl,
-	'exprbase' => "",
-	'exprs' => ["(http://[.\\d\\w]*/dyn/str_strip/\\d+[.\\d\\w]*\\.full\\.(gif|jpg|png))"],
+#	'exprbase' => "",
+#	'exprs' => ["(http://[.\\d\\w]*/dyn/str_strip/\\d+[.\\d\\w]*\\.full\\.(gif|jpg|png))"],
 	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
+        'func' => sub {
+            $_ = shift;
+            my @relurls = ();
+            if (m%(http://[.\d\w]*/dyn/str_strip/\d+[.\d\w]*\.full\.(gif|jpg|png))%) {
+                my $tmp = $1;
+		$tmp =~ s/full/zoom/;
+                my $type = $1 if ($tmp =~ m%\.(\w+)$%);
+                push @relurls, {
+		    'pagebase' => "",
+                    'page' => $tmp,
+                    'comic' => $tmp,
+                    'type' => $type,
+                    'func' => undef,
+                };
+		print "$tmp, $type\n";
+            }
+            return @relurls;
+        },
+
+
 	'size' => $size,
     };
     
