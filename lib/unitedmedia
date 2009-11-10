@@ -62,7 +62,6 @@ sub unitedmedia {
                     'type' => $type,
                     'func' => undef,
                 };
-		print "$tmp, $type\n";
             }
             return @relurls;
         },
