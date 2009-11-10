@@ -40,8 +40,8 @@ sub unitedmedia {
 	'archives' => "$baseurl/$fp/",
 	'base' => $baseurl,
 	'pagebase' => $baseurl,
-	'exprbase' => "http://assets.comics.com",
-	'exprs' => ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.zoom\\.(gif|jpg|png))"],
+	'exprbase' => "",
+	'exprs' => ["(http://[.\\d\\w]*/dyn/str_strip/\\d+[.\\d\\w]*\\.full\\.(gif|jpg|png))"],
 	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
 	'size' => $size,
     };
