@@ -7,7 +7,7 @@ $hof{"oots"} = 0;
 sub oots {
     my $time = shift;
     my @ltime = gmtime($time);
-    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+#    return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
 
     my $rec = {
 	'title' => "Order of the Stick",
@@ -17,6 +17,7 @@ sub oots {
 	'archives' => "http://www.giantitp.com/comics/oots.html",
 	'base' => "http://www.giantitp.com/",
 	'page' => "/index.html",
+	'referer' => "http://www.giantitp.com/comics/oots.html",
 	'exprs' => ["(comics/oots[0-9]+.html)", "(comics\/images\/[a-zA-Z0-9-]+.[a-z][a-z][a-z])"]
 	};
     return $rec;
