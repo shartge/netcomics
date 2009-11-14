@@ -62,7 +62,17 @@ sub unitedmedia {
                     'type' => $type,
                     'func' => undef,
                 };
-            }
+            } elsif (m%(/dyn/str_strip/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+[.\d\w]*\.strip(\.sunday)?\.(gif|jpg|png))%) {
+		my $tmp = $1;
+	        my $type = $1 if ($tmp =~ m%\.(\w+)$%);
+                push @relurls, {
+                    'page' => $tmp,
+                    'comic' => $tmp,
+                    'type' => $type,
+                    'func' => undef,
+                };
+
+	    }
             return @relurls;
         },
 
@@ -276,8 +286,7 @@ sub dilbert {
     $rec->{'base'} = $baseurl;
     $rec->{'pagebase'} = undef;
     $rec->{'exprbase'} = undef;
-    $rec->{'exprs'} = ["(/dyn/str_strip/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+/\\d+[.\\d\\w]*\\.strip(\\.sunday)?\\.(gif|jpg|png))"],
-    $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime),
+    $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime);
 
     return $rec;
 }
