@@ -33,9 +33,8 @@ sub real {
 	'base' => $base,
 	'main' => $base . '/',
 	'archives' => $base . $arc,
-	'page' => $arc,
-	'exprs' => ["href=\"(/archive/$date.html)\"",
-		    "src=\"(/comics/$year/${full}_\\d+\\.png)\""],
+	'page' => "/archive/$date.html",
+	'exprs' => ["src=\"(/comics/$year/${full}_\\d+\\.png)\""],
     };
     
     return $rec;
