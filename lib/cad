@@ -10,7 +10,7 @@ sub cad {
     
     return undef unless $date > 20021022;
     
-    my $base = 'http://www.ctrlaltdel-online.com/';
+    my $base = 'http://www.cad-comic.com/';
 
     my $rec = {
 	'title' => 'Ctrl-Alt-Del',
@@ -18,9 +18,9 @@ sub cad {
 	'type' => 'jpg',
 	'main' => $base,
 	'base' => $base,
-	'archives' => $base . 'archives.php',
-	'page' => "comic.php?d=$date",
-	'exprs' => ["/(comics/$date\.jpg)"],
+	'archives' => $base . 'cad/archive',
+	'page' => "cad/$date",
+	'exprs' => ["/(comics/cad/$date\.jpg)"],
 	};
     return $rec;
 }
