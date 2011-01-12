@@ -62,7 +62,7 @@ sub unitedmedia {
                     'type' => $type,
                     'func' => undef,
                 };
-            } elsif (m%(/dyn/str_strip/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+[.\d\w]*\.strip(\.sunday)?\.(gif|jpg|png))%) {
+            } elsif (m%(/dyn/str_strip/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+[.\d\w]*\.strip(\.sunday|\.zoom)?\.(gif|jpg|png))%) {
 		my $tmp = $1;
 	        my $type = $1 if ($tmp =~ m%\.(\w+)$%);
                 push @relurls, {
