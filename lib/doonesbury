@@ -6,14 +6,15 @@ $hof{"doon"} = 0;
 #Doonesbury http://www.doonesbury.com/dailydose/
 sub doon {
     my @ltime = gmtime(shift(@_));
+    my $sfx = ($ltime[6] == 0) ? "jpg" : "gif"; #jpegs on Sunday
     my $rec = {
         'title' => "Doonesbury",
         'author' => "G. B. Trudeau",
-        'type' => 'gif',
+	'type' => $sfx,
         'main' => "http://www.doonesbury.com/",
         'archives' => "http://www.doonesbury.com/strip/dailydose/",
         'base' => "http://images.ucomics.com/",
-        'page' => strftime("comics/db/%Y/db%y%m%d.gif",@ltime),
+        'page' => strftime("comics/db/%Y/db%y%m%d.$sfx",@ltime),
     };
     return $rec;
 }
