@@ -17,7 +17,7 @@ CCD='/home/tajt/htdocs/comics'
 SAVE=7
 
 # the output of the netcomics script gets stored in this file ... (to
-allow updates ocf missing comics)
+# allow updates ocf missing comics)
 OUTPUT="$CCD/current-session"
 
 # this is the comics I'll like to download
