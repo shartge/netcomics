@@ -25,16 +25,17 @@ sub ucomics {
     my $ntime = mkgmtime(0,0,0,@ntime[3..5]);
     my $first_avail = $ntime - ($oldest + $hof{$func})*(3600*24);
     my $size = ($ltime[6] == 0 ? $sun_size : $wd_size);
+    my $sfx = ($ltime[6] == 0) ? "jpg" : "gif"; #jpegs on Sunday
     return undef if ! defined $size || $time < $first_avail;
     
     my $rec = {
 	'title' => $title,
 	'author' => $author,
-	'type' => 'gif',
+	'type' => $sfx,
 	'main' => "$baseurl/$syn/",
 	'archives' => "$baseurl/$syn/",
 	'base' => "http://images.ucomics.com/",
-	'page' => strftime("comics/$fp/%Y/$fp%y%m%d.gif",@ltime),
+	'page' => strftime("comics/$fp/%Y/$fp%y%m%d.$sfx",@ltime),
 	'size' => $size,
     };
     
@@ -44,15 +45,16 @@ sub ucomics {
 sub ucomics_akamai {
     my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
     my @ltime = gmtime($time);
+    my $sfx = ($ltime[6] == 0) ? "jpg" : "gif"; #jpegs on Sunday
     my $rec = {
 	'title' => $title,
 	'author' => $author,
-	'type' => 'gif',
+	'type' => $sfx,
 	'main' => "http://www.ucomics.com/$lname/",
 	'archives' => "http://www.ucomics.com/$lname/",
 	'base' => "http://",
 	'page' => strftime("www.ucomics.com/$lname/view${sname}.cfm?uc_full_date=%Y%m%d&uc_comic=${sname}",@ltime),
-	'exprs' => [strftime("([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/${sname}/%Y/${sname}%y%m%d.gif)",@ltime)],
+	'exprs' => [strftime("([^/]+\.akamai\.net/[^/]+/[^/]+/[^/]+/[^/]+/images.ucomics.com/comics/${sname}/%Y/${sname}%y%m%d.$sfx)",@ltime)],
 	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
     };
 }
@@ -60,14 +62,15 @@ sub ucomics_akamai {
 sub ucomics_direct {
     my ($time,$title,$author,$sun_size,$wd_size,$lname,$sname) = @_;
     my @ltime = gmtime($time);
+    my $sfx = ($ltime[6] == 0) ? "jpg" : "gif"; #jpegs on Sunday
     my $rec = {
 	'title' => $title,
 	'author' => $author,
-	'type' => 'gif',
+	'type' => $sfx,
 	'main' => "http://www.ucomics.com/$lname/",
 	'archives' => "http://www.ucomics.com/$lname/",
 	'base' => "http://images.ucomics.com/",
-	'page' => strftime("comics/$lname/%Y/${sname}%y%m%d.gif",@ltime),
+	'page' => strftime("comics/$lname/%Y/${sname}%y%m%d.$sfx",@ltime),
 	'size' => ($ltime[6] == 0 ? $sun_size : $wd_size),
     };
 }
