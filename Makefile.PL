@@ -109,7 +109,6 @@ gaming_u
 ghollow
 gilthorp
 grimmy
-helen
 inherit
 inktank
 jerkcity
@@ -203,6 +202,7 @@ gpf
 greystoneinn
 greytown
 heaven_and_earth
+helen
 helpdesk
 janesworld
 lostfound

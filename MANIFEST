@@ -83,6 +83,7 @@ lib/disabled/salon
 lib/disabled/speedbump
 lib/disabled/webcomics
 lib/disabled/user_friendly.oo
+lib/disabled/helen
 lib/doemain
 lib/doodie
 lib/doonesbury
@@ -99,7 +100,6 @@ lib/freefall
 lib/gaming_u
 lib/gilthorp
 lib/grimmy
-lib/helen
 lib/inktank
 lib/jerkcity
 lib/joyoftech
