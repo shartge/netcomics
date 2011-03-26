@@ -3,12 +3,12 @@ $hof{"grimm"} = 0;
 # comics name is "grimm" to be compatible with old name used in toonville
 
 # Mother Goose and Grimm
-# example: http://www.grimmy.com/images/MGG_Archive/MGG_2004/MGG0802.gif
+# example: http://www.grimmy.com/images/MGG_Archive/MGG_2011/MGG-2011-03-26.gif
 sub grimm {
     my $time = shift;
     my @ltime = gmtime($time);
 
-    $page_fmt = strftime("/MGG_Archive/MGG_%Y/MGG%m%d.gif",@ltime);
+    $page_fmt = strftime("/MGG_Archive/MGG_%Y/MGG-%Y-%m-%d.gif",@ltime);
 
     my $rec = {
         'title' => "Mother Goose and Grimm",
@@ -18,7 +18,7 @@ sub grimm {
         'archives' => "http://www.grimmy.com/comics.php",
         'base' => "http://www.grimmy.com/images",
         'page' => $page_fmt,
-        'size' => [585, 203],
+        'size' => [725, 256],
     };
     return $rec;
 }
