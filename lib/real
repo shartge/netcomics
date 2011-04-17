@@ -35,8 +35,8 @@ sub real {
 	'archives' => $base . $arc,
 	'page' => "/archive/$date.html",
 	'exprs' => {
-		comic => ["src=\"(/comics/$year/${full}_\\d+\\.(png|jpg|gif))\""],
-		type => ["src=\"/comics/$year/${full}_\\d+\\.(png|jpg|gif)\""],
+		comic => ["src=\"(/comics/$year/${full}_\\d+\\.(png|jpe?g|gif))\""],
+		type => ["src=\"/comics/$year/${full}_\\d+\\.(png|jpe?g|gif)\""],
 		}
     };
     
