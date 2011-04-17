@@ -151,7 +151,7 @@ sub tarzan {
 #Ripleys Believe it or not
 sub ripleys {
     return unitedmedia(shift(@_),"Ripleys Believe It Or Not",
-		       "Don Wimmer and Karen Kemlo","comics","ripleys",
+		       "Don Wimmer and Karen Kemlo","comics","ripleys_believe_it_or_not",
 		       [725,514],[300,430],"ripleys");
 }
 
