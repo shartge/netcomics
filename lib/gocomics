@@ -19,7 +19,7 @@ foreach (qw(lm)) {
 }
 
 #####
-sub unitedmedia {
+sub gocomics {
     #get arguments (fp stands for file prefix, syn for syndicate)
     my ($time,$title,$author,$syn,$fp,$sun_size,$wd_size,$func) = @_;
     my @ltime = gmtime($time);
@@ -51,31 +51,17 @@ sub unitedmedia {
         'func' => sub {
             $_ = shift;
             my @relurls = ();
-            if (m%(http://[.\d\w]*/dyn/str_strip/\d+[.\d\w]*\.full\.(gif|jpg|png))%) {
-                my $tmp = $1;
-		$tmp =~ s/full/zoom/;
-                my $type = $2;
+            if (m%<img alt="[.\d\w]+\?width=\d+" class="strip" src="(http://[.\\d\\w]*/[.\d\w]+\?width=\d+)"/>%) {
                 push @relurls, {
 		    'pagebase' => "",
-                    'page' => $tmp,
-                    'comic' => $tmp,
+                    'page' => $1,
+                    'comic' => $1,
                     'type' => $type,
                     'func' => undef,
                 };
-            } elsif (m%(/dyn/str_strip/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+[.\d\w]*\.strip(\.sunday|\.zoom)?\.(gif|jpg|png))%) {
-		my $tmp = $1;
-	        my $type = $3;
-                push @relurls, {
-                    'page' => $tmp,
-                    'comic' => $tmp,
-                    'type' => $type,
-                    'func' => undef,
-                };
-
 	    }
             return @relurls;
         },
-
 
 	'size' => $size,
     };
@@ -87,25 +73,25 @@ sub unitedmedia {
 
 #B.C. 
 sub bc {
-    return unitedmedia(shift(@_),"B.C.","Johnny Hart","comics","bc",
+    return gocomics(shift(@_),"B.C.","Johnny Hart","comics","bc",
 			[600,235],[725,526],"bc");
 }
 
 # Andy Capp
 sub ac {
-    return unitedmedia(shift(@_),"Andy Capp","Reg Smiythe","comics","andy_capp",
+    return gocomics(shift(@_),"Andy Capp","Reg Smiythe","comics","andy_capp",
 			[600,235],[725,383],"ac");
 }
 
 #Speed Bump
 sub sb {
-    return unitedmedia(shift(@_),"Speed Bump","Dave Coverly","comics","speed_bump",
+    return gocomics(shift(@_),"Speed Bump","Dave Coverly","comics","speed_bump",
 			[300,450],[725,258],"sb");
 }
 
 #The Wizard of Id
 sub wiz {
-    return unitedmedia(shift(@_),"The Wizard of Id","Brant Parker & Johnny Hart","comics",
+    return gocomics(shift(@_),"The Wizard of Id","Brant Parker & Johnny Hart","comics",
 			"wizard_of_id",[600,235],[725,520],"wiz");
 }
 
@@ -113,58 +99,58 @@ sub wiz {
 
 #Buckets 
 sub buckets {
-    return unitedmedia(shift(@_),"Buckets","Scott Stantis","comics","buckets", 
+    return gocomics(shift(@_),"Buckets","Scott Stantis","comics","buckets", 
 		       [725,380],[600,210],"buckets");
 }
 
 
 #Fat Cats 
 sub fatcats {
-    return unitedmedia(shift(@_),"Fat Cats","Charlie Podrebarac","comics",
+    return gocomics(shift(@_),"Fat Cats","Charlie Podrebarac","comics",
 		       "fatcats", [600,215],[600,215],"fatcats");
 }
 
 #Get Fuzzy
 sub gf {
-    return unitedmedia(shift(@_),"Get Fuzzy","Darby Conley","comics","getfuzzy",
+    return gocomics(shift(@_),"Get Fuzzy","Darby Conley","comics","getfuzzy",
 		       [725,375],[600,210],"gf");
 }
 
 #Top Of The World
 sub topworld {
-    return unitedmedia(shift(@_),"Top Of This World","Mark Tonra","comics",
+    return gocomics(shift(@_),"Top Of This World","Mark Tonra","comics",
 		       "topofworld", [600,212],[600,212],"topworld");
 }
 
 #Meatloaf Night
 sub meatloaf {
-    return unitedmedia(shift(@_),"Meatloaf Night","Mark Buford","comics",
+    return gocomics(shift(@_),"Meatloaf Night","Mark Buford","comics",
 		       "meatloaf", [600,200],[600,202],"meatloaf");
 }
 
 #Tarzan
 sub tarzan {
-    return unitedmedia(shift(@_),"Tarzan","Gray Morrow","comics","tarzan", 
+    return gocomics(shift(@_),"Tarzan","Gray Morrow","comics","tarzan", 
 		       [725,525],[600,190],"tarzan");
 }
 
 #Ripleys Believe it or not
 sub ripleys {
-    return unitedmedia(shift(@_),"Ripleys Believe It Or Not",
+    return gocomics(shift(@_),"Ripleys Believe It Or Not",
 		       "Don Wimmer and Karen Kemlo","comics","ripleys_believe_it_or_not",
 		       [725,514],[300,430],"ripleys");
 }
 
 # 9 Chickweed Lane
 sub chickw {
-    return unitedmedia(shift(@_),"9 Chickweed Lane",
+    return gocomics(shift(@_),"9 Chickweed Lane",
 		       "Brooke McEldowney","comics","chickweed",
 		       [725,521],[600,214],"chickw");
 }
 
 # Big Nate
 sub bignate {
-    return unitedmedia(shift(@_),"Big Nate",
+    return gocomics(shift(@_),"Big Nate",
 		       "Lincoln Peirce","comics","bignate",
 		       [725,520],[600,190],"bignate");
 }
@@ -172,28 +158,28 @@ sub bignate {
 # Bull$ n Bear$ 
 sub bullsnbears {
     my @ltime = gmtime($_[0]);
-    return unitedmedia(shift(@_),"Bulls n Bears",
+    return gocomics(shift(@_),"Bulls n Bears",
 		       "Wells and Lindstrom","comics","bullsnbears",
 		       undef,[600,200],"bullsnbears");
 }
 
 # Flight Deck
 sub flightdeck {
-    return unitedmedia(shift(@_),"Flight Deck",
+    return gocomics(shift(@_),"Flight Deck",
 		       "Peter Waldner","creators","flightdeck",
 		       [725,272],[300,340],"flightdeck");
 }
 
 # Frank and Ernest
 sub fae {
-    return unitedmedia(shift(@_), "Frank and Ernest",
+    return gocomics(shift(@_), "Frank and Ernest",
 		       "Bob Thaves","comics","franknernest",
 		       [725,400],[600,200],"fae");
 }
 
 # Grand Avenue
 sub grandave {
-    return unitedmedia(shift(@_),"Grand Avenue",
+    return gocomics(shift(@_),"Grand Avenue",
 		       "Steve Breen","comics","grandave",
 		       [725,382],[600,218],"grandave");
 }
@@ -202,63 +188,63 @@ sub grandave {
 sub lupo {
     my @ltime = gmtime($_[0]);
     return undef if $ltime[6] != 1; #only mondays
-    return unitedmedia(shift(@_),"Lupo Alberto",
+    return gocomics(shift(@_),"Lupo Alberto",
 		       "Silver","comics","lupo",
 		       undef,[600,227],"lupo");
 }
 
 # PC And Pixel
 sub pcpixel {
-    return unitedmedia(shift(@_),"PC and Pixel",
+    return gocomics(shift(@_),"PC and Pixel",
 		       "Bui and Johnson","wash","pc_and_pixel",
 		       [725,498],[600,218],"pcpixel");
 }
 
 # Pickles
 sub pickles {
-    return unitedmedia(shift(@_),"Pickles",
+    return gocomics(shift(@_),"Pickles",
 		       "Brian Crane","wash","pickles",
 		       [700,500],[600,195],"pickles");
 }
 
 # Raising Duncan
 sub duncan {
-    return unitedmedia(shift(@_),"Raising Duncan",
+    return gocomics(shift(@_),"Raising Duncan",
 		       "Chris Browne","comics","raisingduncan",
 		       [725,377],[600,200],"duncan");
 }
 
 # Reality Check
 sub reality {
-    return unitedmedia(shift(@_),"Reality Check",
+    return gocomics(shift(@_),"Reality Check",
 		       "Dave Whammond","comics","reality",
 		       undef,[315,335],"reality");
 }
 
 # Red and Rover
 sub redrover {
-    return unitedmedia(shift(@_),"Red and Rover",
+    return gocomics(shift(@_),"Red and Rover",
 		       "Brian Basset","wash","redandrover",
 		       [725,357],[600,200],"redrover");
 }
 
 # Shirley and Son
 sub shirley {
-    return unitedmedia(shift(@_),"Shirley and Son",
+    return gocomics(shift(@_),"Shirley and Son",
 		       "Jerry Bittle","comics","shirleynson",
 		       undef,[600,230],"shirley");
 }
 
 # Soup to Nutz
 sub soupnutz {
-    return unitedmedia(shift(@_),"Soup to Nutz",
+    return gocomics(shift(@_),"Soup to Nutz",
 		       "Rick Stromoski","comics","soup2nutz",
 		       undef,[600,210],"soupnutz");
 }
 
 # That's Life -- the one in mercury is being used.
 sub thatslife {
-    return unitedmedia(shift(@_),"That's Life",
+    return gocomics(shift(@_),"That's Life",
 		       "Mike Twohy","wash","thatslife",
 		       [725,357],[300,360],"thatslife");
 }
@@ -267,7 +253,7 @@ sub thatslife {
 sub cheap {
     my @ltime = gmtime($_[0]);
     return undef if $ltime[6] != 3; #only wednesdays
-    return unitedmedia(shift(@_),"Cheap Thrills Cuisine",
+    return gocomics(shift(@_),"Cheap Thrills Cuisine",
 		       "Lombardo and Bui","wash","cheapthrills",
 		       undef,[725,270],"cheap");
 }
@@ -276,7 +262,7 @@ sub cheap {
 sub dilbert {
 
     my @ltime = gmtime($_[0]);
-    my $rec = unitedmedia(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
+    my $rec = gocomics(shift(@_),"Dilbert","Scott Adams","comics","dilbert", 
 		       [725,515],[600,210],"dilbert");
 
     my $baseurl = "http://dilbert.com";
@@ -293,7 +279,7 @@ sub dilbert {
 
 # Trevor! - interactive two gifs per panel, but we'll just download them all.
 sub trevor {
-    my $rec = unitedmedia(shift(@_),"Trevor!",
+    my $rec = gocomics(shift(@_),"Trevor!",
 			  "Piper and Lee","comics","trevor",
 			  0,0,"trevor");
     $rec->{'func'} = sub {
@@ -329,139 +315,139 @@ sub trevor {
 
 #Peanuts 
 sub peanuts {
-    return unitedmedia(shift(@_),"Peanuts","Charles Schulz","comics",
+    return gocomics(shift(@_),"Peanuts","Charles Schulz","comics",
 		     "peanuts",[600,425],[600,148],"peanuts");
 }
 
 
 #Heathcliff
 sub heathcliff {
-    return unitedmedia(shift(@_),"Heathcliff","George Gately",
+    return gocomics(shift(@_),"Heathcliff","George Gately",
 			"comics","heathcliff",[300,450],[725,529],"heathcliff");
 }
 
 #Over The Hedge 
 sub oth {
-    return unitedmedia(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
+    return gocomics(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
                      "comics","over_the_hedge",[725,481],[600,210],"oth");
 }
 
 #Luann 
 sub luann {
-    return unitedmedia(shift(@_),"Luann","Greg Evans","comics","luann",
+    return gocomics(shift(@_),"Luann","Greg Evans","comics","luann",
 		     [725,374],[600,212],"luann");
 }
 
 
-# these could be moved into unitedmedia, but they're here fore now
+# these could be moved into gocomics, but they're here fore now
 
 #Alley Oop 
 sub ao {
-    return unitedmedia(shift(@_),"Alley Oop","Dave Gaue & Jack Bender","comics",
+    return gocomics(shift(@_),"Alley Oop","Dave Gaue & Jack Bender","comics",
 		     "alleyoop",[725,530],[600,192],"ao");
 }
 
 #Arlo and Janis
 sub aj {
-    return unitedmedia(shift(@_),"Arlo and Janis","Jimmy Johnson","comics",
+    return gocomics(shift(@_),"Arlo and Janis","Jimmy Johnson","comics",
 		     "arlo&janis",[725,523],[600,202],"aj");
 }
 
 #Betty
 sub betty {
-    return unitedmedia(shift(@_),"Betty","Gary Delainey & Gerry Rasmussen",
+    return gocomics(shift(@_),"Betty","Gary Delainey & Gerry Rasmussen",
 		     "comics","betty",[725,381],[600,208],"betty");
 }
 
 #The Born Loser
 sub bl {
-    return unitedmedia(shift(@_),"The Born Loser","Chip Sansom","comics",
+    return gocomics(shift(@_),"The Born Loser","Chip Sansom","comics",
 		     "bornloser",[725,530],[600,200],"bl");
 }
 
 #Committed
 sub com {
-    return unitedmedia(shift(@_),"Committed","Michael Fry","comics","committed",
+    return gocomics(shift(@_),"Committed","Michael Fry","comics","committed",
 		     [725,382],[300,415],"com");
 }
 
 # Drabble
 sub dr {
-    return unitedmedia(shift(@_),"Drabble","Kevin Fagan","comics","drabble",
+    return gocomics(shift(@_),"Drabble","Kevin Fagan","comics","drabble",
 		     [725,504],[600,200],"dr");
 }
 
 #Geech 
 sub geech {
-    return unitedmedia(shift(@_),"Geech","Jerry Bittle","comics","geech",
+    return gocomics(shift(@_),"Geech","Jerry Bittle","comics","geech",
 		    [725,536],[600,218],"geech");
 }
 
 #The Grizzwells
 sub grizz {
     my $today = shift();
-    return unitedmedia($today,"The Grizzwells","Bill Schorr","comics",
+    return gocomics($today,"The Grizzwells","Bill Schorr","comics",
 			 "grizzwells",undef,[600,218],"grizz");
 }
 
 #Herman 
 sub herman {
-    return unitedmedia(shift(@_),"Herman","Jim Unger","comics","herman",
+    return gocomics(shift(@_),"Herman","Jim Unger","comics","herman",
 		     [725,532],[300,372],"herman");
 }
 
 #JumpStart 
 sub js {
-    return unitedmedia(shift(@_),"JumpStart","Robb Armstrong","comics",
+    return gocomics(shift(@_),"JumpStart","Robb Armstrong","comics",
 		     "jumpstart",[725,532],[600,197],"js");
 }
 
 #Kit 'n' Carlyle 
 sub knc {
     my $today = shift();
-    return unitedmedia($today,"Kit-n-Carlyle","Larry Wright","comics",
+    return gocomics($today,"Kit-n-Carlyle","Larry Wright","comics",
 			 "kitncarlyle",undef,[300,375],"knc");
 }
 
 # Liberty Meadows 
 sub lm {
-    return unitedmedia(shift(@_),"Liberty Meadows","Frank Cho","creators",
+    return gocomics(shift(@_),"Liberty Meadows","Frank Cho","creators",
 		     "liberty",[650,306],[625,200],"lm");
 }
 
 #Marmaduke 
 sub mar {
-    return unitedmedia(shift(@_),"Marmaduke","Brad Anderson","comics","marmaduke",
+    return gocomics(shift(@_),"Marmaduke","Brad Anderson","comics","marmaduke",
 		     [725,512],[300,336],"mar");
 }
 
 #Meg! 
 sub meg {
-    return unitedmedia(shift(@_),"Meg!","Greg Curfman","comics","meg",
+    return gocomics(shift(@_),"Meg!","Greg Curfman","comics","meg",
 		     [600,200],[600,200],"meg");
 }
 
 #Nancy 
 sub nancy {
-    return unitedmedia(shift(@_),"Nancy","Guy and Brad Gilchrist","comics",
+    return gocomics(shift(@_),"Nancy","Guy and Brad Gilchrist","comics",
 		     "nancy",[725,527],[600,215],"nancy");
 }
 
 #Pearls Before Swine 
 sub pearls {
-    return unitedmedia(shift(@_),"Pearls Before Swine","Stephan Pastis",
+    return gocomics(shift(@_),"Pearls Before Swine","Stephan Pastis",
                      "comics","pearls",[727,350],[600,228],"pearls");
 }
 
 #Monty 
 sub monty {
-    return unitedmedia(shift(@_),"Monty","Jim Meddick","comics","monty",
+    return gocomics(shift(@_),"Monty","Jim Meddick","comics","monty",
 		     [725,531],[600,210],"monty");
 }
 
 #Rose is Rose 
 sub rose {
-    return unitedmedia(shift(@_),"Rose is Rose","Pat Brady","comics","roseisrose",
+    return gocomics(shift(@_),"Rose is Rose","Pat Brady","comics","roseisrose",
 		     [725,537],[600,200],"rose");
 }
 
@@ -470,7 +456,7 @@ sub jworld {
     my $time = shift;
     my @ltime = gmtime($time);
     return undef if($ltime[6] == 0);
-    return unitedmedia($time,"Janes World","Paige Braddock","comics",
+    return gocomics($time,"Janes World","Paige Braddock","comics",
         "janesworld",[500,358],[600,203],"jworld");
 }
 
