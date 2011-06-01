@@ -41,21 +41,19 @@ sub gocomics {
     my $rec = {
 	'title' => $title,
 	'author' => $author,
-	'main' => "$baseurl/$fp/",
-	'archives' => "$baseurl/$fp/",
+	'main' => "$baseurl/$fp",
+	'archives' => "$baseurl/$fp",
 	'base' => $baseurl,
 	'pagebase' => $baseurl,
-#	'exprbase' => "",
-#	'exprs' => ["(http://[.\\d\\w]*/dyn/str_strip/\\d+[.\\d\\w]*\\.full\\.(gif|jpg|png))"],
-	'page' => strftime("/$fp/%Y-%m-%d/",@ltime),
+	'page' => strftime("/$fp/%Y/%m/%d",@ltime),
         'func' => sub {
             $_ = shift;
             my @relurls = ();
-            if (m%<img alt="[.\d\w]+\?width=\d+" class="strip" src="(http://[.\\d\\w]*/[.\d\w]+\?width=\d+)"/>%) {
+            if (m%<link rel=\"image_src\" href=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+)\" />%) {
                 push @relurls, {
 		    'pagebase' => "",
-                    'page' => $1,
-                    'comic' => $1,
+                    'page' => "$1?width=900",
+                    'comic' => "$1?width=900",
                     'type' => $type,
                     'func' => undef,
                 };
@@ -329,7 +327,7 @@ sub heathcliff {
 #Over The Hedge 
 sub oth {
     return gocomics(shift(@_),"Over The Hedge","Michael Fry and T. Lewis",
-                     "comics","over_the_hedge",[725,481],[600,210],"oth");
+                     "comics","overthehedge",[725,481],[600,210],"oth");
 }
 
 #Luann 
