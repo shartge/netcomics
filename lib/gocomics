@@ -282,6 +282,34 @@ sub dilbert {
     $rec->{'exprbase'} = undef;
     $rec->{'page'} = strftime("/strips/comic/%Y-%m-%d/",@ltime);
 
+    $rec->{'func'} = sub {
+            $_ = shift;
+            my @relurls = ();
+            if (m%(http://[.\d\w]*/dyn/str_strip/\d+[.\d\w]*\.full\.(gif|jpg|png))%) {
+                my $tmp = $1;
+		$tmp =~ s/full/zoom/;
+                my $type = $2;
+                push @relurls, {
+			'pagebase' => "",
+	                'page' => $tmp,
+        	        'comic' => $tmp,
+	                'type' => $type,
+	               	'func' => undef,
+                };
+            } elsif (m%(/dyn/str_strip/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+/\d+[.\d\w]*\.strip(\.sunday|\.zoom)?\.(gif|jpg|png))%) {
+		my $tmp = $1;
+		my $type = $3;
+                push @relurls, {
+                    'page' => $tmp,
+                    'comic' => $tmp,
+                    'type' => $type,
+                    'func' => undef,
+                };
+
+	    }
+            return @relurls;
+        };
+
     return $rec;
 }
 
