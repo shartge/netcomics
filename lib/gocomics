@@ -59,7 +59,7 @@ sub gocomics {
                     'func' => undef,
                 };
             # Then try URL w/o width.
-	    } elseif (m%src=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+)\"%) {
+	    } elsif (m%src=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+)\"%) {
                 push @relurls, {
 		    'pagebase' => "",
                     'page' => "$1",
