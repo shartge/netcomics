@@ -49,11 +49,21 @@ sub gocomics {
         'func' => sub {
             $_ = shift;
             my @relurls = ();
-            if (m%<link rel=\"image_src\" href=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+)\" />%) {
+	    # First try matching URL with width
+            if (m%src=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+\?width=[.\d]+)\"%) {
                 push @relurls, {
 		    'pagebase' => "",
-                    'page' => "$1?width=900",
-                    'comic' => "$1?width=900",
+                    'page' => "$1",
+                    'comic' => "$1",
+                    'type' => $type,
+                    'func' => undef,
+                };
+            # Then try URL w/o width.
+	    } elseif (m%src=\"(http://[.\d\w]+/[.\d\w]+/[.\d\w]+)\"%) {
+                push @relurls, {
+		    'pagebase' => "",
+                    'page' => "$1",
+                    'comic' => "$1",
                     'type' => $type,
                     'func' => undef,
                 };
