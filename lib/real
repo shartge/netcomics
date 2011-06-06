@@ -7,6 +7,8 @@ sub real {
     my $time = shift;
     my @ltime = gmtime($time);
 
+    return undef if $time < 942624000 ; #1st comic on November 15, 1999
+
     # because of the calender configuration of the archive pages, we
     # look for the "day" we are interested in, between the name of the
     # "mon" we are interested in, and an upder "bound" of the next
@@ -25,6 +27,7 @@ sub real {
     
     my $base = 'http://reallifecomics.com';
     my $arc = strftime('/archive/%Y.html',@ltime);
+
     
     my $rec = {
 	'title' => "Real Life",
@@ -34,7 +37,10 @@ sub real {
 	'main' => $base . '/',
 	'archives' => $base . $arc,
 	'page' => "/archive/$date.html",
-	'exprs' => ["src=\"(/comics/$year/${full}_\\d+\\.png)\""],
+	'exprs' => {
+		comic => ["src=\"(/comics/$year/${full}_\\d+\\.(png|jpe?g|gif))\""],
+		type => ["src=\"/comics/$year/${full}_\\d+\\.(png|jpe?g|gif)\""],
+		}
     };
     
     return $rec;
