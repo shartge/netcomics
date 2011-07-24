@@ -1,0 +1,40 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"mena3"} = 0;
+
+#Order of The Stick http://www.giantitp.com
+sub oots_rss {
+   my $time = shift;
+   my @ltime = gmtime($time);
+   my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+   my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+   my $monthname = $monthconv[$ltime[4]];
+   my $dayname = $dayconv[$ltime[6]];
+   my $paddate = sprintf("%02d", $ltime[3]);
+   my $datestring = $dayname . ", $paddate $monthname " . ($ltime[5] + 1900);
+   my $imgdate = strftime("%Y%m%d", @ltime);
+   return undef if
+      (($date < 20080517) || #first comic on May 17, 2008
+      (($date >= 20080517 && $date <= $date2) &&
+      ($ltime[6] !~ /[246]/)) ||
+      grep(/$date/,@missing));
+
+   my $rec = {
+       'title' => "Menage a 3",
+       'author' => "Gisele Laglace",
+       'type' => 'png',
+       'main' => "http://www.menagea3.net",
+       'archives' => "http://www.menagea3.net/strips-ma3/",
+       'base' => "http://www.menagea3.net/",
+       'page' => "comic.rss",
+       'referer' => "",
+       # 'exprs' => ['<lastBuildDate>' . $datestring . '[^<]*<\/lastBuildDate>.*?<link>http:\/\/www\.[Gg]iant[Ii][Tt][Pp]\.com\/([^<]*)', "(comics\/images\/[0-9a-zA-Z()_]+.[a-z][a-z][a-z])"],
+       'exprs' => ['<link>http:\/\/www\.menagea3.net/strips-ma3\/([^<]*)<\/link>.*?<pubDate>' . $datestring . '..:..:... .....<\/pubDate>', "(comics\/mat$imgdate.png)"],
+       };
+   return $rec;
+}
+
+1; 
