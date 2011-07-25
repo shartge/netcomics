@@ -5,7 +5,7 @@
 $hof{"mena3"} = 0;
 
 #Order of The Stick http://www.giantitp.com
-sub oots_rss {
+sub mena3 {
    my $time = shift;
    my @ltime = gmtime($time);
    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -14,7 +14,12 @@ sub oots_rss {
    my $monthname = $monthconv[$ltime[4]];
    my $dayname = $dayconv[$ltime[6]];
    my $paddate = sprintf("%02d", $ltime[3]);
-   my $datestring = $dayname . ", $paddate $monthname " . ($ltime[5] + 1900);
+   my $datestring2 = $dayname . ", $paddate $monthname " . ($ltime[5] + 1900);
+   my $datestring = strftime("%a, %d %b %Y %H:%M:%S %z", @ltime);
+
+   print "M: $datestring\n";
+   print "M2: $datestring2\n";
+
    my $imgdate = strftime("%Y%m%d", @ltime);
    return undef if
       (($date < 20080517) || #first comic on May 17, 2008
@@ -31,10 +36,11 @@ sub oots_rss {
        'base' => "http://www.menagea3.net/",
        'page' => "comic.rss",
        'referer' => "",
-       # 'exprs' => ['<lastBuildDate>' . $datestring . '[^<]*<\/lastBuildDate>.*?<link>http:\/\/www\.[Gg]iant[Ii][Tt][Pp]\.com\/([^<]*)', "(comics\/images\/[0-9a-zA-Z()_]+.[a-z][a-z][a-z])"],
        'exprs' => ['<link>http:\/\/www\.menagea3.net/strips-ma3\/([^<]*)<\/link>.*?<pubDate>' . $datestring . '..:..:... .....<\/pubDate>', "(comics\/mat$imgdate.png)"],
        };
    return $rec;
 }
+
+       # 'exprs' => ['<lastBuildDate>' . $datestring . '[^<]*<\/lastBuildDate>.*?<link>http:\/\/www\.[Gg]iant[Ii][Tt][Pp]\.com\/([^<]*)', "(comics\/images\/[0-9a-zA-Z()_]+.[a-z][a-z][a-z])"],
 
 1; 
