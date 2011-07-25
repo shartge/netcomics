@@ -164,7 +164,7 @@ triangle_robert
 tucson
 twokinds
 ucomics
-unitedmedia
+gocomics
 user_friendly
 wait_bob
 wfc
