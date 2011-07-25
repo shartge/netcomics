@@ -4,23 +4,25 @@
 #with the number of days from today the comic is available
 $hof{"mena3"} = 0;
 
-#Order of The Stick http://www.giantitp.com
 sub mena3 {
    my $time = shift;
+   # <pubTime> is in timezone -0400, so a comic published on 23.07.2011 has a
+   # pubTime of 22.07.2011 
+   # Great ...
+   my $pubtime = $time - 86400;
    my @ltime = gmtime($time);
+   my @publtime = gmtime($pubtime);
+   my @ltime2 = gmtime(time);
+   my $date = strftime("%Y%m%d", @ltime);
+   my $date2 = strftime("%Y%m%d", @ltime2);
    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
    my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-   my $monthname = $monthconv[$ltime[4]];
-   my $dayname = $dayconv[$ltime[6]];
-   my $paddate = sprintf("%02d", $ltime[3]);
-   my $datestring2 = $dayname . ", $paddate $monthname " . ($ltime[5] + 1900);
-   my $datestring = strftime("%a, %d %b %Y %H:%M:%S %z", @ltime);
+   my $monthname = $monthconv[$publtime[4]];
+   my $dayname = $dayconv[$publtime[6]];
+   my $paddate = sprintf("%02d", $publtime[3]);
+   my $datestring = $dayname . ", $paddate $monthname " . ($publtime[5] + 1900);
 
-   print "M: $datestring\n";
-   print "M2: $datestring2\n";
-
-   my $imgdate = strftime("%Y%m%d", @ltime);
    return undef if
       (($date < 20080517) || #first comic on May 17, 2008
       (($date >= 20080517 && $date <= $date2) &&
@@ -31,16 +33,23 @@ sub mena3 {
        'title' => "Menage a 3",
        'author' => "Gisele Laglace",
        'type' => 'png',
-       'main' => "http://www.menagea3.net",
+       'main' => "http://www.menagea3.net/",
        'archives' => "http://www.menagea3.net/strips-ma3/",
        'base' => "http://www.menagea3.net/",
        'page' => "comic.rss",
        'referer' => "",
-       'exprs' => ['<link>http:\/\/www\.menagea3.net/strips-ma3\/([^<]*)<\/link>.*?<pubDate>' . $datestring . '..:..:... .....<\/pubDate>', "(comics\/mat$imgdate.png)"],
+       'exprs' => {
+		comic => [
+			"<link>http://www.menagea3.net/(strips-ma3/[^<]+)</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]+</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
+			"<img src=\"http://[0-9a-zA-Z]+\.menagea3.net/(comics/mat$date\.png)\""
+			],
+		caption => [
+			"<title>Menage a 3 - ([^<]+)</title>[^<]*<link>http://www.menagea3.net/strips-ma3/[^<]+</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]+</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
+			],
+		}
        };
    return $rec;
 }
 
-       # 'exprs' => ['<lastBuildDate>' . $datestring . '[^<]*<\/lastBuildDate>.*?<link>http:\/\/www\.[Gg]iant[Ii][Tt][Pp]\.com\/([^<]*)', "(comics\/images\/[0-9a-zA-Z()_]+.[a-z][a-z][a-z])"],
 
 1; 

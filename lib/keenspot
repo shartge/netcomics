@@ -1462,32 +1462,6 @@ sub mcs {
     return keenspot($title,$author,$date,$url,$index);
 }
 
-##Menage a 3
-#sub mena3 {
-#    my $time = shift;
-#    my @ltime = gmtime($time);
-#    my @ltime2 = gmtime(time);
-#    my $date = strftime("%Y%m%d", @ltime);
-#    my $date2 = strftime("%Y%m%d", @ltime2);
-#
-#    my @missing = ();
-#    my @extra = ();
-#
-#    #T-T-Sat
-#    return undef if 
-#      (($date < 20080517) || #first comic on May 17, 2008
-#      (($date >= 20080517 && $date <= $date2) &&
-#      ($ltime[6] !~ /[246]/)) ||
-#      grep(/$date/,@missing));
-#
-#    my $title = "Menage a 3";
-#    my $author = "Gisele Lagace";
-#    my $url = "http://www.menagea3.net";
-#    my $index = undef;
-#    
-#    return keenspot($title,$author,$date,$url,$index);
-#}
-
 #News Hounds
 sub newshounds {
     my $time = shift;
