@@ -95,6 +95,7 @@ dr_fun
 dume
 dysentery
 earthsong
+eerie
 eightbit
 evilinc
 fairgame

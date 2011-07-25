@@ -1,0 +1,57 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"eerie"} = 0;
+
+sub eerie {
+   my $time = shift;
+   # <pubTime> is in timezone -0400, so a comic published on 23.07.2011 has a
+   # pubTime of 22.07.2011 
+   # Great ...
+   my $pubtime = $time - 86400;
+   my @ltime = gmtime($time);
+   my @publtime = gmtime($pubtime);
+   my @ltime2 = gmtime(time);
+   my $date = strftime("%Y%m%d", @ltime);
+   my $date2 = strftime("%Y%m%d", @ltime2);
+   my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+   my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+   my $monthname = $monthconv[$publtime[4]];
+   my $dayname = $dayconv[$publtime[6]];
+   my $paddate = sprintf("%02d", $publtime[3]);
+   my $datestring = $dayname . ", $paddate $monthname " . ($publtime[5] + 1900);
+
+   # EC is published every mon & wed (days 1,3)
+   return undef if
+      (($date < 20090501) || #first comic sometime on May 2009
+      (($date >= 20080517 && $date <= $date2) &&
+      ($ltime[6] !~ /[13]/)) ||
+      grep(/$date/,@missing));
+
+   my $baseurl = "http://www.eeriecuties.com";
+   my $rec = {
+       'title' => "Eerie Cuties",
+       'author' => "Gisele Laglace",
+       'type' => 'png',
+       'main' => "$baseurl/",
+       'archives' => "$baseurl/strips-ec/",
+       'base' => "$baseurl/",
+       'page' => "comic.rss",
+       'referer' => "",
+       'exprs' => {
+		comic => [
+			"<link>$baseurl\/(strips-ec\/[^<]+)<\/link>[^<]*<description><img src=\"[^<]+\" \/><br \/>[^<]+<\/description>[^<]*<pubDate>$datestring [^<]+<\/pubDate>", 
+			"<img src=\"http:\/\/[0-9a-zA-Z]+\.eeriecuties.com\/(comics\/ec$date\.png)\""
+			],
+		caption => [
+			"<title>Eerie Cuties - ([^<]+)<\/title>[^<]*<link>$baseurl\/strips-ec\/[^<]+<\/link>[^<]*<description><img src=\"[^<]+\" \/><br \/>[^<]+<\/description>[^<]*<pubDate>$datestring [^<]+<\/pubDate>", 
+			],
+		}
+       };
+   return $rec;
+}
+
+
+1; 
