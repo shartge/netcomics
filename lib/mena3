@@ -40,11 +40,11 @@ sub mena3 {
        'referer' => "",
        'exprs' => {
 		comic => [
-			"<link>http://www.menagea3.net/(strips-ma3/[^<]+)</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]+</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
+			"<link>http://www.menagea3.net/(strips-ma3/[^<]+)</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]*</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
 			"<img src=\"http://[0-9a-zA-Z]+\.menagea3.net/(comics/mat$date\.png)\""
 			],
 		caption => [
-			"<title>Menage a 3 - ([^<]+)</title>[^<]*<link>http://www.menagea3.net/strips-ma3/[^<]+</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]+</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
+			"<title>Menage a 3 - ([^<]+)</title>[^<]*<link>http://www.menagea3.net/strips-ma3/[^<]+</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]*</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
 			],
 		}
        };
