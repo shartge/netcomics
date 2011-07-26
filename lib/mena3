@@ -6,50 +6,28 @@ $hof{"mena3"} = 0;
 
 sub mena3 {
    my $time = shift;
-   # <pubTime> is in timezone -0400, so a comic published on 23.07.2011 has a
-   # pubTime of 22.07.2011 
-   # Great ...
-   my $pubtime = $time - 86400;
    my @ltime = gmtime($time);
-   my @publtime = gmtime($pubtime);
    my @ltime2 = gmtime(time);
    my $date = strftime("%Y%m%d", @ltime);
-   my $date2 = strftime("%Y%m%d", @ltime2);
-   my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-   my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-   my $monthname = $monthconv[$publtime[4]];
-   my $dayname = $dayconv[$publtime[6]];
-   my $paddate = sprintf("%02d", $publtime[3]);
-   my $datestring = $dayname . ", $paddate $monthname " . ($publtime[5] + 1900);
 
    return undef if
-      (($date < 20080517) || #first comic on May 17, 2008
-      (($date >= 20080517 && $date <= $date2) &&
-      ($ltime[6] !~ /[246]/)) ||
-      grep(/$date/,@missing));
+	(
+	($date < 20080517) || #first comic on May 17, 2008
+	($ltime[6] !~ /[246]/) ||
+      	grep(/$date/,@missing)
+	);
 
+   my $baseurl = "http://www.menagea3.net/";
    my $rec = {
        'title' => "Menage a 3",
        'author' => "Gisele Laglace",
        'type' => 'png',
-       'main' => "http://www.menagea3.net/",
-       'archives' => "http://www.menagea3.net/strips-ma3/",
-       'base' => "http://www.menagea3.net/",
-       'page' => "comic.rss",
-       'referer' => "",
-       'exprs' => {
-		comic => [
-			"<link>http://www.menagea3.net/(strips-ma3/[^<]+)</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]*</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
-			"<img src=\"http://[0-9a-zA-Z]+\.menagea3.net/(comics/mat$date\.png)\""
-			],
-		caption => [
-			"<title>Menage a 3 - ([^<]+)</title>[^<]*<link>http://www.menagea3.net/strips-ma3/[^<]+</link>[^<]*<description><img src=\"[^<]+\" /><br />[^<]*</description>[^<]*<pubDate>$datestring [^<]+</pubDate>", 
-			],
-		}
+       'main' => $baseurl,
+       'archives' => "$baseurl/strips-ma3/",
+       'base' => $baseurl,
+       'page' => "comics/mat$date.png",
        };
    return $rec;
 }
-
 
 1; 
