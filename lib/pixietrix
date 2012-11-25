@@ -2,11 +2,9 @@
 
 #Add the name of the subroutines to the hash of functions
 #with the number of days from today the comic is available
-foreach (qw(mena3 eerie)) {
+foreach (qw(mena3 eerie dchloe magickchicks)) {
     $hof{$_} = 0;
 }
-
-
 
 sub mena3 {
    my $time = shift;
@@ -17,7 +15,7 @@ sub mena3 {
    return undef if
 	(
 	($date < 20080517) || #first comic on May 17, 2008
-	($ltime[6] !~ /[246]/) ||
+	($ltime[6] !~ /[246]/) || # Updates Tue, Thu, Sat
       	grep(/$date/,@missing)
 	);
 
@@ -34,7 +32,6 @@ sub mena3 {
    return $rec;
 }
 
-
 sub eerie {
    my $time = shift;
    my @ltime = gmtime($time);
@@ -44,19 +41,71 @@ sub eerie {
    return undef if
 	(
 	($date < 20090501) || #first comic sometime on May 2009
-	($ltime[6] !~ /[13]/) ||
+	($ltime[6] !~ /[13]/) || # Updates Mon, Wed
 	grep(/$date/,@missing)
 	);
 
    my $baseurl = "http://www.eeriecuties.com";
    my $rec = {
        'title' => "Eerie Cuties",
-       'author' => "Gisele Laglace",
+       'author' => "Gisele Laglace, Dave Lumsdon",
        'type' => 'png',
        'main' => "$baseurl/",
        'archives' => "$baseurl/strips-ec/",
        'base' => "$baseurl/",
        'page' => "comics/ec$date.png",
+       };
+   return $rec;
+}
+
+sub dchloe {
+   my $time = shift;
+   my @ltime = gmtime($time);
+   my @ltime2 = gmtime(time);
+   my $date = strftime("%Y%m%d", @ltime);
+
+   return undef if
+	(
+	($date < 20121022) || #first comic on Oct 22, 2012
+	($ltime[6] !~ /[14]/) ||
+      	grep(/$date/,@missing)
+	);
+
+   my $baseurl = "http://www.dangerouslychloe.com/";
+   my $rec = {
+       'title' => "Dangerously Chloe!",
+       'author' => "Dave Lumsdon, Cassandra Wedeking",
+       'type' => 'png',
+       'main' => $baseurl,
+       'archives' => "$baseurl/strips-dc/",
+       'base' => $baseurl,
+       'page' => "comics/dc$date.png",
+       };
+   return $rec;
+}
+
+sub magickchicks {
+   my $time = shift;
+   my @ltime = gmtime($time);
+   my @ltime2 = gmtime(time);
+   my $date = strftime("%Y%m%d", @ltime);
+
+   return undef if
+	(
+	($date < 20111024) || #first comic on Oct 24, 2010
+	($ltime[6] !~ /[25]/) || # Updates Tue, Fri
+      	grep(/$date/,@missing)
+	);
+
+   my $baseurl = "http://www.magickchicks.com/";
+   my $rec = {
+       'title' => "Magick Chicks",
+       'author' => "Gisele Laglace, Cassandra Wedeking",
+       'type' => 'png',
+       'main' => $baseurl,
+       'archives' => "$baseurl/strips-mc/",
+       'base' => $baseurl,
+       'page' => "comics/mc$date.png",
        };
    return $rec;
 }
