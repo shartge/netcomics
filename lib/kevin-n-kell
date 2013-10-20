@@ -24,7 +24,7 @@ sub kk {
 	'base' => strftime("$baseurl/%Y/",@ltime),
 	'page' => strftime("kk%m%d.html",@ltime),
 	'exprs' => {
-	    'comic' => ["(strips/kk$date.jpg"],
+	    'comic' => ["(strips/kk$date.jpg)"],
 	    'caption' => ["strips/kk$date.jpg.*?<div id=\"caption\"><span>\\s?(.*?)</span></div>"],
 	},
     };
