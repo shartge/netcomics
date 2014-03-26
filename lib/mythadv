@@ -1,0 +1,31 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"mythadv"} = 0;
+
+#Myth Adventures http://www.airshipentertainment.com/mythcomic.php
+sub mythadv {
+    my $time = shift;
+    #return undef if $time < 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($time);
+
+    #return if (($ltime[6] != 2) && ($ltime[6] != 4) && ($ltime[6] != 6));
+
+    my $baseurl = "http://www.airshipentertainment.com";
+
+    my $rec = {
+        'title' => "Myth Adventures",
+        'author' => "Robert Asprin and Phil Foglio",
+        'type' => 'jpg',
+        'main' => "$baseurl/mythcomic.php",
+        'archives' => "$baseurl/mythcomic.php?date=20100112",
+        'base' => "$baseurl/",
+        'page' => strftime("mythcomic.php?date=%Y%m%d",@ltime),
+        'exprs' => [strftime("(\/myth\/mythcomic\/strips\/myth%Y%m%d[a-z]?.jpg)",@ltime)]
+        };
+    return $rec;
+}
+
+1;
+

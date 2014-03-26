@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+$hof{"mcynics"} = 0;
+
+#Megacynics http://www.megacynics.com
+sub mcynics {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my @months = qw(January February March April May June
+		    July August September October November December);
+		    
+    my $mon = $months[$ltime[4]];
+    my $date = strftime("$mon %d, %Y", @ltime);
+    
+    my $base = 'http://www.megacynics.com';
+    
+    my $rec = {
+	'title' => "MegaCynics",
+	'author' => "Steven Dengler and Ash Vickers",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/comic-archive/",
+	'base' => "$base/",
+	'page' => strftime("%Y/%m/%d/",@ltime),
+	'expr' => '(img\/comics\/[^"]*)"',
+    };
+    
+    return $rec;
+}
+
+1;

@@ -1,0 +1,47 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"adice"} = 0;
+
+#Alien Dice http://www.aliendice.com
+sub adice {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+
+    my $base = "http://aliendice.com";
+
+    my $rec = {
+	'title' => "Alien Dice",
+	'author' => "Tiffany Ross",
+	'type' => 'jpg',
+	'main' => "http://www.aliendice.com",
+	'archives' => "http://www.aliendice.com/archive/",
+	'base' => "",
+	'page' => strftime("$base/blog/%Y/%m/%d/?post_type=comic", @ltime),
+	'expr' => 'comic-thumbnail-in-archive"><a href="([^"]*)"',
+	};
+
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      while (1) {
+        if ($text =~ s/div id="comic"[^|]*?img src="([^"]*)"/~~~/i) {
+          my $file = $1;
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+        } else {
+          last;
+        }
+      }
+      if ($text =~ s/div class=.entry.>([^|]*?)<div//i) {
+        print("Caption: $1 d\n");
+        $rec->{'caption'} = $1;
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+1;
+
+

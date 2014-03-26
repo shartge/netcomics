@@ -1,0 +1,43 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"techfox"} = 0;
+
+#21st Century Fox http://techfox.comicgenesis.com/
+sub techfox {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://techfox.comicgenesis.com";
+    my $date = strftime("%Y%m%d", @ltime);
+
+    my $rec = {
+        'title' => "21st Century Fox",
+        'author' => "Scott Kellogg",
+        'type' => 'gif',
+        'main' => "$base",
+        'archives' => "$base/archive.html",
+        'base' => "$base/",
+        'page' => strftime("d/%Y%m%d.html",@ltime)
+        };
+
+    $rec->{'func'} = sub {
+        my $text = shift;
+        my @relurls = ();
+        while(1) {
+            if ($text =~ s/src=".*?\/((comics|images)\/[a-z]*$date[^"]*)"//i) {
+                 my $file = $1;
+                 push(@relurls,$file) unless grep(/$file/, @relurls);
+            } else {
+                 last;
+            }
+        }
+        return reverse @relurls;
+    };
+
+    return $rec;
+}
+
+1;

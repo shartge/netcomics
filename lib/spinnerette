@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"spinnerette"} = 0;
+
+#Spinnerette http://www.spinnyverse.com/
+sub spinnerette {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://www.spinnyverse.com";
+
+    my $rec = {
+        'title' => "Spinnerette",
+        'author' => "Krakow",
+        'type' => 'jpg',
+        'main' => "$base/",
+        'archives' => "$base/issues/",
+        'base' => "$base/comics/",
+        'page' => "",
+	'expr' => strftime('href="([^"]*%Y-%m-%d[^"]*)"',@ltime)
+        };
+    return $rec;
+}
+
+1;

@@ -1,0 +1,41 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"superstep"} = 1;
+
+#Supernormal Step http://supernormalstep.com
+sub superstep {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December");
+
+    my $monthname = $monthconv[$ltime[4]];
+    my $monthstr = strftime("cpcal-monthtitle.>${monthname} %Y",@ltime);
+    my $nextmonthstr = '';
+    if ($ltime[4] != 11) {
+        my $nextmonth = $monthconv[$ltime[4]+1];
+        $nextmonthstr = strftime("[^|]*cpcal-monthtitle.>${nextmonth} %Y",@ltime);
+    }
+
+    my $daystr = '[^|]*<a href="([^"]*)"[^>]*>' . $ltime[3] . "<";
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://supernormalstep.com";
+
+    my $rec = {
+        'title' => "Supernormal Step",
+        'author' => "Michael Lee Lunsford",
+        'type' => 'jpg',
+        'main' => "$base/",
+        'archives' => "$base/pages/archives/",
+        'base' => "",
+        'page' => strftime("$base/?page_id=402&archive_year=%Y",@ltime),
+        'exprs' => [$monthstr . $daystr . $nextmonthstr,
+                    strftime('img src="([^"]*\/comics\/[^"]*)"',@ltime)]
+        };
+    return $rec;
+}
+
+1;

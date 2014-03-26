@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"starpower"} = 1;
+
+# Star Power http://www.starpowercomic.com/
+sub starpower {
+    my $time = shift;
+    my @ltime = gmtime($time);
+   
+    my $base = 'http://www.starpowercomic.com/';
+
+    my $rec = {
+        'title' => "Star Power",
+        'author' => "Michael Terracciano and Garth Graham",
+        'type' => 'jpg',
+        'main' => "$base/",
+        'archives' => "$base/archives/",
+        'base' => "$base/comics/",
+        'page' => "",
+        'expr' => strftime('(%Y-%m-%d[^"]*)"',@ltime),
+        };
+    return $rec;
+}
+
+1;

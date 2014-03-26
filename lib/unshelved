@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"unshelved"} = 1;
+
+#Unshelved http://www.overduemedia.com
+sub unshelved {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $rec = {
+	'title' => "Unshelved",
+	'author' => "Bill Barnes and Gene Arnbaum",
+	'type' => 'gif',
+	'main' => "http://www.unshelved.com",
+	'archives' => "http://www.unshelved.com/archive.aspx?strip=20020216",
+	'base' => "http://",
+	'page' => strftime("www.unshelved.com/%Y-%m-%d", @ltime),
+	'expr' => strftime("(get.unshelved.com\/strips\/%Y%m%d.[a-z][a-z][a-z])",@ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

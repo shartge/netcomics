@@ -1,0 +1,50 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"godot"} = 0;
+
+#Buck Godot http://www.airshipentertainment.com/buckcomic.php
+sub godot {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+    my $monthname = $monthconv[$ltime[4]];
+    my $dayname = $dayconv[$ltime[6]];
+    my $datestring = $dayname . " " . $ltime[3] . " " . $monthname . ", " . ($ltime[5] + 1900);
+
+    my $base = "http://www.airshipentertainment.com";
+
+    my $rec = {
+        'title' => "Buck Godot",
+        'author' => "Phil and Kaja Foglio",
+        'type' => 'jpg',
+        'main' => "$base/buckcomic.php",
+        'archives' => "$base/buckcomic.php?date=20070111",
+        'base' => "$base/",
+        'page' => strftime("buckcomic.php?date=%Y%m%d", @ltime)
+        };
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      while (1) {
+        if ($text =~ s/(buck\/buckcomic\/strips\/buck[^']*)'/~~~/i) {
+          my $file = $1;
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+        } else {
+          last;
+        }
+      }
+      if ($text =~ s/(<p[^>]*><strong><em>[^|]*?)<IMG//i) {
+        #print("Caption: $1 \n");
+        $rec->{'caption'} = $1;
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+1;
+

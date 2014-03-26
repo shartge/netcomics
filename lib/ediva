@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"ediva"} = 1;
+
+#Evil Diva http://www.evildivacomics.com/
+sub ediva {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://www.evildivacomics.com";
+
+    my $rec = {
+        'title' => "Evil Diva",
+        'author' => "Pete Menotti",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/?m=2008",
+        'base' => "$base",
+	'referer' => $base . strftime("/?m=%Y%m%d",@ltime),
+        'page' => strftime("/?m=%Y%m%d",@ltime),
+	'expr' => strftime("(\/comics\/%Y-%m-%d[a-zA-Z0-9-]*\.jpg)",@ltime)
+        };
+    return $rec;
+}
+
+1;

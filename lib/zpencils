@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"zpencils"} = 0;
+
+#Zen Pencils http://zenpencils.com
+sub zpencils {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://zenpencils.com";
+
+    my $rec = {
+        'title' => "Zen Pencils",
+        'author' => "Gavin Aung",
+        'type' => 'png',
+        'main' => "$base",
+        'archives' => "$base/archives/",
+        'base' => "",
+        'page'  => strftime("$base/%Y/%m/%d/",@ltime),
+	'exprs' => ['<h2 class="post-title">[^>]*(http:\/\/[^\/]*\/comic\/[^"]*)"',
+                    strftime('(http:\/\/[^\/]*\/comics\/%Y-%m-%d[^"]*)"',@ltime)]
+        };
+    return $rec;
+}
+
+1;

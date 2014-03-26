@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"bitf"} = 1;
+
+#Brawl In The Family
+sub bitf {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://brawlinthefamily.keenspot.com";
+
+    my $rec = {
+        'title' => "Brawl In The Family",
+        'author' => "Matthew Taranto",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/archives/",
+        'base' => "",
+        'page' => strftime("$base/%Y/%m/%d/",@ltime),
+	'expr' => strftime('src="(http:\/\/[^/]*\/comics/%Y-%m-%d[^"]*)"',@ltime)
+        };
+    return $rec;
+}
+
+1;

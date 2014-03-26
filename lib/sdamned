@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"sdamned"} = 1;
+
+#Slightly Damned http://www.sdamned.com
+sub sdamned {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = "http://www.sdamned.com";
+
+    my $rec = {
+	'title' => "Slightly Damned",
+	'author' => "Chu",
+	'type' => 'jpg',
+	'main' => "$base",
+	'archives' => "$base/archives/",
+	'base' => "$base/",
+	'page' => strftime("%Y/%m/%m%d%Y/", @ltime),
+	'expr' => strftime('(comics\/%Y-%m-%d[^"]*)"',@ltime)
+    };
+    return $rec;
+}
+
+1;
+
+

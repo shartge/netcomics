@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"wtalent"} = 1;
+
+#Wasted Talent http://www.wastedtalent.ca/
+sub wtalent {
+    my $time = shift;
+    my @ltime = gmtime($time);
+  
+    #Only get the comic MWF (well, TuThSa, because of the update time)
+    #return if (($ltime[6] != 1) && ($ltime[6] != 3) && ($ltime[6] != 5));
+
+    my $datestring = strftime("%Y-%m-%d", @ltime);
+
+    my $rec = {
+	'title' => "Wasted Talent",
+	'author' => "Angela Melick",
+	'type' => 'jpg',
+	'main' => "http://www.wastedtalent.ca/",
+	'archives' => "http://www.wastedtalent.ca/archive/",
+	'base' => "http://www.wastedtalent.ca/",
+	'page' => 'archive/',
+	'exprs' => [$datestring . '.*?href="\/(comic/[^"]*)"',
+                    '(sites\/default\/files\/imagecache\/comic_full\/[^"]*)"']
+	};
+    return $rec;
+}
+
+1;
+
+

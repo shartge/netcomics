@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"firstdaughter"} = 1;
+
+#The First Daughter http://thefirstdaughter.keenspot.com/
+sub firstdaughter {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+
+    my $base = "http://thefirstdaughter.keenspot.com";
+
+    my $rec = {
+	'title' => "The First Daughter",
+	'author' => "Mike Rosenzweig and Robert Nix",
+	'type' => 'jpg',
+	'main' => "$base",
+	'archives' => "$base/archive.html",
+	'base' => "$base/",
+	'page' => strftime("d/%Y%m%d.html", @ltime),
+	'expr' => strftime("(comics/tfd%Y%m%d.[a-z][a-z][a-z])", @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

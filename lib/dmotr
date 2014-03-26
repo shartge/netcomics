@@ -1,0 +1,53 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"dmotr"} = 1;
+
+#DM Of The Rings http://www.shamusyoung.com/twentysidedtale/?cat=14
+sub dmotr {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December");
+    my @dayconv = ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+    my $monthname = $monthconv[$ltime[4]];
+    my $dayname = $dayconv[$ltime[6]];
+    my $datestring = $dayname . ", " . $monthname . " " . $ltime[3] . "(s|t|r|n)(t|h|d), " . ($ltime[5] + 1900);
+
+    my $rec = {
+	'title' => "DM of the Rings",
+	'author' => "Shamus Young",
+	'type' => 'jpg',
+	'main' => "http://www.shamusyoung.com/twentysidedtale/?cat=14",
+	'archives' => "http://www.shamusyoung.com/twentysidedtale/?cat=14",
+	'base' => "http://www.shamusyoung.com/",
+	'pagebase' => "http://www.shamusyoung.com/",
+	'exprbase' => "http://www.shamusyoung.com/",
+	'funcbase' => "http://shamusyoung.mu.nu/",
+	'page' => "twentysidedtale/?cat=14",
+	'expr' => '<a href="http:\/\/www\.shamusyoung\.com\/(twentysidedtale\/\?p=[^"]+)"[^<]*<[^<]*<[^<]*<[^<]*<[^<]*<[^<]*<small>' . $datestring
+	};
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      while (1) {
+        if ($text =~ s/shamusyoung.mu.nu\/((images\/)?comic_[a-zA-Z0-9]+\.jpg)/~~~/i) {
+          my $file = $1;
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+        } else {
+          last;
+        }
+      }
+      if ($text =~ s/~~~(.|\n)*?<\/table[^<]*(<p>(.|\n)*?)<table width="600"//i) {
+        print("Caption: $2 \n");
+        $rec->{'caption'} = $2;
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+1;
+
+

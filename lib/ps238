@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ps238"} = 1;
+
+#PS238 http://ps238.nodwick.com
+sub ps238 {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://ps238.nodwick.com';
+
+    my $rec = {
+	'title' => "PS238",
+	'author' => "Aaron Williams",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/?p=26",
+	'base' => "$base/",
+	'page' => strftime("ps238strips/%Y-%m-%d.png", @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

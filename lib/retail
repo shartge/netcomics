@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+$hof{"retail"} = 0;
+
+#Retail http://retailcomic.com
+sub retail {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("january", "february", "march", "april", "may", "june",
+                     "july", "august", "september", "october", "november", "december");
+    my $monthname = $monthconv[$ltime[4]];
+    my $monthday = $ltime[3];
+
+
+    my $base = 'http://retailcomic.com';
+    
+    my $rec = {
+	'title' => "Retail",
+	'author' => "Norm Feuti",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+	'referer' => "$base/",
+        'base' => '',
+	'page' => strftime("$base/comics/" . $monthname . "-" . $monthday . "-%Y/",@ltime),
+	'expr' => 'og:image" content="([^"]*)"'
+    };
+    
+    return $rec;
+}
+
+1;

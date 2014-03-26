@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"grimtales"} = 1;
+
+sub grimtales {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    
+    my $rec = {
+	'title' => "Grim Tales From Down Below",
+	'author' => "Bleedman",
+	'type' => 'jpg',
+	'main' => "http://grim.snafu-comics.com/",
+	'archives' => "http://grim.snafu-comics.com/archive.php",
+	'base' => "http://grim.snafu-comics.com/",
+	'page' => strftime("comics/%y%m%d_grim.jpg", @ltime),
+	};
+    return $rec;
+}
+
+1;
+
+

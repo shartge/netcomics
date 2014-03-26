@@ -1,0 +1,41 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"bug"} = 0;
+
+#Bug Martini http://www.bugmartini.com/
+sub bug {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my $monthname = $monthconv[$ltime[4]];
+
+    my $year = $ltime[5] + 1900;
+    my $yearstr = 'class="year-title">' . $year;
+    my $prevyearstr = '';
+    if ($year >= 2009) {
+        my $prevyear = $year - 1;
+        $prevyearstr = '[^|]*class="year-title">' . $prevyear;
+    }
+
+    my $daystr = '[^|]*archive-date">' . $monthname . " " . $ltime[3] . '<.td><td class="archive-title"><a href="([^"]*)"';
+
+    my $base = "http://www.bugmartini.com";
+
+    my $rec = {
+        'title' => "Bug",
+        'author' => "Adam Huber",
+        'type' => 'gif',
+        'main' => "$base",
+        'archives' => "$base/archives/",
+        'base' => "",
+        'page'  => "$base/archives/",
+	'exprs' => [$yearstr . $daystr . $prevyearstr,
+                    'twitter.image" content="(http...www.bugmartini.com[^"]*)"']
+        };
+    return $rec;
+}
+
+1;

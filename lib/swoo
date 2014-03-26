@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"swoo"} = 1;
+
+#Sandra and Woo http://www.sandraandwoo.com
+sub swoo {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://www.sandraandwoo.com";
+
+    my $rec = {
+        'title' => "Sandra and Woo",
+        'author' => "Powree and Oliver Knorzer",
+        'type' => 'png',
+        'main' => "$base",
+        'archives' => "$base/archive/",
+        'base' => "$base/",
+	'referer' => $base . strftime("/%Y/%m/%d/",@ltime),
+        'page' => strftime("%Y/%m/%d/",@ltime),
+	'expr' => 'comicarchiveframe[^<]*<a href="http:\/\/www.sandraandwoo.com\/([^"]*)"',
+        };
+
+    $rec->{'func'} = sub {
+      use URI::Escape;
+      my $text = shift;
+      my @relurls = ();
+      while (1) {
+        if ($text =~ s/(comics\/[0-9][^"]*)"/~~~/i) {
+          my $file = uri_escape($1, "^A-Za-z0-9./-");
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+        } else {
+          last;
+        }
+      }
+      if ($text =~ s/(<p[^>]*><strong><em>[^|]*?)<IMG//i) {
+        #print("Caption: $1 \n");
+        $rec->{'caption'} = $1;
+      }
+      return reverse @relurls;
+    };
+
+    return $rec;
+}
+
+1;

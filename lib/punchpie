@@ -1,0 +1,47 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"punchpie"} = 1;
+
+#Punch an' Pie http://punchanpie.keenspot.com
+sub punchpie {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+
+    my $base = 'http://punchanpie.keenspot.com';
+
+    my $rec = {
+	'title' => "Punch and Pie",
+	'author' => "Aeire and Chris Daily",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/daily/20070222.html",
+	'base' => "",
+	'page' => strftime("$base/daily/%Y%m%d.html", @ltime)
+	};
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      $date = strftime("%Y%m%d",@ltime);
+      #print("date is $date\n");
+      while (1) {
+        if ($text =~ s/src="(.*?\/((comics)|(strips))\/.*?$date:??[a-zA-Z_0-9\-\+]*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+          #print ("here!");
+          my $file = $1;
+          my $type = $5;
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+          $rec->{'type'} = $type;
+        } else {
+          #print("last!");
+          last;
+        }
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+1;
+
+
