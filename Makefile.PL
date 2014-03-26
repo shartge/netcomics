@@ -180,9 +180,11 @@ questor
 real				 
 red_meat
 retail
+schlock
 sdamned
 sempai
 sourcewars
+sheldon
 shermans_lagoon
 shoe
 skinhorse
