@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"dreamless"} = 1;
+
+#Dreamless http://dreamless.keenspot.com
+sub dreamless {
+    my $time = shift;
+    return undef if $time < 879724800; #1st comic: Nov 17, 1997
+    my @ltime = gmtime($time);
+
+    my $rec = {
+        'title' => "Dreamless",
+        'author' => "Bobby Crosby and Sarah Ellerton",
+        'type' => 'jpg',
+        'main' => "http://dreamless.keenspot.com",
+        'archives' => "http://dreamless.keenspot.com/d/20090105.html",
+        'base' => "http://dreamless.keenspot.com/",
+        'page' => strftime("d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime("(comics\\/dreamless%Y%m%d.jpg)",@ltime)],
+        };
+    return $rec;
+}
+
+1;

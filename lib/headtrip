@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"headtrip"} = 1;
+
+#Head Trip http://headtripcomics.comicgenesis.com
+sub headtrip {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://headtrip.keenspot.com";
+
+    my $rec = {
+        'title' => "Head Trip",
+        'author' => "Amanda Bussell",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/archive.html",
+        'base' => "$base",
+        'page' => strftime("/d/%Y%m%d.html",@ltime),
+        'exprs' => [strftime('(\/comics\/%Y%m%d[^"]*)"',@ltime)]
+        };
+    return $rec;
+}
+
+1;

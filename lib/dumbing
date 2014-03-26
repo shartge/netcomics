@@ -1,0 +1,30 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"dumbing"} = 0;
+
+#Dumbing of Age http://www.dumbingofage.com/
+sub dumbing {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://www.dumbingofage.com";
+
+    my $rec = {
+        'title' => "Dumbing of Age",
+        'author' => "David Willis",
+        'type' => 'png',
+        'main' => "$base",
+        'archives' => "$base/archive/",
+        'base' => "$base/",
+	'referer' => $base . strftime("%Y/%m/%d/",@ltime),
+        'page' => strftime("%Y/%m/%d/",@ltime),
+	'exprs' => [strftime('(%Y\/comic\/[^"]*)"', @ltime),
+                    strftime('(comics\/%Y-%m-%d[^"]*)"',@ltime)]
+        };
+    return $rec;
+}
+
+1;

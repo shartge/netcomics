@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ffn"} = 1;
+
+#Full Frontal Nerdity http://ffn.nodwick.com
+sub ffn {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://ffn.nodwick.com';
+
+    my $rec = {
+	'title' => "Full Frontal Nerdity",
+	'author' => "Aaron Williams",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/?p=6",
+	'base' => "$base/",
+	'page' => strftime("ffnstrips/%Y-%m-%d.png", @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

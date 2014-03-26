@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"ppgd"} = 1;
+
+sub ppgd {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    
+    my $rec = {
+	'title' => "Powerpuff Girls Doujinshi",
+	'author' => "Bleedman",
+	'type' => 'jpg',
+	'main' => "http://ppg.snafu-comics.com/",
+	'archives' => "http://ppg.snafu-comics.com/archive.php",
+	'base' => "http://ppg.snafu-comics.com/",
+	'page' => strftime("comics/%y%m%d_ppg.jpg", @ltime),
+	};
+    return $rec;
+}
+
+1;
+
+

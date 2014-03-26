@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"grrlpower"} = 1;
+
+#Grrl Power http://www.grrlpowercomic.com
+sub grrlpower {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my $monthname = $monthconv[$ltime[4]];
+    my $year = ($ltime[5] + 1900);
+    my $lastyear = ($year - 1);
+    my $datestring = "$monthname $ltime[3]";
+
+    my $base = "http://www.grrlpowercomic.com";
+
+    my $rec = {
+	'title' => "Grrl Power",
+	'author' => "David Barrack",
+	'type' => 'jpg',
+	'main' => "$base",
+	'archives' => "$base/archives",
+	'base' => "$base/",
+	'page' => strftime("archives/date/%Y/%m/%d",@ltime),
+	'exprs' => [strftime('(archives\/\d+)"><img src="[^"]*%Y-%m-%d[^"]*"',@ltime),
+	            strftime('(comics\/%Y-%m-%d[^"]*)"',@ltime)]
+	};
+    return $rec;
+}
+
+1;
+
+

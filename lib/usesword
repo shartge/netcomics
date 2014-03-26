@@ -1,0 +1,27 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"usesword"} = 2;
+
+#Use Sword on Monster http://www.useswordonmonster.com/
+sub usesword {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.useswordonmonster.com';
+
+    my $rec = {
+	'title' => "Use Sword on Monster",
+	'author' => "Aaron Williams",
+	'type' => 'png',
+	'main' => "$base/",
+	'archives' => "$base/?comic=2013-04-09",
+	'base' => "$base/",
+	'page' => strftime("wp-content/uploads/%Y/%m/%Y-%m-%d.png", @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

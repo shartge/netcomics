@@ -1,0 +1,26 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"mmiracle"} = 0;
+
+# Makeshift Miracle http://makeshiftmiracle.keenspot.com
+sub mmiracle {
+    my $time = shift;
+    my @ltime = gmtime($time);
+   
+    my $base = 'http://makeshiftmiracle.keenspot.com';
+
+    my $rec = {
+        'title' => "Makeshift Miracle",
+        'author' => "Jim Zub and Shun Hong Chan",
+        'type' => 'jpg',
+        'main' => "$base/",
+        'archives' => "$base/archive.html",
+        'base' => "http://cdn.makeshiftmiracle.keenspot.com/comics/",
+        'page' => strftime('mm%Y%m%d.jpg',@ltime),
+        };
+    return $rec;
+}
+
+1;

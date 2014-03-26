@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"deegan"} = 0;
+
+#Dominic Deegan, Oracle for Hire http://www.dominic-deegan.com
+sub deegan {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = "http://www.dominic-deegan.com";
+
+    my $rec = {
+	'title' => "Dominic Deegan - Oracle for Hire",
+	'author' => "Michael Terracciano",
+	'type' => 'gif',
+	'main' => "http://www.dominic-deegan.com",
+	'archives' => "http://www.dominic-deegan.com/view.php?date=2002-05-21",
+	'base' => "$base/",
+	'page' => strftime("view.php?date=%Y-%m-%d", @ltime),
+	'expr' => strftime('(comics/%Y%m%d[^"]*)"',@ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

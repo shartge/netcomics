@@ -1,0 +1,30 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"efinney"} = 1;
+
+#Edmund Finney's Quest to find the Meaning of Life
+sub efinney {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://eqcomics.com";
+
+    my $rec = {
+        'title' => "Edmund Finney's Quest to find the Meaning of Life",
+        'author' => "Dan Long",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/2009/",
+        'base' => "$base",
+	'referer' => $base . strftime("/%Y/%m/%d/",@ltime),
+        'page' => strftime("/%Y/%m/%d/",@ltime),
+	'exprs' => [ 'comicarchiveframe[^<]*<a href="http:\/\/eqcomics.com([^"]*)"',
+                    strftime('(\/comics\/%Y-%m-%d[^"]*)"',@ltime)]
+        };
+    return $rec;
+}
+
+1;

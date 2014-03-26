@@ -1,0 +1,49 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"darths"} = 1;
+
+#Darths and Droids http://www.darthsanddroids.net/
+sub darths {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+    my $monthname = $monthconv[$ltime[4]];
+    my $dayname = $dayconv[$ltime[6]];
+    my $datestring = $dayname . " " . $ltime[3] . " " . $monthname . ", " . ($ltime[5] + 1900);
+
+    my $rec = {
+        'title' => "Darths and Droids",
+        'author' => "The Comic Irregulars",
+        'type' => 'jpg',
+        'main' => "http://www.darthsanddroids.net/",
+        'archives' => "http://www.darthsanddroids.net/archive.html",
+        'base' => "http://www.darthsanddroids.net/",
+        'page' => "archive.html",
+        'expr' => $datestring . '.*?href="([^"]*)"'
+        };
+    $rec->{'func'} = sub {
+      my $text = shift;
+      my @relurls = ();
+      while (1) {
+        if ($text =~ s/src="\/(comics\/darths[a-zA-Z0-9]+\.jpg)/~~~/i) {
+          my $file = $1;
+          push(@relurls,$file) unless grep(/$file/, @relurls);
+        } else {
+          last;
+        }
+      }
+      if ($text =~ s/class="text">((.|\n)*?)<h3>Transcript//i) {
+        #print("Caption: $1 \n");
+        $rec->{'caption'} = $1;
+      }
+      return reverse @relurls;
+    };
+    return $rec;
+}
+
+1;
+

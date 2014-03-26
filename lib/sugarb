@@ -1,0 +1,24 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"sugarb"} = 1;
+
+sub sugarb {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    
+    my $rec = {
+	'title' => "Sugar Bits",
+	'author' => "Bleedman",
+	'type' => 'jpg',
+	'main' => "http://sugar.snafu-comics.com/",
+	'archives' => "http://sugar.snafu-comics.com/archive.php",
+	'base' => "http://sugar.snafu-comics.com/",
+	'page' => strftime("comics/%y%m%d_sugar.jpg", @ltime),
+	};
+    return $rec;
+}
+
+1;
+
+

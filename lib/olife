@@ -1,0 +1,33 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"olife"} = 0;
+
+#Original Life http://www.jaynaylor.com/originallife/
+sub olife {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December");
+
+    my $daystring = ($ltime[3] <= 9) ? " $ltime[3]" : $ltime[3];
+    my $datestring = strftime("$monthconv[$ltime[4]] $daystring, %Y", @ltime); 
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://jaynaylor.com/originallife";
+
+    my $rec = {
+        'title' => "Original Life",
+        'author' => "Jay Naylor",
+        'type' => 'jpg',
+        'main' => "$base/",
+        'archives' => "$base/archives/comic-1-50/",
+        'base' => "$base/",
+        'page' => strftime('archives/%Y/%m/',@ltime),
+	'expr' => "<h2>$datestring<.h2>.*?img src[^>]*originallife.(comic\/[^>]*)>"
+        };
+    return $rec;
+}
+
+1;

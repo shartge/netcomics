@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"cshock"} = 1;
+
+#Culture Shock http://www.cultureshockcomic.com
+sub cshock {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = "http://www.cultureshockcomic.com";
+
+    my $rec = {
+	'title' => "Culture Shock",
+	'author' => "Reed Hawker",
+	'type' => 'jpg',
+	'main' => "$base",
+	'archives' => "$base/archives/",
+	'base' => "$base/comics/",
+	'page' => "",
+	'expr' => strftime('(%Y-%m-%d[^"]*)"',@ltime)
+    };
+    return $rec;
+}
+
+1;
+
+

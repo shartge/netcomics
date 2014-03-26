@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"antihero"} = 1;
+
+#Antihero for Hire http://www.antihero.keenspot.com/
+sub antihero {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+
+    my $base = "http://antihero.keenspot.com";
+
+    my $rec = {
+	'title' => "Antihero for Hire",
+	'author' => "Mark Shallow",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/d/20030606.html",
+	'base' => "$base/",
+	'page' => strftime("d/%Y%m%d.html", @ltime),
+	'expr' => strftime('(comics\/afh%Y%m%d[^"]*)"', @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+

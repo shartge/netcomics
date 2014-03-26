@@ -1,0 +1,37 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"namesake"} = 0;
+
+# Namesake http://namesakecomic.com/
+sub namesake {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    my $monthname = $monthconv[$ltime[4]];
+    my $dayname = $dayconv[$ltime[6]];
+    my $paddate = sprintf("%02d", $ltime[3]);
+    my $datestring = "$monthname $paddate, " . ($ltime[5] + 1900);
+
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://namesakecomic.com";
+
+    my $rec = {
+        'title' => "Namesake",
+        'author' => "Megan Lavey-Heaton and Isabelle Melcon",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/archives/",
+        'base' => "",
+        'page' => "$base/archives/",
+	'exprs' => [$datestring . '<.span><span[^>]*><a href="([^"]*)"',
+                    '<div id="comic">[^|]*?<img src="([^"]*)"']
+        };
+    return $rec;
+}
+
+1;

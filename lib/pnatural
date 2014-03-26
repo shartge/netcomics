@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"pnatural"} = 0;
+
+#Paranatural http://paranatural.net/
+sub pnatural {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
+    
+    my $base = "http://paranatural.net";
+
+    my $rec = {
+	'title' => "Paranatural",
+	'author' => "Zachary Morrison",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/archive/",
+	'base' => "$base/comics/",
+	'page' => "",
+	'expr' => strftime('"([^"]*%Y-%m-%d[^"]*)"', @ltime),
+	};
+    return $rec;
+}
+
+1;
+
+

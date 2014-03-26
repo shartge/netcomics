@@ -1,0 +1,34 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"banished"} = 0;
+
+#Banished http://www.banishedonline.com/
+sub banished {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    my @dayconv = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    my $monthname = $monthconv[$ltime[4]];
+    my $dayname = $dayconv[$ltime[6]];
+    my $paddate = sprintf("%02d", $ltime[3]);
+    my $datestring = $dayname . ", $paddate $monthname " . ($ltime[5] + 1900);
+   
+    my $base = 'http://www.banishedonline.com';
+
+    my $rec = {
+        'title' => "Banished",
+        'author' => "Ryan Smith",
+        'type' => 'gif',
+        'main' => "$base/",
+        'archives' => "$base/index.php?date=2010-08-30",
+        'base' => "$base/",
+        'page' => strftime("index.php?date=%Y-%m-%d",@ltime),
+	'expr' => strftime('(strips/%Y-%m-%d[^"]*)"',@ltime)
+        };
+    return $rec;
+}
+
+1;

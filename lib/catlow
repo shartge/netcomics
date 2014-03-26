@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"catlow"} = 0;
+
+#Gene Catlow http://genecatlow.com/
+sub catlow {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://genecatlow.keenspot.com';
+
+    my $rec = {
+	'title' => "Gene Catlow",
+	'author' => "Albert A. Temple",
+	'type' => 'gif',
+	'main' => "$base",
+	'archives' => "$base/d/20000717.html",
+	'base' => "",
+	'page' => strftime("$base/d/%Y%m%d.html", @ltime),
+	'expr' => strftime("(http:\/\/cdn.genecatlow.keenspot.com\/comics\/%Y%m%d.[a-z][a-z][a-z])", @ltime)
+	};
+    return $rec;
+}
+
+1;
+
+
