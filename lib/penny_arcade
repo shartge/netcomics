@@ -1,46 +1,25 @@
 #-*-Perl-*-
 
-$hof{"pa"} = 0;
+$hof{"pa"} = 1;
 
 # Penny Arcade
 # http://www.penny-arcade.com/
 
-#Design:
-#
-#First use a function to determine if the specified date exists,
-#then have it return just a hash to update the rli with the correct info.
-
-# ex:
-# 1) Page = http://www.penny-arcade.com/comic/2006/09/11
-# 2) Strip = http://www.penny-arcade.com/images/2006/20060911.jpg
-# 3) url entry = <div id="comicstrip"><img src="/images/2006/20060911.jpg" alt="Horse D'Oeuvres" /></div
 sub pa {
     my $time = shift;
     return undef if $time < mkgmtime(0,0,0,18,10,98); #first comic Nov. 18, 1998
     my @ltime = gmtime($time);
+
     my $baseurl = "http://www.penny-arcade.com";
+
     my $rec = {
 	'title' => "Penny Arcade",
 	'author' => "Mike Krahulik and Jerry Holkins",
 	'main' => $baseurl,
 	'archives' => "$baseurl/archive",
-	'base' => "$baseurl/",
-	'page' => strftime("comic/%Y/%m/%d", @ltime),
-	'func' => sub {
-	    $_ = shift;
-	    my @relurls = ();
-	    if (m%<div id=\"comicstrip\"><img src=\"\/([^\"]+?)\"%) {
-		my $tmp = $1;
-		my $type = $1 if ($tmp =~ m%\.(\w+)$%);
-		push @relurls, {
-		    'page' => $tmp,
-		    'comic' => $tmp,
-		    'type' => $type,
-		    'func' => undef,   
-		};
-	    }
-	    return @relurls;
-	},
+	'base' => "",
+	'page' => strftime("$baseurl/comic/%Y/%m/%d", @ltime),
+	'expr' => '"(http:\/\/art.penny-arcade.com\/[^"]*)"'
     };
     return $rec;
 }
