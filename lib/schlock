@@ -1,0 +1,46 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"schlock"} = 0;
+
+#Schlock Mercenary http://www.schlockmercenary.com
+sub schlock {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    #return if (($ltime[6] != 1) && ($ltime[6] != 5));    
+
+    my $base = "http://www.schlockmercenary.com";
+    my $date = strftime("%Y%m%d", @ltime);
+
+    my $rec = {
+        'title' => "Schlock Mercenary",
+        'author' => "Howard Tayler",
+        'type' => 'jpg',
+        'main' => "$base",
+        'archives' => "$base/pages/archives/",
+        'base' => "$base/",
+        'page' => strftime("%Y-%m-%d/",@ltime)
+        };
+
+    $rec->{'func'} = sub {
+        my $text = shift;
+        my @relurls = ();
+        while(1) {
+            if ($text =~ s/src=".*?(\/comics\/.*?$date[^"]*)"//i) {
+                 my $file = $1;
+                 push(@relurls,$file) unless grep(/$file/, @relurls);
+            } else {
+                 last;
+            }
+        }
+        if ($text =~ s/post footnote'>([^|]*?)<\/div>//i) {
+            $rec->{'caption'} = $1;
+        }
+        return reverse @relurls;
+    };
+
+    return $rec;
+}
+
+1;
