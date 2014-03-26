@@ -1,0 +1,35 @@
+#-*-Perl-*-
+
+#Tack on the names of the subroutines to the list of functions
+$hof{"blondie"} = 0;
+
+#Blondie http://www.blondie.com/
+sub blondie {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("january", "february", "march", "april", "may", "june",
+                     "july", "august", "september", "october", "november", "december");
+    my $monthname = $monthconv[$ltime[4]];
+
+    my $month = $ltime[4] + 1;
+    #return if ($ltime[6] != 0);
+    my $day = $ltime[3];
+
+    my $base = "http://www.blondie.com";
+    
+    my $rec = {
+	'title' => "Blondie",
+	'author' => "Dean Young and Denis Lebrun",
+	'type' => 'jpg',
+	'main' => "$base/",
+	'archives' => "$base/dailies/index.asp",
+	'base' => "",
+	'page' => strftime("$base/comics/$monthname-$day-%Y/", @ltime),
+	'expr' => 'og:image" content="([^"]*)"'
+	};
+    return $rec;
+}
+
+1;
+
+

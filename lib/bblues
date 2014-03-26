@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"ba"} = 0;
+
+#Baby Blues http://www.babyblues.com
+sub ba {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.babyblues.com';
+    
+    my $rec = {
+	'title' => "Baby Blues",
+	'author' => "Rick Kirkman and Jerry Scott",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+	'referer' => "$base/index.php",
+	'base' => '',
+	'page' => strftime("$base/archive/index.php?formname=getstrip&GoToDay=%m/%d/%Y",@ltime),
+        'exprs' => ['(http...safr.kingfeatures.com[^"]*)"',
+                    "img src='([^']*)'"]
+    };
+    
+    return $rec;
+}
+
+1;

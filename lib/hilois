@@ -1,0 +1,29 @@
+#-*-Perl-*-
+
+#Add the name of the subroutines to the hash of functions
+#with the number of days from today the comic is available
+$hof{"hi"} = 0;
+
+#Hi and Lois http://www.arcamax.com/thefunnies/hiandlois
+sub hi {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.arcamax.com';
+    my $comicindex = '242';
+
+    my $rec = {
+        'title' => "Hi and Lois",
+        'author' => "Brian Walker, Greg Walker and Chance Browne",
+        'type' => 'gif',
+        'main' => "$base/thefunnies/hiandlois",
+        'archives' => "$base/thefunnies/hiandlois",
+        'referer' => "http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html",
+        'base' => '',
+        'page' => strftime("http://safr.kingfeatures.com/idn/zone/js/index.php?cn=92&zn=182&fn=" . $comicindex . "&fd=%Y%m%d&wt=1&fs=0&null=0",@ltime),
+        'expr' => "img src='([^']*)'"
+        };
+    return $rec;
+}
+
+1;

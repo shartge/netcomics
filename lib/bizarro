@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"bz"} = 0;
+
+#Bizarro http://www.bizarrocomics.com
+sub bz {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.bizarrocomics.com';
+    my $comicindex = '72';
+    
+    my $rec = {
+	'title' => "Bizarro",
+	'author' => "Dan Piraro",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+        'referer' => "http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html",
+        'base' => '',
+        'page' => strftime("http://safr.kingfeatures.com/idn/zone/js/index.php?cn=92&zn=182&fn=" . $comicindex . "&fd=%Y%m%d&wt=1&fs=0&null=0",@ltime),
+        'expr' => "img src='([^']*)'"
+    };
+    
+    return $rec;
+}
+
+1;
