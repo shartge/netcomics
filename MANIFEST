@@ -72,8 +72,12 @@ lib/astronomy
 lib/bad_boys
 lib/badlands
 lib/banished
+lib/bblues
+lib/beetle
 lib/bgeddon
 lib/bitf
+lib/bizarro
+lib/blondie
 lib/bruno
 lib/bug
 lib/cad
@@ -127,7 +131,9 @@ lib/godot
 lib/grimtales
 lib/grimmy
 lib/grrlpower
+lib/hagar
 lib/headtrip
+lib/hilois
 lib/inktank
 lib/jerkcity
 lib/joyoftech
@@ -141,6 +147,7 @@ lib/lcd
 lib/lily_wong
 lib/littlegamers
 lib/madam-n-eve
+lib/marvin
 lib/mcynics
 lib/megatokyo
 lib/mena3
@@ -207,6 +214,7 @@ lib/wait_bob
 lib/wfc
 lib/wtalent
 lib/zapspace
+lib/zits
 lib/zpencils
 netcomics.pl
 netcomics.spec
