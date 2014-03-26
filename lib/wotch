@@ -18,7 +18,7 @@ sub wotch {
         'archives' => "http://archives.thewotch.com/",
         'base' => "http://www.thewotch.com/",
         'page' => strftime("?epDate=%Y-%m-%d",@ltime),
-        'exprs' => [strftime("(comics\/%Y\/%m\/%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        'exprs' => [strftime("(comics\/%Y\/%m\/%Y%m%d[_a-zA-Z0-9]*\.[a-z][a-z][a-z])",@ltime)]
         };
     return $rec;
 }
