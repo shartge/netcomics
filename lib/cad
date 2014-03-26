@@ -1,6 +1,6 @@
 #-*-Perl-*-
 
-$hof{"cad"} = 0;
+$hof{"cad"} = 1;
 
 sub cad {
     my $time = shift(@_);
@@ -10,17 +10,17 @@ sub cad {
     
     return undef unless $date > 20021022;
     
-    my $base = 'http://www.cad-comic.com/';
+    my $base = 'http://www.cad-comic.com';
 
     my $rec = {
 	'title' => 'Ctrl-Alt-Del',
 	'author' => 'Tim Buckley',
 	'type' => 'jpg',
-	'main' => $base,
-	'base' => $base,
-	'archives' => $base . 'cad/archive',
-	'page' => "cad/$date",
-	'exprs' => ["/(comics/cad/$date\.jpg)"],
+	'main' => "$base/",
+	'base' => '',
+	'archives' => $base . '/archives.php',
+	'page' => "$base/cad/$date",
+	'exprs' => ['(http://[^.]*\.cdn\.cad-comic\.com/comics/[^"]*)"'],
 	};
     return $rec;
 }
