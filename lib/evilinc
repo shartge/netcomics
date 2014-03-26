@@ -2,23 +2,26 @@
 
 #Add the name of the subroutines to the hash of functions
 #with the number of days from today the comic is available
-$hof{"evilinc"} = 0;
+$hof{"evilinc"} = 1;
 
-#Evil, Inc. http://www.evil-comic.com/
+#Evil, Inc. http://www.evil-inc.com/
 sub evilinc {
     my $time = shift;
     my @ltime = gmtime($time);
     return if ($ltime[6] == 0);	
 
+    my $base = "http://evil-inc.com";
+
     my $rec = {
         'title' => "Evil, Inc.",
         'author' => "Brad J. Guigar",
         'type' => 'gif',
-        'main' => "http://www.evil-comic.com/",
-        'archives' => "http://www.evil-comic.com/archive.html",
-        'base' => "http://www.evil-comic.com/",
-        'page' => strftime("d/%Y%m%d.html",@ltime),
-        'exprs' => [strftime("(comics\/e%Y%m%d.[a-z][a-z][a-z])",@ltime)]
+        'main' => "$base/",
+        'archives' => "$base/archive/",
+        'base' => "",
+        'page' => strftime("$base/%Y/%m/%d/?post_type=comic",@ltime),
+        'exprs' => ['comic-thumbnail-in-archive"><a href="([^"]*)"',
+                    'div id="comic">[^<]*<a[^<]*<img src="([^"]*)"']
         };
     return $rec;
 }
