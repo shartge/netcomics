@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"ma"} = 0;
+
+#Marvin http://www.seattlepi.com/comics-and-games/fun/Marvin/
+sub ma {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.seattlepi.com/comics-and-games/fun/Marvin/';
+    my $comicindex = '342';
+    
+    my $rec = {
+	'title' => "Marvin",
+	'author' => "Tom Armstrong",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+	'referer' => "http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html",
+        'base' => '',
+        'page' => strftime("http://safr.kingfeatures.com/idn/zone/js/index.php?cn=92&zn=182&fn=" . $comicindex . "&fd=%Y%m%d&wt=1&fs=0&null=0",@ltime),
+        'expr' => "img src='([^']*)'"
+    };
+    
+    return $rec;
+}
+
+1;

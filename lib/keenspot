@@ -3,11 +3,13 @@
 foreach (qw(avalon ashfield alice banditb boxjam crfh cotc menagerie ccs elf
    evjake exploit funny gpf greystone helpdesk walky joeav krazyl lwibh
    lostfound  bayside rad greytown mp mcs newshounds nukees ozy pentasmal rpg
-   rwaffles ssdd schlock sheldon soap suburban sp twolumps wander wendy
-   cutewendy youdamn chopping fatjc kpanic)) {
+   rwaffles ssdd soap suburban sp twolumps wander wendy shockdark 
+   cutewendy youdamn chopping fatjc kpanic exile tseven skickers)) {
    $hof{"$_"} = 0;
 }
 
+$hof{"wsons"} = 1;
+$hof{"supernovas"} = 1;
 #Set back two months for now
 $hof{"soap"} = 1;
 #Set back two months for now
@@ -43,9 +45,9 @@ sub keenspot {
 		my @relurls = ();
 		#repeatedly match and replace.  
         while (1) {
-			if ($text =~ s/src=".*?(\/(comics|strips|\d+)\/.*?$date:??[a-zA-Z_0-9\-\+]*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
+			if ($text =~ s/src=".*?(\/((comics)|(strips))\/.*?$date:??[a-zA-Z_0-9\-\+]*\.((:?jpg)|(:?gif)|(:?png)|(:?swf)))"//i) {
 				my $file = $1;
-				my $type = $3;
+				my $type = $5;
 				push(@relurls,$file) unless grep(/$file/, @relurls);
 				$rec->{'type'} = $type;
 			} else {
@@ -1780,78 +1782,7 @@ sub ssdd {
 }
 
 #Schlock Mercenary
-sub schlock {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
-    my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
-
-   # Last updated July 5, 2001
-    my @missing = ();
-    my @extra = ();
-
-    #everyday until present
-    return undef if 
-      (($date < 20000612) || #first comic on June 12, 2000
-      (($date >= 20000612 && $date <= $date2) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      grep(/$date/,@missing));
-
-    my $title = "Schlock Mercenary";
-    my $author = "Howard Tayler";
-    my $url = "http://www.schlockmercenary.com";
-    my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
-}
-
-#Sheldon
-sub sheldon {
-    my $time = shift;
-    my @ltime = gmtime($time);
-    my @ltime2 = gmtime(time);
-    my $date = strftime("%Y%m%d", @ltime);
-    my $date2 = strftime("%Y%m%d", @ltime2);
-
-   # Last updated July 5, 2001
-    my @missing = (19990827,19990828,19990829,19990830,19990910,19990911,
-      19990912,19990913,19990915,19990916,19990917,19990918,19990919,
-      19991002,19991003,19991004,19991005,19991022,19991027,19991102,
-      19991108,19991113,19991127,19991203,19991204,19991214,19991223,
-      19991224,19991227,19991228,19991229,19991230,19991231,20000106,
-      20000121,20000124,20000131,20000228,20000316,20000331,20000419,
-      20000428,20000503,20000508,20000526,20000529,20000619,20000626,
-      20000703,20000704,20000710,20000713,20000717,20000718,20000719,
-      20000727,20000804,20000807,20000809,20000810,20000831,20000904,
-      20000912,20000918,20001016,20001023,20001024,20001025,20001026,
-      20001027,20001030,20001031,20001101,20001102,20001103,20001106,
-      20001107,20001108,20001109,20001110,20001128,20001130,20001214,
-      20001219,20001227,20010228,20010301,20010302,20010404,20010528,
-      20010705);
-    my @extra = (20000108,20000115,20000116,20000122,20000129,20000130,
-      20000227,20000401);
-
-    #Everyday until December 12, 1999
-    #M to F until present
-    return undef if 
-      (($date < 19990621) || #first comic on June 21, 1999
-      (($date >= 19990621 && $date < 19991212) &&
-      ($ltime[6] !~ /[0123456]/)) ||
-      (($date >= 19991212 && $date <= $date2) && 
-      ($ltime[6] !~ /[12345]/ && !grep(/$date/,@extra))) ||
-      grep(/$date/,@missing));
-
-    my $title = "Sheldon";
-    my $author = "Dave Kellett";
-    my $url = "http://www.sheldoncomics.com";
-    my $index = undef;
-    
-    return keenspot($title,$author,$date,$url,$index);
-}
-
-##Sinfest
-#sub sinf {
+#sub schlock {
 #    my $time = shift;
 #    my @ltime = gmtime($time);
 #    my @ltime2 = gmtime(time);
@@ -1859,9 +1790,36 @@ sub sheldon {
 #    my $date2 = strftime("%Y%m%d", @ltime2);
 #
 #   # Last updated July 5, 2001
+#    my @missing = ();
+#    my @extra = ();
+#
+#    #everyday until present
+#    return undef if 
+#      (($date < 20000612) || #first comic on June 12, 2000
+#      (($date >= 20000612 && $date <= $date2) &&
+#      ($ltime[6] !~ /[0123456]/)) ||
+#      grep(/$date/,@missing));
+#
+#    my $title = "Schlock Mercenary";
+#    my $author = "Howard Tayler";
+#    my $url = "http://www.schlockmercenary.com";
+#    my $index = undef;
+#    
+#    return keenspot2($title,$author,$date,$url,$index);
+#}
+
+#Sinfest
+#sub sinf {
+#    my $time = shift;
+#    my @ltime = gmtime($time);
+#    my @ltime2 = gmtime(time);
+#    my $date = strftime("%Y%m%d", @ltime);
+#    my $date2 = strftime("%Y%m%d", @ltime2);#####
+##
+#   # Last updated July 5, 2001
 #    my @missing = (20000131,20000222,20000223,20000224,20000225,20000226,
 #      20000227,20000228,20000229);
-#    my @extra = ();
+#    my @extra = ();#
 #
 #    #Everyday until present
 #    return undef if 
@@ -2236,6 +2194,140 @@ sub cutewendy {
 
     return $rec;
 }
+
+#Return of the Exile
+sub exile {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+
+  my $rec = {
+    'title' => "Return of the Exile",
+    'author' => "Barb Jacobs and Steven Jones",
+    'main' => "http://www.talismenseries.com",
+    'archives' => "http://talismenseries.com/d/20050701.html",
+    'base' => "http://talismenseries.com",
+    'page' => "/comics/$date.jpg",
+  };
+
+  return $rec;
+}
+
+#Wayward Sons
+sub wsons {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+    my $base = "http://waywardsons.keenspot.com";
+    my $cdnbase = "http://cdn.waywardsons.keenspot.com";
+
+  my $rec = {
+    'title' => "Wayward Sons",
+    'author' => "Benny R. Powell",
+    'main' => "$base/",
+    'archives' => "$base/archive.html",
+    'base' => "$cdnbase/",
+    'page' => "comics/$date.jpg",
+  };
+
+  return $rec;
+}
+
+#Supernovas
+sub supernovas {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+    my $base = "http://cdn.supernovas.keenspot.com";
+
+  my $rec = {
+    'title' => "Supernovas",
+    'author' => "Terry Keefe",
+    'main' => "$base/",
+    'archives' => "$base/archive.html",
+    'base' => "$base",
+    'referer' => "$base/d/$date.html",
+    'page' => "/comics/$date.jpg",
+  };
+
+  return $rec;
+}
+
+#Shockwave Darkside
+sub shockdark {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+    my $base = "http://cdn.shockwave.keenspot.com";
+
+  my $rec = {
+    'title' => "Shockwave Darkside",
+    'author' => "Benny R. Powell",
+    'type' => 'jpg',
+    'main' => "$base/",
+    'archives' => "$base/2d/20100920.html",
+    'base' => "$base",
+    'page' => "/comics2D/$date.jpg",
+  };
+
+  return $rec;
+}
+
+#27 http://twenty-seven.keenspot.com
+sub tseven {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+    my $sitebase = "http://twenty-seven.keenspot.com";
+    my $base = "http://cdn.twenty-seven.keenspot.com";
+
+  my $rec = {
+    'title' => "27",
+    'author' => "Charles Soule",
+    'main' => "$sitebase/",
+    'archives' => "$sitebase/archive.html",
+    'base' => "$base",
+    'page' => "/comics/ts$date.jpg",
+  };
+
+  return $rec;
+
+}
+
+#Skullkickers http://skullkickers.keenspot.com
+sub skickers {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @ltime2 = gmtime(time);
+    my $date = strftime("%Y%m%d", @ltime);
+    my $date2 = strftime("%Y%m%d", @ltime2);
+    my $sitebase = "http://skullkickers.keenspot.com";
+    my $base = "http://cdn.skullkickers.keenspot.com";
+
+  my $rec = {
+    'title' => "Skullkickers",
+    'author' => "Jim Zub",
+    'main' => "$sitebase/",
+    'archives' => "$sitebase/archive.html",
+    'base' => "$base",
+    'page' => "/comics/sk$date.jpg",
+  };
+
+  return $rec;
+
+}
+
+   
 
 #You Damn Kid
 sub youdamn {

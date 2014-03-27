@@ -1,10 +1,10 @@
 #-*-Perl-*-
 
-foreach (qw(bg bb be blondie bz cs fu gb hg lo mf ma mu fa sf sh 
-    pc ro zp spider apt3g bfriends buckles ba zt phantom
+foreach (qw(bg be cs fu gb lo mu fa sf sh 
+    pc ro zp spider apt3g bfriends buckles phantom
     crock curtis dennis dinette familyc fgordon tumble rmorgan
-    jparker mtrail mworth hi pvaliant theydo tiger
-    katkids popeye sroper pardon re schix)) {
+    jparker mtrail mworth pvaliant theydo tiger
+    katkids popeye sroper pardon re schix )) {
     $hof{$_} = 0;
 }
 
@@ -69,10 +69,10 @@ sub apt3g {
 }
 
 #Baby Blues http://www.kingfeatures.com/comics/babyblue/
-sub ba {
-    return kingfeature(shift(@_),"Baby Blues","Rick Kirkman and Jerry Scott",
-             "babyblue","Baby_Blues", [525,153],[600,400]);
-}
+#sub ba {
+#    return kingfeature(shift(@_),"Baby Blues","Rick Kirkman and Jerry Scott",
+#             "babyblue","Baby_Blues", [525,153],[600,400]);
+#}
 
 # Barney Google and Snuffy Smith
 # http://www.kingfeatures.com/comics/bgoogle/
@@ -84,10 +84,10 @@ sub bg {
 
 # Beatle Baily
 # http://www.kingfeatures.com/comics/bbailey/
-sub bb {
-    return kingfeature(shift(@_),"Beetle Bailey","Mort Walker",
-		       "bbailey","Beetle_Bailey", [480,147], [600,402]);
-}
+#sub bb {
+#    return kingfeature(shift(@_),"Beetle Bailey","Mort Walker",
+#		       "bbailey","Beetle_Bailey", [480,147], [600,402]);
+#}
 
 # The Better Half
 # http://www.kingfeatures.com/comics/bet_half/
@@ -102,20 +102,20 @@ sub bfriends {
 }
 
 #Blondie http://www.kingfeatures.com/comics/blondie/
-sub blondie {
-    return kingfeature(shift(@_),"Blondie","Dean Young and Denis Lebrun",
-		       "blondie","Blondie",[480,142], [600,406]);
-}
+#sub blondie {
+#    return kingfeature(shift(@_),"Blondie","Dean Young and Denis Lebrun",
+#		       "blondie","Blondie",[480,142], [600,406]);
+#}
 
 sub buckles {
     return kingfeature(shift(@_),"Buckles","David Gilbert","buckles","Buckles",
 		       [480,147]);
 }
 
-sub bz {
-    return kingfeature(shift(@_),"Bizarro","Dan Piraro","bizarro","Bizarro",
-			[300,356],[600,405]);
-}
+#sub bz {
+#    return kingfeature(shift(@_),"Bizarro","Dan Piraro","bizarro","Bizarro",
+#			[300,356],[600,405]);
+#}
 
 
 sub crock {
@@ -171,10 +171,10 @@ sub gb {
 }
 
 #Hagar the Horrible http://www.kingfeatures.com/comics/hagar/
-sub hg {
-    return kingfeature(shift(@_),"Hagar the Horrible","Chris Browne","hagar",
-		       "Hagar_The_Horrible",[480,148], [600,398]);
-}
+#sub hg {
+#    return kingfeature(shift(@_),"Hagar the Horrible","Chris Browne","hagar",
+#		       "Hagar_The_Horrible",[480,148], [600,398]);
+#}
 
 #Hazel http://www.kingfeatures.com/comics/hazel/index.htm
 #http://www.kingfeatures.com/features/comics/hazel/hat010124.gif
@@ -192,11 +192,11 @@ sub henry {
 
 # Hi and Lois
 # http://www.kingfeatures.com/features/comics/hi_lois/about.htm
-sub hi {
-    return kingfeature(shift(@_),"Hi and Lois",
-		       "Brian Walker, Greg Walker and Chance Browne",
-                       "hi_lois","Hi_and_Lois",[525,155], [600,401]);
-}
+#sub hi {
+#    return kingfeature(shift(@_),"Hi and Lois",
+#		       "Brian Walker, Greg Walker and Chance Browne",
+#                      "hi_lois","Hi_and_Lois",[525,155], [600,401]);
+#}
 
 #Horroscope http://www.kingfeatures.com/comics/horrscpe/
 sub hr {
@@ -233,10 +233,10 @@ sub lo {
 }
 
 #Mallard Fillmore http://www.kingfeatures.com/comics/mallard/
-sub mf {
-    return kingfeature(shift(@_),"Mallard Fillmore","Bruce Tinsley","mallard",
-		       "Mallard_Fillmore",[480,157], [600,288]);
-}
+#sub mf {
+#    return kingfeature(shift(@_),"Mallard Fillmore","Bruce Tinsley","mallard",
+#		       "Mallard_Fillmore",[480,157], [600,288]);
+#}
 
 #Mandrake the Magician
 sub mandrake {
@@ -252,10 +252,10 @@ sub mtrail {
 }
 
 #Marvin http://www.kingfeatures.com/comics/marvin/
-sub ma {
-    return kingfeature(shift(@_),"Marvin","Tom Armstrong","marvin","Marvin",
-		       [480,159], [600,423]);
-}
+#sub ma {
+#    return kingfeature(shift(@_),"Marvin","Tom Armstrong","marvin","Marvin",
+#		       [480,159], [600,423]);
+#}
 
 # Mary Worth
 # http://www.kingfeatures.com/features/comics/mworth/about.htm
@@ -424,9 +424,16 @@ sub zp {
 }
 
 #Zits http://www.kingfeatures.com/comics/zits/
-sub zt {
-    return kingfeature(shift(@_),"Zits","Jerry Scott and Jim Borgman","zits",
-                       "Zits", [480,166], [600,295]);
-}
+#sub zt {
+#    return kingfeature(shift(@_),"Zits","Jerry Scott and Jim Borgman","zits",
+#                       "Zits", [480,166], [600,295]);
+#}
+
+#Retail http://seattlepi.nwsource.com/fun/retail.asp
+#sub retail {
+#    return kingfeature(shift(@_),"Retail","Norm Feuti","retail",
+#                       "Retail", [525,162], [900,437]);
+#}
+
 
 1;

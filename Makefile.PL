@@ -75,10 +75,14 @@ atland
 bad_boys
 badlands
 banished
+bblues
+beetle
 bgeddon
 bipass
 bitf
+bizarro
 blastwave
+blondie
 bruno
 bug
 cad
@@ -136,7 +140,9 @@ godot
 grimtales
 grimmy
 grrlpower
+hagar
 headtrip
+hilois
 inherit
 inktank
 jerkcity
@@ -151,6 +157,7 @@ lcd
 lily_wong
 littlegamers
 madam-n-eve
+marvin
 mcynics
 megatokyo
 mena3
@@ -180,9 +187,11 @@ questor
 real				 
 red_meat
 retail
+schlock
 sdamned
 sempai
 sourcewars
+sheldon
 shermans_lagoon
 shoe
 skinhorse
@@ -221,6 +230,7 @@ wfc
 wotch
 wtalent
 zapspace
+zits
 zpencils
 );
 

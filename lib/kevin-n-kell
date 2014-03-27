@@ -17,15 +17,15 @@ sub kk {
     my $rec = {
 	'title' => "Kevin n Kell",
 	'author' => "Bill Holbrook",
-	'type' => 'gif',
+	'type' => 'jpg',
 	'main' => "$baseurl/",
 	'archives' => "$baseurl/archive/index.html",
 	'size' => ($ltime[6] == 0 ? [585,390] : [585,190]),
 	'base' => strftime("$baseurl/%Y/",@ltime),
 	'page' => strftime("kk%m%d.html",@ltime),
 	'exprs' => {
-	    'comic' => ["(strips/kk$date.jpg)"],
-	    'caption' => ["strips/kk$date.jpg.*?<p id=\"comicstripCaption\">\\s?(.*?)<span id=\"commentsCounter\">"],
+	    'comic' => ['(strips/kk' . $date . '[^"]*)"'],
+	    'caption' => ['strips/kk' . $date . '[^"]*".*?<FONT.*?>\\s?(.*?)</FONT>'],
 	},
     };
     return $rec;

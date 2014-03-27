@@ -1,0 +1,32 @@
+#-*-Perl-*-
+
+$hof{"zt"} = 0;
+
+#Zits http://www.zitscomics.com
+sub zt {
+    my $time = shift;
+    my @ltime = gmtime($time);
+    my @monthconv = ("january", "february", "march", "april", "may", "june",
+                     "july", "august", "september", "october", "november", "december");
+    my $monthname = $monthconv[$ltime[4]];
+    my $monthday = $ltime[3];
+
+
+    my $base = 'http://zitscomics.com';
+    
+    my $rec = {
+	'title' => "Zits",
+	'author' => "Jerry Scott and Jim Borgman",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+        'referer' => "$base/",
+        'base' => '',
+        'page' => strftime("$base/comics/" . $monthname . "-" . $monthday . "-%Y/",@ltime),
+        'expr' => 'og:image" content="([^"]*)"'
+    };
+    
+    return $rec;
+}
+
+1;

@@ -7,7 +7,7 @@ $hof{"misfile"} = 0;
 sub misfile {
     my $time = shift;
     my @ltime = gmtime($time);
-    return if (($ltime[6] == 0) || ($ltime[6] == 6));
+#   return if (($ltime[6] == 0) || ($ltime[6] == 6));
 
     my $rec = {
 	'title' => "Misfile",
@@ -16,8 +16,8 @@ sub misfile {
 	'main' => "http://www.misfile.com/",
 	'archives' => "http://www.misfile.com/index.php?menu=archives",
 	'base' => "http://www.misfile.com/",
-	'page' => "index.php",
-	'expr' => "(overlay.php\\?pageCalled=[0-9]+)",
+	'page' => strftime("index.php?date=%Y-%m-%d",@ltime),
+	'expr' => strftime("(comics\/%Y\/%m\/%Y%m%d[^']*)'",@ltime)
 	};
     return $rec;
 }

@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"bb"} = 0;
+
+#Beetle Bailey http://www.seattlepi.com/comics-and-games/fun/Beetle_Bailey/
+sub bb {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.seattlepi.com/comics-and-games/fun/Beetle_Bailey/';
+    my $comicindex = '42';
+    
+    my $rec = {
+	'title' => "Beetle Bailey",
+	'author' => "Mort Walker",
+	'type' => 'gif',
+	'main' => "$base/",
+	'archives' => "$base/",
+	'referer' => "http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html",
+	'base' => '',
+	'page' => strftime("http://safr.kingfeatures.com/idn/zone/js/index.php?cn=92&zn=182&fn=" . $comicindex . "&fd=%Y%m%d&wt=1&fs=0&null=0",@ltime),
+	'expr' => "img src='([^']*)'"
+    };
+    
+    return $rec;
+}
+
+1;

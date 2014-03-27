@@ -2,19 +2,27 @@
 #Tack on the names of the subroutines to the list of functions
 $hof{"slagoon"} = 0;
 
-#Sherman's Lagoon http://www.slagoon.com/
+#Sherman's Lagoon http://www.shermanslagoon.com/
 sub slagoon {
     my $time = shift(@_);
     my @ltime = gmtime($time);
+    my @monthconv = ("january", "february", "march", "april", "may", "june",
+                     "july", "august", "september", "october", "november", "december");
+    my $monthname = $monthconv[$ltime[4]];
+
+
+
+    my $base = "http://shermanslagoon.com";
+
     my $rec = {
 	'title' => "Shermans Lagoon",
 	'author' => "Jim Toomey",
 	'type' => 'gif',
-	'main' => "http://www.slagoon.com/cgi-bin/sviewer.pl",
-	'archives' => "http://www.slagoon.com/cgi-bin/sviewer.pl",
-	'base' => "http://www.slagoon.com/",
-	'page' => strftime("dailies/SL%y%m%d.gif",@ltime),
-	'size' => ($ltime[6] == 0 ? [650,350] : [576,234])
+	'main' => "$base/",
+	'archives' => "$base/comics/december-29-2003/",
+	'base' => "",
+	'page' => strftime("${base}/comics/${monthname}-%d-%Y/",@ltime),
+	'expr' => 'og.image" content="([^"]*)"'
 	};
     return $rec;
 }

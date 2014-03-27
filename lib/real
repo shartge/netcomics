@@ -1,48 +1,58 @@
 #-*-Perl-*-
 
-$hof{"real"} = 0;
+$hof{"real"} = 1;
 
-#Real Life
+#Real Life http://reallifecomics.com/
 sub real {
     my $time = shift;
     my @ltime = gmtime($time);
+    my @monthconv = ("January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December");
+    my $monthname = $monthconv[$ltime[4]];
 
-    return undef if $time < 942624000 ; #1st comic on November 15, 1999
+    my $monthstr = strftime('class="month">' . "${monthname} %Y",@ltime);
+    my $nextmonthstr = '';
+    if ($ltime[4] != 11) {
+        my $nextmonth = $monthconv[$ltime[4]+1];
+        $nextmonthstr = strftime('[^|]*class="month">' . "${nextmonth} %Y",@ltime);
+    }
 
-    # because of the calender configuration of the archive pages, we
-    # look for the "day" we are interested in, between the name of the
-    # "mon" we are interested in, and an upder "bound" of the next
-    # month (for december, we seed bound with something we expect to see
-    # at the end of the page)
-    my @months = qw(January February March April May June
-		    July August September October November December
-		    </body>);
-		    
-    #my $mon = $months[$ltime[4]];
-    #my $bound = $months[$ltime[4]+1];
-    my $day = $ltime[3];
-    my $year =  strftime("%Y", @ltime);
-    my $full =  strftime("%Y%m%d", @ltime);
-    my $date =  strftime("%y%m%d", @ltime);
-    
+    my $daystr = '[^|]*<a href="([^"]*)"[^>]*>' . $ltime[3] . "<";
+
     my $base = 'http://reallifecomics.com';
-    my $arc = strftime('/archive/%Y.html',@ltime);
-
+    my $arc = strftime('archivepage.php?year=%Y',@ltime);
     
     my $rec = {
 	'title' => "Real Life",
 	'author' => "Greg Dean",
 	'type' => 'png',
-	'base' => $base,
-	'main' => $base . '/',
+	'main' => "$base/",
 	'archives' => $base . $arc,
-	'page' => "/archive/$date.html",
-	'exprs' => {
-		comic => ["src=\"(/comics/$year/${full}_\\d+\\.(png|jpe?g|gif))\""],
-		type => ["src=\"/comics/$year/${full}_\\d+\\.(png|jpe?g|gif)\""],
-		}
+	'base' => "$base/",
+	'page' => $arc,
     };
-    
+
+    $rec->{'func'} = sub {
+      my $text = shift;
+
+
+      if ($ltime[4] != 11) {
+        my $nextmonth = $monthconv[$ltime[4]+1];
+
+        if ($text !~ /class="month">$nextmonth/) {
+          $nextmonthstr = "";
+        }
+      }
+
+      my $newrec = {
+          'exprs' => [$monthstr . $daystr . $nextmonthstr,
+                      'id="comic"[^|]*?<img src="http:..reallifecomics.com.([^"]*)"'],
+          'func' => undef
+      };
+
+      return $newrec;
+    };    
+
     return $rec;
 }
 

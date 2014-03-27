@@ -1,0 +1,28 @@
+#-*-Perl-*-
+
+$hof{"hg"} = 0;
+
+#Hagar the Horrible http://www.washingtonpost.com/wp-srv/artsandliving/comics/king_hagar_horrible.html?name=Hagar_The_Horrible
+sub hg {
+    my $time = shift;
+    my @ltime = gmtime($time);
+
+    my $base = 'http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html';
+    my $comicindex = '1302';
+    
+    my $rec = {
+	'title' => "Hagar the Horrible",
+	'author' => "Chris Browne",
+	'type' => 'gif',
+	'main' => "$base?name=Hagar_The_Horrible",
+	'archives' => "$base?name=Hagar_The_Horrible",
+	'referer' => "http://www.washingtonpost.com/wp-srv/artsandliving/comics/king.html",
+	'base' => '',
+        'page' => strftime("http://safr.kingfeatures.com/idn/zone/js/index.php?cn=92&zn=182&fn=" . $comicindex . "&fd=%Y%m%d&wt=1&fs=0&null=0",@ltime),
+        'expr' => "img src='([^']*)'"
+    };
+    
+    return $rec;
+}
+
+1;

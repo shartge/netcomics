@@ -1,26 +1,28 @@
 #-*-Perl-*-
 
-#Add the name of the subroutines to the hash of functions
-#with the number of days from today the comic is available
-$hof{"dork"} = 0;
+#Tack on the names of the subroutines to the list of functions
+$hof{"dork"} = 1;
 
-#Dork Tower http://archive.gamespy.com/comics/dorktower/
+#Dork Tower http://www.dorktower.com
 sub dork {
     my $time = shift;
-    return undef if $time < 879724800; #1st comic: Nov 17, 1997
     my @ltime = gmtime($time);
+    #return if (($ltime[6] == 0) || ($ltime[6] == 6));
 
     my $rec = {
-        'title' => "Dork Tower",
-        'author' => "John Kovalic",
-        'type' => 'jpg',
-        'main' => "http://archive.gamespy.com/comics/dorktower/",
-        'archives' => "http://archive.gamespy.com/comics/dorktower/",
-        'base' => "http://archive.gamespy.com/comics/dorktower/",
-        'page' => "",
-        'expr' => "(images/comics/[A-Za-z0-9-]+.jpg)",
-        };
+	'title' => "Dork Tower",
+	'author' => "John Kovalic",
+	'type' => 'gif',
+	'main' => "http://www.dorktower.com/",
+	'archives' => "http://www.dorktower.com/index.php?cat=6",
+	'base' => "http://www.dorktower.com/",
+	'page' => strftime("%Y/%m/%d/", @ltime),
+	'exprs' => [strftime('href="http:\/\/www.dorktower.com\/(%Y\/%m\/%d\/[^"]*)"', @ltime),
+                    strftime('(files\/%Y\/%m\/(Classic)?DorkTower[^"]*)"', @ltime)]
+	};
     return $rec;
 }
 
 1;
+
+
