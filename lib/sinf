@@ -17,7 +17,7 @@ sub sinf {
 	'type' => 'gif',
 	'main' => "http://www.sinfest.net",
 	'archives' => "http://www.sinfest.net/archive.php",
-	'base' => "http://www.sinfest.net/comikaze/comics/",
+	'base' => "http://www.sinfest.net/btphp/comics/",
 	'page' => strftime("%Y-%m-%d.gif", @ltime),
 #	'size' => [703,276],
     };
